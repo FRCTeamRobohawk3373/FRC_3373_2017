@@ -77,8 +77,7 @@ public class Robot extends IterativeRobot {
     	myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
     }
     
-    @SuppressWarnings("deprecation")
-	public void testInit(){
+    public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
     	String cameraIP = "cam0";
