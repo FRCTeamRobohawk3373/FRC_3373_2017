@@ -56,7 +56,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	myRobot.tankDrive(stick.getRawAxis(0), stick.getRawAxis(1));
+    	myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
     }
     
     /**
