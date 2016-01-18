@@ -1,9 +1,16 @@
 package org.usfirst.frc.team3373.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.AxisCamera;
+import com.ni.vision.NIVision.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -16,6 +23,10 @@ public class Robot extends IterativeRobot {
 	RobotDrive myRobot;
 	SuperJoystick stick;
 	int autoLoopCounter;
+	DigitalInput limitSwitch;
+	AnalogInput pot;
+	AxisCamera camera;
+	
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -24,6 +35,9 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	myRobot = new RobotDrive(0,1);
     	stick = new SuperJoystick(0);
+    	limitSwitch = new DigitalInput(0);
+    	pot = new AnalogInput(0);
+    	camera = new AxisCamera("10.33.73.11");
     }
     
     /**
@@ -59,11 +73,23 @@ public class Robot extends IterativeRobot {
     	myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
     }
     
+    public void testInit(){
+    	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
+    	LiveWindow.setEnabled(false);
+    }
+    
     /**
+     * 
+     * 
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	LiveWindow.run();
+    	SmartDashboard.putNumber("LeftAxis: ", stick.getRawAxis(1));
+    	SmartDashboard.putNumber("RightAxis: ", stick.getRawAxis(5));
+    	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
+    	SmartDashboard.putNumber("Pot Value:", pot.getVoltage());
+    	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
+    	
     }
     
 }
