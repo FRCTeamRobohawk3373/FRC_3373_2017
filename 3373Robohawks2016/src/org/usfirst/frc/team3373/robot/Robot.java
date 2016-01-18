@@ -6,7 +6,11 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.vision.AxisCamera;
+import com.ni.vision.NIVision.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,6 +25,9 @@ public class Robot extends IterativeRobot {
 	int autoLoopCounter;
 	DigitalInput limitSwitch;
 	AnalogInput pot;
+	AxisCamera camera;
+	
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -30,6 +37,7 @@ public class Robot extends IterativeRobot {
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
+    	camera = new AxisCamera("10.33.73.11");
     }
     
     /**
@@ -71,6 +79,8 @@ public class Robot extends IterativeRobot {
     }
     
     /**
+     * 
+     * 
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
