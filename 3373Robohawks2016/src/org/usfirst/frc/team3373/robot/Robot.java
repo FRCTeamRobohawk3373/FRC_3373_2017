@@ -74,12 +74,14 @@ public class Robot extends IterativeRobot {
     	myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
     }
     
-    public void testInit(){
+    @SuppressWarnings("deprecation")
+	public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
     	String cameraIP = "169.254.123.132";
     	VisionSystem.Camera(cameraIP);
     	VisionSystem.Filtering(cameraIP);
+    	SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
     }
     
     /**
