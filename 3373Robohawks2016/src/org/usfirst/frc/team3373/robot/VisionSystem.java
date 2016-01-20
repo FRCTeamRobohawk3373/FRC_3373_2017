@@ -29,7 +29,7 @@ public class VisionSystem {
 	NIVision.IMAQdxConfigureGrab(session);
 	
 	}
-	public static int Filtering(String cameraIP){
+	public static void Filtering(String cameraIP){
 		//this method actually starts some filtration, I hope
 		NIVision.IMAQdxStartAcquisition(session);
 		NIVision.IMAQdxGrab(session, testImage, 1);
@@ -39,7 +39,6 @@ public class VisionSystem {
 		NIVision.imaqColorThreshold(binaryFrame2, testImage, 255, NIVision.ColorMode.HSV, GOAL_HUE, GOAL_SAT, GOAL_VAL);
 		//detecting number of green things
 		int numThingsDetected = NIVision.imaqCountParticles(testImage, 1);
-		return numThingsDetected;
 		
 		
 	}

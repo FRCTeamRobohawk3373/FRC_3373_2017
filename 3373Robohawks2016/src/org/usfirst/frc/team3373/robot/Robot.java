@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 import com.ni.vision.NIVision.*;
+import edu.wpi.first.wpilibj.CANTalon;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,7 +27,7 @@ public class Robot extends IterativeRobot {
 	int autoLoopCounter;
 	DigitalInput limitSwitch;
 	AnalogInput pot;
-	AxisCamera camera;
+	CANTalon canTalonTest;
 	
 	
     /**
@@ -38,8 +39,8 @@ public class Robot extends IterativeRobot {
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	camera = new AxisCamera("10.33.73.11");
-    }
+    	canTalonTest = new CANTalon(0);
+    	}
     
     /**
      * This function is run once each time the robot enters autonomous mode
