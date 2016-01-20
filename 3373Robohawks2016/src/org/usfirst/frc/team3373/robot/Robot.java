@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 	int autoLoopCounter;
 	DigitalInput limitSwitch;
 	AnalogInput pot;
-	AxisCamera camera;
+	//AxisCamera camera;
 	
 	
     /**
@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	camera = new AxisCamera("10.33.73.11");
+    	//camera = new AxisCamera("10.33.73.11");
     }
     
     /**
@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
     }
     
     /**
-     * This function is called once each time the robot enters tele-operated mode
+     * This function is called once each time the robot enters teleoperated mode
      */
     public void teleopInit(){
     }
@@ -82,6 +82,7 @@ public class Robot extends IterativeRobot {
     	VisionSystem.Camera(cameraIP);
     	VisionSystem.Filtering(cameraIP);
     	SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
+    	
     }
     
     /**
