@@ -28,7 +28,8 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	CANTalon canTalonTest;
-	
+	//AxisCamera camera;
+
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
     	pot = new AnalogInput(0);
     	canTalonTest = new CANTalon(0);
     	}
+    	//camera = new AxisCamera("10.33.73.11");
     
     /**
      * This function is run once each time the robot enters autonomous mode
@@ -63,7 +65,7 @@ public class Robot extends IterativeRobot {
     }
     
     /**
-     * This function is called once each time the robot enters tele-operated mode
+     * This function is called once each time the robot enters teleoperated mode
      */
     public void teleopInit(){
     }
@@ -79,10 +81,10 @@ public class Robot extends IterativeRobot {
 	public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
-    	String cameraIP = "169.254.123.132";
+    	String cameraIP = "cam0";
     	VisionSystem.Camera(cameraIP);
     	VisionSystem.Filtering(cameraIP);
-    	SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
+    	
     }
     
     /**
@@ -95,6 +97,11 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("RightAxis: ", stick.getRawAxis(5));
     	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
     	SmartDashboard.putNumber("Pot Value:", pot.getVoltage());
+    	String cameraIP = "cam0";
+    	VisionSystem.Filtering(cameraIP);
+    	SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
+    	SmartDashboard.putNumber("Test Value Drew ", 12);
+
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
     }
