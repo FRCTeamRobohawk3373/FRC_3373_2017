@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.vision.AxisCamera;
 import com.ni.vision.NIVision.*;
 import edu.wpi.first.wpilibj.CANTalon;
 
+//@author Joey Dyer, Drew Marino, Alex Iasso, Dillon Rose
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot

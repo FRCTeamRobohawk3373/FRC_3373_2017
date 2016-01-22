@@ -29,8 +29,8 @@ public class VisionSystem {
 	testImage = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 	binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 	binaryFrame2 = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
-	//criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MINIMUM, 100.0, 0, 0);
-	//this.cameraIP = cameraIP; 
+	criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MINIMUM, 100.0, 0, 0);
+	this.cameraIP = cameraIP; 
 	
 	//connecting to camera, I think.
 	session = NIVision.IMAQdxOpenCamera(cameraIP,IMAQdxCameraControlMode.CameraControlModeController);
