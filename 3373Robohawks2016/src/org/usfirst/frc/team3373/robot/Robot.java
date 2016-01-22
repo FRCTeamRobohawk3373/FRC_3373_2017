@@ -30,6 +30,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	CANTalon canTalonTest;
+	VisionSystem visionSystem;
 	//AxisCamera camera;
 
 	
@@ -43,6 +44,7 @@ public class Robot extends IterativeRobot {
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
     	canTalonTest = new CANTalon(0);
+    	VisionSystem visionSystem = new VisionSystem();
     	}
     	//camera = new AxisCamera("10.33.73.11");
     
@@ -83,13 +85,11 @@ public class Robot extends IterativeRobot {
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
     	String cameraIP = "cam0";
-    	VisionSystem.Camera(cameraIP);
-    	VisionSystem.Filtering(cameraIP);
-    	
+    	visionSystem.Camera(cameraIP);
+    	visionSystem.Filtering(cameraIP);
     }
     
     /**
-     * 
      * 
      * This function is called periodically during test mode
      */
@@ -99,8 +99,8 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
     	SmartDashboard.putNumber("Pot Value:", pot.getVoltage());
     	String cameraIP = "cam0";
-    	VisionSystem.Filtering(cameraIP);
-    	SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
+    	visionSystem.Filtering(cameraIP);
+    	SmartDashboard.putNumber("Particles: ", visionSystem.Filtering(cameraIP));
     	SmartDashboard.putNumber("Test Value Drew ", 12);
 
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode

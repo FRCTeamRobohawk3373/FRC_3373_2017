@@ -50,6 +50,5 @@ public class VisionSystem {
 		CameraServer.getInstance().setImage(binaryFrame2);
 		SmartDashboard.putNumber("VisionCodeVarParticles: ", numThingsDetected);
 		return numThingsDetected;
-		
 	}
 }
