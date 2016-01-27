@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
+
+import java.io.IOException;
+
 import com.ni.vision.NIVision.*;
 import edu.wpi.first.wpilibj.CANTalon;
 
@@ -28,7 +31,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	CANTalon canTalonTest;
-	VisionSystem visionSystem;
+   	VisionSystem visionSystem = new VisionSystem();
 	//AxisCamera camera;
 
 	
@@ -42,7 +45,7 @@ public class Robot extends IterativeRobot {
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
     	canTalonTest = new CANTalon(0);
-    	VisionSystem visionSystem = new VisionSystem();
+ 
     	}
     	//camera = new AxisCamera("10.33.73.11");
     
@@ -84,8 +87,9 @@ public class Robot extends IterativeRobot {
     	LiveWindow.setEnabled(false);
     	String cameraIP = "cam0";
     	visionSystem.Camera(cameraIP);
-    	visionSystem.Filtering(cameraIP);
-    }
+		visionSystem.Filtering(cameraIP);
+		}
+    
     
     /**
      * 

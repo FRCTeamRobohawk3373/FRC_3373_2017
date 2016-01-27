@@ -1,11 +1,11 @@
 package org.usfirst.frc.team3373.robot;
 import edu.wpi.first.wpilibj.CameraServer;
+
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.vision.*;
 
 /*
-* @author Drew Marino
-* @author Joey Dyer
+* @author Drew Marino  @author Joey Dyer
 */
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.*;
@@ -19,7 +19,9 @@ public class VisionSystem {
 	Image binaryFrame;
 	Image binaryFrame2;
 	double AREA_MINIMUM = 0.5;
-
+	
+	
+	 
 	NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
 	NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
 	
@@ -35,7 +37,6 @@ public class VisionSystem {
 	//connecting to camera, I think.
 	session = NIVision.IMAQdxOpenCamera(cameraIP,IMAQdxCameraControlMode.CameraControlModeController);
 	NIVision.IMAQdxConfigureGrab(session);
-	
 	}
 	public int Filtering(String cameraIP){
 		//this method actually starts some filtration, I hope
