@@ -87,7 +87,6 @@ public class Robot extends IterativeRobot {
     
     public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
-    	VisionSystem visionSystem = new VisionSystem();
     	LiveWindow.setEnabled(false);
     	String cameraIP = "cam0";
     	//visionSystem.Camera(cameraIP);
@@ -95,7 +94,7 @@ public class Robot extends IterativeRobot {
     	//String cameraIP = "cam0";
     	//visionSystem.Camera(cameraIP);
     	//visionSystem.Filtering(cameraIP);
-    	visionSystem.getVisionImage();
+    	//visionSystem.filterVisionImage();
     		//gets an image and saves it to the roborio
 
     }
@@ -103,7 +102,8 @@ public class Robot extends IterativeRobot {
      * 
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {    	
+    public void testPeriodic() {
+    	visionSystem.getVisionImage();
     	SmartDashboard.putNumber("LeftAxis: ", stick.getRawAxis(1));
     	SmartDashboard.putNumber("RightAxis: ", stick.getRawAxis(5));
     	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
