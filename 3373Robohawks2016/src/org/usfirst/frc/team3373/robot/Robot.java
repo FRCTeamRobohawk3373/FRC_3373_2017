@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 	
     /**
      * This function is run when the robot is first started up and should be
-     * used for any initialization code.
+     * used for any initialization code
      */
     public void robotInit() {
     	visionCamera = new AxisCamera("10.33.73.85");
@@ -96,6 +96,7 @@ public class Robot extends IterativeRobot {
         	HSLImage image = visionCamera.getImage();
         	System.out.println("got Image");
         	image.write("/home/lvuser/image.png");
+        	//image.write("C:\Users\Robohawks\Desktop\image.png");
         	}catch (Exception e){
         		System.out.println("exception occured:" + e);
         	}
