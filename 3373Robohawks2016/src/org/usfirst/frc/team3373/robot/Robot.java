@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
-
+import java.io.IOException;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.*;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	CANTalon canTalonTest;
-	AxisCamera visionCamera;
+   	VisionSystem visionSystem = new VisionSystem();
 	//VisionSystem visionSystem = new VisionSystem();
 	//AxisCamera camera;
 
@@ -43,7 +43,6 @@ public class Robot extends IterativeRobot {
      * used for any initialization code
      */
     public void robotInit() {
-    	visionCamera = new AxisCamera("10.33.73.85");
     	myRobot = new RobotDrive(0,1);
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
@@ -88,10 +87,15 @@ public class Robot extends IterativeRobot {
     
     public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
+    	VisionSystem visionSystem = new VisionSystem();
     	LiveWindow.setEnabled(false);
+    	String cameraIP = "cam0";
+    	//visionSystem.Camera(cameraIP);
+		//visionSystem.Filtering(cameraIP);
     	//String cameraIP = "cam0";
     	//visionSystem.Camera(cameraIP);
     	//visionSystem.Filtering(cameraIP);
+<<<<<<< HEAD
     	try {
         	HSLImage image = visionCamera.getImage();
         	System.out.println("got Image");
@@ -100,8 +104,12 @@ public class Robot extends IterativeRobot {
         	}catch (Exception e){
         		System.out.println("exception occured:" + e);
         	}
+=======
+    	visionSystem.getVisionImage();
+    		//gets an image and saves it to the roborio
+
+>>>>>>> branch 'master' of https://github.com/FRCTeamRobohawk3373/FRC_3373_2016
     }
-    
     /**
      * 
      * This function is called periodically during test mode
@@ -111,7 +119,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("RightAxis: ", stick.getRawAxis(5));
     	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
     	SmartDashboard.putNumber("Pot Value:", pot.getVoltage());
-    	String cameraIP = "cam0";
+    	//String cameraIP = "cam0";
     	//visionSystem.Filtering(cameraIP);
     	//SmartDashboard.putNumber("Particles: ", visionSystem.Filtering(cameraIP));
     	SmartDashboard.putNumber("Test Value Drew ", 12);
