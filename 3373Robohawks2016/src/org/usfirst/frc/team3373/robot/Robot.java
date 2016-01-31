@@ -33,9 +33,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	CANTalon canTalonTest;
-   	VisionSystem visionSystem = new VisionSystem();
-	//VisionSystem visionSystem = new VisionSystem();
-	//AxisCamera camera;
+   	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -50,7 +48,7 @@ public class Robot extends IterativeRobot {
     	canTalonTest = new CANTalon(0);
 
     	}
-    	//camera = new AxisCamera("10.33.73.11");
+
     
     /**
      * This function is run once each time the robot enters autonomous mode
@@ -88,14 +86,7 @@ public class Robot extends IterativeRobot {
     public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
-    	String cameraIP = "cam0";
-    	//visionSystem.Camera(cameraIP);
-		//visionSystem.Filtering(cameraIP);
-    	//String cameraIP = "cam0";
-    	//visionSystem.Camera(cameraIP);
-    	//visionSystem.Filtering(cameraIP);
-    	//visionSystem.filterVisionImage();
-    		//gets an image and saves it to the roborio
+
 
     }
     /**
