@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3373.robot;
 //AUTHOR Alex Iasso and Dillon Rose
 import edu.wpi.first.wpilibj.AnalogInput;
+
 import edu.wpi.first.wpilibj.*;
+
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -14,8 +16,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
+import java.io.IOException;
+import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.*;
 import edu.wpi.first.wpilibj.CANTalon;
+import com.ni.vision.NIVision.Image;
+import edu.wpi.first.wpilibj.image.*;
+
+//@author Joey Dyer, Drew Marino, Alex Iasso, Dillon Rose
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,24 +38,26 @@ public class Robot extends IterativeRobot {
 	int autoLoopCounter;
 	DigitalInput limitSwitch;
 	AnalogInput pot;
-	CANTalon motor1;
-	CANTalon motor2;
-	SuperJoystick driver;
+	static CANTalon motor1;
+	static CANTalon motor2;
+	static SuperJoystick driver;
 //	int counter;
 	
 	
 	
 	
 	int LX = 0;
-    int LY = 1;
+    static int LY = 1;
     int Ltrigger = 2;
     int Rtrigger = 3;
     int RX = 4;
-    int RY = 5;
+    static int RY = 5;
     
     boolean CAN = true;
 //	Timer robotTimer;
 	//AxisCamera camera;
+
+   	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -65,8 +75,9 @@ public class Robot extends IterativeRobot {
     	myRobot = new RobotDrive(0,1);
    // 	counter = 0;
     //	robotTimer = new Timer();
+
     	}
-    	//camera = new AxisCamera("10.33.73.11");
+
     
     /**
      * This function is run once each time the robot enters autonomous mode
@@ -108,7 +119,7 @@ public class Robot extends IterativeRobot {
     	//	motor1.set(driver.getRawAxis(LY));
     	//	motor2.set(driver.getRawAxis(RY));
     		if(CAN){                                                                         //Drive System
-    		wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY));
+    		HawkDrive.main(null);
 			if(driver.isAPushed()){
 				CAN = false;
 				motor1.set(0);
@@ -149,47 +160,25 @@ public class Robot extends IterativeRobot {
 
     }
     
-    public void wheelControl(double leftY, double rightY){         // Acceleration and speed calculation
-    	
-    	if(leftY >-0.1 && leftY<0.1){
-    		leftY = 0;
-    	}
-    	if(rightY >-0.1 && rightY<0.1){
-    		rightY = 0;
-    	}
-    	
-       if(driver.isLBHeld()){                     
-		motor1.set(leftY/4);                         // Sets motor speed to the calculated value
-		motor2.set(rightY/4); 
-       }else if(driver.isRBHeld()){
-    	   motor1.set(leftY);
-    	   motor2.set(rightY);
-       }else{
-    	   motor1.set(leftY/2);
-    	   motor2.set(rightY/2);
-       }
-		
-	//	myRobot.tankDrive(leftY, rightY);
-	
 
-	}
 
 	@SuppressWarnings("deprecation")
-	public void testInit(){
+    public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
     	String cameraIP = "cam0";
     //	VisionSystem.Camera(cameraIP);
     //	VisionSystem.Filtering(cameraIP);
     	
+
+
     }
-    
     /**
-     * 
      * 
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	visionSystem.getVisionImage();
     	SmartDashboard.putNumber("LeftAxis: ", stick.getRawAxis(1));
     	SmartDashboard.putNumber("RightAxis: ", stick.getRawAxis(5));
     	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
@@ -197,6 +186,9 @@ public class Robot extends IterativeRobot {
     	String cameraIP = "cam0";
     //	VisionSystem.Filtering(cameraIP);
     	//SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
+    	//String cameraIP = "cam0";
+    	//visionSystem.Filtering(cameraIP);
+    	//SmartDashboard.putNumber("Particles: ", visionSystem.Filtering(cameraIP));
     	SmartDashboard.putNumber("Test Value Drew ", 12);
 
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
