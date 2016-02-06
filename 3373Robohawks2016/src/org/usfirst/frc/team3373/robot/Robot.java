@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 //	Timer robotTimer;
 	//AxisCamera camera;
 
-   	HawkVision visionSystem = new HawkVision();
+   //	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -126,12 +126,14 @@ public class Robot extends IterativeRobot {
     int counterShooterB = 0;
     int counterShooterX = 0;
     int counterShooterY = 0;
+    int counterShooterStart = 0;
     int counterShooterToggle = 0;
     
     boolean counterBoolShooterA = false;
     boolean counterBoolShooterB = false;
     boolean counterBoolShooterX = false;
     boolean counterBoolShooterY = false;
+    boolean counterBoolShooterStart = false;
     boolean counterBoolShooterToggle = false;
     
     
@@ -378,6 +380,34 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterY = false;
     				}
     			}
+    			if(shooter.isStartPushed()){
+    				System.out.println("Pushed");
+    				if(counterBoolShooterStart == false){
+    				counterBoolShooterStart = true;
+    				System.out.println("If");
+    				}else{
+    				counterBoolShooterStart = false;
+    				shooter.clearButtons();
+    				counterShooterStart = 0;
+    				motor2.set(0);
+    				System.out.println("Else");
+    				}
+    			}
+				shooter.clearButtons();
+    			if(counterBoolShooterStart){
+    				if(counterShooterStart == 0){
+    					counterShooterStart = robotTimer;
+    				}
+    				if(robotTimer<counterShooterStart+500){                    //Runs the sequence for 50 loops, or one second
+    				motor2.set(-1);
+    				}
+    				else if(robotTimer>=counterShooterStart+500){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
+    				motor2.set(0);
+    				shooter.clearButtons();
+    				counterShooterStart = 0;
+    				counterBoolShooterStart = false;
+    				}
+    			}
     		}
     				
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
@@ -387,7 +417,6 @@ public class Robot extends IterativeRobot {
     				motor2.set(-1);
     			}
     		}
-    		LiveWindow.run();
     		
     		SmartDashboard.putBoolean("Shooting: ", Shooting);
     		
@@ -395,6 +424,8 @@ public class Robot extends IterativeRobot {
     		SmartDashboard.putBoolean("B: ", counterBoolShooterB);
     		SmartDashboard.putBoolean("X: ", counterBoolShooterX);
     		SmartDashboard.putBoolean("Y: ", counterBoolShooterY);
+    		SmartDashboard.putBoolean("Start: ", counterBoolShooterStart);
+
     		
     		SmartDashboard.putBoolean("D-Pad Right: ", D_Pad2);
     		SmartDashboard.putBoolean("D-Pad Down: ", D_Pad1);
