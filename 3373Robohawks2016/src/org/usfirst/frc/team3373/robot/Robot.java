@@ -1,12 +1,18 @@
 package org.usfirst.frc.team3373.robot;
-
+//AUTHOR Alex Iasso and Dillon Rose
 import edu.wpi.first.wpilibj.AnalogInput;
+
+import edu.wpi.first.wpilibj.*;
+
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
@@ -32,7 +38,25 @@ public class Robot extends IterativeRobot {
 	int autoLoopCounter;
 	DigitalInput limitSwitch;
 	AnalogInput pot;
-	CANTalon canTalonTest;
+	static CANTalon motor1;
+	static CANTalon motor2;
+	static SuperJoystick driver;
+//	int counter;
+	
+	
+	
+	
+	int LX = 0;
+    static int LY = 1;
+    int Ltrigger = 2;
+    int Rtrigger = 3;
+    int RX = 4;
+    static int RY = 5;
+    
+    boolean CAN = true;
+//	Timer robotTimer;
+	//AxisCamera camera;
+
    	HawkVision visionSystem = new HawkVision();
 
 	
@@ -41,11 +65,16 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	myRobot = new RobotDrive(0,1);
+
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	canTalonTest = new CANTalon(0);
+    	motor1 = new CANTalon(1);
+    	motor2 = new CANTalon(2);
+    	driver = new SuperJoystick(0);
+    	myRobot = new RobotDrive(0,1);
+   // 	counter = 0;
+    //	robotTimer = new Timer();
 
     	}
 
@@ -80,12 +109,67 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
+    	//myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
+    	if(isOperatorControl() && isEnabled()){
+    		motor1.enable();
+    		motor2.enable();
+    		motor1.enableControl();
+    		motor2.enableControl();
+    		driver.clearButtons();
+    	//	motor1.set(driver.getRawAxis(LY));
+    	//	motor2.set(driver.getRawAxis(RY));
+    		if(CAN){                                                                         //Drive System
+    		HawkDrive.main(null);
+			if(driver.isAPushed()){
+				CAN = false;
+				motor1.set(0);
+				motor2.set(0);
+
+				}
+    		}
+    		if(CAN == false){
+    			myRobot.tankDrive(driver.getRawAxis(LY), driver.getRawAxis(RY));               //Regular Talon Control
+    			if(driver.isAPushed()){
+    				CAN = true;
+    			}
+    		}
+    		if(driver.isXPushed()){
+    			motor2.set(1);
+    			try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			motor2.set(0);
+    			driver.clearButtons();
+    		}
+    		
+    		
+    		
+    		//CANTest.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY));
+    	//	motor1.set(0.5);
+    	//	motor2.set(0.5);
+    		//Timer.delay(0.005);
+    		
+
+    	}else{
+    	motor1.disable();
+    	motor2.disable();
+    	}
+
     }
     
+
+
+	@SuppressWarnings("deprecation")
     public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
+    	String cameraIP = "cam0";
+    //	VisionSystem.Camera(cameraIP);
+    //	VisionSystem.Filtering(cameraIP);
+    	
 
 
     }
@@ -99,6 +183,9 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("RightAxis: ", stick.getRawAxis(5));
     	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
     	SmartDashboard.putNumber("Pot Value:", pot.getVoltage());
+    	String cameraIP = "cam0";
+    //	VisionSystem.Filtering(cameraIP);
+    	//SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
     	//String cameraIP = "cam0";
     	//visionSystem.Filtering(cameraIP);
     	//SmartDashboard.putNumber("Particles: ", visionSystem.Filtering(cameraIP));
