@@ -20,8 +20,6 @@ import java.io.IOException;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.*;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-
 import com.ni.vision.NIVision.Image;
 import edu.wpi.first.wpilibj.image.*;
 
@@ -43,10 +41,6 @@ public class Robot extends IterativeRobot {
 	static CANTalon motor1;
 	static CANTalon motor2;
 	static SuperJoystick driver;
-	
-	static SuperJoystick shooter;
-	static boolean manualArm = false;
-	
 //	int counter;
 	
 	
@@ -60,12 +54,6 @@ public class Robot extends IterativeRobot {
     static int RY = 5;
     
     boolean CAN = true;
-    
-    boolean D_Pad1 = false;
-    boolean D_Pad2 = false;
-    boolean D_Pad3 = false;
-    
-    boolean Shooting = false;
 //	Timer robotTimer;
 	//AxisCamera camera;
 
@@ -84,8 +72,7 @@ public class Robot extends IterativeRobot {
     	motor1 = new CANTalon(1);
     	motor2 = new CANTalon(2);
     	driver = new SuperJoystick(0);
-    	shooter = new SuperJoystick(1);
-    	myRobot = new RobotDrive(4,0);
+    	myRobot = new RobotDrive(0,1);
    // 	counter = 0;
     //	robotTimer = new Timer();
 
@@ -131,13 +118,6 @@ public class Robot extends IterativeRobot {
     		driver.clearButtons();
     	//	motor1.set(driver.getRawAxis(LY));
     	//	motor2.set(driver.getRawAxis(RY));
-    		
-    		
-    		//
-    		//    DRIVER CONTROLS
-    		//
-    		
-    		
     		if(CAN){                                                                         //Drive System
     		HawkDrive.main(null);
 			if(driver.isAPushed()){
@@ -154,158 +134,23 @@ public class Robot extends IterativeRobot {
     			}
     		}
     		if(driver.isXPushed()){
-    			motor1.set(1);
-    			driver.clearButtons();
-    			if(driver.isAPushed()){
-    				motor1.set(0);
-    				driver.clearButtons();
-    			}
-    		}
-    		
-    		
-    		//
-    		//    SHARED CONTROLS
-    		//
-    		
-    		
-    		
-    		if(driver.getPOV() == 180 || shooter.getPOV() == 180){      //Down on the D-Pad    (Toggles)
-    			if(!D_Pad1){
-    			D_Pad1 = true;
-    			}else{
-    			D_Pad1=false;
-    			}
+    			motor2.set(1);
     			try {
-					Thread.sleep(150);      //Prevents pressing more than once too fast
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-    		}
-    		if(driver.getPOV()==90 || shooter.getPOV() == 90){     //Right on the D-Pad        (Toggles)
-    			if(!D_Pad2){
-        			D_Pad2 = true;
-        			}else{
-        			D_Pad2=false;
-        			}
-        			try {
-    					Thread.sleep(150);      //Prevents pressing more than once too fast
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-    		}
-    		if(driver.getPOV()==270 || shooter.getPOV() == 270){    //Left on the D-Pad                    (Toggles)
-    			if(!D_Pad3){
-        			D_Pad3 = true;
-        			}else{
-        			D_Pad3=false;
-        			}
-        			try {
-    					Thread.sleep(150);      //Prevents pressing more than once too fast
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				};
-    		}
-    		
-    		if(D_Pad1){                  //Down, Drawbridge automation           
-    			motor1.set(1);
-    		}
-    		if(D_Pad2){                 //Right, Sally Port automation
-    			motor1.set(-1);
-    		}
-    		if(D_Pad3){                //Left, Portcullis automation
-    			motor2.set(1);
+    			motor2.set(0);
+    			driver.clearButtons();
     		}
     		
     		
     		
-    		
-    		//
-    		//    "SHOOTER" CONTROLS
-    		//
-    		
-    		
-    		//   SHOOTER (as in, the actual shooting mechanism) CONTROLS
-    		
-    		if(Shooting){
-    			/*if(shooter.isXPushed()){
-    				motor1.set(1);
-    				shooter.clearButtons();
-    			}*/
-    			if(shooter.getPOV() == 0){
-    				Shooting = false;
-    				try {
-    					Thread.sleep(150);      //Prevents pressing more than once too fast
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-    			}
-    			
-    			if(shooter.isAPushed()){
-    				motor1.set(1);
-    				try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				shooter.clearButtons();
-    			}
-    			if(shooter.isXPushed()){
-    				motor1.set(.3);
-    				try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				motor1.set(-.3);
-    				try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				motor1.set(0);
-    				shooter.clearButtons();
-    			}
-    		}
-    		
-    		
-    		
-    		//   ARM CONTROLS
-    		if(!Shooting){
-    			if(shooter.getPOV() == 0){
-    				Shooting = true;
-    				try {
-    					Thread.sleep(150);      //Prevents pressing more than once too fast
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-    			}
-    			if(shooter.isAPushed()){
-    				motor1.set(-1);
-    				try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				shooter.clearButtons();
-    			}
-    		}
-    				
-    		//SHOOTER AND ARM CONTROLS (Function in both modes)	
-    		if(Shooting || !Shooting){
-    			if(shooter.isBackHeld()){
-    				motor1.set(-1);
-    				motor2.set(-1);
-    			}
-    		}
+    		//CANTest.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY));
+    	//	motor1.set(0.5);
+    	//	motor2.set(0.5);
+    		//Timer.delay(0.005);
     		
 
     	}else{
@@ -333,52 +178,21 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	SmartDashboard.putNumber("D-Pad Value: ", driver.getPOV());
-    	SmartDashboard.putBoolean("Shooting: ", Shooting);
-		HawkDrive.main(null);
-		if(Shooting){
-			/*if(shooter.isXPushed()){
-				motor1.set(1);
-				shooter.clearButtons();
-			}*/
-			if(shooter.getPOV() == 0){
-				Shooting = false;
-				try {
-					Thread.sleep(150);      //Prevents pressing more than once too fast
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			if(shooter.isAPushed()){
-				motor1.set(1);
-				shooter.clearButtons();
-			}
-		}
-		
-		
-		
-		//   ARM CONTROLS
-		if(!Shooting){
-			if(shooter.getPOV() == 0){
-				Shooting = true;
-				try {
-					Thread.sleep(150);      //Prevents pressing more than once too fast
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if(shooter.isAPushed()){
-				motor1.set(-1);
-				shooter.clearButtons();
-			}
-		}
-		}
+    	visionSystem.getVisionImage();
+    	SmartDashboard.putNumber("LeftAxis: ", stick.getRawAxis(1));
+    	SmartDashboard.putNumber("RightAxis: ", stick.getRawAxis(5));
+    	SmartDashboard.putBoolean("Limit Switch: ", limitSwitch.get());
+    	SmartDashboard.putNumber("Pot Value:", pot.getVoltage());
+    	String cameraIP = "cam0";
+    //	VisionSystem.Filtering(cameraIP);
+    	//SmartDashboard.putNumber("Particles: ", VisionSystem.Filtering(cameraIP));
+    	//String cameraIP = "cam0";
+    	//visionSystem.Filtering(cameraIP);
+    	//SmartDashboard.putNumber("Particles: ", visionSystem.Filtering(cameraIP));
+    	SmartDashboard.putNumber("Test Value Drew ", 12);
 
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
     }
     
-
+}
