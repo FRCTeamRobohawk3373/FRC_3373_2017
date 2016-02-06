@@ -49,9 +49,9 @@ public class Robot extends IterativeRobot {
 	
 //	int counter;
 	
-	
-	
-	
+	boolean counterBool;
+	int counter;
+//	int i = 0;
 	int LX = 0;
     static int LY = 1;
     int Ltrigger = 2;
@@ -117,11 +117,14 @@ public class Robot extends IterativeRobot {
      */
     public void teleopInit(){
     }
-
+    int i = 0;
+    int counterShooterB = 0;
+    boolean counterBoolShooterB = false;
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+		i++;
     	//myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
     	if(isOperatorControl() && isEnabled()){
     		motor1.enable();
@@ -297,6 +300,23 @@ public class Robot extends IterativeRobot {
 					}
     				shooter.clearButtons();
     			}
+    			if(shooter.isBPushed()){
+    				counterBoolShooterB = true;       //Begins the B button sequence
+    			}
+    			if(counterBoolShooterB){
+    				if(counterShooterB == 0){
+    					counterShooterB = i;
+    				}
+    				if(i<counterShooterB+50){                    //Runs the sequence for 50 loops, or one second
+    				motor2.set(-1);
+    				}
+    				else if(i>=counterShooterB+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
+    				motor2.set(0);
+    				shooter.clearButtons();
+    				counterShooterB = 0;
+    				counterBoolShooterB = false;
+    				}
+    			}
     		}
     				
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
@@ -324,7 +344,9 @@ public class Robot extends IterativeRobot {
     	String cameraIP = "cam0";
     //	VisionSystem.Camera(cameraIP);
     //	VisionSystem.Filtering(cameraIP);
-    	
+    	counterShooterB = 0;
+    	i = 0;
+    	counterBool = false;
 
 
     }
@@ -336,43 +358,24 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("D-Pad Value: ", driver.getPOV());
     	SmartDashboard.putBoolean("Shooting: ", Shooting);
 		HawkDrive.main(null);
-		if(Shooting){
-			/*if(shooter.isXPushed()){
-				motor1.set(1);
-				shooter.clearButtons();
-			}*/
-			if(shooter.getPOV() == 0){
-				Shooting = false;
-				try {
-					Thread.sleep(150);      //Prevents pressing more than once too fast
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			if(shooter.isAPushed()){
-				motor1.set(1);
-				shooter.clearButtons();
-			}
+		i++;
+		SmartDashboard.putInt("I: ", i);
+		SmartDashboard.putInt("counterShooterB: ", counterShooterB);
+		if(shooter.isBPushed()){
+			counterBool = true;
 		}
-		
-		
-		
-		//   ARM CONTROLS
-		if(!Shooting){
-			if(shooter.getPOV() == 0){
-				Shooting = true;
-				try {
-					Thread.sleep(150);      //Prevents pressing more than once too fast
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		if(counterBool){
+			if(counterShooterB == 0){
+				counterShooterB = i;
 			}
-			if(shooter.isAPushed()){
-				motor1.set(-1);
-				shooter.clearButtons();
+			if(i<counterShooterB+50){
+			motor2.set(-1);
+			}
+			else if(i>=counterShooterB+50){
+			motor2.set(0);
+			shooter.clearButtons();
+			counterShooterB = 0;
+			counterBool = false;
 			}
 		}
 		}
