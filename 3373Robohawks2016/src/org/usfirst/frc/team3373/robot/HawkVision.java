@@ -164,10 +164,32 @@ public class HawkVision {
 		isGoal = scores.Aspect > SCORE_MIN && scores.Area > 3000;
 		SmartDashboard.putNumber("Aspect" , scores.Aspect);
 		SmartDashboard.putNumber("Area", scores.Area);
-		double distanceToGoal = (.0000001237*(scores.Area*scores.Area)-.003096*scores.Area+26.42);
-		SmartDashboard.putNumber("Distance?",distanceToGoal);
-		System.out.println("Distance?:"+ distanceToGoal);
-
+		//picks an area to distance equation to use based on aspect
+		int aspectFormulaUsing;
+		if(scores.Aspect>=31)
+				{
+			aspectFormulaUsing=1;
+			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
+			double distanceToGoal = (.0000001237*(scores.Area*scores.Area)-.003096*scores.Area+26.42);
+			SmartDashboard.putNumber("Distance?",distanceToGoal);
+			System.out.println("Distance?:"+ distanceToGoal);
+				}
+		else if(scores.Aspect<31 && scores.Aspect>25)
+				{
+			aspectFormulaUsing=2;
+			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
+			double distanceToGoal = (.0000000809*(scores.Area*scores.Area)-.00237*scores.Area+24.54);
+			SmartDashboard.putNumber("Distance?",distanceToGoal);
+			System.out.println("Distance?:"+ distanceToGoal);
+				}
+		else if(scores.Aspect<=25)
+				{
+			aspectFormulaUsing=3;
+			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
+			double distanceToGoal = (.0000000872*(scores.Area*scores.Area)-.00241*scores.Area+25.46);
+			SmartDashboard.putNumber("Distance?",distanceToGoal);
+			System.out.println("Distance?:"+ distanceToGoal);
+				}
 		}else{
 		 isGoal = false;
 		 SmartDashboard.putNumber("Area", 0);
@@ -180,5 +202,7 @@ public class HawkVision {
 		binaryFrame.free();
 	
 	}		
-	
+	public void getDistance(){
+		
+	}
 }
