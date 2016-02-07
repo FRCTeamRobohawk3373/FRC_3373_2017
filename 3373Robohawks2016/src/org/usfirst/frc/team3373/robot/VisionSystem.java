@@ -48,12 +48,6 @@ public class VisionSystem {
 	
 	
 	//creates unfiltered images
-	
-	
-<<<<<<< HEAD
-	public int filterVisionImage(){
-		NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
-=======
 	public void getVisionImage(){  //this method calls one image and then continually replaces it
 		HSLImage image;
 		frame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
@@ -95,7 +89,7 @@ public class VisionSystem {
 		//Send particle count after filtering to dashboard
 		numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
 		System.out.println(numParticles + "Particles!!!");
-
+	
 		
 	}
 
@@ -124,7 +118,6 @@ public class VisionSystem {
 		return numParticlesDetected;
 	*/
 	
->>>>>>> branch 'master' of https://github.com/FRCTeamRobohawk3373/FRC_3373_2016
 	//declaring variables
 	/*
 	String cameraIP;

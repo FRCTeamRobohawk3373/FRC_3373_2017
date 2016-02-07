@@ -33,9 +33,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	CANTalon canTalonTest;
-   	VisionSystem visionSystem = new VisionSystem();
-	//VisionSystem visionSystem = new VisionSystem();
-	//AxisCamera camera;
+   	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -50,7 +48,7 @@ public class Robot extends IterativeRobot {
     	canTalonTest = new CANTalon(0);
 
     	}
-    	//camera = new AxisCamera("10.33.73.11");
+
     
     /**
      * This function is run once each time the robot enters autonomous mode
@@ -89,29 +87,10 @@ public class Robot extends IterativeRobot {
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
     	String cameraIP = "cam0";
-    	//visionSystem.Camera(cameraIP);
-		//visionSystem.Filtering(cameraIP);
-    	//String cameraIP = "cam0";
-    	//visionSystem.Camera(cameraIP);
-    	//visionSystem.Filtering(cameraIP);
-<<<<<<< HEAD
-<<<<<<< HEAD
-    	try {
-        	HSLImage image = visionCamera.getImage();
-        	System.out.println("got Image");
-        	image.write("/home/lvuser/image.png");
-        	//image.write("C:\Users\Robohawks\Desktop\image.png");
-        	}catch (Exception e){
-        		System.out.println("exception occured:" + e);
-        	}
-=======
     	visionSystem.getVisionImage();
-=======
     	//visionSystem.filterVisionImage();
->>>>>>> branch 'master' of https://github.com/FRCTeamRobohawk3373/FRC_3373_2016
-    		//gets an image and saves it to the roborio
+    	//gets an image and saves it to the roborio
 
->>>>>>> branch 'master' of https://github.com/FRCTeamRobohawk3373/FRC_3373_2016
     }
     /**
      * 
