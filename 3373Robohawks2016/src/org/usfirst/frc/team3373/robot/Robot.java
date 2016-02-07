@@ -125,15 +125,21 @@ public class Robot extends IterativeRobot {
     int counterShooterA = 0;
     int counterShooterB = 0;
     int counterShooterX = 0;
+    int counterShooterX2 = 0;
     int counterShooterY = 0;
     int counterShooterStart = 0;
+    int counterShooterLS = 0;
+    int counterShooterRS = 0;
     int counterShooterToggle = 0;
     
     boolean counterBoolShooterA = false;
     boolean counterBoolShooterB = false;
     boolean counterBoolShooterX = false;
+    boolean counterBoolShooterX2 = false;
     boolean counterBoolShooterY = false;
     boolean counterBoolShooterStart = false;
+    boolean counterBoolShooterLS = false;
+    boolean counterBoolShooterRS = false;
     boolean counterBoolShooterToggle = false;
     
     
@@ -171,7 +177,7 @@ public class Robot extends IterativeRobot {
     		
     		
     		
-    		if(driver.getPOV() == 180 || shooter.getPOV() == 180){      //Down on the D-Pad    (Toggles)
+    		if(driver.getPOV() == 180 || shooter.getPOV() == 180){      //Down on the D-Pad    (Toggles Drawbridge Drive)
     			if(!D_Pad1){
     			D_Pad1 = true;
     			}else{
@@ -184,7 +190,7 @@ public class Robot extends IterativeRobot {
 					e.printStackTrace();
 				}
     		}
-    		if(driver.getPOV()==90 || shooter.getPOV() == 90){     //Right on the D-Pad        (Toggles)
+    		if(driver.getPOV()==90 || shooter.getPOV() == 90){     //Right on the D-Pad        (Toggles Sally Port Drive)
     			if(!D_Pad2){
         			D_Pad2 = true;
         			}else{
@@ -197,7 +203,7 @@ public class Robot extends IterativeRobot {
     					e.printStackTrace();
     				}
     		}
-    		if(driver.getPOV()==270 || shooter.getPOV() == 270){    //Left on the D-Pad                    (Toggles)
+    		if(driver.getPOV()==270 || shooter.getPOV() == 270){    //Left on the D-Pad                    (Toggles Portcullis Drive)
     			if(!D_Pad3){
         			D_Pad3 = true;
         			}else{
@@ -271,23 +277,42 @@ public class Robot extends IterativeRobot {
         				}
         			
     			}
-    			if(shooter.isXPushed()){
-    				motor1.set(.3);
-    				try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				motor1.set(-.3);
-    				try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				motor1.set(0);
-    				shooter.clearButtons();
+    			if(shooter.isXHeld()){
+    				counterBoolShooterX = true;             //Checks whether or not X is held
+    			}else{
+    				counterBoolShooterX = false;             //If not, cancels shooting
+    				counterShooterX = 0;
+    				counterShooterX2 = 0;
+    			}
+    			if(counterBoolShooterX){                 //If X is held, proceeds to shooting phase
+    				if(shooter.isXHeld()){
+    					counterBoolShooterX2 = true;
+    				}
+    				if(counterBoolShooterX2){
+    					if(counterShooterX2 == 0){
+        					counterShooterX2 = robotTimer;
+        				}
+        				if(robotTimer<=counterShooterX2+250){                    //Runs the sequence for 250 loops, or five seconds
+        				motor1.set(1);
+        				}else if(robotTimer<counterShooterX2+500){
+        				motor1.set(-1);
+        				}
+        				else if(robotTimer>=counterShooterX2+500){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
+        				motor1.set(0);
+        				shooter.clearButtons();
+        				counterShooterX = 0;
+        				counterBoolShooterX = false;
+        				counterShooterX2 = 0;
+        				counterBoolShooterX2 = false;
+        				}
+    				}
+    				else{
+    					counterBoolShooterX = false;
+    					counterBoolShooterX2 = false;
+    					counterShooterX = 0;
+    					counterShooterX2 = 0;
+    					motor1.set(0);
+    				}
     			}
     		}
     		
@@ -381,16 +406,13 @@ public class Robot extends IterativeRobot {
     				}
     			}
     			if(shooter.isStartPushed()){
-    				System.out.println("Pushed");
     				if(counterBoolShooterStart == false){
     				counterBoolShooterStart = true;
-    				System.out.println("If");
     				}else{
     				counterBoolShooterStart = false;
     				shooter.clearButtons();
     				counterShooterStart = 0;
     				motor2.set(0);
-    				System.out.println("Else");
     				}
     			}
 				shooter.clearButtons();
@@ -406,6 +428,40 @@ public class Robot extends IterativeRobot {
     				shooter.clearButtons();
     				counterShooterStart = 0;
     				counterBoolShooterStart = false;
+    				}
+    			}
+    			if(shooter.isLStickPushed()){
+    				counterBoolShooterLS = true;
+    			}
+    			if(counterBoolShooterLS){
+    				if(counterShooterLS == 0){
+    					counterShooterLS = robotTimer;
+    				}
+    				if(robotTimer<counterShooterLS+50){                    //Runs the sequence for 50 loops, or one second
+    				motor2.set(-1);
+    				}
+    				else if(robotTimer>=counterShooterLS+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
+    				motor2.set(0);
+    				shooter.clearButtons();
+    				counterShooterLS = 0;
+    				counterBoolShooterLS = false;
+    				}
+    			}
+    			if(shooter.isRStickPushed()){
+    				counterBoolShooterRS = true;
+    			}
+    			if(counterBoolShooterRS){
+    				if(counterShooterRS == 0){
+    					counterShooterRS = robotTimer;
+    				}
+    				if(robotTimer<counterShooterRS+50){                    //Runs the sequence for 50 loops, or one second
+    				motor2.set(1);
+    				}
+    				else if(robotTimer>=counterShooterRS+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
+    				motor2.set(0);
+    				shooter.clearButtons();
+    				counterShooterRS = 0;
+    				counterBoolShooterRS = false;
     				}
     			}
     		}
