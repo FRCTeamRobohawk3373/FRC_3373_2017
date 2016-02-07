@@ -20,7 +20,6 @@ public class HawkVision {
 		double BoundingRectTop;
 		double BoundingRectRight;
 		double BoundingRectBottom;
-		
 		public int compareTo(ParticleReport r)
 		{
 			return (int)(r.Area - this.Area);
@@ -61,7 +60,7 @@ public class HawkVision {
 	{
 		double boundingArea = (report.BoundingRectBottom - report.BoundingRectTop) * (report.BoundingRectRight - report.BoundingRectLeft);
 		//Tape is 7" edge so 49" bounding rect. With 2" wide tape it covers 24" of the rect.
-		return ratioToScore((49/24)*report.Area/boundingArea);
+		return boundingArea;
 	}
 
 	/**
@@ -162,19 +161,24 @@ public class HawkVision {
 		System.out.println("Aspect " + scores.Aspect);
 		scores.Area = AreaScore(particles.elementAt(0));
 		System.out.println("Area " + scores.Area);
-		isGoal = scores.Aspect > SCORE_MIN && scores.Area > SCORE_MIN;
+		isGoal = scores.Aspect > SCORE_MIN && scores.Area > 3000;
 		SmartDashboard.putNumber("Aspect" , scores.Aspect);
 		SmartDashboard.putNumber("Area", scores.Area);
+		double distanceToGoal = (.0000001237*(scores.Area*scores.Area)-.003096*scores.Area+26.42);
+		SmartDashboard.putNumber("Distance?",distanceToGoal);
+		System.out.println("Distance?:"+ distanceToGoal);
 
 		}else{
 		 isGoal = false;
 		 SmartDashboard.putNumber("Area", 0);
 		 SmartDashboard.putNumber("Aspect", 0);
 		}
+	
 		SmartDashboard.putBoolean("Goal?", isGoal);
 		System.out.println("Goal? " + isGoal);
 		frame.free();
 		binaryFrame.free();
 	
 	}		
+	
 }

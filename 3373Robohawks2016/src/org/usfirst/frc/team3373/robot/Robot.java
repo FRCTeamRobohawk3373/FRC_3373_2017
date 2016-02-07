@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 //	Timer robotTimer;
 	//AxisCamera camera;
 
-   //	HawkVision visionSystem = new HawkVision();
+  	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -444,9 +444,6 @@ public class Robot extends IterativeRobot {
     public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
-    	String cameraIP = "cam0";
-    //	VisionSystem.Camera(cameraIP);
-    //	VisionSystem.Filtering(cameraIP);
     	counterShooterB = 0;
     	robotTimer = 0;
     	counterBool = false;
@@ -458,6 +455,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	visionSystem.getVisionImage();
     	SmartDashboard.putNumber("D-Pad Value: ", driver.getPOV());
     	SmartDashboard.putBoolean("Shooting: ", Shooting);
 		HawkDrive.main(null);
