@@ -41,9 +41,9 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	//static limitSwitch limitSwitch1;
-	static CANTalon motor1;
-	static CANTalon motor2;
-	static CANTalon motor3;
+	static HawkSuperMotor motor1;
+	static HawkSuperMotor motor2;
+	static HawkSuperMotor motor3;
 	static SuperJoystick driver;
 	
 	static SuperJoystick shooter;
@@ -83,9 +83,9 @@ public class Robot extends IterativeRobot {
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	motor1 = new CANTalon(1);
-    	motor2 = new CANTalon(2);
-    	motor3 = new CANTalon(3);
+    	motor1 = new HawkSuperMotor(1, 0, 14710);                 // (Talon ID, Min Encoder Value, Max Encoder Value
+    	motor2 = new HawkSuperMotor(2, 0, 14710);
+    	motor3 = new HawkSuperMotor(3, 0, 14710);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
     	myRobot = new RobotDrive(4,0);
@@ -514,29 +514,13 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	SmartDashboard.putNumber("D-Pad Value: ", driver.getPOV());
-    	SmartDashboard.putBoolean("Shooting: ", Shooting);
+    	SmartDashboard.putNumber("Encoder Position: ", motor3.getEncPosition());
+    	SmartDashboard.putNumber("Target Encoder Position: ", motor3.targetEncoderPos);
 		HawkDrive.main(null);
 		robotTimer++;
-		SmartDashboard.putInt("Robot Timer: ", robotTimer);
-		SmartDashboard.putInt("counterShooterB: ", counterShooterB);
-		if(shooter.isBPushed()){
-			counterBool = true;
-		}
-		if(counterBool){
-			if(counterShooterB == 0){
-				counterShooterB = robotTimer;
-			}
-			if(robotTimer<counterShooterB+50){
-			motor2.set(-1);
-			}
-			else if(robotTimer>=counterShooterB+50){
-			motor2.set(0);
-			shooter.clearButtons();
-			counterShooterB = 0;
-			counterBool = false;
-			}
-		}
+		//HawkCalibration.main(null);
+		motor3.goToHeight(10.3);
+		SmartDashboard.putNumber("Current Height (Inches): ", (motor3.getEncPosition()/motor3.range)*12);
 		}
 
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
