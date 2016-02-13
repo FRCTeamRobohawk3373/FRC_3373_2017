@@ -37,6 +37,12 @@ public class Robot extends IterativeRobot {
 	
 //	int counter;
 	
+	
+    DigitalInput ones;
+    DigitalInput twos;
+    DigitalInput fours;
+    DigitalInput eights;
+	
 	boolean counterBool;
 	int counter;
 //	int i = 0;
@@ -46,6 +52,7 @@ public class Robot extends IterativeRobot {
     int Rtrigger = 3;
     int RX = 4;
     static int RY = 5;
+    int index;
     
     boolean CAN = true;
     
@@ -68,6 +75,10 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 
+    	
+		System.out.println("Soup.");
+    	
+    	
    // 	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
@@ -78,6 +89,11 @@ public class Robot extends IterativeRobot {
     	shooter = new SuperJoystick(1);
     	calibrator = new SuperJoystick(2);
     	myRobot = new RobotDrive(4,0);
+    	
+    	ones = new DigitalInput(6);
+        twos = new DigitalInput(7);
+        fours = new DigitalInput(8);
+        eights = new DigitalInput(9);
    // 	counter = 0;
     //	robotTimer = new Timer();
 
@@ -487,19 +503,7 @@ public class Robot extends IterativeRobot {
 
 	@SuppressWarnings("deprecation")
     public void testInit(){
-    	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
-    	LiveWindow.setEnabled(false);
-
-    	String cameraIP = "cam0";
- //   	visionSystem.getVisionImage();
-    	//visionSystem.filterVisionImage();
-    	//gets an image and saves it to the roborio
-
-    	counterShooterB = 0;
-    	robotTimer = 0;
-    	counterBool = false;
-    	motor1.setEncPosition(0);
-    	motor2.setEncPosition(0);
+    	
 
 
 
@@ -509,13 +513,75 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	HawkCalibration.calibrate(1);
-    	SmartDashboard.putNumber("Motor 1 Encoder: ", motor1.getEncPosition());
-    	SmartDashboard.putNumber("Motor 2 Encoder: ", motor2.getEncPosition());
+		int index = 15;//for testing purposes
+    	if(ones.get()){
+    		index -= 1;
+    	}
+    	if(twos.get()){
+    		index -= 2;
+    	}
+    	if(fours.get()){
+    		index -= 4;
+    	}
+    	if(eights.get()){
+    		index -= 8;
+    	}
+    	switch(index){
+    	case 0:
+    	break;
+    	case 1:
+    		HawkCalibration.calibrate(1);
+    	break;
+    	case 2:
+    		HawkCalibration.calibrate(2);
+    	break;
+    	case 3:
+    		HawkCalibration.calibrate(3);
+    	break;
+    	case 4:
+    		HawkCalibration.calibrate(4);
+    	break;
+    	case 5:
+    		HawkCalibration.calibrate(5);
+    	break;
+    	case 6:
+    		HawkCalibration.calibrate(6);
+    	break;
+    	case 7:
+    		HawkCalibration.calibrate(7);
+    	break;
+    	case 8:
+    		HawkCalibration.calibrate(8);
+    	break;
+    	case 9:
+    		HawkCalibration.calibrate(9);
+    	break;
+    	case 10:
+    		HawkCalibration.calibrate(10);
+    	break;
+    	case 11:
+    		HawkCalibration.calibrate(11);
+    	break;
+    	case 12:
+    		HawkCalibration.calibrate(12);
+    	break;
+    	case 13:
+    		HawkCalibration.calibrate(13);
+    	break;
+    	case 14:
+    		HawkCalibration.calibrate(14);
+    		System.out.println("14");
+    	break;
+    	case 15:
+    		HawkCalibration.calibrate(15);
+    		System.out.println("15");
+    	break;
+    	}
 		}
+}
     
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
-    }
+    
     
 

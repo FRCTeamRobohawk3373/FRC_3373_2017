@@ -15,12 +15,12 @@ public class HawkCalibration {
 	public static void main(String[] args) {
 	}
 	public static void calibrate(int id){
-		
-		CANTalon calibMotor = new CANTalon(id);
+		ID = id;
+		CANTalon calibMotor = new CANTalon(ID);
 		
 		SmartDashboard.putNumber("RangeMin: ", rangeMin);
 		SmartDashboard.putNumber("RangeMax: ", rangeMax);
-		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
+//		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
 		SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
 		
 		if(Robot.calibrator.isAPushed()){
@@ -64,14 +64,12 @@ public class HawkCalibration {
 		
 		if(Robot.calibrator.isStartPushed()){
 			CalibrationPrinter.main(null);
-			Robot.calibrator.clearStart();
+			Robot.calibrator.clearButtons();
 		}
 		if(Robot.calibrator.isBackPushed()){
 			CalibrationReader.main(null);
-			Robot.calibrator.clearBack();
-		}
-		ID = id;
-		
+			Robot.calibrator.clearButtons();
+		}		
 		
 		
 
