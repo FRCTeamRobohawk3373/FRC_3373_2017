@@ -83,9 +83,9 @@ public class Robot extends IterativeRobot {
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	motor1 = new HawkSuperMotor(1, 0, 14710);                 // (Talon ID, Min Encoder Value, Max Encoder Value
-    	motor2 = new HawkSuperMotor(2, 0, 14710);
-    	motor3 = new HawkSuperMotor(3, 0, 14710);
+    	motor1 = new HawkSuperMotor(1, 0, 14683);                 // (Talon ID, Min Encoder Value, Max Encoder Value
+    	motor2 = new HawkSuperMotor(2, 0, 14683);
+    	motor3 = new HawkSuperMotor(3, 0, 14683);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
     	myRobot = new RobotDrive(4,0);
@@ -503,6 +503,8 @@ public class Robot extends IterativeRobot {
     	counterShooterB = 0;
     	robotTimer = 0;
     	counterBool = false;
+    	double heightTarget=5;
+		SmartDashboard.putNumber("Target Height: ", heightTarget);
 
 
     }
@@ -511,13 +513,15 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	visionSystem.getVisionImage();
+//    	visionSystem.getVisionImage();
+    	double heightTarget;
     	SmartDashboard.putNumber("Encoder Position: ", motor3.getEncPosition());
     	SmartDashboard.putNumber("Target Encoder Position: ", motor3.targetEncoderPos);
 		HawkDrive.main(null);
 		robotTimer++;
-		//HawkCalibration.main(null);
-		motor3.goToHeight(10.3);
+	//	HawkCalibration.main(null);
+		heightTarget = SmartDashboard.getNumber("Target Height: ");
+		motor3.goToHeight(heightTarget);
 		SmartDashboard.putNumber("Current Height (Inches): ", (motor3.getEncPosition()/motor3.range)*12);
 		}
 

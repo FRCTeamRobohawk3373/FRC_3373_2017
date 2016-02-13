@@ -16,9 +16,9 @@ public class HawkSuperMotor extends CANTalon {
 	}
 	public double goToHeight(double targetHeight){
 		targetEncoderPos = (range/12) * targetHeight;
-		if(getEncPosition()<rangeMin+200){                             //Prevents the motor from hitting or passing it's lower limit
+		if(getEncPosition()<rangeMin-1){                             //Prevents the motor from hitting or passing it's lower limit
 			set(.1);
-		}else if(getEncPosition()>rangeMax-200){                       //Prevents the motor from hitting or passing it's upper limit
+		}else if(getEncPosition()>rangeMax+1){                       //Prevents the motor from hitting or passing it's upper limit
 			set(-.1);
 		}else if(getEncPosition()>targetEncoderPos+50){
 			set(-.5);
