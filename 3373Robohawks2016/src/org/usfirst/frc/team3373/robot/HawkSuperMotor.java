@@ -29,5 +29,17 @@ public class HawkSuperMotor extends CANTalon {
 		}
 		return targetEncoderPos;
 	}
+	public double goDistance(double targetDistance){
+		targetEncoderPos = (range/12) * targetDistance;
+		if(getEncPosition()>targetEncoderPos+50){
+			set(-.5);
+		}else if(getEncPosition()<targetEncoderPos+50){
+			set(.5);
+		}else{
+			set(0);
+		}
+		return targetEncoderPos;
+		
+	}
 
 }
