@@ -32,8 +32,9 @@ public class HawkDrive {
 	
 
        }
-    public static void goDistance(int deviceNumber, double distance){
+    public static void goDoubleDistance(double distance){
 	    	   //@param distance = distance to drive... because distance isn't clear enough, apparently
-    	
+    	Robot.motor1.goDistance(distance);
+    	Robot.motor2.goDistance(distance);
     }  
 }

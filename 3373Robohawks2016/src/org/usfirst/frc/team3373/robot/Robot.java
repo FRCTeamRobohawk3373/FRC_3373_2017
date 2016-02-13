@@ -26,9 +26,9 @@ public class Robot extends IterativeRobot {
 	DigitalInput limitSwitch;
 	AnalogInput pot;
 	//static limitSwitch limitSwitch1;
-	static CANTalon motor1;
-	static CANTalon motor2;
-	static CANTalon motor3;
+	static HawkSuperMotor motor1;
+	static HawkSuperMotor motor2;
+	static HawkSuperMotor motor3;
 	static SuperJoystick driver;
 	
 	static SuperJoystick shooter;
@@ -68,9 +68,9 @@ public class Robot extends IterativeRobot {
     	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	motor1 = new CANTalon(1);
-    	motor2 = new CANTalon(2);
-    	motor3 = new CANTalon(3);
+    	motor1 = new HawkSuperMotor(1, 0, 14000);
+    	motor2 = new HawkSuperMotor(2, 0, 14000);
+    	motor3 = new HawkSuperMotor(3, 0, 14000);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
     	myRobot = new RobotDrive(4,0);
