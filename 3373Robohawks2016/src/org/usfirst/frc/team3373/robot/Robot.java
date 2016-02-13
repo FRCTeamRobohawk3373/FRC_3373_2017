@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.CANTalon;
  */
 public class Robot extends IterativeRobot {
 	RobotDrive myRobot;
-	SuperJoystick stick;
 	int autoLoopCounter;
 	DigitalInput limitSwitch;
 	AnalogInput pot;
@@ -29,9 +28,11 @@ public class Robot extends IterativeRobot {
 	static HawkSuperMotor motor1;
 	static HawkSuperMotor motor2;
 	static HawkSuperMotor motor3;
-	static SuperJoystick driver;
 	
+	static SuperJoystick driver;
 	static SuperJoystick shooter;
+	static SuperJoystick calibrator;
+	
 	static boolean manualArm = false;
 	
 //	int counter;
@@ -53,10 +54,12 @@ public class Robot extends IterativeRobot {
     boolean D_Pad3 = false;
     
     boolean Shooting = false;
+    
+    static boolean goingDistance = false;
 //	Timer robotTimer;
 	//AxisCamera camera;
 
-  	HawkVision visionSystem = new HawkVision();
+ // 	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -65,14 +68,15 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 
-    	stick = new SuperJoystick(0);
+   // 	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	motor1 = new HawkSuperMotor(1, 0, 14000);
-    	motor2 = new HawkSuperMotor(2, 0, 14000);
+    	motor1 = new HawkSuperMotor(1, 0, 7000);
+    	motor2 = new HawkSuperMotor(2, 0, 7000);
     	motor3 = new HawkSuperMotor(3, 0, 14000);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
+    	calibrator = new SuperJoystick(2);
     	myRobot = new RobotDrive(4,0);
    // 	counter = 0;
     //	robotTimer = new Timer();
@@ -487,13 +491,15 @@ public class Robot extends IterativeRobot {
     	LiveWindow.setEnabled(false);
 
     	String cameraIP = "cam0";
-    	visionSystem.getVisionImage();
+ //   	visionSystem.getVisionImage();
     	//visionSystem.filterVisionImage();
     	//gets an image and saves it to the roborio
 
     	counterShooterB = 0;
     	robotTimer = 0;
     	counterBool = false;
+    	motor1.setEncPosition(0);
+    	motor2.setEncPosition(0);
 
 
 
@@ -503,32 +509,11 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	visionSystem.getVisionImage();
-    	SmartDashboard.putNumber("D-Pad Value: ", driver.getPOV());
-    	SmartDashboard.putBoolean("Shooting: ", Shooting);
-		HawkDrive.main(null);
-		robotTimer++;
-		SmartDashboard.putInt("Robot Timer: ", robotTimer);
-		SmartDashboard.putInt("counterShooterB: ", counterShooterB);
-		if(shooter.isBPushed()){
-			counterBool = true;
+    	HawkCalibration.calibrate(1);
+    	SmartDashboard.putNumber("Motor 1 Encoder: ", motor1.getEncPosition());
+    	SmartDashboard.putNumber("Motor 2 Encoder: ", motor2.getEncPosition());
 		}
-		if(counterBool){
-			if(counterShooterB == 0){
-				counterShooterB = robotTimer;
-			}
-			if(robotTimer<counterShooterB+50){
-			motor2.set(-1);
-			}
-			else if(robotTimer>=counterShooterB+50){
-			motor2.set(0);
-			shooter.clearButtons();
-			counterShooterB = 0;
-			counterBool = false;
-			}
-		}
-		}
-
+    
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
     }

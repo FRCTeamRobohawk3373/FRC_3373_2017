@@ -1,5 +1,5 @@
 package org.usfirst.frc.team3373.robot;
-
+// AUTHOR Alex Iasso
 import edu.wpi.first.wpilibj.CANTalon;
 
 public class HawkSuperMotor extends CANTalon {
@@ -30,10 +30,10 @@ public class HawkSuperMotor extends CANTalon {
 		return targetEncoderPos;
 	}
 	public double goDistance(double targetDistance){
-		targetEncoderPos = (range/12) * targetDistance;
-		if(getEncPosition()>targetEncoderPos+50){
+		targetEncoderPos = getEncPosition()+ (range/12*targetDistance);
+		if(getEncPosition()<targetEncoderPos+500){
 			set(-.5);
-		}else if(getEncPosition()<targetEncoderPos+50){
+		}else if(getEncPosition()>targetEncoderPos-500){
 			set(.5);
 		}else{
 			set(0);

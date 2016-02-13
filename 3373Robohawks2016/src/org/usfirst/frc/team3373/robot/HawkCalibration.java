@@ -1,62 +1,80 @@
 package org.usfirst.frc.team3373.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HawkCalibration {
-
+	
+	static double rangeMin;
+	static double rangeMax;
+	
+	static double calibrationLeftY;
+	
+	static int ID;
+	
 	public static void main(String[] args) {
-		SmartDashboard.putNumber("Encoder Value: ", Robot.motor3.getEncPosition());
-		HawkDrive.main(null);
-		while(Robot.motor3.isRevLimitSwitchClosed()){
-			Robot.motor3.set(-1);
+	}
+	public static void calibrate(int id){
+		
+		CANTalon calibMotor = new CANTalon(id);
+		
+		SmartDashboard.putNumber("RangeMin: ", rangeMin);
+		SmartDashboard.putNumber("RangeMax: ", rangeMax);
+		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
+		SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
+		
+		if(Robot.calibrator.isAPushed()){
+			calibMotor.set(0);
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			calibMotor.setPosition(0);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			rangeMin = calibMotor.getEncPosition();
+			Robot.calibrator.clearA();
 		}
-		Robot.motor3.set(0);
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
+		if(Robot.calibrator.isYPushed()){
+			calibMotor.set(0);
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			rangeMax = calibMotor.getEncPosition();
+			Robot.calibrator.clearY();
 		}
-		Robot.motor3.setEncPosition(0);
-		Robot.motor3.setPosition(0);
-		Robot.motor3.setAnalogPosition(0);
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+		
+		
+		if(Robot.calibrator.getRawAxis(Robot.LY) >-0.1 && Robot.calibrator.getRawAxis(Robot.LY)<0.1){
+    		calibrationLeftY = 0;
+    	}else{
+    		calibrationLeftY = Robot.calibrator.getRawAxis(Robot.LY);
+    	}
+		calibMotor.set(calibrationLeftY/8);
+		
+		
+		if(Robot.calibrator.isStartPushed()){
+			CalibrationPrinter.main(null);
+			Robot.calibrator.clearStart();
 		}
-		SmartDashboard.putNumber("Encoder Value: ", Robot.motor3.getEncPosition());
-		double reverseLimit = Robot.motor3.getEncPosition();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if(Robot.calibrator.isBackPushed()){
+			CalibrationReader.main(null);
+			Robot.calibrator.clearBack();
 		}
-		while(Robot.motor3.isFwdLimitSwitchClosed()){
-			Robot.motor3.set(1);
-		}
-		Robot.motor3.set(0);
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		SmartDashboard.putNumber("Encoder Value: ", Robot.motor3.getEncPosition());
-		double forwardLimit = Robot.motor3.getEncPosition();                              //Spinning forwards gives reverse limit, because it is inverted
-		double fullEncRange = forwardLimit - reverseLimit;
-		SmartDashboard.putNumber("Forwards Encoder Limit: ", forwardLimit);
-		SmartDashboard.putNumber("Reverse Encoder Limit: ", reverseLimit);
-		SmartDashboard.putNumber("Full Encoder Range: ", fullEncRange);
+		ID = id;
+		
+		
+		
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

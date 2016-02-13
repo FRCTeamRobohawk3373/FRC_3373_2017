@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 public class HawkDrive {
 
+	static boolean motorDone1 = false;
+	static boolean motorDone2 = false;
+	
 	public static void main(String[] args) {
 		wheelControl(Robot.driver.getRawAxis(Robot.LY), Robot.driver.getRawAxis(Robot.RY));
 
@@ -34,7 +37,20 @@ public class HawkDrive {
        }
     public static void goDoubleDistance(double distance){
 	    	   //@param distance = distance to drive... because distance isn't clear enough, apparently
-    	Robot.motor1.goDistance(distance);
-    	Robot.motor2.goDistance(distance);
+    	if(Robot.motor1.getEncPosition()<Robot.motor1.targetEncoderPos+500                &&           Robot.motor1.getEncPosition()>Robot.motor1.targetEncoderPos-500){
+    		motorDone1 = true;
+    		Robot.motor1.set(0);
+    	}else{
+        	Robot.motor1.goDistance(distance);
+    	}
+    	if(Robot.motor2.getEncPosition()<Robot.motor2.targetEncoderPos+500                &&           Robot.motor2.getEncPosition()>Robot.motor2.targetEncoderPos-500){
+    		motorDone2 = true;
+    		Robot.motor2.set(0);
+    	}else{
+    		Robot.motor2.goDistance(distance);
+    	}
+    	if(motorDone1 && motorDone2){
+    		Robot.goingDistance = false;
+    	}
     }  
 }

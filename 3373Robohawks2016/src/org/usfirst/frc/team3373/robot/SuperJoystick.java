@@ -225,4 +225,54 @@ public class SuperJoystick extends Joystick{
             flagRStick = true;
         }
     }
+    public void clearB(){
+     if (!flagB && !getRawButton(2)){
+        flagB = true;
+    }
+    }
+     public void clearA(){
+         if (!flagA && !getRawButton(1)){
+            flagA = true;
+        }
+}
+     public void clearX(){
+    	 if (!flagX && !getRawButton(3)){
+             flagX = true;
+     }
+     }
+     public void clearY(){
+    	 if (!flagY && !getRawButton(4)){
+             flagY = true;
+         }
+     }
+     public void clearLB(){
+    	 if (!flagLB && !getRawButton(5)){
+             flagLB = true;
+         }
+     }
+     public void clearRB(){
+    	 if (!flagRB && !getRawButton(6)){
+             flagRB = true;
+     }
+     }
+     public void clearBack(){
+    	 if (!flagBack && !getRawButton(7)){
+             flagBack = true;
+         }
+     }
+     public void clearStart(){
+    	 if (!flagStart && !getRawButton(8)){
+             flagStart = true;
+     }
+     }
+     public void clearLStick(){
+    	 if (!flagLStick && !getRawButton(9)){
+             flagLStick = true;
+    	 }
+     }
+     public void clearRStick(){
+    	 if (!flagRStick && !getRawButton(10)){
+             flagRStick = true;
+    	 }
+     }
 }
