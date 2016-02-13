@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3373.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
+
 public class HawkDrive {
 
 	public static void main(String[] args) {
@@ -29,5 +31,9 @@ public class HawkDrive {
 	//	myRobot.tankDrive(leftY, rightY);
 	
 
-	}
+       }
+    public static void goDistance(int deviceNumber, double distance){
+	    	   //@param distance = distance to drive... because distance isn't clear enough, apparently
+    	
+    }  
 }

@@ -1,29 +1,14 @@
+
 package org.usfirst.frc.team3373.robot;
 //AUTHOR Alex Iasso and Dillon Rose
 import edu.wpi.first.wpilibj.AnalogInput;
 
-import edu.wpi.first.wpilibj.*;
-
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.vision.AxisCamera;
-import java.io.IOException;
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.*;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-
-import com.ni.vision.NIVision.Image;
-import edu.wpi.first.wpilibj.image.*;
 
 //@author Joey Dyer, Drew Marino, Alex Iasso, Dillon Rose
 
@@ -500,17 +485,17 @@ public class Robot extends IterativeRobot {
     public void testInit(){
     	//Live window is enabled by default for test mode by disabling it here, it allows the use of smartdashboard to display values
     	LiveWindow.setEnabled(false);
-<<<<<<< HEAD
+
     	String cameraIP = "cam0";
     	visionSystem.getVisionImage();
     	//visionSystem.filterVisionImage();
     	//gets an image and saves it to the roborio
-=======
+
     	counterShooterB = 0;
     	robotTimer = 0;
     	counterBool = false;
 
->>>>>>> branch 'master' of https://github.com/FRCTeamRobohawk3373/FRC_3373_2016
+
 
     }
     /**
