@@ -20,7 +20,6 @@ public class HawkVision {
 		double BoundingRectTop;
 		double BoundingRectRight;
 		double BoundingRectBottom;
-		
 		public int compareTo(ParticleReport r)
 		{
 			return (int)(r.Area - this.Area);
@@ -40,14 +39,28 @@ public class HawkVision {
 
 	double ratioToScore(double ratio)
 	{
+		SmartDashboard.putNumber("RatioToScore: ", ratio);
+		double testValuea1 = 100*(1-Math.abs(1-ratio));
+		SmartDashboard.putNumber("Testing Ratio: ", testValuea1);
+		//return testValuea1;
 		return (Math.max(0, Math.min(100*(1-Math.abs(1-ratio)), 100)));
 	}
+	
+	double ratioToScore2(double ratio)
+	{
+		SmartDashboard.putNumber("RatioToScore2: ", ratio);
+		double testValuea2 = 100*(1-Math.abs(1-ratio));
+		SmartDashboard.putNumber("Testing Ratio2: ", testValuea2);
+		//return testValuea1;
+		return (Math.max(0, Math.min(100*(1-Math.abs(1-ratio)), 100)));
+	}
+
 
 	double AreaScore(ParticleReport report)
 	{
 		double boundingArea = (report.BoundingRectBottom - report.BoundingRectTop) * (report.BoundingRectRight - report.BoundingRectLeft);
 		//Tape is 7" edge so 49" bounding rect. With 2" wide tape it covers 24" of the rect.
-		return ratioToScore((49/24)*report.Area/boundingArea);
+		return boundingArea;
 	}
 
 	/**
@@ -55,7 +68,12 @@ public class HawkVision {
 	 */
 	double AspectScore(ParticleReport report)
 	{
-		return ratioToScore(((report.BoundingRectRight-report.BoundingRectLeft)/(report.BoundingRectBottom-report.BoundingRectTop)));
+		SmartDashboard.putNumber("BoundingRectBottom", report.BoundingRectBottom);
+		SmartDashboard.putNumber("BoundingRectTop", report.BoundingRectTop);
+		SmartDashboard.putNumber("BoundingRectRight", report.BoundingRectRight);
+		SmartDashboard.putNumber("BoundingRectLeft", report.BoundingRectLeft);	
+		return Math.abs(20*(report.BoundingRectRight-report.BoundingRectLeft)/(report.BoundingRectBottom-report.BoundingRectTop));
+	
 	}
 
 	//Images
@@ -67,10 +85,10 @@ public class HawkVision {
 	NIVision.Range GOAL_HUE_RANGE = new NIVision.Range(100, 155);	//Default hue range for goal frame
 	NIVision.Range GOAL_SAT_RANGE = new NIVision.Range(0, 255);	//Default saturation range for goal frame
 	NIVision.Range GOAL_VAL_RANGE = new NIVision.Range(0, 255);	//Default value range for goal frame
-	double AREA_MINIMUM = 0.15; //Default Area minimum for particle as a percentage of total image area
+	double AREA_MINIMUM = 0.1; //Default Area minimum for particle as a percentage of total image area
 	double LONG_RATIO = 20; //GOAL long side = 26.9 / GOAL height = 12.1 = 2.22
 	double SHORT_RATIO = 14; //GOAL short side = 16.9 / GOAL height = 12.1 = 1.4
-	double SCORE_MIN = 30.0;  //Minimum score to be considered a GOAL
+	double SCORE_MIN = 15.0;  //Minimum score to be considered a GOAL
 	double VIEW_ANGLE = 49.4; //View angle for camera
 	NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
 	NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
@@ -98,7 +116,7 @@ public class HawkVision {
 
 		//sets ranges to filter on
 		GOAL_HUE_RANGE.minValue = 95;
-		GOAL_HUE_RANGE.maxValue = 140;
+		GOAL_HUE_RANGE.maxValue = 161;
 		GOAL_SAT_RANGE.minValue = 215;
 		GOAL_SAT_RANGE.maxValue = 255;
 		GOAL_VAL_RANGE.minValue = 215;
@@ -123,6 +141,7 @@ public class HawkVision {
 		//Send particle count after filtering to dashboard
 		numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
 		System.out.println(numParticles + " #Particles");
+		SmartDashboard.putNumber("Particles" , numParticles);
 		if(numParticles > 0){
 		Vector<ParticleReport> particles = new Vector<ParticleReport>();
 		for(int particleIndex = 0; particleIndex < numParticles; particleIndex++)
@@ -142,13 +161,24 @@ public class HawkVision {
 		System.out.println("Aspect " + scores.Aspect);
 		scores.Area = AreaScore(particles.elementAt(0));
 		System.out.println("Area " + scores.Area);
-		isGoal = scores.Aspect > SCORE_MIN && scores.Area > SCORE_MIN;
-	
+		isGoal = scores.Aspect > SCORE_MIN && scores.Area > 3000;
+		SmartDashboard.putNumber("Aspect" , scores.Aspect);
+		SmartDashboard.putNumber("Area", scores.Area);
+		double distanceToGoal = (.0000001237*(scores.Area*scores.Area)-.003096*scores.Area+26.42);
+		SmartDashboard.putNumber("Distance?",distanceToGoal);
+		System.out.println("Distance?:"+ distanceToGoal);
+
 		}else{
 		 isGoal = false;
+		 SmartDashboard.putNumber("Area", 0);
+		 SmartDashboard.putNumber("Aspect", 0);
 		}
+	
+		SmartDashboard.putBoolean("Goal?", isGoal);
 		System.out.println("Goal? " + isGoal);
 		frame.free();
 		binaryFrame.free();
+	
 	}		
+	
 }
