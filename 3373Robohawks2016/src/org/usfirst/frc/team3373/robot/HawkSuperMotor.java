@@ -85,5 +85,8 @@ public class HawkSuperMotor extends CANTalon {
 	public double getSpeed(){
 		return currentSpeed;
 	}
+	public void EmergencyMotorStop(){
+		super.set(0);
+	}
 
 }
