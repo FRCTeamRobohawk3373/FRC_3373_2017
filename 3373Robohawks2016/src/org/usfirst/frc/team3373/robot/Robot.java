@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 	static HawkSuperMotor motor2;
 	static HawkSuperMotor motor3;
 	
+	static HawkSuperDualMotor dual1;
+	
 	static SuperJoystick driver;
 	static SuperJoystick shooter;
 	static SuperJoystick calibrator;
@@ -45,15 +47,19 @@ public class Robot extends IterativeRobot {
 	InputStream input = null;
 	Properties prop = new Properties();
 	
+	int motorID1;
 	int motorMin1;
 	int motorMax1;
 	int motorMaxPercent1;
 	int motorMinPercent1;
+	double motorTravelRange1;
 	
+	int motorID2;
 	int motorMin2;
 	int motorMax2;
 	int motorMaxPercent2;
 	int motorMinPercent2;
+	double motorTravelRange2;
 	
 	int motorMin3;
 	int motorMax3;
@@ -117,16 +123,19 @@ public class Robot extends IterativeRobot {
 			e.printStackTrace();
 		}
 
-     
+     motorID1 = 1;
      motorMin1 = Integer.parseInt(prop.getProperty("motorMin1"));
    	 motorMax1 = Integer.parseInt(prop.getProperty("motorMax1"));
    	 motorMaxPercent1 = 100;
    	 motorMinPercent1 = 0;
+   	 motorTravelRange1 = 12;
    	
+   	 motorID2 = 2;
    	 motorMin2 = Integer.parseInt(prop.getProperty("motorMin2"));
    	 motorMax2 = Integer.parseInt(prop.getProperty("motorMax2"));
    	 motorMaxPercent2 = 100;
    	 motorMinPercent2 = 0;
+   	 motorTravelRange2 = 12;
    	
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -143,8 +152,9 @@ public class Robot extends IterativeRobot {
    // 	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	motor1 = new HawkSuperMotor(1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1);                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
-    	motor2 = new HawkSuperMotor(2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2);
+    	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1);                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
+    	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2);
+    	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2);
     //	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
@@ -588,11 +598,15 @@ public class Robot extends IterativeRobot {
     	if(eights.get()){
     		index -= 8;
     	}
+    	
+    	
+    	
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
     		//TEST CODE HERE!
-    		
-    		
+    		dual1.goToHeight(3);
+    		System.out.println(dual1.motor1.currentEncHeight);
+    		System.out.println(dual1.motor1.currentEncHeight);
     		
     		
     	break;
