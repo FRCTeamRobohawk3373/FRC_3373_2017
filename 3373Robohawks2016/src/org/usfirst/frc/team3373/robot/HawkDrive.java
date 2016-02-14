@@ -35,7 +35,9 @@ public class HawkDrive {
 	
 
        }
-    public static void goDoubleDistance(double distance){
+    
+    
+ /*   public static void goDoubleDistance(double distance){
 	    	   //@param distance = distance to drive... because distance isn't clear enough, apparently
     	if(Robot.motor1.getEncPosition()<Robot.motor1.targetEncoderPos+500                &&           Robot.motor1.getEncPosition()>Robot.motor1.targetEncoderPos-500){
     		motorDone1 = true;
@@ -52,5 +54,5 @@ public class HawkDrive {
     	if(motorDone1 && motorDone2){
     		Robot.goingDistance = false;
     	}
-    }  
+    }  */
 }

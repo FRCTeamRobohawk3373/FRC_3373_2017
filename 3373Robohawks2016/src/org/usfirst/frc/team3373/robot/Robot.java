@@ -1,5 +1,12 @@
 
 package org.usfirst.frc.team3373.robot;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 //AUTHOR Alex Iasso and Dillon Rose
 import edu.wpi.first.wpilibj.AnalogInput;
 
@@ -35,6 +42,27 @@ public class Robot extends IterativeRobot {
 	
 	static boolean manualArm = false;
 	
+	InputStream input = null;
+	Properties prop = new Properties();
+	
+	int motorMin1;
+	int motorMax1;
+	int motorMaxPercent1;
+	int motorMinPercent1;
+	
+	int motorMin2;
+	int motorMax2;
+	int motorMaxPercent2;
+	int motorMinPercent2;
+	
+	int motorMin3;
+	int motorMax3;
+	int motorMaxPercent3;
+
+
+
+
+	
 //	int counter;
 	
 	
@@ -63,6 +91,12 @@ public class Robot extends IterativeRobot {
     boolean Shooting = false;
     
     static boolean goingDistance = false;
+    
+    
+    
+    
+    
+    
 //	Timer robotTimer;
 	//AxisCamera camera;
 
@@ -74,17 +108,44 @@ public class Robot extends IterativeRobot {
      * used for any initialization code
      */
     public void robotInit() {
-
     	
-		System.out.println("Soup.");
+    	try {                                                                          //Read config file
+			input = new FileInputStream("/home/lvuser/config.properties");
+			prop.load(input);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+     
+     motorMin1 = Integer.parseInt(prop.getProperty("motorMin1"));
+   	 motorMax1 = Integer.parseInt(prop.getProperty("motorMax1"));
+   	 motorMaxPercent1 = 100;
+   	 motorMinPercent1 = 0;
+   	
+   	 motorMin2 = Integer.parseInt(prop.getProperty("motorMin2"));
+   	 motorMax2 = Integer.parseInt(prop.getProperty("motorMax2"));
+   	 motorMaxPercent2 = 100;
+   	 motorMinPercent2 = 0;
+   	
+   /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
+   	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
+   	 motorMaxPercent3 = 100;*/
+    	
+		//System.out.println("Soup.");
+		
+	
+
+		// load a properties file
+
     	
     	
    // 	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	motor1 = new HawkSuperMotor(1, 0, 7000);
-    	motor2 = new HawkSuperMotor(2, 0, 7000);
-    	motor3 = new HawkSuperMotor(3, 0, 14000);
+    	motor1 = new HawkSuperMotor(1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1);                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
+    	motor2 = new HawkSuperMotor(2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2);
+    //	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
     	calibrator = new SuperJoystick(2);
@@ -99,8 +160,9 @@ public class Robot extends IterativeRobot {
 
     	}
 
-    
-    /**
+
+
+	/**
      * This function is run once each time the robot enters autonomous mode
      */
     public void autonomousInit() {
@@ -526,8 +588,13 @@ public class Robot extends IterativeRobot {
     	if(eights.get()){
     		index -= 8;
     	}
-    	switch(index){
+    	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
+    		//TEST CODE HERE!
+    		
+    		
+    		
+    		
     	break;
     	case 1:
     		HawkCalibration.calibrate(1);
@@ -570,11 +637,9 @@ public class Robot extends IterativeRobot {
     	break;
     	case 14:
     		HawkCalibration.calibrate(14);
-    		System.out.println("14");
     	break;
     	case 15:
     		HawkCalibration.calibrate(15);
-    		System.out.println("15");
     	break;
     	}
 		}

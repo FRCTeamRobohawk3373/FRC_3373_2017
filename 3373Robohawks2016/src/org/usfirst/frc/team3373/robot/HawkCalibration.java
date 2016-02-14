@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HawkCalibration {
 	
-	static double rangeMin;
-	static double rangeMax;
+	static int rangeMin;
+	static int rangeMax;
 	
 	static double calibrationLeftY;
 	
