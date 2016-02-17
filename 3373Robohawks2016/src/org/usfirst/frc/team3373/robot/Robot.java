@@ -120,6 +120,9 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	
+    	
+    	boolean initializingMotors = true;
+    	
     	try {                                                                          //Read config file
 			input = new FileInputStream("/home/lvuser/config.properties");
 			prop.load(input);
@@ -175,7 +178,31 @@ public class Robot extends IterativeRobot {
         eights = new DigitalInput(9);
    // 	counter = 0;
     //	robotTimer = new Timer();
-
+        
+        
+        while(initializingMotors){
+        	if(!motor1.isRevLimitSwitchClosed()){
+        		motor1.set(-.2);
+        	}else{
+        		motor1.setPosition(0);
+        	}
+        	if(!motor2.isRevLimitSwitchClosed()){
+        		motor2.set(-.2);
+        	}else{
+        		motor2.setPosition(0);
+        	}
+        	if(/*all limit switches closed*/motor1.isRevLimitSwitchClosed() && motor2.isRevLimitSwitchClosed()){
+        		initializingMotors = false;
+        	}
+        	try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        
     	}
 
 
