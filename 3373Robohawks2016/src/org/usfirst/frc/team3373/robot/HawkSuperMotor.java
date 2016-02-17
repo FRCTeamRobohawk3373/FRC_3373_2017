@@ -25,7 +25,7 @@ public class HawkSuperMotor extends CANTalon {
 		currentSpeed = 0.0;
 		maxPercentSpeed = maxPercent;
 		minPercentSpeed = minPercent;
-		currentEncHeight = (getEncPosition()/range);
+	//	currentEncHeight = (getEncPosition()/range);
 	}
 	public void setScaled(double speed){
 		set(speed*(maxPercentSpeed/100));

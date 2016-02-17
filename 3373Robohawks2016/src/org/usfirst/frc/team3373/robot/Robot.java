@@ -180,7 +180,7 @@ public class Robot extends IterativeRobot {
     //	robotTimer = new Timer();
         
         
-        while(initializingMotors){
+  /*      while(initializingMotors){
         	if(!motor1.isRevLimitSwitchClosed()){
         		motor1.set(-.2);
         	}else{
@@ -191,7 +191,7 @@ public class Robot extends IterativeRobot {
         	}else{
         		motor2.setPosition(0);
         	}
-        	if(/*all limit switches closed*/motor1.isRevLimitSwitchClosed() && motor2.isRevLimitSwitchClosed()){
+        	if(motor1.isRevLimitSwitchClosed() && motor2.isRevLimitSwitchClosed()){  //When all closed
         		initializingMotors = false;
         	}
         	try {
@@ -201,7 +201,7 @@ public class Robot extends IterativeRobot {
 				e.printStackTrace();
 			}
         }
-        
+        */
         
     	}
 
@@ -643,25 +643,10 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
+    		System.out.println("Fwd:  " + motor2.isFwdLimitSwitchClosed());
+    		System.out.println("Rev:  " + motor2.isRevLimitSwitchClosed());
     		/**TEST CODE HERE!**/
-    		
-    		dual1.goToHeight(3);
-    	/*	motor1.goToHeight(1);
-    		SmartDashboard.putNumber("Motor1 target: ", motor1.targetEncoderPos);
-    		SmartDashboard.putNumber("Motor1 current: ", motor1.getEncPosition());
-    		System.out.println("Target:                   " + motor1.targetEncoderPos);
-    		System.out.println(motor1.getEncPosition());*/
- /*   		motor2.goToHeight(9);
-    		SmartDashboard.putNumber("Motor2 target: ", motor2.targetEncoderPos);
-    		SmartDashboard.putNumber("Motor2 current: ", motor2.getEncPosition());
-    		System.out.println("Target:                                                  " + motor2.targetEncoderPos);
-    		System.out.println("Current:                                                " + motor2.getEncPosition());
-    		System.out.println("Speed: " + motor2.currentSpeed);*/
-    	//	motor2.set(1);
-    		System.out.print("Motor 1 Target:                      " + dual1.motor1.targetEncoderPos);
-    		System.out.println("Motor2 Target:   " + dual1.motor2.targetEncoderPos);
-    		System.out.print("Motor 1 Position:                      " + dual1.motor1.getEncPosition());
-    		System.out.println("Motor2 Position:   " + dual1.motor2.getEncPosition());
+    		HawkDrive.main(null);
     		
     	break;
     	case 1:
