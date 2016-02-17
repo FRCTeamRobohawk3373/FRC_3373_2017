@@ -23,7 +23,7 @@ public class HawkCalibration {
 //		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
 		SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
 		
-		if(Robot.calibrator.isAPushed()){
+		if(calibMotor.isRevLimitSwitchClosed()){
 			calibMotor.set(0);
 			try {
 				Thread.sleep(250);
@@ -39,7 +39,9 @@ public class HawkCalibration {
 				e.printStackTrace();
 			}
 			rangeMin = calibMotor.getEncPosition();
-			Robot.calibrator.clearA();
+			while(calibMotor.isRevLimitSwitchClosed()){
+			calibMotor.set(.2);
+			}
 		}
 		if(Robot.calibrator.isYPushed()){
 			calibMotor.set(0);

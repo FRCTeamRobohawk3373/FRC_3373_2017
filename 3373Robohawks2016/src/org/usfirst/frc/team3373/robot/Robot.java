@@ -27,6 +27,8 @@ import edu.wpi.first.wpilibj.CANTalon;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	
+	static double inches;
 	RobotDrive myRobot;
 	int autoLoopCounter;
 	DigitalInput limitSwitch;
@@ -581,6 +583,8 @@ public class Robot extends IterativeRobot {
 
 	@SuppressWarnings("deprecation")
     public void testInit(){
+		SmartDashboard.putNumber("Height: ", 9);
+		inches = 1;
     	
 
 
@@ -591,6 +595,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	
+    	inches = SmartDashboard.getNumber("Height: ");
+    	
 		int index = 15;//for testing purposes
     	if(ones.get()){
     		index -= 1;
@@ -611,7 +618,7 @@ public class Robot extends IterativeRobot {
     	case 0:
     		/**TEST CODE HERE!**/
     		
-    		dual1.goToHeight(9);
+    		dual1.goToHeight(3);
     	/*	motor1.goToHeight(1);
     		SmartDashboard.putNumber("Motor1 target: ", motor1.targetEncoderPos);
     		SmartDashboard.putNumber("Motor1 current: ", motor1.getEncPosition());
