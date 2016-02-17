@@ -13,7 +13,6 @@ public class HawkActuator extends HawkSuperMotor  {
 		pot = new AnalogInput(potID);
 	}
 	public void set(double speed){
-	if(!isFwdLimitSwitchClosed() || !isRevLimitSwitchClosed()){
 		System.out.println(pot.getValue());
 		if(pot.getValue() > maxPotValue){
 			super.set(-1);
@@ -24,14 +23,6 @@ public class HawkActuator extends HawkSuperMotor  {
 		else{
 			super.set(speed);
 			}
-		}
-	else if(isFwdLimitSwitchClosed()){
-		super.EmergencyMotorStop();
-		super.set(-1);
-	}
-	else if(isRevLimitSwitchClosed()){
-		super.EmergencyMotorStop();
-		super.set(1);
-	}
 	}
 }
+
