@@ -18,8 +18,8 @@ public class CalibrationPrinter {
 		
 	output = new FileOutputStream("/home/lvuser/config.properties");
 	
-	prop.setProperty("motorMin" + HawkCalibration.ID, Double.toString(HawkCalibration.rangeMin));
-	prop.setProperty("motorMax" + HawkCalibration.ID, Double.toString(HawkCalibration.rangeMax));
+	prop.setProperty("motorMin" + HawkCalibration.ID, Integer.toString(HawkCalibration.rangeMin));
+	prop.setProperty("motorMax" + HawkCalibration.ID, Integer.toString(HawkCalibration.rangeMax));
 	
 	prop.store(output, null);
 	

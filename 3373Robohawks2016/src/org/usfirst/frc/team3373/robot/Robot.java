@@ -34,6 +34,7 @@ public class Robot extends IterativeRobot {
 	//static limitSwitch limitSwitch1;
 	static HawkSuperMotor motor1;
 	static HawkSuperMotor motor2;
+//	static CANTalon motor2;
 	static HawkSuperMotor motor3;
 	
 	static HawkSuperDualMotor dual1;
@@ -53,6 +54,7 @@ public class Robot extends IterativeRobot {
 	int motorMaxPercent1;
 	int motorMinPercent1;
 	double motorTravelRange1;
+	double maxSpeedChange1;
 	
 	int motorID2;
 	int motorMin2;
@@ -60,6 +62,7 @@ public class Robot extends IterativeRobot {
 	int motorMaxPercent2;
 	int motorMinPercent2;
 	double motorTravelRange2;
+	double maxSpeedChange2;
 	
 	int motorMin3;
 	int motorMax3;
@@ -129,6 +132,7 @@ public class Robot extends IterativeRobot {
    	 motorMaxPercent1 = 100;
    	 motorMinPercent1 = 0;
    	 motorTravelRange1 = 12;
+   	 maxSpeedChange1 = .02;
    	
    	 motorID2 = 2;
    	 motorMin2 = Integer.parseInt(prop.getProperty("motorMin2"));
@@ -136,6 +140,7 @@ public class Robot extends IterativeRobot {
    	 motorMaxPercent2 = 100;
    	 motorMinPercent2 = 0;
    	 motorTravelRange2 = 12;
+   	 maxSpeedChange2 = .02;
    	
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -152,9 +157,10 @@ public class Robot extends IterativeRobot {
    // 	stick = new SuperJoystick(0);
     	limitSwitch = new DigitalInput(0);
     	pot = new AnalogInput(0);
-    	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1);                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
-    	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2);
-    	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2);
+    	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1);                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
+    	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
+    	//motor2 = new CANTalon(2);
+    	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
     //	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
@@ -599,15 +605,29 @@ public class Robot extends IterativeRobot {
     		index -= 8;
     	}
     	
-    	
+ //   	System.out.println(index);
     	
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		//TEST CODE HERE!
-    		dual1.goToHeight(3);
-    		System.out.println(dual1.motor1.currentEncHeight);
-    		System.out.println(dual1.motor1.currentEncHeight);
+    		/**TEST CODE HERE!**/
     		
+    		dual1.goToHeight(9);
+    	/*	motor1.goToHeight(1);
+    		SmartDashboard.putNumber("Motor1 target: ", motor1.targetEncoderPos);
+    		SmartDashboard.putNumber("Motor1 current: ", motor1.getEncPosition());
+    		System.out.println("Target:                   " + motor1.targetEncoderPos);
+    		System.out.println(motor1.getEncPosition());*/
+ /*   		motor2.goToHeight(9);
+    		SmartDashboard.putNumber("Motor2 target: ", motor2.targetEncoderPos);
+    		SmartDashboard.putNumber("Motor2 current: ", motor2.getEncPosition());
+    		System.out.println("Target:                                                  " + motor2.targetEncoderPos);
+    		System.out.println("Current:                                                " + motor2.getEncPosition());
+    		System.out.println("Speed: " + motor2.currentSpeed);*/
+    	//	motor2.set(1);
+    		System.out.print("Motor 1 Target:                      " + dual1.motor1.targetEncoderPos);
+    		System.out.println("Motor2 Target:   " + dual1.motor2.targetEncoderPos);
+    		System.out.print("Motor 1 Position:                      " + dual1.motor1.getEncPosition());
+    		System.out.println("Motor2 Position:   " + dual1.motor2.getEncPosition());
     		
     	break;
     	case 1:

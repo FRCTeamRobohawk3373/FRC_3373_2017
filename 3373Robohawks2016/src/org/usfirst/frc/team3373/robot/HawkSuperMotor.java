@@ -11,7 +11,6 @@ public class HawkSuperMotor extends CANTalon {
 	double currentEncHeight;           //How far out of its travel it is
 	int maxPercentSpeed;
 	int minPercentSpeed;
-	public HawkSuperMotor(int deviceNumber, int encoderMin, int encoderMax, int maxPercent, int minPercent, double travelRange) {
 	double maxDelta;
 	double currentSpeed;
 	//max speed change = maximum speed change between iterations
@@ -38,9 +37,13 @@ public class HawkSuperMotor extends CANTalon {
 			setScaled(-.1);
 		}else if(getEncPosition()>rangeMax+1){                       //Prevents the motor from hitting or passing its upper limit
 			setScaled(.1);
-		}else if(getEncPosition()>targetEncoderPos+50){
+		}else if(getEncPosition()<targetEncoderPos+300 && getEncPosition() >targetEncoderPos+50){
+			setScaled(.1);
+		}else if(getEncPosition()>targetEncoderPos+300){
 			setScaled(.5);
-		}else if(getEncPosition()<targetEncoderPos-50){
+		}else if(getEncPosition()>targetEncoderPos-300 && getEncPosition() < targetEncoderPos-50){
+			setScaled(-.1);
+		}else if(getEncPosition()< targetEncoderPos-300){
 			setScaled(-.5);
 		}else{
 			setScaled(0);
@@ -63,7 +66,7 @@ public class HawkSuperMotor extends CANTalon {
 	public void set(double speed){
 		//If the change in speed is greater than max delta, reduce the change to max delta
 		double currentDelta = Math.abs(currentSpeed - speed);
-		System.out.println(currentSpeed + " " + currentDelta);
+//		System.out.println(currentSpeed + " " + currentDelta);
 		if(currentDelta > maxDelta){
 			if(speed > currentSpeed){
 				speed = currentSpeed + maxDelta;
@@ -72,7 +75,7 @@ public class HawkSuperMotor extends CANTalon {
 				speed = currentSpeed - maxDelta;
 			}
 		}
-		System.out.println("Speed:" + speed);
+	//	System.out.println("Speed:" + speed);
 		currentSpeed = speed;
 		super.set(speed);
 	}
