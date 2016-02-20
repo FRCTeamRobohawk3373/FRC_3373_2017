@@ -10,19 +10,19 @@ public class HawkSuperDualMotor{
 		motor2 = new HawkSuperMotor(deviceNumber2, encoderMin2, encoderMax2, maxPercent2, minPercent2, travelRange2, maxSpeedChange2);
 	}
 	public void goToHeight(double targetHeight){
-		if(!(motor1.currentEncHeight>motor2.currentEncHeight+100)&& !(motor2.currentEncHeight>motor1.currentEncHeight+100)){
+		if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
 		motor1.goToHeight(targetHeight);
 		motor2.goToHeight(targetHeight);
-		}else if(motor1.currentEncHeight>motor2.currentEncHeight+100 && motor1.getSpeed()>=0){
+		}else if(motor1.currentHeight>motor2.currentHeight+.02 && motor1.getSpeed()>=0){
 			motor1.set(.4);
 			motor2.set(.5);
-		}else if(motor2.currentEncHeight>motor1.currentEncHeight+100 && motor2.getSpeed()>=0){
+		}else if(motor2.currentHeight>motor1.currentHeight+.02 && motor2.getSpeed()>=0){
 			motor2.set(.4);
 			motor1.set(.5);
-		}else if(motor1.currentEncHeight<motor2.currentEncHeight-100 && motor1.getSpeed()<=0){
+		}else if(motor1.currentHeight<motor2.currentHeight-.02 && motor1.getSpeed()<=0){
 			motor1.set(-.4);
 			motor2.set(-.5);
-		}else if(motor2.currentEncHeight<motor1.currentEncHeight-100 && motor2.getSpeed()<=0){
+		}else if(motor2.currentHeight<motor1.currentHeight-.02 && motor2.getSpeed()<=0){
 			motor2.set(-.4);
 			motor1.set(-.5);
 		}
