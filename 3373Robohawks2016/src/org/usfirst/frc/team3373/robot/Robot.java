@@ -417,74 +417,10 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	int index = 15;//for different autonomous modes
-    	if(ones.get()){
-    		index -= 1;
-    	}
-    	if(twos.get()){
-    		index -= 2;
-    	}
-    	if(fours.get()){
-    		index -= 4;
-    	}
-    	if(eights.get()){
-    		index -= 8;
-    	}
     	autoLoopCounter++;
     	//drive for 2 seconds
-    	switch(index){
-    	case 0:
-    	if(autoLoopCounter < 100){
+    	if(autoLoopCounter<100){
     		hawkDrive.wheelControl(1, 1, false, false);
-    	} else{
-    		hawkDrive.wheelControl(0, 0, false, false);
-    		}
-    	break;
-    	case 1:
-    		
-    	break;
-    	case 2:
-    		
-    	break;
-    	case 3:
-    		
-    	break;
-    	case 4:
-    		
-    	break;
-    	case 5:
-    		
-    	break;
-    	case 6:
-    		
-    	break;
-    	case 7:
-
-    	break;
-    	case 8:
-    		
-    	break;
-    	case 9:
-    		
-    	break;
-    	case 10:
-    		
-    	break;
-    	case 11:
-
-    	break;
-    	case 12:
-    		
-    	break;
-    	case 13:
-
-    	break;
-    	case 14:
-    		
-    	break;
-    	case 15:
-    	
-    	break;
     	}
     	
     	/*if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
@@ -929,7 +865,21 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		System.out.println(motor1.getEncPosition());
+    		if(shooter.getRawAxis(Ltrigger)>0.02){
+				dual1.manualDown();
+			//	dual2.manualDown();
+			}else if(shooter.getRawAxis(Rtrigger)>0.02){
+				dual1.manualUp();
+			//	dual2.manualUp();
+			}else if(false){
+				//PUT PRESET ARM CONTROLS HERE!!!
+			}else{
+				dual1.set(0);
+			//	dual2.set(0);
+			//	System.out.println("Soup.");
+			//	dual1.set(0);
+				System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
+		}
     	break;
     	case 1:
     		calibrate(1);
