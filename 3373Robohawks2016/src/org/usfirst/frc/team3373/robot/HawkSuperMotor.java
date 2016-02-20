@@ -3,12 +3,12 @@ package org.usfirst.frc.team3373.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 
 public class HawkSuperMotor extends CANTalon {
-	double range;
+	double range = 12;
 	double rangeMin;
 	double rangeMax;
 	double travel;
 	double targetEncoderPos;
-	double currentEncHeight;           //How far out of its travel it is
+	double currentEncHeight = 1;           //How far out of its travel it is
 	int maxPercentSpeed;
 	int minPercentSpeed;
 	double maxDelta;
@@ -25,7 +25,7 @@ public class HawkSuperMotor extends CANTalon {
 		currentSpeed = 0.0;
 		maxPercentSpeed = maxPercent;
 		minPercentSpeed = minPercent;
-	//	currentEncHeight = (getEncPosition()/range);
+		currentEncHeight = ((getEncPosition()/range)/travel);
 	}
 	public void setScaled(double speed){
 		set(speed*(maxPercentSpeed/100));

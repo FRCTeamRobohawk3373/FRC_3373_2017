@@ -32,10 +32,10 @@ public class HawkSuperDualMotor{
 		motor2.set(speed);
 	}
 	public void manualUp(){
-		
+		goToHeight(motor1.travel);
 	}
 	public void manualDown(){
-		
+		goToHeight(0);
 	}
 
 }

@@ -684,6 +684,7 @@ public class Robot extends IterativeRobot {
     	motor1.disable();
     	motor2.disable();
     	}
+    	}
    	}
    }
     
