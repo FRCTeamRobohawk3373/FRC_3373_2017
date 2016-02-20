@@ -236,7 +236,7 @@ public class Robot extends IterativeRobot {
    	 motorMinPercent2 = 0;
    	 motorTravelRange2 = 12;
    	 maxSpeedChange2 = .02;
-   	 
+  /* 	 
      motorID3 = 3;
      motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -333,6 +333,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange14 = 12;
    	 maxSpeedChange14 = .02;
    	
+   	*/
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
    	 motorMaxPercent3 = 100;*/
@@ -864,21 +865,7 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		if(shooter.getRawAxis(Ltrigger)>0.02){
-				dual1.manualDown();
-			//	dual2.manualDown();
-			}else if(shooter.getRawAxis(Rtrigger)>0.02){
-				dual1.manualUp();
-			//	dual2.manualUp();
-			}else if(false){
-				//PUT PRESET ARM CONTROLS HERE!!!
-			}else{
-				dual1.set(0);
-			//	dual2.set(0);
-			//	System.out.println("Soup.");
-			//	dual1.set(0);
-				System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
-			}
+    		System.out.println(motor1.getEncPosition());
     	break;
     	case 1:
     		calibrate(1);
