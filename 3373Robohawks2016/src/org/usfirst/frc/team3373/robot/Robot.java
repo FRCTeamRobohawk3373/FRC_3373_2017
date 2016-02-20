@@ -417,10 +417,74 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	int index = 15;//for different autonomous modes
+    	if(ones.get()){
+    		index -= 1;
+    	}
+    	if(twos.get()){
+    		index -= 2;
+    	}
+    	if(fours.get()){
+    		index -= 4;
+    	}
+    	if(eights.get()){
+    		index -= 8;
+    	}
     	autoLoopCounter++;
     	//drive for 2 seconds
-    	if(autoLoopCounter<100){
+    	switch(index){
+    	case 0:
+    	if(autoLoopCounter < 100){
     		hawkDrive.wheelControl(1, 1, false, false);
+    	} else{
+    		hawkDrive.wheelControl(0, 0, false, false);
+    		}
+    	break;
+    	case 1:
+    		
+    	break;
+    	case 2:
+    		
+    	break;
+    	case 3:
+    		
+    	break;
+    	case 4:
+    		
+    	break;
+    	case 5:
+    		
+    	break;
+    	case 6:
+    		
+    	break;
+    	case 7:
+
+    	break;
+    	case 8:
+    		
+    	break;
+    	case 9:
+    		
+    	break;
+    	case 10:
+    		
+    	break;
+    	case 11:
+
+    	break;
+    	case 12:
+    		
+    	break;
+    	case 13:
+
+    	break;
+    	case 14:
+    		
+    	break;
+    	case 15:
+    	
+    	break;
     	}
     	
     	/*if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
