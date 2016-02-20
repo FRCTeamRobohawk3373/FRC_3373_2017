@@ -418,19 +418,60 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	autoLoopCounter++;
-    	//drive for 2 seconds
-    	if(autoLoopCounter<100){
+    	switch(index){
+    	case 0:
+    	if(autoLoopCounter < 100){
     		hawkDrive.wheelControl(1, 1, false, false);
+    	} else{
+    		hawkDrive.wheelControl(0, 0, false, false);
+    		}
+    	break;
+    	case 1:
+    		
+    	break;
+    	case 2:
+    		
+    	break;
+    	case 3:
+    		
+    	break;
+    	case 4:
+    		
+    	break;
+    	case 5:
+    		
+    	break;
+    	case 6:
+    		
+    	break;
+    	case 7:
+
+    	break;
+    	case 8:
+    		
+    	break;
+    	case 9:
+    		
+    	break;
+    	case 10:
+    		
+    	break;
+    	case 11:
+
+    	break;
+    	case 12:
+    		
+    	break;
+    	case 13:
+
+    	break;
+    	case 14:
+    		
+    	break;
+    	case 15:
+    		
+    	break; 
     	}
-    	
-    	/*if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
-		{
-			myRobot.drive(-0.5, 0.0); 	// drive forwards half speed
-			autoLoopCounter++;
-			} else {
-			myRobot.drive(0.0, 0.0); 	// stop robot
-		}
-		*/
     }
     /**
      * This function is called once each time the robot enters teleoperated mode
