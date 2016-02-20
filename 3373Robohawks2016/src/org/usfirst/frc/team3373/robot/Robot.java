@@ -580,6 +580,20 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterRS = false;
     				}
     			}
+    			if(shooter.getRawAxis(Ltrigger)>0.02){
+    				dual1.manualDown();
+    			//	dual2.manualDown();
+    			}else if(shooter.getRawAxis(Rtrigger)>0.02){
+    				dual1.manualUp();
+    			//	dual2.manualUp();
+    			}else if(false){
+    				//PUT PRESET ARM CONTROLS HERE!!!
+    			}else{
+    				dual1.set(0);
+    			//	dual2.set(0);
+    			//	System.out.println("Soup.");
+    			//	dual1.set(0);
+    				System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
     		}
     				
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
@@ -606,6 +620,7 @@ public class Robot extends IterativeRobot {
     	}else{
     	motor1.disable();
     	motor2.disable();
+    	}
     	}
 
     }
@@ -649,32 +664,21 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		System.out.println("Fwd:  " + motor2.isFwdLimitSwitchClosed());
-    		System.out.println("Rev:  " + motor2.isRevLimitSwitchClosed());
-    		/**TEST CODE HERE!**/
-
-    		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
-
-    		visionSystem.getDistance();
-
-    	//	dual1.goToHeight(3);
-    	/*	motor1.goToHeight(1);
-    		SmartDashboard.putNumber("Motor1 target: ", motor1.targetEncoderPos);
-    		SmartDashboard.putNumber("Motor1 current: ", motor1.getEncPosition());
-    		System.out.println("Target:                   " + motor1.targetEncoderPos);
-    		System.out.println(motor1.getEncPosition());*/
- /*   		motor2.goToHeight(9);
-    		SmartDashboard.putNumber("Motor2 target: ", motor2.targetEncoderPos);
-    		SmartDashboard.putNumber("Motor2 current: ", motor2.getEncPosition());
-    		System.out.println("Target:                                                  " + motor2.targetEncoderPos);
-    		System.out.println("Current:                                                " + motor2.getEncPosition());
-    		System.out.println("Speed: " + motor2.currentSpeed);*/
-    	//	motor2.set(1);
-    	/*	System.out.print("Motor 1 Target:                      " + dual1.motor1.targetEncoderPos);
-    		System.out.println("Motor2 Target:   " + dual1.motor2.targetEncoderPos);
-    		System.out.print("Motor 1 Position:                      " + dual1.motor1.getEncPosition());
-    		*/ //System.out.println("Motor2 Position:   " + dual1.motor2.getEncPosition());
-
+    		if(shooter.getRawAxis(Ltrigger)>0.02){
+				dual1.manualDown();
+			//	dual2.manualDown();
+			}else if(shooter.getRawAxis(Rtrigger)>0.02){
+				dual1.manualUp();
+			//	dual2.manualUp();
+			}else if(false){
+				//PUT PRESET ARM CONTROLS HERE!!!
+			}else{
+				dual1.set(0);
+			//	dual2.set(0);
+			//	System.out.println("Soup.");
+			//	dual1.set(0);
+				System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
+			}
     	break;
     	case 1:
     		calibrate(1);
