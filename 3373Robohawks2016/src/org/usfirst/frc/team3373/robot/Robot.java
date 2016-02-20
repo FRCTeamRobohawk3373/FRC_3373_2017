@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team3373.robot;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,6 +43,8 @@ public class Robot extends IterativeRobot {
 	static SuperJoystick driver;
 	static SuperJoystick shooter;
 	static SuperJoystick calibrator;
+	
+	HawkDrive hawkDrive;
 	
 	static boolean manualArm = false;
 	
@@ -111,7 +112,7 @@ public class Robot extends IterativeRobot {
 //	Timer robotTimer;
 	//AxisCamera camera;
 
- // 	HawkVision visionSystem = new HawkVision();
+  	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -165,7 +166,7 @@ public class Robot extends IterativeRobot {
     	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1);                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
     	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
     	//motor2 = new CANTalon(2);
-    	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
+    	//dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
     //	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
@@ -176,6 +177,8 @@ public class Robot extends IterativeRobot {
         twos = new DigitalInput(7);
         fours = new DigitalInput(8);
         eights = new DigitalInput(9);
+        
+        HawkDrive hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
         
@@ -218,15 +221,21 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
+    	autoLoopCounter++;
+    	//drive for 2 seconds
+    	if(autoLoopCounter<100){
+    		hawkDrive.wheelControl(1, 1, false, false);
+    	}
+    	
+    	/*if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
 		{
 			myRobot.drive(-0.5, 0.0); 	// drive forwards half speed
 			autoLoopCounter++;
 			} else {
 			myRobot.drive(0.0, 0.0); 	// stop robot
 		}
+		*/
     }
-    
     /**
      * This function is called once each time the robot enters teleoperated mode
      */
@@ -273,7 +282,7 @@ public class Robot extends IterativeRobot {
     		
     		
     		if(CAN){                                                                         //Drive System
-    		HawkDrive.main(null);
+    		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
     		}
     		if(CAN == false){
     			myRobot.tankDrive(driver.getRawAxis(LY), driver.getRawAxis(RY));               //Regular Talon Control
@@ -623,6 +632,8 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     	
+    	
+    	
     	inches = SmartDashboard.getNumber("Height: ");
     	
 		int index = 15;//for testing purposes
@@ -646,8 +657,29 @@ public class Robot extends IterativeRobot {
     		System.out.println("Fwd:  " + motor2.isFwdLimitSwitchClosed());
     		System.out.println("Rev:  " + motor2.isRevLimitSwitchClosed());
     		/**TEST CODE HERE!**/
-    		HawkDrive.main(null);
-    		
+
+    		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
+
+    		visionSystem.getDistance();
+
+    	//	dual1.goToHeight(3);
+    	/*	motor1.goToHeight(1);
+    		SmartDashboard.putNumber("Motor1 target: ", motor1.targetEncoderPos);
+    		SmartDashboard.putNumber("Motor1 current: ", motor1.getEncPosition());
+    		System.out.println("Target:                   " + motor1.targetEncoderPos);
+    		System.out.println(motor1.getEncPosition());*/
+ /*   		motor2.goToHeight(9);
+    		SmartDashboard.putNumber("Motor2 target: ", motor2.targetEncoderPos);
+    		SmartDashboard.putNumber("Motor2 current: ", motor2.getEncPosition());
+    		System.out.println("Target:                                                  " + motor2.targetEncoderPos);
+    		System.out.println("Current:                                                " + motor2.getEncPosition());
+    		System.out.println("Speed: " + motor2.currentSpeed);*/
+    	//	motor2.set(1);
+    	/*	System.out.print("Motor 1 Target:                      " + dual1.motor1.targetEncoderPos);
+    		System.out.println("Motor2 Target:   " + dual1.motor2.targetEncoderPos);
+    		System.out.print("Motor 1 Position:                      " + dual1.motor1.getEncPosition());
+    		*/ //System.out.println("Motor2 Position:   " + dual1.motor2.getEncPosition());
+
     	break;
     	case 1:
     		HawkCalibration.calibrate(1);

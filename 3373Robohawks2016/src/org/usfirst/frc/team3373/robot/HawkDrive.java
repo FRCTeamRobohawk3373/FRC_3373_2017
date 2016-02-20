@@ -1,17 +1,16 @@
 package org.usfirst.frc.team3373.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
 
 public class HawkDrive {
 
-	static boolean motorDone1 = false;
+	static boolean motorDone1 = false; //unused currently for goToDistance
 	static boolean motorDone2 = false;
+	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.1);
+	HawkSuperMotor leftDriveMotorBack = new HawkSuperMotor(2,0,0,0,0,0,.1);
+	HawkSuperMotor rightDriveMotorFront = new HawkSuperMotor(3,0,0,0,0,0,.1);
+	HawkSuperMotor rightDriveMotorBack= new HawkSuperMotor(4,0,0,0,0,0,.1);
 	
-	public static void main(String[] args) {
-		wheelControl(Robot.driver.getRawAxis(Robot.LY), Robot.driver.getRawAxis(Robot.RY));
-
-	}	
-    public static void wheelControl(double leftY, double rightY){         // Acceleration and speed calculation
+    public void wheelControl(double leftY, double rightY, boolean turboEnabled, boolean SniperEnabled){         // Acceleration and speed calculation
     	
     	if(leftY >-0.1 && leftY<0.1){
     		leftY = 0;
@@ -20,15 +19,21 @@ public class HawkDrive {
     		rightY = 0;
     	}
     	
-       if(Robot.driver.isLBHeld()){                     
-		Robot.motor1.set(leftY/4);                         // Sets motor speed to the calculated value
-		Robot.motor2.set(rightY/4); 
-       }else if(Robot.driver.isRBHeld()){
-    	   Robot.motor1.set(leftY);
-    	   Robot.motor2.set(rightY);
+       if(SniperEnabled){                     
+    	   leftDriveMotorFront.set(leftY/4);
+    	   leftDriveMotorBack.set(leftY/4);                        // Sets motor speed to the calculated value
+    	   rightDriveMotorFront.set(rightY/4);
+    	   rightDriveMotorBack.set(rightY/4);
+       }else if(turboEnabled){
+    	   leftDriveMotorFront.set(leftY);
+    	   leftDriveMotorBack.set(leftY);
+    	   rightDriveMotorFront.set(rightY);
+    	   rightDriveMotorBack.set(rightY);
        }else{
-    	   Robot.motor1.set(leftY/2);
-    	   Robot.motor2.set(rightY/2);
+    	   leftDriveMotorFront.set(leftY/2);
+    	   leftDriveMotorBack.set(leftY/2);
+    	   rightDriveMotorFront.set(rightY/2);
+    	   rightDriveMotorBack.set(rightY/2);
        }
 		
 	//	myRobot.tankDrive(leftY, rightY);
