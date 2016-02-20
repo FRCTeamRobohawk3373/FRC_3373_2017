@@ -100,7 +100,8 @@ public class HawkVision {
 	//creates unfiltered images
 	
 	
-	public void getVisionImage(){  //this method calls one image and then continually replaces it
+	public double getDistance(){  //this method calls one image and then continually replaces it
+		double distanceToGoal = 0;
 		HSLImage image;
 		frame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
@@ -170,7 +171,7 @@ public class HawkVision {
 				{
 			aspectFormulaUsing=1;
 			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
-			double distanceToGoal = (.0000001237*(scores.Area*scores.Area)-.003096*scores.Area+26.42);
+			distanceToGoal = (.0000001237*(scores.Area*scores.Area)-.003096*scores.Area+26.42);
 			SmartDashboard.putNumber("Distance?",distanceToGoal);
 			System.out.println("Distance?:"+ distanceToGoal);
 				}
@@ -178,7 +179,7 @@ public class HawkVision {
 				{
 			aspectFormulaUsing=2;
 			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
-			double distanceToGoal = (.0000000809*(scores.Area*scores.Area)-.00237*scores.Area+24.54);
+			distanceToGoal = (.0000000809*(scores.Area*scores.Area)-.00237*scores.Area+24.54);
 			SmartDashboard.putNumber("Distance?",distanceToGoal);
 			System.out.println("Distance?:"+ distanceToGoal);
 				}
@@ -186,7 +187,7 @@ public class HawkVision {
 				{
 			aspectFormulaUsing=3;
 			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
-			double distanceToGoal = (.0000000872*(scores.Area*scores.Area)-.00241*scores.Area+25.46);
+			distanceToGoal = (.0000000872*(scores.Area*scores.Area)-.00241*scores.Area+25.46);
 			SmartDashboard.putNumber("Distance?",distanceToGoal);
 			System.out.println("Distance?:"+ distanceToGoal);
 				}
@@ -200,9 +201,6 @@ public class HawkVision {
 		System.out.println("Goal? " + isGoal);
 		frame.free();
 		binaryFrame.free();
-	
+		return distanceToGoal;
 	}		
-	public void getDistance(){
-		
-	}
 }
