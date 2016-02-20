@@ -912,8 +912,8 @@ public class Robot extends IterativeRobot {
 			}else if(shooter.getRawAxis(Rtrigger)>0.02){
 				dual1.manualUp();
 			//	dual2.manualUp();
-			}else if(false){
-				//PUT PRESET ARM CONTROLS HERE!!!
+			}else if(shooter.isAPushed()){
+				
 			}else{
 				dual1.set(0);
 			//	dual2.set(0);
@@ -1089,6 +1089,9 @@ public class Robot extends IterativeRobot {
 				}
 			}
 		}
+	}
+	public void armToHeight(double height){
+		
 	}
 }   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode

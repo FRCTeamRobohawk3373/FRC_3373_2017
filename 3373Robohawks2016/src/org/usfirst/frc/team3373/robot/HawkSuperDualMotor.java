@@ -4,6 +4,7 @@ public class HawkSuperDualMotor{
 
 	HawkSuperMotor motor1;
 	HawkSuperMotor motor2;
+	double height;
 	
 	public HawkSuperDualMotor(int deviceNumber, int encoderMin, int encoderMax, int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int deviceNumber2, int encoderMin2, int encoderMax2, int maxPercent2, int minPercent2, double travelRange2, double maxSpeedChange2) {
 		motor1 = new HawkSuperMotor(deviceNumber, encoderMin, encoderMax, maxPercent, minPercent, travelRange, maxSpeedChange);
@@ -36,6 +37,10 @@ public class HawkSuperDualMotor{
 	}
 	public void manualDown(){
 		goToHeight(0);
+	}
+	public double getHeight(){
+		height = motor1.currentHeight;
+		return height;
 	}
 
 }
