@@ -1090,9 +1090,17 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-	public void armToHeight(double height){
-		
-	}
+/*	public void armToHeight(double targetHeight){
+		if(dual1.getHeight() + dual2.getHeight()<targetHeight-.1){
+			dual1.goToHeight(dual1.motor1.travel);
+			dual2.goToHeight(dual2.motor1.travel);
+		}else if(dual1.getHeight() + dual2.getHeight()>targetHeight+.1){
+			dual1.goToHeight(0);
+			dual2.goToHeight(0);
+		}else{
+			
+		}
+	}*/
 }   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
