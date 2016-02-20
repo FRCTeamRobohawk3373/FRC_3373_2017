@@ -660,12 +660,10 @@ public class Robot extends IterativeRobot {
     		}
     				
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
-    		if(Shooting || !Shooting){
     			if(shooter.isBackHeld()){
     				motor1.set(-1);
     				motor2.set(-1);
     			}
-    		}
     		
     		SmartDashboard.putBoolean("Shooting: ", Shooting);
     		
