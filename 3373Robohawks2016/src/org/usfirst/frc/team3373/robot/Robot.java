@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 //AUTHOR Alex Iasso and Dillon Rose
@@ -27,26 +28,22 @@ import edu.wpi.first.wpilibj.CANTalon;
  */
 public class Robot extends IterativeRobot {
 	
-	static double inches;
+	double inches;
 	RobotDrive myRobot;
 	int autoLoopCounter;
-	DigitalInput limitSwitch;
-	AnalogInput pot;
-	//static limitSwitch limitSwitch1;
-	static HawkSuperMotor motor1;
-	static HawkSuperMotor motor2;
-//	static CANTalon motor2;
-	static HawkSuperMotor motor3;
+	HawkSuperMotor motor1;
+	HawkSuperMotor motor2;
+	HawkSuperMotor motor3;
 	
-	static HawkSuperDualMotor dual1;
+	HawkSuperDualMotor dual1;
 	
-	static SuperJoystick driver;
-	static SuperJoystick shooter;
-	static SuperJoystick calibrator;
+	SuperJoystick driver;
+	SuperJoystick shooter;
+	SuperJoystick calibrator;
 	
 	HawkDrive hawkDrive;
 	
-	static boolean manualArm = false;
+	boolean manualArm = false;
 	
 	InputStream input = null;
 	Properties prop = new Properties();
@@ -87,11 +84,11 @@ public class Robot extends IterativeRobot {
 	int counter;
 //	int i = 0;
 	int LX = 0;
-    static int LY = 1;
+    int LY = 1;
     int Ltrigger = 2;
     int Rtrigger = 3;
     int RX = 4;
-    static int RY = 5;
+    int RY = 5;
     int index;
     
     boolean CAN = true;
@@ -102,7 +99,7 @@ public class Robot extends IterativeRobot {
     
     boolean Shooting = false;
     
-    static boolean goingDistance = false;
+    boolean goingDistance = false;
     
     
     
@@ -161,8 +158,6 @@ public class Robot extends IterativeRobot {
     	
     	
    // 	stick = new SuperJoystick(0);
-    	limitSwitch = new DigitalInput(0);
-    	pot = new AnalogInput(0);
     	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1);                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
     	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
     	//motor2 = new CANTalon(2);
@@ -682,54 +677,174 @@ public class Robot extends IterativeRobot {
 
     	break;
     	case 1:
-    		HawkCalibration.calibrate(1);
+    		calibrate(1);
     	break;
     	case 2:
-    		HawkCalibration.calibrate(2);
+    		calibrate(2);
     	break;
     	case 3:
-    		HawkCalibration.calibrate(3);
+    		calibrate(3);
     	break;
     	case 4:
-    		HawkCalibration.calibrate(4);
+    		calibrate(4);
     	break;
     	case 5:
-    		HawkCalibration.calibrate(5);
+    		calibrate(5);
     	break;
     	case 6:
-    		HawkCalibration.calibrate(6);
+    		calibrate(6);
     	break;
     	case 7:
-    		HawkCalibration.calibrate(7);
+    		calibrate(7);
     	break;
     	case 8:
-    		HawkCalibration.calibrate(8);
+    		calibrate(8);
     	break;
     	case 9:
-    		HawkCalibration.calibrate(9);
+    		calibrate(9);
     	break;
     	case 10:
-    		HawkCalibration.calibrate(10);
+    		calibrate(10);
     	break;
     	case 11:
-    		HawkCalibration.calibrate(11);
+    		calibrate(11);
     	break;
     	case 12:
-    		HawkCalibration.calibrate(12);
+    		calibrate(12);
     	break;
     	case 13:
-    		HawkCalibration.calibrate(13);
+    		calibrate(13);
     	break;
     	case 14:
-    		HawkCalibration.calibrate(14);
+    		calibrate(14);
     	break;
     	case 15:
-    		HawkCalibration.calibrate(15);
+    		calibrate(15);
     	break;
     	}
 		}
-}
-    
+	public void calibrate(int id){
+		int rangeMin=0;
+		int rangeMax=0;
+		double calibrationLeftY;
+		int ID;
+		ID = id;
+		CANTalon calibMotor = new CANTalon(ID);
+		
+		SmartDashboard.putNumber("RangeMin: ", rangeMin);
+		SmartDashboard.putNumber("RangeMax: ", rangeMax);
+//		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
+		SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
+		
+		if(calibMotor.isRevLimitSwitchClosed()){
+			calibMotor.set(0);
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			calibMotor.setPosition(0);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			rangeMin = calibMotor.getEncPosition();
+			while(calibMotor.isRevLimitSwitchClosed()){
+			calibMotor.set(.2);
+			}
+		}
+		if(calibrator.isYPushed()){
+			calibMotor.set(0);
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			rangeMax = calibMotor.getEncPosition();
+			calibrator.clearY();
+		}
+		
+		
+		if(calibrator.getRawAxis(LY) >-0.1 && calibrator.getRawAxis(LY)<0.1){
+    		calibrationLeftY = 0;
+    	}else{
+    		calibrationLeftY = calibrator.getRawAxis(LY);
+    	}
+		calibMotor.set(calibrationLeftY/8);
+		
+		
+		if(calibrator.isStartPushed()){
+			Properties prop = new Properties();
+			OutputStream output = null;
+			InputStream input = null;
+		try{
+			
+			input = new FileInputStream("/home/lvuser/config.properties");
+
+			// load a properties file
+			prop.load(input);
+			
+		output = new FileOutputStream("/home/lvuser/config.properties");
+		
+		prop.setProperty("motorMin" + ID, Integer.toString(rangeMin));
+		prop.setProperty("motorMax" + ID, Integer.toString(rangeMax));
+		
+		prop.store(output, null);
+		
+		System.out.println("POMASOOUPAH! BOI!");
+		
+		}catch (IOException io){
+			io.printStackTrace();
+		}finally {
+			if (output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					}
+				}
+			}
+			calibrator.clearButtons();
+		}
+		if(calibrator.isBackPushed()){
+			Properties prop = new Properties();
+			InputStream input = null;
+
+			try {
+
+				input = new FileInputStream("/home/lvuser/config.properties");
+
+				// load a properties file
+				prop.load(input);
+
+				// get the property value and print it out
+				System.out.println("Motor 1 min: ");
+				System.out.println(prop.getProperty("motorMin1"));
+				System.out.println("Motor 1 max: ");
+				System.out.println(prop.getProperty("motorMax1"));
+				System.out.println("Motor 2 min: ");
+				System.out.println(prop.getProperty("motorMin2"));
+				System.out.println("Motor 2 max: ");
+				System.out.println(prop.getProperty("motorMax2"));
+
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			} finally {
+				if (input != null) {
+					try {
+						input.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+}   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
     
