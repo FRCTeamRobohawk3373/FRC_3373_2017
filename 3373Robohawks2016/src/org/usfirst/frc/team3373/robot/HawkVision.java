@@ -82,7 +82,8 @@ public class HawkVision {
 	int imaqError;
 
 	//Variables
-	NIVision.Range GOAL_HUE_RANGE = new NIVision.Range(100, 155);	//Default hue range for goal frame
+	//just a standard range to be reset later
+	NIVision.Range GOAL_HUE_RANGE = new NIVision.Range(0, 255);	//Default hue range for goal frame
 	NIVision.Range GOAL_SAT_RANGE = new NIVision.Range(0, 255);	//Default saturation range for goal frame
 	NIVision.Range GOAL_VAL_RANGE = new NIVision.Range(0, 255);	//Default value range for goal frame
 	double AREA_MINIMUM = 0.1; //Default Area minimum for particle as a percentage of total image area
@@ -116,11 +117,11 @@ public class HawkVision {
 		NIVision.imaqReadFile(frame, "/home/lvuser/image.jpg");
 
 		//sets ranges to filter on
-		GOAL_HUE_RANGE.minValue = 95;
-		GOAL_HUE_RANGE.maxValue = 161;
-		GOAL_SAT_RANGE.minValue = 215;
+		GOAL_HUE_RANGE.minValue = 91;
+		GOAL_HUE_RANGE.maxValue = 162;
+		GOAL_SAT_RANGE.minValue = 120;
 		GOAL_SAT_RANGE.maxValue = 255;
-		GOAL_VAL_RANGE.minValue = 215;
+		GOAL_VAL_RANGE.minValue = 160;
 		GOAL_VAL_RANGE.maxValue = 255;
 
 		//Threshold the image looking for green (GOAL color)
@@ -162,7 +163,7 @@ public class HawkVision {
 		System.out.println("Aspect " + scores.Aspect);
 		scores.Area = AreaScore(particles.elementAt(0));
 		System.out.println("Area " + scores.Area);
-		isGoal = scores.Aspect > SCORE_MIN && scores.Area > 3000;
+		isGoal = scores.Aspect > SCORE_MIN && scores.Area > 1500;
 		SmartDashboard.putNumber("Aspect" , scores.Aspect);
 		SmartDashboard.putNumber("Area", scores.Area);
 		//picks an area to distance equation to use based on aspect
@@ -175,7 +176,7 @@ public class HawkVision {
 			SmartDashboard.putNumber("Distance?",distanceToGoal);
 			System.out.println("Distance?:"+ distanceToGoal);
 				}
-		else if(scores.Aspect<31 && scores.Aspect>25)
+		else if(scores.Aspect<31 && scores.Aspect>29)
 				{
 			aspectFormulaUsing=2;
 			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
@@ -183,14 +184,15 @@ public class HawkVision {
 			SmartDashboard.putNumber("Distance?",distanceToGoal);
 			System.out.println("Distance?:"+ distanceToGoal);
 				}
-		else if(scores.Aspect<=25)
-				{
+		else if(scores.Aspect<=29)
+			{
 			aspectFormulaUsing=3;
 			SmartDashboard.putNumber("Aspect Formula In Use:", aspectFormulaUsing);
-			distanceToGoal = (.0000000872*(scores.Area*scores.Area)-.00241*scores.Area+25.46);
+			distanceToGoal = (-.00000002553179*(scores.Area*scores.Area)-.0001366242*scores.Area+9.650233119);
 			SmartDashboard.putNumber("Distance?",distanceToGoal);
 			System.out.println("Distance?:"+ distanceToGoal);
-				}
+		}
+
 		}else{
 		 isGoal = false;
 		 SmartDashboard.putNumber("Area", 0);
