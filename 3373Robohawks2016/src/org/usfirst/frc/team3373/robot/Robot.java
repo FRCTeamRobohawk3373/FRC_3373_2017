@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CameraServer;
 
 //@author Joey Dyer, Drew Marino, Alex Iasso, Dillon Rose
 
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj.CANTalon;
  */
 public class Robot extends IterativeRobot {
 	
+	CameraServer server;
 	double inches;
 	RobotDrive myRobot;
 	int autoLoopCounter;
@@ -162,7 +164,6 @@ public class Robot extends IterativeRobot {
 
 
 
-
 	
 //	int counter;
 	
@@ -220,6 +221,7 @@ public class Robot extends IterativeRobot {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    
 
      motorID1 = 1;
      motorMin1 = Integer.parseInt(prop.getProperty("motorMin1"));
@@ -236,7 +238,7 @@ public class Robot extends IterativeRobot {
    	 motorMinPercent2 = 0;
    	 motorTravelRange2 = 12;
    	 maxSpeedChange2 = .02;
-  /* 	 
+   	 /*
      motorID3 = Integer.parseInt(prop.getProperty("motorID3"));
      motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -332,7 +334,6 @@ public class Robot extends IterativeRobot {
    	 motorMinPercent14 = Integer.parseInt(prop.getProperty("motorMinPercent14"));
    	 motorTravelRange14 = Integer.parseInt(prop.getProperty("motorTravelRange14"));
    	 maxSpeedChange14 = Integer.parseInt(prop.getProperty("maxSpeedChange14"));
-   	
    	*/
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -362,7 +363,7 @@ public class Robot extends IterativeRobot {
     	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14);
     	*/
     	//motor2 = new CANTalon(2);
-    	//dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
+    	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2);
     //	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
@@ -374,7 +375,7 @@ public class Robot extends IterativeRobot {
         fours = new DigitalInput(8);
         eights = new DigitalInput(9);
         
-        HawkDrive hawkDrive = new HawkDrive();
+        //HawkDrive hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
         
@@ -401,6 +402,9 @@ public class Robot extends IterativeRobot {
 			}
         }
         */
+        server = CameraServer.getInstance();
+        server.setQuality(50);
+        server.startAutomaticCapture("cam1");
         
     	}
 
