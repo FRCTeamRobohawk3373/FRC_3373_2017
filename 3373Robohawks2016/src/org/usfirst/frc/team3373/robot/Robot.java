@@ -223,6 +223,47 @@ public class Robot extends IterativeRobot {
 		}
     
 
+ /*   	
+     motorID7 = 7;
+  //   motorMin7 = Integer.parseInt(prop.getProperty("motorMin7"));
+  //   motorMax7 = Integer.parseInt(prop.getProperty("motorMax7"));
+     motorMin7 = 0;
+     motorMax7 = 100000;
+     motorMaxPercent7 = 100;
+     motorMinPercent7 = 10;
+  //   motorTravelRange7 = Integer.parseInt(prop.getProperty("motorTravelRange7"));
+     motorTravelRange7 = 48;
+     maxSpeedChange7 = .02;
+    	
+     motorID9 = 9;
+  //   motorMin9 = Integer.parseInt(prop.getProperty("motorMin9"));
+  // 	 motorMax9 = Integer.parseInt(prop.getProperty("motorMax9"));
+     motorMin9 = 0;
+     motorMax9 = 100000;
+   	 motorMaxPercent9 = 100;
+   	 motorMinPercent9 = 10;
+ //  	 motorTravelRange9 = Integer.parseInt(prop.getProperty("motorTravelRange9"));
+   	 motorTravelRange9 = 48;
+   	 maxSpeedChange9 = .02;
+    	
+    	
+    	
+    	
+    	*/
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
      motorID1 = 1;
      motorMin1 = Integer.parseInt(prop.getProperty("motorMin1"));
    	 motorMax1 = Integer.parseInt(prop.getProperty("motorMax1"));
@@ -239,7 +280,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange2 = 12;
    	 maxSpeedChange2 = .02;
    	 /*
-     motorID3 = Integer.parseInt(prop.getProperty("motorID3"));
+     motorID3 = 3;
      motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
    	 motorMaxPercent3 = Integer.parseInt(prop.getProperty("motorMaxPercent3"));
@@ -247,7 +288,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange3 = Integer.parseInt(prop.getProperty("motorTravelRange3"));
    	 maxSpeedChange3 = Integer.parseInt(prop.getProperty("maxSpeedChange3"));
    	 
-     motorID4 = Integer.parseInt(prop.getProperty("motorID4"));
+     motorID4 = 4;
      motorMin4 = Integer.parseInt(prop.getProperty("motorMin4"));
    	 motorMax4 = Integer.parseInt(prop.getProperty("motorMax4"));
    	 motorMaxPercent4 = Integer.parseInt(prop.getProperty("motorMaxPercent4"));
@@ -255,7 +296,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange4 = Integer.parseInt(prop.getProperty("motorTravelRange4"));
    	 maxSpeedChange4 = Integer.parseInt(prop.getProperty("maxSpeedChange4"));
    	 
-   	 motorID5 = Integer.parseInt(prop.getProperty("motorID5"));
+   	 motorID5 = 5;
      motorMin5 = Integer.parseInt(prop.getProperty("motorMin5"));
    	 motorMax5 = Integer.parseInt(prop.getProperty("motorMax5"));
    	 motorMaxPercent5 = Integer.parseInt(prop.getProperty("motorMaxPercent5"));
@@ -263,7 +304,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange5 = Integer.parseInt(prop.getProperty("motorTravelRange5"));
    	 maxSpeedChange5 = Integer.parseInt(prop.getProperty("maxSpeedChange5"));
    	 
-   	 motorID6 = Integer.parseInt(prop.getProperty("motorID6"));
+   	 motorID6 = 6;
      motorMin6 = Integer.parseInt(prop.getProperty("motorMin6"));
    	 motorMax6 = Integer.parseInt(prop.getProperty("motorMax6"));
    	 motorMaxPercent6 = Integer.parseInt(prop.getProperty("motorMaxPercent6"));
@@ -271,7 +312,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange6 = Integer.parseInt(prop.getProperty("motorTravelRange6"));
    	 maxSpeedChange6 = Integer.parseInt(prop.getProperty("maxSpeedChange6"));
    	 
-   	 motorID7 = Integer.parseInt(prop.getProperty("motorID7"));
+   	 motorID7 = 7;
      motorMin7 = Integer.parseInt(prop.getProperty("motorMin7"));
    	 motorMax7 = Integer.parseInt(prop.getProperty("motorMax7"));
    	 motorMaxPercent7 = Integer.parseInt(prop.getProperty("motorMaxPercent7"));
@@ -279,7 +320,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange7 = Integer.parseInt(prop.getProperty("motorTravelRange7"));
    	 maxSpeedChange7 = Integer.parseInt(prop.getProperty("maxSpeedChange7"));
    	 
-   	 motorID8 = Integer.parseInt(prop.getProperty("motorID8"));
+   	 motorID8 = 8;
      motorMin8 = Integer.parseInt(prop.getProperty("motorMin8"));
    	 motorMax8 = Integer.parseInt(prop.getProperty("motorMax8"));
    	 motorMaxPercent8 = Integer.parseInt(prop.getProperty("motorMaxPercent8"));
@@ -287,7 +328,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange8 = Integer.parseInt(prop.getProperty("motorTravelRange8"));
    	 maxSpeedChange8 = Integer.parseInt(prop.getProperty("maxSpeedChange8"));
    	 
-   	 motorID9 = Integer.parseInt(prop.getProperty("motorID9"));
+   	 motorID9 = 9;
      motorMin9 = Integer.parseInt(prop.getProperty("motorMin9"));
    	 motorMax9 = Integer.parseInt(prop.getProperty("motorMax9"));
    	 motorMaxPercent9 = Integer.parseInt(prop.getProperty("motorMaxPercent9"));
@@ -295,7 +336,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange9 = Integer.parseInt(prop.getProperty("motorTravelRange9"));
    	 maxSpeedChange9 = Integer.parseInt(prop.getProperty("maxSpeedChange9"));
    	 
-   	 motorID10 = Integer.parseInt(prop.getProperty("motorID10"));
+   	 motorID10 = 10;
      motorMin10 = Integer.parseInt(prop.getProperty("motorMin10"));
    	 motorMax10 = Integer.parseInt(prop.getProperty("motorMax10"));
    	 motorMaxPercent10 = Integer.parseInt(prop.getProperty("motorMaxPercent10"));
@@ -303,7 +344,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange10 = Integer.parseInt(prop.getProperty("motorTravelRange10"));
    	 maxSpeedChange10 = Integer.parseInt(prop.getProperty("maxSpeedChange10"));
    	 
-   	 motorID11 = Integer.parseInt(prop.getProperty("motorID11"));
+   	 motorID11 = 11;
      motorMin11 = Integer.parseInt(prop.getProperty("motorMin11"));
    	 motorMax11 = Integer.parseInt(prop.getProperty("motorMax11"));
    	 motorMaxPercent11 = Integer.parseInt(prop.getProperty("motorMaxPercent11"));
@@ -311,7 +352,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange11 = Integer.parseInt(prop.getProperty("motorTravelRange11"));
    	 maxSpeedChange11 = Integer.parseInt(prop.getProperty("maxSpeedChange11"));
    	 
-   	 motorID12 = Integer.parseInt(prop.getProperty("motorID12"));
+   	 motorID12 = 12;
      motorMin12 = Integer.parseInt(prop.getProperty("motorMin12"));
    	 motorMax12 = Integer.parseInt(prop.getProperty("motorMax12"));
    	 motorMaxPercent12 = Integer.parseInt(prop.getProperty("motorMaxPercent12"));
@@ -319,7 +360,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange12 = Integer.parseInt(prop.getProperty("motorTravelRange12"));
    	 maxSpeedChange12 = Integer.parseInt(prop.getProperty("maxSpeedChange12"));
    	 
-   	 motorID13 = Integer.parseInt(prop.getProperty("motorID13"));
+   	 motorID13 = 13;
      motorMin13 = Integer.parseInt(prop.getProperty("motorMin13"));
    	 motorMax13 = Integer.parseInt(prop.getProperty("motorMax13"));
    	 motorMaxPercent13 = Integer.parseInt(prop.getProperty("motorMaxPercent13"));
@@ -327,7 +368,7 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange13 = Integer.parseInt(prop.getProperty("motorTravelRange13"));
    	 maxSpeedChange13 = Integer.parseInt(prop.getProperty("maxSpeedChange13"));
    	 
-   	 motorID14 = Integer.parseInt(prop.getProperty("motorID14"));
+   	 motorID14 = 14;
      motorMin14 = Integer.parseInt(prop.getProperty("motorMin14"));
    	 motorMax14 = Integer.parseInt(prop.getProperty("motorMax14"));
    	 motorMaxPercent14 = Integer.parseInt(prop.getProperty("motorMaxPercent14"));
@@ -986,7 +1027,7 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
 		SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
 		
-		if(calibMotor.isRevLimitSwitchClosed()){
+		if(calibMotor.isRevLimitSwitchClosed() || calibrator.isAPushed()){
 			calibMotor.set(0);
 			try {
 				Thread.sleep(250);
