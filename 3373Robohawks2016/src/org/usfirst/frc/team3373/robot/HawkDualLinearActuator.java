@@ -5,7 +5,7 @@ public class HawkDualLinearActuator {
 	HawkActuator motor1;
 	HawkActuator motor2;
 	
-	public void HawkDualLinearActuators(int actuatorID,double actuatorMaxPotValue ,double actuatorMinPotValue, double maxSpeedChange, int limitSwitchForwID, int limitSwitchRevID, int actuatorID2 ,double actuatorMaxPotValue2 ,double actuatorMinPotValue2, double maxSpeedChange2, int limitSwitchForwID2, int limitSwitchRevID2) {
+	public HawkDualLinearActuator(int actuatorID,double actuatorMaxPotValue ,double actuatorMinPotValue, double maxSpeedChange, int limitSwitchForwID, int limitSwitchRevID, int actuatorID2 ,double actuatorMaxPotValue2 ,double actuatorMinPotValue2, double maxSpeedChange2, int limitSwitchForwID2, int limitSwitchRevID2) {
 		motor1 = new HawkActuator(actuatorID, actuatorMaxPotValue , actuatorMinPotValue,  maxSpeedChange, limitSwitchForwID,limitSwitchRevID);
 		motor2 = new HawkActuator(actuatorID2, actuatorMaxPotValue2 , actuatorMinPotValue2,  maxSpeedChange2, limitSwitchForwID2, limitSwitchRevID2);
 	}
@@ -37,5 +37,28 @@ public class HawkDualLinearActuator {
 	public void manualDown(){
 		
 	}
-
+	public void sniperToHeight(double targetHeight){
+		if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
+			motor1.sniperToHeight(targetHeight);
+			motor2.sniperToHeight(targetHeight);
+		}else if(motor1.getAnalogInRaw()>motor2.getAnalogInRaw()+2 && motor1.getSpeed()>=0){
+				motor1.set(.2);
+				motor2.set(.25);
+		}else if(motor2.getAnalogInRaw()>motor1.getAnalogInRaw()+2 && motor2.getSpeed()>=0){
+				motor2.set(.2);
+				motor1.set(.25);
+		}else if(motor1.getAnalogInRaw()<motor2.getAnalogInRaw()-2 && motor1.getSpeed()<=0){
+				motor1.set(-.2);
+				motor2.set(-.25);
+		}else if(motor2.getAnalogInRaw()<motor1.getAnalogInRaw()-2 && motor2.getSpeed()<=0){
+				motor2.set(-.2);
+				motor1.set(-.25);
+			}
+	}
+	public void sniperDown(){
+		sniperToHeight(0);
+	}
+	public void sniperUp(){
+		sniperToHeight(motor1.travel);
+	}
 }

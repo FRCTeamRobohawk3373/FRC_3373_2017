@@ -40,6 +40,7 @@ public class Robot extends IterativeRobot {
 	HawkSuperMotor motor3;
 	
 	HawkSuperDualMotor dual1;
+	HawkDualLinearActuator armActuators;
 	
 	SuperJoystick driver;
 	SuperJoystick shooter;
@@ -164,24 +165,16 @@ public class Robot extends IterativeRobot {
 	int limitSwitchRevID10;
 
 	int motorID11;
-	int motorMin11;
-	int motorMax11;
-	int motorMaxPercent11;
-	int motorMinPercent11;
-	double motorTravelRange11;
+	double actuatorMaxPotValue11;
+	double actuatorMinPotValue11;
 	double maxSpeedChange11;
-	int motorDirection11;
 	int limitSwitchForwID11;
 	int limitSwitchRevID11;
 
 	int motorID12;
-	int motorMin12;
-	int motorMax12;
-	int motorMaxPercent12;
-	int motorMinPercent12;
-	double motorTravelRange12;
+	double actuatorMaxPotValue12;
+	double actuatorMinPotValue12;
 	double maxSpeedChange12;
-	int motorDirection12;
 	int limitSwitchForwID12;
 	int limitSwitchRevID12;
 
@@ -409,7 +402,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection9 = Integer.parseInt(prop.getProperty("motorDirection9"));
    	 limitSwitchForwID9 = Integer.parseInt(prop.getProperty("limitSwitchForwID9"));
 	 limitSwitchRevID9 =  Integer.parseInt(prop.getProperty("limitSwitchRevID9"));
-   /*	 
+   	 
    	 motorID10 = 10;
      motorMin10 = Integer.parseInt(prop.getProperty("motorMin10"));
    	 motorMax10 = Integer.parseInt(prop.getProperty("motorMax10"));
@@ -422,24 +415,16 @@ public class Robot extends IterativeRobot {
  	 limitSwitchRevID10 =  Integer.parseInt(prop.getProperty("limitSwitchRevID10"));
    	 
    	 motorID11 = 11;
-     motorMin11 = Integer.parseInt(prop.getProperty("motorMin11"));
-   	 motorMax11 = Integer.parseInt(prop.getProperty("motorMax11"));
-   	 motorMaxPercent11 = Integer.parseInt(prop.getProperty("motorMaxPercent11"));
-   	 motorMinPercent11 = Integer.parseInt(prop.getProperty("motorMinPercent11"));
-   	 motorTravelRange11 = Double.parseDouble(prop.getProperty("motorTravelRange11"));
-   	 maxSpeedChange11 = Double.parseDouble(prop.getProperty("maxSpeedChange11"));
-   	 motorDirection11 = Integer.parseInt(prop.getProperty("motorDirection11"));
+     actuatorMaxPotValue11 = Double.parseDouble(prop.getProperty("actuatorMaxPotValue11"));
+   	 actuatorMinPotValue11 = Double.parseDouble(prop.getProperty("actuatorMinPotValue11"));
+     maxSpeedChange11 = Double.parseDouble(prop.getProperty("maxSpeedChange11"));
    	 limitSwitchForwID11 = Integer.parseInt(prop.getProperty("limitSwitchForwID11"));
  	 limitSwitchRevID11 =  Integer.parseInt(prop.getProperty("limitSwitchRevID11"));
    	 
    	 motorID12 = 12;
-     motorMin12 = Integer.parseInt(prop.getProperty("motorMin12"));
-   	 motorMax12 = Integer.parseInt(prop.getProperty("motorMax12"));
-   	 motorMaxPercent12 = Integer.parseInt(prop.getProperty("motorMaxPercent12"));
-   	 motorMinPercent12 = Integer.parseInt(prop.getProperty("motorMinPercent12"));
-   	 motorTravelRange12 = Double.parseDouble(prop.getProperty("motorTravelRange12"));
+   	 actuatorMaxPotValue12 = Double.parseDouble(prop.getProperty("actuatorMaxPotValue12"));
+  	 actuatorMinPotValue12 = Double.parseDouble(prop.getProperty("actuatorMinPotValue12"));
    	 maxSpeedChange12 = Double.parseDouble(prop.getProperty("maxSpeedChange12"));
-   	 motorDirection12 = Integer.parseInt(prop.getProperty("motorDirection12"));
    	 limitSwitchForwID12 = Integer.parseInt(prop.getProperty("limitSwitchForwID12"));
  	 limitSwitchRevID12 =  Integer.parseInt(prop.getProperty("limitSwitchRevID12"));
    	 
@@ -465,7 +450,7 @@ public class Robot extends IterativeRobot {
    	 limitSwitchForwID14 = Integer.parseInt(prop.getProperty("limitSwitchForwID14"));
  	 limitSwitchRevID14 =  Integer.parseInt(prop.getProperty("limitSwitchRevID14"));
 
-   	*/
+   	
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
    	 motorMaxPercent3 = 100;*/
@@ -496,7 +481,8 @@ public class Robot extends IterativeRobot {
     	*/
     	//motor2 = new CANTalon(2);
     	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
-    //	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
+    	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
+    	//	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
     	calibrator = new SuperJoystick(2);
@@ -969,6 +955,11 @@ public class Robot extends IterativeRobot {
     				counterShooterRS = 0;
     				counterBoolShooterRS = false;
     				}
+    			}
+    			if(shooter.getRawAxis(RY)<-0.1 && shooter.isLBHeld()){
+    				dual1.sniperDown();
+    			}else if(shooter.getRawAxis(RY)>0.1 && shooter.isLBHeld()){
+    				dual1.sniperUp();
     			}
     			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
     				dual1.sniperDown();
