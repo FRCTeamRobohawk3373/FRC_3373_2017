@@ -812,7 +812,7 @@ public class Robot extends IterativeRobot {
 				if(shooter.isLBHeld()){
 					//sniperMode = true;
 				}
-				//oToAngle(getAngle() - 2, sniperMode);
+				//goToAngle(getAngle() - 2, sniperMode);
 			}
 			else if(shooter.getRawAxis(Rtrigger) > .02){
 				if(shooter.isLBHeld()){
@@ -970,7 +970,11 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterRS = false;
     				}
     			}
-    			if(shooter.getRawAxis(Ltrigger)>0.02){
+    			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
+    				dual1.sniperDown();
+    			}else if(shooter.getRawAxis(Rtrigger)>0.02 && shooter.isLBHeld()){
+    				dual1.sniperUp();
+    			}else if(shooter.getRawAxis(Ltrigger)>0.02){
     				dual1.manualDown();
     			//	dual2.manualDown();
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
