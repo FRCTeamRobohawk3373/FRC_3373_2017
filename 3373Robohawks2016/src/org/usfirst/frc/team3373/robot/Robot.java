@@ -29,6 +29,8 @@ import edu.wpi.first.wpilibj.CameraServer;
  */
 public class Robot extends IterativeRobot {
 	
+	CANTalon calibMotor;
+	
 	CameraServer server;
 	double inches;
 	RobotDrive myRobot;
@@ -996,6 +998,7 @@ public class Robot extends IterativeRobot {
     	break;
     	case 10:
     		calibrate(10);
+    		System.out.println(calibMotor.getEncPosition());
     	break;
     	case 11:
     		calibrate(11);
@@ -1020,7 +1023,7 @@ public class Robot extends IterativeRobot {
 		double calibrationLeftY;
 		int ID;
 		ID = id;
-		CANTalon calibMotor = new CANTalon(ID);
+		calibMotor = new CANTalon(ID);
 		
 		SmartDashboard.putNumber("RangeMin: ", rangeMin);
 		SmartDashboard.putNumber("RangeMax: ", rangeMax);

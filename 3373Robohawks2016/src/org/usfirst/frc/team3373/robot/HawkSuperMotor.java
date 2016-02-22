@@ -14,8 +14,9 @@ public class HawkSuperMotor extends CANTalon {
 	int minPercentSpeed;
 	double maxDelta;
 	double currentSpeed;
+	int motorDirection;
 	//max speed change = maximum speed change between iterations
-	public HawkSuperMotor(int deviceNumber, int encoderMin, int encoderMax,int maxPercent, int minPercent, double travelRange, double maxSpeedChange) {
+	public HawkSuperMotor(int deviceNumber, int encoderMin, int encoderMax,int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int motorDirection1) {
 		super(deviceNumber);
 		double encoderRange = encoderMax-encoderMin;
 		range = encoderRange;
@@ -28,27 +29,28 @@ public class HawkSuperMotor extends CANTalon {
 		minPercentSpeed = minPercent;
 		currentHeight = ((getEncPosition()/range)*travel);
 		currentEncHeight = (getEncPosition()/range);
+		motorDirection = motorDirection1;
 	}
 	public void setScaled(double speed){
-		set(speed*(maxPercentSpeed/100));
+		set(speed*(maxPercentSpeed/100) * motorDirection);
 	//	set(speed*((maxPercentSpeed-minPercentSpeed)/100));
 	}
 	public double goToHeight(double targetHeight){
 		targetEncoderPos = (range/travel) * targetHeight;
 		if(getEncPosition()<rangeMin-1){                             //Prevents the motor from hitting or passing its lower limit
-			setScaled(-.1);
+			setScaled(-.1* motorDirection);
 		}else if(getEncPosition()>rangeMax+1){                       //Prevents the motor from hitting or passing its upper limit
-			setScaled(.1);
+			setScaled(.1 * motorDirection);
 		}else if(getEncPosition()<targetEncoderPos+300 && getEncPosition() >targetEncoderPos+50){
-			setScaled(.1);
+			setScaled(.1 * motorDirection);
 		}else if(getEncPosition()>targetEncoderPos+300){
-			setScaled(.5);
+			setScaled(.5 * motorDirection);
 		}else if(getEncPosition()>targetEncoderPos-300 && getEncPosition() < targetEncoderPos-50){
-			setScaled(-.1);
+			setScaled(-.1 * motorDirection);
 		}else if(getEncPosition()< targetEncoderPos-300){
-			setScaled(-.5);
+			setScaled(-.5 * motorDirection);
 		}else{
-			setScaled(0);
+			setScaled(0 * motorDirection);
 		}
 		return targetEncoderPos;
 	}
@@ -79,7 +81,7 @@ public class HawkSuperMotor extends CANTalon {
 		}
 	//	System.out.println("Speed:" + speed);
 		currentSpeed = speed;
-		super.set(speed);
+		super.set(speed * motorDirection);
 	}
 	public void resetCurrentSpeed(){
 		currentSpeed = 0.0;
@@ -88,7 +90,7 @@ public class HawkSuperMotor extends CANTalon {
 		return currentSpeed;
 	}
 	public void EmergencyMotorStop(){
-		super.set(0);
+		super.set(0 * motorDirection);
 	}
 
 }
