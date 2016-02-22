@@ -31,6 +31,10 @@ public class Robot extends IterativeRobot {
 	
 	CANTalon calibMotor;
 	
+	boolean goingSallyPort = false;
+	boolean goingDrawbridge = false;
+	boolean goingPortcullis = false;
+	
 	CameraServer server;
 	double inches;
 	RobotDrive myRobot;
@@ -40,6 +44,8 @@ public class Robot extends IterativeRobot {
 	HawkSuperMotor motor3;
 	
 	HawkSuperDualMotor dual1;
+	HawkSuperDualMotor dual2;
+	
 	HawkDualLinearActuator armActuators;
 	
 	SuperJoystick driver;
@@ -481,6 +487,7 @@ public class Robot extends IterativeRobot {
     	*/
     	//motor2 = new CANTalon(2);
     	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
+    	dual2 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
     	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
     	//	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
@@ -956,11 +963,17 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterRS = false;
     				}
     			}
+    			
+    			
+    			
     			if(shooter.getRawAxis(RY)<-0.1 && shooter.isLBHeld()){
     				dual1.sniperDown();
     			}else if(shooter.getRawAxis(RY)>0.1 && shooter.isLBHeld()){
     				dual1.sniperUp();
     			}
+    			
+    			
+    			
     			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
     				dual1.sniperDown();
     			}else if(shooter.getRawAxis(Rtrigger)>0.02 && shooter.isLBHeld()){
@@ -971,8 +984,16 @@ public class Robot extends IterativeRobot {
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
     				dual1.manualUp();
     			//	dual2.manualUp();
-    			}else if(false){
+    			}else if(shooter.isAPushed()){
+    				goingSallyPort = true;
+    				shooter.clearA();
     				//PUT PRESET ARM CONTROLS HERE!!!
+    			}else if(shooter.isXPushed()){
+    				goingDrawbridge = true;
+    				shooter.clearX();
+    			}else if(shooter.isBPushed()){
+    				goingPortcullis = true;
+    				shooter.clearB();
     			}else{
     				dual1.set(0);
     			//	dual2.set(0);
@@ -980,6 +1001,13 @@ public class Robot extends IterativeRobot {
     			//	dual1.set(0);
     				System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
     		}
+    			if(goingSallyPort){
+    				armToHeight(12);
+    			}else if(goingDrawbridge){
+    				armToHeight(12);
+    			}else if(goingPortcullis){
+    				armToHeight(12);
+    			}
     				
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
     		if(Shooting || !Shooting){
@@ -1244,7 +1272,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-/*	public void armToHeight(double targetHeight){
+	public void armToHeight(double targetHeight){
 		if(dual1.getHeight() + dual2.getHeight()<targetHeight-.1){
 			dual1.goToHeight(dual1.motor1.travel);
 			dual2.goToHeight(dual2.motor1.travel);
@@ -1252,9 +1280,11 @@ public class Robot extends IterativeRobot {
 			dual1.goToHeight(0);
 			dual2.goToHeight(0);
 		}else{
-			
+			goingPortcullis = false;
+			goingSallyPort = false;
+			goingDrawbridge = false;
 		}
-	}*/
+	}
 }   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
