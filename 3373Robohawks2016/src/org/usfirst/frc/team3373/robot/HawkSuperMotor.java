@@ -67,6 +67,25 @@ public class HawkSuperMotor extends CANTalon {
 		}
 		return targetEncoderPos;
 	}
+	public double sniperToHeight(double targetHeight){
+		targetEncoderPos = (range/travel) * targetHeight;
+		if(getEncPosition()<rangeMin-1){                             //Prevents the motor from hitting or passing its lower limit
+			setScaled(-.1* motorDirection);
+		}else if(getEncPosition()>rangeMax+1){                       //Prevents the motor from hitting or passing its upper limit
+			setScaled(.1 * motorDirection);
+		}else if(getEncPosition()<targetEncoderPos+150 && getEncPosition() >targetEncoderPos+25){
+			setScaled(.1 * motorDirection);
+		}else if(getEncPosition()>targetEncoderPos+150){
+			setScaled(.25 * motorDirection);
+		}else if(getEncPosition()>targetEncoderPos-150 && getEncPosition() < targetEncoderPos-25){
+			setScaled(-.1 * motorDirection);
+		}else if(getEncPosition()< targetEncoderPos-150){
+			setScaled(-.25 * motorDirection);
+		}else{
+			setScaled(0 * motorDirection);
+		}
+		return targetEncoderPos;
+	}
 /*	public double goDistance(double targetDistance){
 		targetEncoderPos = getEncPosition()+ (range/travel*targetDistance);
 		if(getEncPosition()<targetEncoderPos+500){
