@@ -1,8 +1,9 @@
 package org.usfirst.frc.team3373.robot;
-
-
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 public class HawkDrive {
-
+	AHRS ahrs = new AHRS(SPI.Port.kMXP);
 	static boolean motorDone1 = false; //unused currently for goToDistance
 	static boolean motorDone2 = false;
 	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.1, 1);
@@ -40,6 +41,24 @@ public class HawkDrive {
 	
 
        }
+    public void moveStraight(double speed, double standardAngle){
+	   	 double angle = ahrs.getAngle() % 360;
+	   	 SmartDashboard.putNumber("Given Angle", ahrs.getAngle());
+	   	 SmartDashboard.putNumber("Angle", angle);
+	   	 if(angle < standardAngle - 2 && angle > -180){
+	   		 System.out.println("Stopping left");
+	   		 wheelControl(0,speed,false,false); 
+	   	 }
+	   	 else if(angle < standardAngle -2 && angle < -180){
+	   		 System.out.println("Stopping right");
+	   		 wheelControl(speed,0,false,false);
+	   	 } else {
+	   		 wheelControl(speed, speed, false, false);
+	   		 System.out.println("going straight");
+	   	 }
+		//	myRobot.tankDrive(leftY, rightY);
+	   	 ahrs.free();
+	       }
     
     
  /*   public static void goDoubleDistance(double distance){

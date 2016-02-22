@@ -419,7 +419,7 @@ public class Robot extends IterativeRobot {
         fours = new DigitalInput(8);
         eights = new DigitalInput(9);
         
-        //HawkDrive hawkDrive = new HawkDrive();
+        hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
         
@@ -459,6 +459,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousInit() {
     	autoLoopCounter = 0;
+    	hawkDrive.ahrs.reset();
     }
 
     /**
@@ -469,7 +470,7 @@ public class Robot extends IterativeRobot {
     	switch(index){
     	case 0:
     	if(autoLoopCounter < 100){
-    		hawkDrive.wheelControl(1, 1, false, false);
+    		hawkDrive.moveStraight(1, 0);
     	} else{
     		hawkDrive.wheelControl(0, 0, false, false);
     		}
