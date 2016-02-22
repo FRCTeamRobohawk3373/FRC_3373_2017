@@ -977,54 +977,55 @@ public class Robot extends IterativeRobot {
 		
     	break;
     	case 1:
-    		calibrate(1);
+    		calibrate(1, 1);
     	break;
     	case 2:
-    		calibrate(2);
+    		calibrate(2, 1);
     	break;
     	case 3:
-    		calibrate(3);
+    		calibrate(3, 1);
     	break;
     	case 4:
-    		calibrate(4);
+    		calibrate(4, 1);
     	break;
     	case 5:
-    		calibrate(5);
+    		calibrate(5, 1);
     	break;
     	case 6:
-    		calibrate(6);
+    		calibrate(6, 1);
     	break;
     	case 7:
-    		calibrate(7);
+    		calibrate(7, 1);
     	break;
     	case 8:
-    		calibrate(8);
+    		calibrate(8, 1);
     	break;
     	case 9:
-    		calibrate(9);
+    		calibrate(9, -1);
+    		System.out.println(calibMotor.getEncPosition());
     	break;
     	case 10:
-    		calibrate(10);
+    		calibrate(10, -1);
     		System.out.println(calibMotor.getEncPosition());
     	break;
     	case 11:
-    		calibrate(11);
+    		calibrate(11, 1);
     	break;
     	case 12:
-    		calibrate(12);
+    		calibrate(12, 1);
     	break;
     	case 13:
-    		calibrate(13);
+    		calibrate(13, 1);
     	break;
     	case 14:
-    		calibrate(14);
+    		calibrate(14, 1);
     	break;
     	case 15:
-    		calibrate(15);
+    		calibrate(15, 1);
     	break;
     	}
 		}
-	public void calibrate(int id){
+	public void calibrate(int id, int inversion){
 		int rangeMin=0;
 		int rangeMax=0;
 		double calibrationLeftY;
@@ -1052,9 +1053,9 @@ public class Robot extends IterativeRobot {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			rangeMin = calibMotor.getEncPosition();
+			rangeMin = calibMotor.getEncPosition() * inversion;
 			while(calibMotor.isRevLimitSwitchClosed()){
-			calibMotor.set(.2);
+			calibMotor.set(.2 * inversion);
 			}
 		}
 		if(calibrator.isYPushed()){
@@ -1065,7 +1066,7 @@ public class Robot extends IterativeRobot {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			rangeMax = calibMotor.getEncPosition();
+			rangeMax = calibMotor.getEncPosition() * inversion;
 			calibrator.clearY();
 		}
 		
