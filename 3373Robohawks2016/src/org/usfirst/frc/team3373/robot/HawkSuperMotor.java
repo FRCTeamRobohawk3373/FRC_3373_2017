@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3373.robot;
 // AUTHOR Alex Iasso
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class HawkSuperMotor extends CANTalon {
 	double range = 12;
@@ -15,8 +16,12 @@ public class HawkSuperMotor extends CANTalon {
 	double maxDelta;
 	double currentSpeed;
 	int motorDirection;
+	DigitalInput limitSwitchRev;
+	DigitalInput limitSwitchForw;
+	int revLimitSwitchID;
+	int forwLimitSwitchID;
 	//max speed change = maximum speed change between iterations
-	public HawkSuperMotor(int deviceNumber, int encoderMin, int encoderMax,int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int motorDirection1) {
+	public HawkSuperMotor(int deviceNumber, int encoderMin, int encoderMax,int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int motorDirection1, int limitSwitchForwID,int limitSwitchRevID ) {
 		super(deviceNumber);
 		double encoderRange = encoderMax-encoderMin;
 		range = encoderRange;
@@ -30,6 +35,14 @@ public class HawkSuperMotor extends CANTalon {
 		currentHeight = ((getEncPosition()/range)*travel);
 		currentEncHeight = (getEncPosition()/range);
 		motorDirection = motorDirection1;
+		forwLimitSwitchID = limitSwitchForwID;
+		revLimitSwitchID = limitSwitchRevID;
+		if(limitSwitchForwID >= 0){
+			limitSwitchForw = new DigitalInput(limitSwitchForwID);
+		}
+		if(limitSwitchRevID >=0){
+			limitSwitchRev = new DigitalInput(limitSwitchRevID);
+		}
 	}
 	public void setScaled(double speed){
 		set(speed*(maxPercentSpeed/100) * motorDirection);
@@ -68,9 +81,36 @@ public class HawkSuperMotor extends CANTalon {
 	} */
 	@Override
 	public void set(double speed){
+		if(forwLimitSwitchID >= 0){
+			if(!limitSwitchForw.get()){
+				accelerationSet(speed);
+				}
+			else if(limitSwitchForw.get() && speed <0){
+				accelerationSet(speed);
+			}else{
+				super.set(0);
+			}
+		}
+		else if(revLimitSwitchID < 0){
+			accelerationSet(speed);
+		}
+		if(revLimitSwitchID >= 0){
+			if(!limitSwitchRev.get()){
+			accelerationSet(speed);
+			}
+			else if(limitSwitchRev.get() && speed >0){
+				accelerationSet(speed);
+			}else{
+				super.set(0);
+			}
+		}else if(forwLimitSwitchID < 0){
+			accelerationSet(speed);
+		}
+	}
+	
+	public void accelerationSet(double speed){
 		//If the change in speed is greater than max delta, reduce the change to max delta
 		double currentDelta = Math.abs(currentSpeed - speed);
-//		System.out.println(currentSpeed + " " + currentDelta);
 		if(currentDelta > maxDelta){
 			if(speed > currentSpeed){
 				speed = currentSpeed + maxDelta;
@@ -89,7 +129,7 @@ public class HawkSuperMotor extends CANTalon {
 	public double getSpeed(){
 		return currentSpeed;
 	}
-	public void EmergencyMotorStop(){
+	public void emergencyMotorStop(){
 		super.set(0 * motorDirection);
 	}
 

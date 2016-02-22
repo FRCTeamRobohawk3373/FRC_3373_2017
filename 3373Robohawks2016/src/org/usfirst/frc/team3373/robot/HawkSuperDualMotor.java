@@ -6,9 +6,9 @@ public class HawkSuperDualMotor{
 	HawkSuperMotor motor2;
 	double height;
 	
-	public HawkSuperDualMotor(int deviceNumber, int encoderMin, int encoderMax, int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int motorDirection, int deviceNumber2, int encoderMin2, int encoderMax2, int maxPercent2, int minPercent2, double travelRange2, double maxSpeedChange2, int motorDirection2) {
-		motor1 = new HawkSuperMotor(deviceNumber, encoderMin, encoderMax, maxPercent, minPercent, travelRange, maxSpeedChange, motorDirection);
-		motor2 = new HawkSuperMotor(deviceNumber2, encoderMin2, encoderMax2, maxPercent2, minPercent2, travelRange2, maxSpeedChange2, motorDirection2);
+	public HawkSuperDualMotor(int deviceNumber, int encoderMin, int encoderMax, int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int motorDirection, int limitSwitchForwID, int limitSwitchRevID ,int deviceNumber2, int encoderMin2, int encoderMax2, int maxPercent2, int minPercent2, double travelRange2, double maxSpeedChange2, int motorDirection2, int limitSwitchForwID2, int limitSwitchRevID2) {
+		motor1 = new HawkSuperMotor(deviceNumber, encoderMin, encoderMax, maxPercent, minPercent, travelRange, maxSpeedChange, motorDirection, limitSwitchForwID,limitSwitchRevID);
+		motor2 = new HawkSuperMotor(deviceNumber2, encoderMin2, encoderMax2, maxPercent2, minPercent2, travelRange2, maxSpeedChange2, motorDirection2,limitSwitchForwID2,limitSwitchRevID2);
 	}
 	public void goToHeight(double targetHeight){
 		if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){

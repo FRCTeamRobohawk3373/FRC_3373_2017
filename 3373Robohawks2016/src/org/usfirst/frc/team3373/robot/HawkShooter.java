@@ -1,8 +1,8 @@
 package org.usfirst.frc.team3373.robot;
 public class HawkShooter {
-	HawkSuperMotor shooterMain = new HawkSuperMotor(5,0,0,0,0,0,.1, 1);
-	HawkSuperMotor shooterControl = new HawkSuperMotor(6,0,0,0,0,0,1, 1);
-	HawkActuator shooterAimer = new HawkActuator(14,0,0,.1); //still need to test for max and min pot values.
+	HawkSuperMotor shooterMain = new HawkSuperMotor(5,0,0,0,0,0,.1, 1,-1,-1);
+	HawkSuperMotor shooterControl = new HawkSuperMotor(6,0,0,0,0,0,1, 1,-1,-1);
+	HawkActuator shooterAimer = new HawkActuator(14,0,0,.1,-1,-1); //still need to test for max and min pot values.
 	HawkVision hawkVision = new HawkVision();
 	public void goToAngle(double angle){
 		//go to angle based off pot value
