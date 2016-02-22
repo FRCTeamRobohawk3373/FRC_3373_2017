@@ -809,6 +809,17 @@ public class Robot extends IterativeRobot {
     					motor1.set(0);
     				}
     			}
+				if(shooter.isLBHeld()){
+					//sniperMode = true;
+				}
+				//oToAngle(getAngle() - 2, sniperMode);
+			}
+			else if(shooter.getRawAxis(Rtrigger) > .02){
+				if(shooter.isLBHeld()){
+    				//sniperMode = true;
+				}
+				//goToAngle(getAngle() + 2, sniperMode);
+			}
     		}
     		
     		
@@ -1006,10 +1017,7 @@ public class Robot extends IterativeRobot {
     	motor1.disable();
     	motor2.disable();
     	}
-    	}
-
-    }
-    
+    	}    
 
 
 	@SuppressWarnings("deprecation")
