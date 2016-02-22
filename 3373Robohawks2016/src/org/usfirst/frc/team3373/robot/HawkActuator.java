@@ -6,7 +6,7 @@ public class HawkActuator extends HawkSuperMotor  {
 	double maxPotValue;
 	double minPotValue;
 	public HawkActuator(int actuatorID,double actuatorMaxPotValue ,double actuatorMinPotValue, double maxSpeedChange){
-		super(actuatorID,0, 0,0,0,0,maxSpeedChange);
+		super(actuatorID,0, 0,0,0,0,maxSpeedChange, 1);
 		maxPotValue = actuatorMaxPotValue;
 		minPotValue = actuatorMinPotValue;
 	}
