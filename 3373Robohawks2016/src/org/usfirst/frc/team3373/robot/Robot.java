@@ -60,6 +60,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange1;
 	double maxSpeedChange1;
 	int motorDirection1;
+	int limitSwitchForwID1;
+	int limitSwitchRevID1;
 
 	
 	int motorID2;
@@ -70,6 +72,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange2;
 	double maxSpeedChange2;
 	int motorDirection2;
+	int limitSwitchForwID2;
+	int limitSwitchRevID2;
 
 	int motorID3;
 	int motorMin3;
@@ -79,6 +83,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange3;
 	double maxSpeedChange3;
 	int motorDirection3;
+	int limitSwitchForwID3;
+	int limitSwitchRevID3;
 
 	int motorID4;
 	int motorMin4;
@@ -88,6 +94,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange4;
 	double maxSpeedChange4;
 	int motorDirection4;
+	int limitSwitchForwID4;
+	int limitSwitchRevID4;
 
 	int motorID5;
 	int motorMin5;
@@ -97,6 +105,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange5;
 	double maxSpeedChange5;
 	int motorDirection5;
+	int limitSwitchForwID5;
+	int limitSwitchRevID5;
 
 	int motorID6;
 	int motorMin6;
@@ -106,6 +116,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange6;
 	double maxSpeedChange6;
 	int motorDirection6;
+	int limitSwitchForwID6;
+	int limitSwitchRevID6;
 
 	int motorID7;
 	int motorMin7;
@@ -115,6 +127,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange7;
 	double maxSpeedChange7;
 	int motorDirection7;
+	int limitSwitchForwID7;
+	int limitSwitchRevID7;
 
 	int motorID8;
 	int motorMin8;
@@ -124,6 +138,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange8;
 	double maxSpeedChange8;
 	int motorDirection8;
+	int limitSwitchForwID8;
+	int limitSwitchRevID8;
 
 	int motorID9;
 	int motorMin9;
@@ -133,6 +149,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange9;
 	double maxSpeedChange9;
 	int motorDirection9;
+	int limitSwitchForwID9;
+	int limitSwitchRevID9;
 
 	int motorID10;
 	int motorMin10;
@@ -142,6 +160,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange10;
 	double maxSpeedChange10;
 	int motorDirection10;
+	int limitSwitchForwID10;
+	int limitSwitchRevID10;
 
 	int motorID11;
 	int motorMin11;
@@ -151,6 +171,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange11;
 	double maxSpeedChange11;
 	int motorDirection11;
+	int limitSwitchForwID11;
+	int limitSwitchRevID11;
 
 	int motorID12;
 	int motorMin12;
@@ -160,6 +182,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange12;
 	double maxSpeedChange12;
 	int motorDirection12;
+	int limitSwitchForwID12;
+	int limitSwitchRevID12;
 
 	int motorID13;
 	int motorMin13;
@@ -169,6 +193,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange13;
 	double maxSpeedChange13;
 	int motorDirection13;
+	int limitSwitchForwID13;
+	int limitSwitchRevID13;
 
 	int motorID14;
 	int motorMin14;
@@ -178,6 +204,8 @@ public class Robot extends IterativeRobot {
 	double motorTravelRange14;
 	double maxSpeedChange14;
 	int motorDirection14;
+	int limitSwitchForwID14;
+	int limitSwitchRevID14;
 
 
 
@@ -289,6 +317,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange1 = 12;
    	 maxSpeedChange1 = .02;
    	 motorDirection1 = Integer.parseInt(prop.getProperty("motorDirection1"));
+   	 limitSwitchForwID1 = Integer.parseInt(prop.getProperty("limitSwitchForwID1"));
+ 	 limitSwitchRevID1 =  Integer.parseInt(prop.getProperty("limitSwitchRevID1"));
    	
    	 motorID2 = 2;
    	 motorMin2 = Integer.parseInt(prop.getProperty("motorMin2"));
@@ -298,6 +328,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange2 = 12;
    	 maxSpeedChange2 = .02;
    	 motorDirection2 = Integer.parseInt(prop.getProperty("motorDirection2"));
+   	 limitSwitchForwID2 = Integer.parseInt(prop.getProperty("limitSwitchForwID2"));
+ 	 limitSwitchRevID2 =  Integer.parseInt(prop.getProperty("limitSwitchRevID2"));
 
    	 /*
      motorID3 = 3;
@@ -308,6 +340,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange3 = Double.parseDouble(prop.getProperty("motorTravelRange3"));
    	 maxSpeedChange3 = Double.parseDouble(prop.getProperty("maxSpeedChange3"));
    	 motorDirection3 = Integer.parseInt(prop.getProperty("motorDirection3"));
+   	 limitSwitchForwID3 = Integer.parseInt(prop.getProperty("limitSwitchForwID3"));
+ 	 limitSwitchRevID3 =  Integer.parseInt(prop.getProperty("limitSwitchRevID3"));   	 
    	 
    	 
      motorID4 = 4;
@@ -318,6 +352,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange4 = Double.parseDouble(prop.getProperty("motorTravelRange4"));
    	 maxSpeedChange4 = Double.parseDouble(prop.getProperty("maxSpeedChange4"));
    	 motorDirection4 = Integer.parseInt(prop.getProperty("motorDirection4"));
+   	 limitSwitchForwID4 = Integer.parseInt(prop.getProperty("limitSwitchForwID4"));
+ 	 limitSwitchRevID4 =  Integer.parseInt(prop.getProperty("limitSwitchRevID4"));
    	 
    	 motorID5 = 5;
      motorMin5 = Integer.parseInt(prop.getProperty("motorMin5"));
@@ -327,6 +363,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange5 = Double.parseDouble(prop.getProperty("motorTravelRange5"));
    	 maxSpeedChange5 = Double.parseDouble(prop.getProperty("maxSpeedChange5"));
    	 motorDirection5 = Integer.parseInt(prop.getProperty("motorDirection5"));
+   	 limitSwitchForwID5 = Integer.parseInt(prop.getProperty("limitSwitchForwID5"));
+ 	 limitSwitchRevID5 =  Integer.parseInt(prop.getProperty("limitSwitchRevID5"));
    	 
    	 motorID6 = 6;
      motorMin6 = Integer.parseInt(prop.getProperty("motorMin6"));
@@ -336,6 +374,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange6 = Double.parseDouble(prop.getProperty("motorTravelRange6"));
    	 maxSpeedChange6 = Double.parseDouble(prop.getProperty("maxSpeedChange6"));
    	 motorDirection6 = Integer.parseInt(prop.getProperty("motorDirection6"));
+   	 limitSwitchForwID6 = Integer.parseInt(prop.getProperty("limitSwitchForwID6"));
+ 	 limitSwitchRevID6 =  Integer.parseInt(prop.getProperty("limitSwitchRevID6"));
    	 
    	 motorID7 = 7;
      motorMin7 = Integer.parseInt(prop.getProperty("motorMin7"));
@@ -345,6 +385,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange7 = Double.parseDouble(prop.getProperty("motorTravelRange7"));
    	 maxSpeedChange7 = Double.parseDouble(prop.getProperty("maxSpeedChange7"));
    	 motorDirection7 = Integer.parseInt(prop.getProperty("motorDirection7"));
+   	 limitSwitchForwID7 = Integer.parseInt(prop.getProperty("limitSwitchForwID7"));
+ 	 limitSwitchRevID7 =  Integer.parseInt(prop.getProperty("limitSwitchRevID7"));
    	 
    	 motorID8 = 8;
      motorMin8 = Integer.parseInt(prop.getProperty("motorMin8"));
@@ -354,6 +396,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange8 = Double.parseDouble(prop.getProperty("motorTravelRange8"));
    	 maxSpeedChange8 = Double.parseDouble(prop.getProperty("maxSpeedChange8"));
    	 motorDirection8 = Integer.parseInt(prop.getProperty("motorDirection8"));
+   	 limitSwitchForwID8 = Integer.parseInt(prop.getProperty("limitSwitchForwID8"));
+ 	 limitSwitchRevID8 =  Integer.parseInt(prop.getProperty("limitSwitchRevID8"));
    */	 
    	 motorID9 = 9;
      motorMin9 = Integer.parseInt(prop.getProperty("motorMin9"));
@@ -363,6 +407,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange9 = Double.parseDouble(prop.getProperty("motorTravelRange9"));
    	 maxSpeedChange9 = Double.parseDouble(prop.getProperty("maxSpeedChange9"));
    	 motorDirection9 = Integer.parseInt(prop.getProperty("motorDirection9"));
+   	 limitSwitchForwID9 = Integer.parseInt(prop.getProperty("limitSwitchForwID9"));
+	 limitSwitchRevID9 =  Integer.parseInt(prop.getProperty("limitSwitchRevID9"));
    /*	 
    	 motorID10 = 10;
      motorMin10 = Integer.parseInt(prop.getProperty("motorMin10"));
@@ -372,6 +418,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange10 = Double.parseDouble(prop.getProperty("motorTravelRange10"));
    	 maxSpeedChange10 = Double.parseDouble(prop.getProperty("maxSpeedChange10"));
    	 motorDirection10 = Integer.parseInt(prop.getProperty("motorDirection10"));
+   	 limitSwitchForwID10 = Integer.parseInt(prop.getProperty("limitSwitchForwID10"));
+ 	 limitSwitchRevID10 =  Integer.parseInt(prop.getProperty("limitSwitchRevID10"));
    	 
    	 motorID11 = 11;
      motorMin11 = Integer.parseInt(prop.getProperty("motorMin11"));
@@ -381,6 +429,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange11 = Double.parseDouble(prop.getProperty("motorTravelRange11"));
    	 maxSpeedChange11 = Double.parseDouble(prop.getProperty("maxSpeedChange11"));
    	 motorDirection11 = Integer.parseInt(prop.getProperty("motorDirection11"));
+   	 limitSwitchForwID11 = Integer.parseInt(prop.getProperty("limitSwitchForwID11"));
+ 	 limitSwitchRevID11 =  Integer.parseInt(prop.getProperty("limitSwitchRevID11"));
    	 
    	 motorID12 = 12;
      motorMin12 = Integer.parseInt(prop.getProperty("motorMin12"));
@@ -390,6 +440,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange12 = Double.parseDouble(prop.getProperty("motorTravelRange12"));
    	 maxSpeedChange12 = Double.parseDouble(prop.getProperty("maxSpeedChange12"));
    	 motorDirection12 = Integer.parseInt(prop.getProperty("motorDirection12"));
+   	 limitSwitchForwID12 = Integer.parseInt(prop.getProperty("limitSwitchForwID12"));
+ 	 limitSwitchRevID12 =  Integer.parseInt(prop.getProperty("limitSwitchRevID12"));
    	 
    	 motorID13 = 13;
      motorMin13 = Integer.parseInt(prop.getProperty("motorMin13"));
@@ -399,6 +451,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange13 = Double.parseDouble(prop.getProperty("motorTravelRange13"));
    	 maxSpeedChange13 = Double.parseDouble(prop.getProperty("maxSpeedChange13"));
    	 motorDirection13 = Integer.parseInt(prop.getProperty("motorDirection13"));
+   	 limitSwitchForwID13 = Integer.parseInt(prop.getProperty("limitSwitchForwID13"));
+ 	 limitSwitchRevID13 =  Integer.parseInt(prop.getProperty("limitSwitchRevID13"));
    	 
    	 motorID14 = 14;
      motorMin14 = Integer.parseInt(prop.getProperty("motorMin14"));
@@ -408,6 +462,8 @@ public class Robot extends IterativeRobot {
    	 motorTravelRange14 = Double.parseDouble(prop.getProperty("motorTravelRange14"));
    	 maxSpeedChange14 = Double.parseDouble(prop.getProperty("maxSpeedChange14"));
    	 motorDirection14 = Integer.parseInt(prop.getProperty("motorDirection14"));
+   	 limitSwitchForwID14 = Integer.parseInt(prop.getProperty("limitSwitchForwID14"));
+ 	 limitSwitchRevID14 =  Integer.parseInt(prop.getProperty("limitSwitchRevID14"));
 
    	*/
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
@@ -427,16 +483,16 @@ public class Robot extends IterativeRobot {
     	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, motorDirection2,-1, -1);
     	motor3 = new HawkSuperMotor(10, 0, 100000, 100, 10, 48, .02, -1, -1, -1);
    	 /*
-    	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5);
-    	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6);
-    	rightArmStage1 = new HawkSuperMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7);
-    	leftArmStage1 = new HawkSuperMotor(motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8);
-    	rightArmStage2 = new HawkSuperMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9);
-    	leftArmStage2 = new HawkSuperMotor(motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10);
-    	armActuatorRight = new HawkSuperMotor(motorID11, motorMin11, motorMax11, motorMaxPercent11, motorMinPercent11, motorTravelRange11, maxSpeedChange11);
-    	armActuatorLeft = new HawkSuperMotor(motorID12, motorMin12, motorMax12, motorMaxPercent12, motorMinPercent12, motorTravelRange12, maxSpeedChange12);
-    	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13);
-    	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14);
+    	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
+    	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6, motorDirection6, limitSwitchForwID6, limitSwitchRevID6);
+    	rightArmStage1 = new HawkSuperMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7);
+    	leftArmStage1 = new HawkSuperMotor(motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
+    	rightArmStage2 = new HawkSuperMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9);
+    	leftArmStage2 = new HawkSuperMotor(motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10);
+    	armActuatorRight = new HawkSuperMotor(motorID11, motorMin11, motorMax11, motorMaxPercent11, motorMinPercent11, motorTravelRange11, maxSpeedChange11, motorDirection11, limitSwitchForwID11, limitSwitchRevID11);
+    	armActuatorLeft = new HawkSuperMotor(motorID12, motorMin12, motorMax12, motorMaxPercent12, motorMinPercent12, motorTravelRange12, maxSpeedChange12, motorDirection12, limitSwitchForwID12, limitSwitchRevID12);
+    	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
+    	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, motorDirection14, limitSwitchForwID14, limitSwitchRevID14);
     	*/
     	//motor2 = new CANTalon(2);
     	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
