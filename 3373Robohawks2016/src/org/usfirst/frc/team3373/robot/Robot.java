@@ -557,11 +557,11 @@ public class Robot extends IterativeRobot {
     	autoLoopCounter++;
     	switch(index){
     	case 0:
-    	if(autoLoopCounter < 100){
+    	//if(autoLoopCounter < 1000){
     		hawkDrive.moveStraight(1, 0);
-    	} else{
-    		hawkDrive.wheelControl(0, 0, false, false);
-    		}
+    	//} else{
+    		//hawkDrive.wheelControl(0, 0, false, false);
+    		//}
     	break;
     	case 1:
     		
