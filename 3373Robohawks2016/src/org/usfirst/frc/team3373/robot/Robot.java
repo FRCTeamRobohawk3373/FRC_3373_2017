@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot {
 	CANTalon calibMotor;
 	
 	CameraServer server;
+	boolean sniperMode;
 	double inches;
 	RobotDrive myRobot;
 	int autoLoopCounter;
@@ -820,6 +821,19 @@ public class Robot extends IterativeRobot {
     					motor1.set(0);
     				}
     			}
+    			if(shooter.getRawAxis(Ltrigger) > .02){
+
+    				if(shooter.isLBHeld()){
+    					sniperMode = true;
+    				}
+					goToAngle(getAngle() - 2, sniperMode);
+				}
+				else if(shooter.getRawAxis(Rtrigger) > .02){
+					if(shooter.isLBHeld()){
+	    				sniperMode = true;
+					}
+					goToAngle(getAngle() + 2, sniperMode);
+				}
     		}
     		
     		
@@ -1261,5 +1275,12 @@ public class Robot extends IterativeRobot {
 			
 		}
 	}*/
+	public void goToAngle(double angle, boolean sniper){
+		
+	}
+	public double getAngle(){
+		double angle = 0;
+		return angle;
+	}
 }   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
