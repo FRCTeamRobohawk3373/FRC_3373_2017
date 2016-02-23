@@ -219,6 +219,7 @@ public class Robot extends IterativeRobot {
     DigitalInput twos;
     DigitalInput fours;
     DigitalInput eights;
+    DigitalInput test;
 	
 	boolean counterBool;
 	int counter;
@@ -500,10 +501,11 @@ public class Robot extends IterativeRobot {
     	calibrator = new SuperJoystick(2);
     	myRobot = new RobotDrive(4,0);
     	
-    	ones = new DigitalInput(6);
-        twos = new DigitalInput(7);
-        fours = new DigitalInput(8);
-        eights = new DigitalInput(9);
+    	ones = new DigitalInput(0);
+        twos = new DigitalInput(1);
+        fours = new DigitalInput(2);
+        eights = new DigitalInput(3);
+        test = new DigitalInput(4);
         
  //       hawkDrive = new HawkDrive();
    // 	counter = 0;
@@ -1107,6 +1109,7 @@ public class Robot extends IterativeRobot {
     	System.out.println("Digital Input 7: " + twos.get());
     	System.out.println("Digital Input 8: " + fours.get());
     	System.out.println("Digital Input 9: " + eights.get());
+    	System.out.println("DI Port 5: " + test.get());
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
