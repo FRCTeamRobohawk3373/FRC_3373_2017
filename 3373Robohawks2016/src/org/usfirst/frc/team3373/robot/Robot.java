@@ -548,6 +548,21 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	autoLoopCounter++;
+    	
+    	int index = 15;//for testing purposes
+    	if(ones.get()){
+    		index -= 1;
+    	}
+    	if(twos.get()){
+    		index -= 2;
+    	}
+    	if(fours.get()){
+    		index -= 4;
+    	}
+    	if(eights.get()){
+    		index -= 8;
+    	}
+    	
     	switch(index){
     	case 0:
     	//if(autoLoopCounter < 1000){
@@ -1082,6 +1097,7 @@ public class Robot extends IterativeRobot {
     	if(eights.get()){
     		index -= 8;
     	}
+    	System.out.println(index);
     	
  //   	System.out.println(index);
     	
