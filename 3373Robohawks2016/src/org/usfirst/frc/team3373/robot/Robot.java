@@ -408,7 +408,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection9 = Integer.parseInt(prop.getProperty("motorDirection9"));
    	 limitSwitchForwID9 = Integer.parseInt(prop.getProperty("limitSwitchForwID9"));
 	 limitSwitchRevID9 =  Integer.parseInt(prop.getProperty("limitSwitchRevID9"));
-   	 
+/*   	 
    	 motorID10 = 10;
      motorMin10 = Integer.parseInt(prop.getProperty("motorMin10"));
    	 motorMax10 = Integer.parseInt(prop.getProperty("motorMax10"));
@@ -455,7 +455,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection14 = Integer.parseInt(prop.getProperty("motorDirection14"));
    	 limitSwitchForwID14 = Integer.parseInt(prop.getProperty("limitSwitchForwID14"));
  	 limitSwitchRevID14 =  Integer.parseInt(prop.getProperty("limitSwitchRevID14"));
-
+*/
    	
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -488,7 +488,7 @@ public class Robot extends IterativeRobot {
     	//motor2 = new CANTalon(2);
     	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
     	dual2 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
-    	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
+ //   	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
     	//	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
