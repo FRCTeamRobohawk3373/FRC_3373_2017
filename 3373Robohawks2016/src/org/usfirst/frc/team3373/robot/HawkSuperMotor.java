@@ -151,5 +151,8 @@ public class HawkSuperMotor extends CANTalon {
 	public void emergencyMotorStop(){
 		super.set(0 * motorDirection);
 	}
+	public double getCurrentHeight(){
+		return currentHeight;
+	}
 
 }

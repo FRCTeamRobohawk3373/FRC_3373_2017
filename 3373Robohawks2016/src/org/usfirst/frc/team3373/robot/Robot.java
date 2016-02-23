@@ -657,6 +657,13 @@ public class Robot extends IterativeRobot {
     				CAN = true;
     			}
     		}
+    		if(driver.getRawAxis(Rtrigger) > .02){
+    			//dual3.goToHeight(dual3.getHeight + 2 (too be adjusted)) and to be uncommented  eventually
+    		}
+    		if(driver.getRawAxis(Ltrigger) > .02){
+    			//dual3.goToHeight(dual3.getHeight - 2 (too be adjusted)) and to be uncommented  eventually
+    			
+    		}
     		
     		
     		//
