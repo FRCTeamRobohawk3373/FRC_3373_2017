@@ -1135,57 +1135,57 @@ public class Robot extends IterativeRobot {
 		
     	break;
     	case 1:
-    		calibrate(1, 1);
+    		calibrate(1, 1, false);
     		//System.out.println("Soup.");
     	break;
     	case 2:
-    		calibrate(2, 1);
+    		calibrate(2, 1, false);
     	break;
     	case 3:
-    		calibrate(3, 1);
+    		calibrate(3, 1, false);
     	break;
     	case 4:
-    		calibrate(4, 1);
+    		calibrate(4, 1, false);
     	break;
     	case 5:
-    		calibrate(5, 1);
+    		calibrate(5, 1, false);
     	break;
     	case 6:
-    		calibrate(6, 1);
+    		calibrate(6, 1, true);
     	break;
     	case 7:
-    		calibrate(7, 1);
+    		calibrate(7, 1, true);
     	break;
     	case 8:
-    		calibrate(8, 1);
+    		calibrate(8, 1, false);
     	break;
     	case 9:
-    		calibrate(9, -1);
+    		calibrate(9, -1, false);
     		System.out.println(calibMotor.getEncPosition());
     	break;
     	case 10:
-    		calibrate(10, -1);
+    		calibrate(10, -1, true);
     		System.out.println(calibMotor.getEncPosition());
     	break;
     	case 11:
-    		calibrate(11, 1);
+    		calibrate(11, 1, false);
     	break;
     	case 12:
-    		calibrate(12, 1);
+    		calibrate(12, 1, false);
     	break;
     	case 13:
-    		calibrate(13, -1);
+    		calibrate(13, -1, false);
     	//	System.out.println(motor3.getEncPosition());
     	break;
     	case 14:
-    		calibrate(14, 1);
+    		calibrate(14, 1, false);
     	break;
     	case 15:
-    		calibrate(15, 1);
+    		calibrate(15, 1, false);
     	break;
     	}
 		}
-	public void calibrate(int id, int inversion){
+	public void calibrate(int id, int inversion, boolean limitSwitch){
 		int rangeMin=0;
 		int rangeMax=0;
 		double calibrationLeftY;
@@ -1199,8 +1199,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("RangeMax: ", rangeMax);
 //		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
 		SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
-		
-		if(calibMotor.isRevLimitSwitchClosed() || calibrator.isAPushed()){
+		if(limitSwitch){
+		if(calibMotor.isRevLimitSwitchClosed()){
 			calibMotor.set(0);
 			try {
 				Thread.sleep(250);
@@ -1220,6 +1220,27 @@ public class Robot extends IterativeRobot {
 			calibMotor.set(.2 * inversion);
 			}
 		}
+		}
+		else{
+			
+		}
+		if(calibrator.isAPushed()){
+			calibMotor.set(0);
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			calibMotor.setPosition(0);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			rangeMin = calibMotor.getEncPosition() * inversion;
+		}	
 		if(calibrator.isYPushed()){
 			calibMotor.set(0);
 			try {
