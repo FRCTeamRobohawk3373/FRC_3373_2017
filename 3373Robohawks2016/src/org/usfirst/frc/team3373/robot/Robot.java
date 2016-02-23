@@ -39,6 +39,9 @@ public class Robot extends IterativeRobot {
 	double inches;
 	RobotDrive myRobot;
 	int autoLoopCounter;
+	
+	CANTalon talonTest;
+	
 	HawkSuperMotor motor1;
 	HawkSuperMotor motor2;
 	HawkSuperMotor motor3;
@@ -52,7 +55,7 @@ public class Robot extends IterativeRobot {
 	SuperJoystick shooter;
 	SuperJoystick calibrator;
 	
-	HawkDrive hawkDrive;
+//	HawkDrive hawkDrive;
 	
 	boolean manualArm = false;
 	
@@ -470,9 +473,11 @@ public class Robot extends IterativeRobot {
     	
     	
    // 	stick = new SuperJoystick(0);
-    	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorDirection1,limitSwitchForwID1, limitSwitchRevID1 );                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
-    	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, motorDirection2,limitSwitchForwID2, limitSwitchRevID2);
-    	motor3 = new HawkSuperMotor(10, 0, 100000, 100, 10, 48, .02, -1, -1, -1);
+  //  	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorDirection1,limitSwitchForwID1, limitSwitchRevID1 );                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
+  //  	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, motorDirection2,limitSwitchForwID2, limitSwitchRevID2);
+    	motor3 = new HawkSuperMotor(13, 0, 100000, 100, 10, 48, .02, -1, -1, -1);
+    	
+ //   	talonTest = new CANTalon(0);
    	 /*
     	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
     	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6, motorDirection6, limitSwitchForwID6, limitSwitchRevID6);
@@ -486,8 +491,8 @@ public class Robot extends IterativeRobot {
     	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, motorDirection14, limitSwitchForwID14, limitSwitchRevID14);
     	*/
     	//motor2 = new CANTalon(2);
-    	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
-    	dual2 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
+ //   	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
+ //   	dual2 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
  //   	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
     	//	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
@@ -500,7 +505,7 @@ public class Robot extends IterativeRobot {
         fours = new DigitalInput(8);
         eights = new DigitalInput(9);
         
-        hawkDrive = new HawkDrive();
+ //       hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
         
@@ -540,7 +545,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousInit() {
     	autoLoopCounter = 0;
-    	hawkDrive.ahrs.reset();
+  //  	hawkDrive.ahrs.reset();
     }
 
     /**
@@ -566,7 +571,7 @@ public class Robot extends IterativeRobot {
     	switch(index){
     	case 0:
     	//if(autoLoopCounter < 1000){
-    		hawkDrive.moveStraight(1, 0);
+    //		hawkDrive.moveStraight(1, 0);
     	//} else{
     		//hawkDrive.wheelControl(0, 0, false, false);
     		//}
@@ -664,7 +669,7 @@ public class Robot extends IterativeRobot {
     		
     		
     		if(CAN){                                                                         //Drive System
-    		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
+   // 		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
     		}
     		if(CAN == false){
     			myRobot.tankDrive(driver.getRawAxis(LY), driver.getRawAxis(RY));               //Regular Talon Control
@@ -1098,9 +1103,11 @@ public class Robot extends IterativeRobot {
     		index -= 8;
     	}
     	System.out.println(index);
-    	
- //   	System.out.println(index);
-    	
+    	System.out.println("Digital Input 6: " + ones.get());
+    	System.out.println("Digital Input 7: " + twos.get());
+    	System.out.println("Digital Input 8: " + fours.get());
+    	System.out.println("Digital Input 9: " + eights.get());
+
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
     		/*
@@ -1121,12 +1128,15 @@ public class Robot extends IterativeRobot {
 				}
 				*/
     	//	motor3.set(shooter.getRawAxis(LY));
-    		System.out.println("Motor 9 inversion: " + Integer.parseInt(prop.getProperty("motorDirection9")));
-    		
+    		//System.out.println("Motor 9 inversion: " + Integer.parseInt(prop.getProperty("motorDirection9")));
+    		//talonTest.set(1);
+    		motor3.set(shooter.getRawAxis(LY)/6);
+    		//System.out.println(motor3.getSpeed());
 		
     	break;
     	case 1:
     		calibrate(1, 1);
+    		//System.out.println("Soup.");
     	break;
     	case 2:
     		calibrate(2, 1);
@@ -1164,7 +1174,8 @@ public class Robot extends IterativeRobot {
     		calibrate(12, 1);
     	break;
     	case 13:
-    		calibrate(13, 1);
+    		calibrate(13, -1);
+    	//	System.out.println(motor3.getEncPosition());
     	break;
     	case 14:
     		calibrate(14, 1);
@@ -1181,6 +1192,8 @@ public class Robot extends IterativeRobot {
 		int ID;
 		ID = id;
 		calibMotor = new CANTalon(ID);
+		
+		calibMotor.set(calibrator.getRawAxis(LY)/4);
 		
 		SmartDashboard.putNumber("RangeMin: ", rangeMin);
 		SmartDashboard.putNumber("RangeMax: ", rangeMax);

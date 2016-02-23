@@ -99,7 +99,7 @@ public class HawkSuperMotor extends CANTalon {
 		
 	} */
 	@Override
-	public void set(double speed){
+	/*public void set(double speed){
 		if(forwLimitSwitchID >= 0){
 			if(!limitSwitchForw.get()){
 				accelerationSet(speed);
@@ -126,8 +126,9 @@ public class HawkSuperMotor extends CANTalon {
 			accelerationSet(speed);
 		}
 	}
-	
-	public void accelerationSet(double speed){
+	*/
+
+	public void set(double speed){
 		//If the change in speed is greater than max delta, reduce the change to max delta
 		double currentDelta = Math.abs(currentSpeed - speed);
 		if(currentDelta > maxDelta){
