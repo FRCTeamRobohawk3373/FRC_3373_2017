@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 	SuperJoystick shooter;
 	SuperJoystick calibrator;
 	
-//	HawkDrive hawkDrive;
+	HawkDrive hawkDrive;
 	
 	boolean manualArm = false;
 	
@@ -507,7 +507,7 @@ public class Robot extends IterativeRobot {
         eights = new DigitalInput(3);
         test = new DigitalInput(4);
         
- //       hawkDrive = new HawkDrive();
+        hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
         
@@ -547,7 +547,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousInit() {
     	autoLoopCounter = 0;
-  //  	hawkDrive.ahrs.reset();
+    	hawkDrive.ahrs.reset();
     }
 
     /**
@@ -572,11 +572,11 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){
     	case 0:
-    	//if(autoLoopCounter < 1000){
-    //		hawkDrive.moveStraight(1, 0);
-    	//} else{
-    		//hawkDrive.wheelControl(0, 0, false, false);
-    		//}
+    	if(autoLoopCounter < 1000){
+    		hawkDrive.moveStraight(1, 0);
+    	} else{
+    		hawkDrive.wheelControl(0, 0, false, false);
+    		}
     	break;
     	case 1:
     		
@@ -670,15 +670,10 @@ public class Robot extends IterativeRobot {
     		//
     		
     		
-    		if(CAN){                                                                         //Drive System
-   // 		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
-    		}
-    		if(CAN == false){
-    			myRobot.tankDrive(driver.getRawAxis(LY), driver.getRawAxis(RY));               //Regular Talon Control
-    			if(driver.isAPushed()){
-    				CAN = true;
-    			}
-    		}
+                                                                      //Drive System
+    		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
+    		
+
     		if(driver.getRawAxis(Rtrigger) > .02){
     			//dual3.goToHeight(dual3.getHeight + 2 (too be adjusted)) and to be uncommented  eventually
     		}
