@@ -28,6 +28,8 @@ import edu.wpi.first.wpilibj.CameraServer;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	int rangeMin=0;
+	int rangeMax=0;
 	
 	CANTalon calibMotor;
 	
@@ -45,9 +47,12 @@ public class Robot extends IterativeRobot {
 	HawkSuperMotor motor1;
 	HawkSuperMotor motor2;
 	HawkSuperMotor motor3;
+	HawkSuperMotor shooterAimMotor;
+	HawkSuperMotor shooterMain;
+	HawkSuperMotor shooterControl;
 	
-	HawkSuperDualMotor dual1;
-	HawkSuperDualMotor dual2;
+	HawkSuperDualMotor armStage2;
+	HawkSuperDualMotor armStage1;
 	
 	HawkDualLinearActuator armActuators;
 	
@@ -357,7 +362,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection4 = Integer.parseInt(prop.getProperty("motorDirection4"));
    	 limitSwitchForwID4 = Integer.parseInt(prop.getProperty("limitSwitchForwID4"));
  	 limitSwitchRevID4 =  Integer.parseInt(prop.getProperty("limitSwitchRevID4"));
-   	 
+   */	 
    	 motorID5 = 5;
      motorMin5 = Integer.parseInt(prop.getProperty("motorMin5"));
    	 motorMax5 = Integer.parseInt(prop.getProperty("motorMax5"));
@@ -379,7 +384,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection6 = Integer.parseInt(prop.getProperty("motorDirection6"));
    	 limitSwitchForwID6 = Integer.parseInt(prop.getProperty("limitSwitchForwID6"));
  	 limitSwitchRevID6 =  Integer.parseInt(prop.getProperty("limitSwitchRevID6"));
-   	 
+  /* 	 
    	 motorID7 = 7;
      motorMin7 = Integer.parseInt(prop.getProperty("motorMin7"));
    	 motorMax7 = Integer.parseInt(prop.getProperty("motorMax7"));
@@ -423,7 +428,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection10 = Integer.parseInt(prop.getProperty("motorDirection10"));
    	 limitSwitchForwID10 = Integer.parseInt(prop.getProperty("limitSwitchForwID10"));
  	 limitSwitchRevID10 =  Integer.parseInt(prop.getProperty("limitSwitchRevID10"));
-   	 
+   	 */
    	 motorID11 = 11;
      actuatorMaxPotValue11 = Double.parseDouble(prop.getProperty("actuatorMaxPotValue11"));
    	 actuatorMinPotValue11 = Double.parseDouble(prop.getProperty("actuatorMinPotValue11"));
@@ -437,7 +442,7 @@ public class Robot extends IterativeRobot {
    	 maxSpeedChange12 = Double.parseDouble(prop.getProperty("maxSpeedChange12"));
    	 limitSwitchForwID12 = Integer.parseInt(prop.getProperty("limitSwitchForwID12"));
  	 limitSwitchRevID12 =  Integer.parseInt(prop.getProperty("limitSwitchRevID12"));
-   	 
+   	 /*
    	 motorID13 = 13;
      motorMin13 = Integer.parseInt(prop.getProperty("motorMin13"));
    	 motorMax13 = Integer.parseInt(prop.getProperty("motorMax13"));
@@ -448,7 +453,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection13 = Integer.parseInt(prop.getProperty("motorDirection13"));
    	 limitSwitchForwID13 = Integer.parseInt(prop.getProperty("limitSwitchForwID13"));
  	 limitSwitchRevID13 =  Integer.parseInt(prop.getProperty("limitSwitchRevID13"));
-   	 
+   	 */
    	 motorID14 = 14;
      motorMin14 = Integer.parseInt(prop.getProperty("motorMin14"));
    	 motorMax14 = Integer.parseInt(prop.getProperty("motorMax14"));
@@ -459,7 +464,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection14 = Integer.parseInt(prop.getProperty("motorDirection14"));
    	 limitSwitchForwID14 = Integer.parseInt(prop.getProperty("limitSwitchForwID14"));
  	 limitSwitchRevID14 =  Integer.parseInt(prop.getProperty("limitSwitchRevID14"));
-*/
+
    	
    /*	 motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -474,14 +479,15 @@ public class Robot extends IterativeRobot {
     	
     	
    // 	stick = new SuperJoystick(0);
-  //  	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorDirection1,limitSwitchForwID1, limitSwitchRevID1 );                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
-  //  	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, motorDirection2,limitSwitchForwID2, limitSwitchRevID2);
-    	motor3 = new HawkSuperMotor(13, 0, 100000, 100, 10, 48, .02, -1, -1, -1);
+    	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorDirection1,limitSwitchForwID1, limitSwitchRevID1 );                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
+    	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, motorDirection2,limitSwitchForwID2, limitSwitchRevID2);
+    //	motor3 = new HawkSuperMotor(13, 0, 100000, 100, 10, 48, .02, -1, -1, -1);
     	
  //   	talonTest = new CANTalon(0);
-   	 /*
+   	 
     	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
     	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6, motorDirection6, limitSwitchForwID6, limitSwitchRevID6);
+    	/*
     	rightArmStage1 = new HawkSuperMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7);
     	leftArmStage1 = new HawkSuperMotor(motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
     	rightArmStage2 = new HawkSuperMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9);
@@ -489,12 +495,15 @@ public class Robot extends IterativeRobot {
     	armActuatorRight = new HawkSuperMotor(motorID11, motorMin11, motorMax11, motorMaxPercent11, motorMinPercent11, motorTravelRange11, maxSpeedChange11, motorDirection11, limitSwitchForwID11, limitSwitchRevID11);
     	armActuatorLeft = new HawkSuperMotor(motorID12, motorMin12, motorMax12, motorMaxPercent12, motorMinPercent12, motorTravelRange12, maxSpeedChange12, motorDirection12, limitSwitchForwID12, limitSwitchRevID12);
     	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
-    	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, motorDirection14, limitSwitchForwID14, limitSwitchRevID14);
     	*/
+    	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, motorDirection14, limitSwitchForwID14, limitSwitchRevID14);
+    	
+    	
+    	armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10);
     	//motor2 = new CANTalon(2);
  //   	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
  //   	dual2 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
- //   	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
+    	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
     	//	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
@@ -859,7 +868,15 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterToggle = false;
     				}
     			}
-    			if(shooter.isAPushed()){
+    			if(shooter.isRStickHeld()){
+    			if(armStage2.motor1.getCurrentHeight()<armStage2.motor1.travel-5){
+    				armStage2.goToHeight(armStage2.motor1.travel-4);
+    				armActuators.goToHeight(10);
+    			}else{
+    				armActuators.goToHeight(1);
+    			}
+    			}
+    			/*if(shooter.isAPushed()){
     				counterBoolShooterA = true;
     			}
     			if(counterBoolShooterA){
@@ -867,7 +884,7 @@ public class Robot extends IterativeRobot {
         					counterShooterA = robotTimer;
         				}
         				if(robotTimer<counterShooterA+50){                    //Runs the sequence for 50 loops, or one second
-        				motor1.set(1);
+        				//motor1.set(1);
         				}
         				else if(robotTimer>=counterShooterA+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
         				motor1.set(0);
@@ -875,8 +892,8 @@ public class Robot extends IterativeRobot {
         				counterShooterA = 0;
         				counterBoolShooterA = false;
         				}
-        			
-    			}
+        			*/
+    			//}
     			if(shooter.isBPushed()){
     				counterBoolShooterB = true;       //Begins the B button sequence
     			}
@@ -991,22 +1008,22 @@ public class Robot extends IterativeRobot {
     			
     			
     			if(shooter.getRawAxis(RY)<-0.1 && shooter.isLBHeld()){
-    				dual1.sniperDown();
+    				//dual1.sniperDown();
     			}else if(shooter.getRawAxis(RY)>0.1 && shooter.isLBHeld()){
-    				dual1.sniperUp();
+    				//dual1.sniperUp();
     			}
     			
     			
     			
     			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
-    				dual1.sniperDown();
+    			//	dual1.sniperDown();
     			}else if(shooter.getRawAxis(Rtrigger)>0.02 && shooter.isLBHeld()){
-    				dual1.sniperUp();
+    			//	dual1.sniperUp();
     			}else if(shooter.getRawAxis(Ltrigger)>0.02){
-    				dual1.manualDown();
+    				//dual1.manualDown();
     			//	dual2.manualDown();
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
-    				dual1.manualUp();
+    				//dual1.manualUp();
     			//	dual2.manualUp();
     			}else if(shooter.isAPushed()){
     				goingSallyPort = true;
@@ -1019,11 +1036,11 @@ public class Robot extends IterativeRobot {
     				goingPortcullis = true;
     				shooter.clearB();
     			}else{
-    				dual1.set(0);
+    				//dual1.set(0);
     			//	dual2.set(0);
     			//	System.out.println("Soup.");
     			//	dual1.set(0);
-    				System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
+    			//	System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
     		}
     			if(goingSallyPort){
     				armToHeight(12);
@@ -1032,12 +1049,12 @@ public class Robot extends IterativeRobot {
     			}else if(goingPortcullis){
     				armToHeight(12);
     			}
-    				
+    		}
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
-    		if(Shooting || !Shooting){
     			if(shooter.isBackHeld()){
-    				motor1.set(-1);
-    				motor2.set(-1);
+    				shooterMain.set(-1);
+    				shooterControl.set(-1);
+    				System.out.println("Yay.");
     			}
     			if(shooter.getRawAxis(LY)>0.1){
 					//shooterAimMotor.setScaled(1);
@@ -1045,7 +1062,28 @@ public class Robot extends IterativeRobot {
 				if(shooter.getRawAxis(LY)<0.1){
 					//shooterAimMotor.setScaled(-1);
 				}
-    		}
+				
+				
+				
+				if(shooter.getRawAxis(Ltrigger)>.2 && !(shooterAimMotor.getEncPosition()<motorMin14+50)){
+					shooterAimMotor.set(-shooter.getRawAxis(Ltrigger)/3);
+						System.out.println("3");
+				}else if(shooter.getRawAxis(Rtrigger)>.2 && !(shooterAimMotor.getEncPosition()>motorMax14 - 50)){
+					shooterAimMotor.set(shooter.getRawAxis(Rtrigger)/3);
+					System.out.println("4");
+				}else if(shooterAimMotor.getEncPosition()>motorMax14 - 50) {
+					shooterAimMotor.set(0);
+				}else if(shooterAimMotor.getEncPosition()<motorMin14+50){
+					shooterAimMotor.set(0);
+				}else if(shooter.isRBHeld()){
+					shooterAimMotor.goToHeight(45);
+				}else if(shooterAimMotor.getEncPosition()<(motorMax14 / 3)){
+					shooterAimMotor.set(.1);
+					System.out.println("Soup.");
+				}else{
+					shooterAimMotor.set(.05);
+				}
+    		
     		
     		SmartDashboard.putBoolean("Shooting: ", Shooting);
     		
@@ -1060,10 +1098,6 @@ public class Robot extends IterativeRobot {
     		SmartDashboard.putBoolean("D-Pad Down: ", D_Pad1);
     		SmartDashboard.putBoolean("D-Pad Left: ", D_Pad3);
 
-    	}else{
-    	motor1.disable();
-    	motor2.disable();
-    	}
     	}    
 
 
@@ -1099,15 +1133,17 @@ public class Robot extends IterativeRobot {
     	if(eights.get()){
     		index -= 8;
     	}
-    	System.out.println(index);
-    	System.out.println("Digital Input 6: " + ones.get());
-    	System.out.println("Digital Input 7: " + twos.get());
-    	System.out.println("Digital Input 8: " + fours.get());
-    	System.out.println("Digital Input 9: " + eights.get());
-    	System.out.println("DI Port 5: " + test.get());
+  /*  	System.out.println(index);
+    	System.out.println("Digital Input 0: " + ones.get());
+    	System.out.println("Digital Input 1: " + twos.get());
+    	System.out.println("Digital Input 2: " + fours.get());
+    	System.out.println("Digital Input 3: " + eights.get());
+    	System.out.println("DI Port 5: " + test.get()); */
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
+    		shooterAimMotor.goToHeight(45);
+    		//calibrate(14, 1, false);
     		/*
     		if(shooter.getRawAxis(Ltrigger)>0.02){
 				dual1.manualDown();
@@ -1128,8 +1164,9 @@ public class Robot extends IterativeRobot {
     	//	motor3.set(shooter.getRawAxis(LY));
     		//System.out.println("Motor 9 inversion: " + Integer.parseInt(prop.getProperty("motorDirection9")));
     		//talonTest.set(1);
-    		motor3.set(shooter.getRawAxis(LY)/6);
+    //		motor3.set(shooter.getRawAxis(LY)/6);
     		//System.out.println(motor3.getSpeed());
+    		
 		
     	break;
     	case 1:
@@ -1184,19 +1221,16 @@ public class Robot extends IterativeRobot {
     	}
 		}
 	public void calibrate(int id, int inversion, boolean limitSwitch){
-		int rangeMin=0;
-		int rangeMax=0;
+		calibrator.clearButtons();
 		double calibrationLeftY;
 		int ID;
 		ID = id;
-		calibMotor = new CANTalon(ID);
-		
-		calibMotor.set(calibrator.getRawAxis(LY)/4);
-		
-		SmartDashboard.putNumber("RangeMin: ", rangeMin);
-		SmartDashboard.putNumber("RangeMax: ", rangeMax);
+		calibMotor = new CANTalon(ID);	
+		System.out.println("Encoder: " + calibMotor.getEncPosition());
+	//	SmartDashboard.putNumber("RangeMin: ", rangeMin);
+	//	SmartDashboard.putNumber("RangeMax: ", rangeMax);
 //		SmartDashboard.putNumber("Encoder Position: ", calibMotor.getEncPosition());
-		SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
+	//	SmartDashboard.putNumber("Range: ", rangeMax - rangeMin);
 		if(limitSwitch){
 		if(calibMotor.isRevLimitSwitchClosed()){
 			calibMotor.set(0);
@@ -1221,7 +1255,7 @@ public class Robot extends IterativeRobot {
 		}
 		else{
 			
-		}
+		
 		if(calibrator.isAPushed()){
 			calibMotor.set(0);
 			try {
@@ -1238,7 +1272,9 @@ public class Robot extends IterativeRobot {
 				e.printStackTrace();
 			}
 			rangeMin = calibMotor.getEncPosition() * inversion;
+			calibrator.clearA();
 		}	
+		}
 		if(calibrator.isYPushed()){
 			calibMotor.set(0);
 			try {
@@ -1257,7 +1293,7 @@ public class Robot extends IterativeRobot {
     	}else{
     		calibrationLeftY = calibrator.getRawAxis(LY);
     	}
-		calibMotor.set(calibrationLeftY/8);
+		calibMotor.set(calibrationLeftY/4);
 		
 		
 		if(calibrator.isStartPushed()){
@@ -1305,14 +1341,10 @@ public class Robot extends IterativeRobot {
 				prop.load(input);
 
 				// get the property value and print it out
-				System.out.println("Motor 1 min: ");
-				System.out.println(prop.getProperty("motorMin1"));
-				System.out.println("Motor 1 max: ");
-				System.out.println(prop.getProperty("motorMax1"));
-				System.out.println("Motor 2 min: ");
-				System.out.println(prop.getProperty("motorMin2"));
-				System.out.println("Motor 2 max: ");
-				System.out.println(prop.getProperty("motorMax2"));
+				System.out.println("Motor min: ");
+				System.out.println(prop.getProperty("motorMin" + ID));
+				System.out.println("Motor max: ");
+				System.out.println(prop.getProperty("motorMax" + ID));
 
 			} catch (IOException ex) {
 				ex.printStackTrace();
@@ -1328,12 +1360,12 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	public void armToHeight(double targetHeight){
-		if(dual1.getHeight() + dual2.getHeight()<targetHeight-.1){
-			dual1.goToHeight(dual1.motor1.travel);
-			dual2.goToHeight(dual2.motor1.travel);
-		}else if(dual1.getHeight() + dual2.getHeight()>targetHeight+.1){
-			dual1.goToHeight(0);
-			dual2.goToHeight(0);
+		if(armStage1.getHeight() + armStage2.getHeight()<targetHeight-.1){
+			armStage1.goToHeight(armStage1.motor1.travel);
+			armStage2.goToHeight(armStage2.motor1.travel);
+		}else if(armStage1.getHeight() + armStage2.getHeight()>targetHeight+.1){
+			armStage1.goToHeight(0);
+			armStage2.goToHeight(0);
 		}else{
 			goingPortcullis = false;
 			goingSallyPort = false;

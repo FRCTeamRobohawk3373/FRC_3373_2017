@@ -50,17 +50,17 @@ public class HawkSuperMotor extends CANTalon {
 	}
 	public double goToHeight(double targetHeight){
 		targetEncoderPos = (range/travel) * targetHeight;
-		if(getEncPosition()<rangeMin-1){                             //Prevents the motor from hitting or passing its lower limit
+		if(getEncPosition()<rangeMin-15){                             //Prevents the motor from hitting or passing its lower limit
 			setScaled(-.1* motorDirection);
-		}else if(getEncPosition()>rangeMax+1){                       //Prevents the motor from hitting or passing its upper limit
+		}else if(getEncPosition()>rangeMax+15){                       //Prevents the motor from hitting or passing its upper limit
 			setScaled(.1 * motorDirection);
-		}else if(getEncPosition()<targetEncoderPos+300 && getEncPosition() >targetEncoderPos+50){
+		}else if(getEncPosition()<targetEncoderPos+30 && getEncPosition() >targetEncoderPos+50){
 			setScaled(.1 * motorDirection);
-		}else if(getEncPosition()>targetEncoderPos+300){
+		}else if(getEncPosition()>targetEncoderPos+30){
 			setScaled(.5 * motorDirection);
-		}else if(getEncPosition()>targetEncoderPos-300 && getEncPosition() < targetEncoderPos-50){
+		}else if(getEncPosition()>targetEncoderPos-30 && getEncPosition() < targetEncoderPos-50){
 			setScaled(-.1 * motorDirection);
-		}else if(getEncPosition()< targetEncoderPos-300){
+		}else if(getEncPosition()< targetEncoderPos-30){
 			setScaled(-.5 * motorDirection);
 		}else{
 			setScaled(0 * motorDirection);
@@ -73,13 +73,13 @@ public class HawkSuperMotor extends CANTalon {
 			setScaled(-.1* motorDirection);
 		}else if(getEncPosition()>rangeMax+1){                       //Prevents the motor from hitting or passing its upper limit
 			setScaled(.1 * motorDirection);
-		}else if(getEncPosition()<targetEncoderPos+150 && getEncPosition() >targetEncoderPos+25){
+		}else if(getEncPosition()<targetEncoderPos+15 && getEncPosition() >targetEncoderPos+25){
 			setScaled(.1 * motorDirection);
-		}else if(getEncPosition()>targetEncoderPos+150){
+		}else if(getEncPosition()>targetEncoderPos+15){
 			setScaled(.25 * motorDirection);
-		}else if(getEncPosition()>targetEncoderPos-150 && getEncPosition() < targetEncoderPos-25){
+		}else if(getEncPosition()>targetEncoderPos-15 && getEncPosition() < targetEncoderPos-25){
 			setScaled(-.1 * motorDirection);
-		}else if(getEncPosition()< targetEncoderPos-150){
+		}else if(getEncPosition()< targetEncoderPos-15){
 			setScaled(-.25 * motorDirection);
 		}else{
 			setScaled(0 * motorDirection);
