@@ -9,8 +9,10 @@ import java.util.Properties;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //@author Joey Dyer, Drew Marino, Alex Iasso, Dillon Rose
@@ -217,6 +219,8 @@ public class Robot extends IterativeRobot {
     DigitalInput fours;
     DigitalInput eights;
     DigitalInput test;
+    
+    Solenoid solenoid7;
 	
 	boolean counterBool;
 	int counter;
@@ -499,6 +503,8 @@ public class Robot extends IterativeRobot {
         eights = new DigitalInput(3);
         test = new DigitalInput(4);
         
+      //  solenoid7 = new Solenoid(7);
+        
         hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
@@ -540,6 +546,22 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	autoLoopCounter = 0;
     	hawkDrive.ahrs.reset();
+    	/*while(true){
+    	System.out.println(solenoid7.get());
+    	solenoid7.set(true);
+    	try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	solenoid7.set(false);
+    	try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	}
+    	*/
     }
 
     /**
