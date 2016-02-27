@@ -220,7 +220,7 @@ public class Robot extends IterativeRobot {
     DigitalInput eights;
     DigitalInput test;
     
-    Solenoid solenoid7;
+    DigitalOutput solenoid7;
 	
 	boolean counterBool;
 	int counter;
@@ -503,7 +503,7 @@ public class Robot extends IterativeRobot {
         eights = new DigitalInput(3);
         test = new DigitalInput(4);
         
-      //  solenoid7 = new Solenoid(7);
+      // solenoid7 = new DigitalOutput(7);
         
         hawkDrive = new HawkDrive();
    // 	counter = 0;
@@ -547,7 +547,6 @@ public class Robot extends IterativeRobot {
     	autoLoopCounter = 0;
     	hawkDrive.ahrs.reset();
     	/*while(true){
-    	System.out.println(solenoid7.get());
     	solenoid7.set(true);
     	try {
 			Thread.sleep(500);
@@ -562,6 +561,7 @@ public class Robot extends IterativeRobot {
 		}
     	}
     	*/
+    	
     }
 
     /**
