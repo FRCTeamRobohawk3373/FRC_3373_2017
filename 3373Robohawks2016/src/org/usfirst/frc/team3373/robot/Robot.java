@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -220,7 +221,7 @@ public class Robot extends IterativeRobot {
     DigitalInput eights;
     DigitalInput test;
     
-    DigitalOutput solenoid7;
+    Relay solenoid7;
 	
 	boolean counterBool;
 	int counter;
@@ -503,11 +504,12 @@ public class Robot extends IterativeRobot {
         eights = new DigitalInput(3);
         test = new DigitalInput(4);
         
-      // solenoid7 = new DigitalOutput(7);
+      solenoid7 = new Relay(1, Relay.Direction.kBoth);
         
         hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
+        
         
         
   /*      while(initializingMotors){
@@ -546,21 +548,22 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	autoLoopCounter = 0;
     	hawkDrive.ahrs.reset();
-    	/*while(true){
-    	solenoid7.set(true);
+    	while(true){
+    	solenoid7.set(Relay.Value.kOn);
+    	System.out.println("on");
     	try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-    	solenoid7.set(false);
+    	solenoid7.set(Relay.Value.kOff);
+    	System.out.println("off");
     	try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
     	}
-    	*/
     	
     }
 
