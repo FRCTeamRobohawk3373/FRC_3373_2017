@@ -1,22 +1,17 @@
 package org.usfirst.frc.team3373.robot;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-//AUTHOR Alex Iasso and Dillon Rose
-import edu.wpi.first.wpilibj.AnalogInput;
-
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //@author Joey Dyer, Drew Marino, Alex Iasso, Dillon Rose
 
@@ -42,18 +37,15 @@ public class Robot extends IterativeRobot {
 	RobotDrive myRobot;
 	int autoLoopCounter;
 	
-	CANTalon talonTest;
 	
-	HawkSuperMotor motor1;
-	HawkSuperMotor motor2;
-	HawkSuperMotor motor3;
-	HawkSuperMotor shooterAimMotor;
 	HawkSuperMotor shooterMain;
 	HawkSuperMotor shooterControl;
-	
+	HawkSuperMotor smallArmMotor;
+	HawkSuperMotor shooterAimMotor;
+
 	HawkSuperDualMotor armStage2;
 	HawkSuperDualMotor armStage1;
-	
+
 	HawkDualLinearActuator armActuators;
 	
 	SuperJoystick driver;
@@ -67,7 +59,7 @@ public class Robot extends IterativeRobot {
 	InputStream input = null;
 	Properties prop = new Properties();
 	
-	int motorID1;
+/*	int motorID1;
 	int motorMin1;
 	int motorMax1;
 	int motorMaxPercent1;
@@ -111,7 +103,7 @@ public class Robot extends IterativeRobot {
 	int motorDirection4;
 	int limitSwitchForwID4;
 	int limitSwitchRevID4;
-
+ 	*/
 	int motorID5;
 	int motorMin5;
 	int motorMax5;
@@ -317,7 +309,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	
-     motorID1 = 1;
+    /* motorID1 = 1;
      motorMin1 = Integer.parseInt(prop.getProperty("motorMin1"));
    	 motorMax1 = Integer.parseInt(prop.getProperty("motorMax1"));
    	 motorMaxPercent1 = 100;
@@ -339,7 +331,6 @@ public class Robot extends IterativeRobot {
    	 limitSwitchForwID2 = Integer.parseInt(prop.getProperty("limitSwitchForwID2"));
  	 limitSwitchRevID2 =  Integer.parseInt(prop.getProperty("limitSwitchRevID2"));
 
-   	 /*
      motorID3 = 3;
      motorMin3 = Integer.parseInt(prop.getProperty("motorMin3"));
    	 motorMax3 = Integer.parseInt(prop.getProperty("motorMax3"));
@@ -384,7 +375,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection6 = Integer.parseInt(prop.getProperty("motorDirection6"));
    	 limitSwitchForwID6 = Integer.parseInt(prop.getProperty("limitSwitchForwID6"));
  	 limitSwitchRevID6 =  Integer.parseInt(prop.getProperty("limitSwitchRevID6"));
-  /* 	 
+ 	 
    	 motorID7 = 7;
      motorMin7 = Integer.parseInt(prop.getProperty("motorMin7"));
    	 motorMax7 = Integer.parseInt(prop.getProperty("motorMax7"));
@@ -406,7 +397,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection8 = Integer.parseInt(prop.getProperty("motorDirection8"));
    	 limitSwitchForwID8 = Integer.parseInt(prop.getProperty("limitSwitchForwID8"));
  	 limitSwitchRevID8 =  Integer.parseInt(prop.getProperty("limitSwitchRevID8"));
-   */	 
+   	 
    	 motorID9 = 9;
      motorMin9 = Integer.parseInt(prop.getProperty("motorMin9"));
    	 motorMax9 = Integer.parseInt(prop.getProperty("motorMax9"));
@@ -417,7 +408,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection9 = Integer.parseInt(prop.getProperty("motorDirection9"));
    	 limitSwitchForwID9 = Integer.parseInt(prop.getProperty("limitSwitchForwID9"));
 	 limitSwitchRevID9 =  Integer.parseInt(prop.getProperty("limitSwitchRevID9"));
-/*   	 
+  	 
    	 motorID10 = 10;
      motorMin10 = Integer.parseInt(prop.getProperty("motorMin10"));
    	 motorMax10 = Integer.parseInt(prop.getProperty("motorMax10"));
@@ -428,8 +419,8 @@ public class Robot extends IterativeRobot {
    	 motorDirection10 = Integer.parseInt(prop.getProperty("motorDirection10"));
    	 limitSwitchForwID10 = Integer.parseInt(prop.getProperty("limitSwitchForwID10"));
  	 limitSwitchRevID10 =  Integer.parseInt(prop.getProperty("limitSwitchRevID10"));
-   	 */
-   	 /*motorID11 = 11;
+   	 
+   	 motorID11 = 11;
      actuatorMaxPotValue11 = Double.parseDouble(prop.getProperty("actuatorMaxPotValue11"));
    	 actuatorMinPotValue11 = Double.parseDouble(prop.getProperty("actuatorMinPotValue11"));
      maxSpeedChange11 = Double.parseDouble(prop.getProperty("maxSpeedChange11"));
@@ -441,8 +432,8 @@ public class Robot extends IterativeRobot {
   	 actuatorMinPotValue12 = Double.parseDouble(prop.getProperty("actuatorMinPotValue12"));
    	 maxSpeedChange12 = Double.parseDouble(prop.getProperty("maxSpeedChange12"));
    	 limitSwitchForwID12 = Integer.parseInt(prop.getProperty("limitSwitchForwID12"));
- 	 limitSwitchRevID12 =  Integer.parseInt(prop.getProperty("limitSwitchRevID12")); */
-   	 /*
+ 	 limitSwitchRevID12 =  Integer.parseInt(prop.getProperty("limitSwitchRevID12")); 
+   	 
    	 motorID13 = 13;
      motorMin13 = Integer.parseInt(prop.getProperty("motorMin13"));
    	 motorMax13 = Integer.parseInt(prop.getProperty("motorMax13"));
@@ -453,7 +444,7 @@ public class Robot extends IterativeRobot {
    	 motorDirection13 = Integer.parseInt(prop.getProperty("motorDirection13"));
    	 limitSwitchForwID13 = Integer.parseInt(prop.getProperty("limitSwitchForwID13"));
  	 limitSwitchRevID13 =  Integer.parseInt(prop.getProperty("limitSwitchRevID13"));
-   	 */
+   	 
    	 motorID14 = 14;
      motorMin14 = Integer.parseInt(prop.getProperty("motorMin14"));
    	 motorMax14 = Integer.parseInt(prop.getProperty("motorMax14"));
@@ -477,25 +468,17 @@ public class Robot extends IterativeRobot {
 		// load a properties file
 
     	
-    	
-   // 	stick = new SuperJoystick(0);
-    	motor1 = new HawkSuperMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, motorDirection1,limitSwitchForwID1, limitSwitchRevID1 );                     // Motor ID, Min encoder value from config, max encoder value from config, speed limiter (%)
-    	motor2 = new HawkSuperMotor(motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, motorDirection2,limitSwitchForwID2, limitSwitchRevID2);
-    //	motor3 = new HawkSuperMotor(13, 0, 100000, 100, 10, 48, .02, -1, -1, -1);
-    	
- //   	talonTest = new CANTalon(0);
    	 
     	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
     	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6, motorDirection6, limitSwitchForwID6, limitSwitchRevID6);
-    	/*
-    	rightArmStage1 = new HawkSuperMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7);
-    	leftArmStage1 = new HawkSuperMotor(motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
-    	rightArmStage2 = new HawkSuperMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9);
-    	leftArmStage2 = new HawkSuperMotor(motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10);
+    	    	/*
     	armActuatorRight = new HawkSuperMotor(motorID11, motorMin11, motorMax11, motorMaxPercent11, motorMinPercent11, motorTravelRange11, maxSpeedChange11, motorDirection11, limitSwitchForwID11, limitSwitchRevID11);
     	armActuatorLeft = new HawkSuperMotor(motorID12, motorMin12, motorMax12, motorMaxPercent12, motorMinPercent12, motorTravelRange12, maxSpeedChange12, motorDirection12, limitSwitchForwID12, limitSwitchRevID12);
     	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
     	*/
+    	armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
+    	armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
+    	
     	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, motorDirection14, limitSwitchForwID14, limitSwitchRevID14);
     	
     	
@@ -739,13 +722,14 @@ public class Robot extends IterativeRobot {
     		}
     		
     		if(D_Pad1){                  //Down, Drawbridge automation           
-    			motor1.set(1);
+    			smallArmMotor.set(1);
     		}
     		if(D_Pad2){                 //Right, Sally Port automation
-    			motor1.set(-1);
+    			smallArmMotor.set(-1);
     		}
+    		
     		if(D_Pad3){                //Left, Portcullis automation
-    			motor2.set(1);
+    			smallArmMotor.set(1);
     		}
     		
     		
@@ -788,10 +772,10 @@ public class Robot extends IterativeRobot {
         					counterShooterA = robotTimer;
         				}
         				if(robotTimer<counterShooterA+50){                    //Runs the sequence for 50 loops, or one second
-        				motor1.set(1);
+        				smallArmMotor.set(1);
         				}
         				else if(robotTimer>=counterShooterA+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-        				motor1.set(0);
+        				smallArmMotor.set(0);
         				shooter.clearButtons();
         				counterShooterA = 0;
         				counterBoolShooterA = false;
@@ -905,10 +889,10 @@ public class Robot extends IterativeRobot {
     					counterShooterB = robotTimer;
     				}
     				if(robotTimer<counterShooterB+50){                    //Runs the sequence for 50 loops, or one second
-    				motor2.set(-1);
+    				smallArmMotor.set(-1);
     				}
     				else if(robotTimer>=counterShooterB+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				motor2.set(0);
+    				smallArmMotor.set(0);
     				shooter.clearButtons();
     				counterShooterB = 0;
     				counterBoolShooterB = false;
@@ -956,7 +940,7 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterStart = false;
     				shooter.clearButtons();
     				counterShooterStart = 0;
-    				motor2.set(0);
+    				smallArmMotor.set(0);
     				}
     			} //motor 5 has a limit switch set to 1 (needs to be fixed)
 				shooter.clearButtons();
@@ -965,10 +949,10 @@ public class Robot extends IterativeRobot {
     					counterShooterStart = robotTimer;
     				}
     				if(robotTimer<counterShooterStart+500){                    //Runs the sequence for 50 loops, or one second
-    				motor2.set(-1);
+    				smallArmMotor.set(-1);
     				}
     				else if(robotTimer>=counterShooterStart+500){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				motor2.set(0);
+    				smallArmMotor.set(0);
     				shooter.clearButtons();
     				counterShooterStart = 0;
     				counterBoolShooterStart = false;
@@ -982,10 +966,10 @@ public class Robot extends IterativeRobot {
     					counterShooterLS = robotTimer;
     				}
     				if(robotTimer<counterShooterLS+50){                    //Runs the sequence for 50 loops, or one second
-    				motor2.set(-1);
+    				smallArmMotor.set(-1);
     				}
     				else if(robotTimer>=counterShooterLS+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				motor2.set(0);
+    				smallArmMotor.set(0);
     				shooter.clearButtons();
     				counterShooterLS = 0;
     				counterBoolShooterLS = false;
@@ -999,10 +983,10 @@ public class Robot extends IterativeRobot {
     					counterShooterRS = robotTimer;
     				}
     				if(robotTimer<counterShooterRS+50){                    //Runs the sequence for 50 loops, or one second
-    				motor2.set(1);
+    				smallArmMotor.set(1);
     				}
     				else if(robotTimer>=counterShooterRS+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				motor2.set(0);
+    				smallArmMotor.set(0);
     				shooter.clearButtons();
     				counterShooterRS = 0;
     				counterBoolShooterRS = false;
