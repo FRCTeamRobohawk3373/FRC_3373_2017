@@ -508,7 +508,7 @@ public class Robot extends IterativeRobot {
         hawkDrive = new HawkDrive();
    // 	counter = 0;
     //	robotTimer = new Timer();
-        
+        //25.75 travel-stage 1
         
   /*      while(initializingMotors){
         	if(!motor1.isRevLimitSwitchClosed()){
