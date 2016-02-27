@@ -822,11 +822,11 @@ public class Robot extends IterativeRobot {
         					counterShooterX2 = robotTimer;
         				}
         				if(robotTimer<=counterShooterX2+250){                    //Runs the sequence for 250 loops, or five seconds
-        				shooterMain.set(1);
+        				shooterMain.set(-1);
         				System.out.println("Powering up.");
         				}else if(robotTimer<counterShooterX2+500){
-        				shooterMain.set(1);
-        				shooterControl.set(-1);
+        				shooterMain.set(-1);
+        				shooterControl.set(1);
         				System.out.println("Firing.");
         				}
         				else if(robotTimer>=counterShooterX2+500){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
@@ -849,6 +849,7 @@ public class Robot extends IterativeRobot {
         				shooterControl.set(0);
     				}
     			}
+    			
 				if(shooter.isLBHeld()){
 					//sniperMode = true;
 				}
@@ -1066,14 +1067,19 @@ public class Robot extends IterativeRobot {
     		}
     
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
-    			if(shooter.isBackHeld()){
-    				shooterMain.set(1);
-    				shooterControl.set(-1);
-    			//	System.out.println("Yay.");
-    			} else{
-    				shooterMain.set(0);
-    				shooterControl.set(0);
-    			}
+    		if(shooter.isBackHeld()){
+				if(shooterControl.isFwdLimitSwitchClosed()){
+				shooterMain.set(.8);
+				shooterControl.set(-1);
+				}else{
+				shooterMain.set(0);
+				shooterControl.set(0);
+				}
+				System.out.println("Yay.");
+			}else if(!counterBoolShooterX){
+				shooterControl.set(0);
+				shooterMain.set(0);
+			}
     			if(shooter.getRawAxis(LY)>0.1){
 					//shooterAimMotor.setScaled(1);
 				}
@@ -1133,7 +1139,7 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     	
-    	
+    	robotTimer++;
     	
     	inches = SmartDashboard.getNumber("Height: ");
     	
@@ -1159,32 +1165,7 @@ public class Robot extends IterativeRobot {
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		//shooterAimMotor.goToHeight(45);
-    		//calibrate(14, 1, false);
-    		/*
-    		if(shooter.getRawAxis(Ltrigger)>0.02){
-				dual1.manualDown();
-			//	dual2.manualDown();
-			}else if(shooter.getRawAxis(Rtrigger)>0.02){
-				dual1.manualUp();
-			//	dual2.manualUp();
-			}else if(shooter.isAPushed()){
-				
-			}else{
-				dual1.set(0);
-			//	dual2.set(0);
-			//	System.out.println("Soup.");
-			//	dual1.set(0);
-				System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
-				}
-				*/
-    	//	motor3.set(shooter.getRawAxis(LY));
-    		//System.out.println("Motor 9 inversion: " + Integer.parseInt(prop.getProperty("motorDirection9")));
-    		//talonTest.set(1);
-    //		motor3.set(shooter.getRawAxis(LY)/6);
-    		//System.out.println(motor3.getSpeed());
     		
-		shooterMain.set(1);
     	break;
     	case 1:
     		calibrate(1, 1, false);
