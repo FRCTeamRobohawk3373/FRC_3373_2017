@@ -110,9 +110,6 @@ public class HawkSuperMotor extends CANTalon {
 				super.set(0);
 			}
 		}
-		else if(revLimitSwitchID < 0){
-			accelerationSet(speed);
-		}
 		if(revLimitSwitchID >= 0){
 			if(!limitSwitchRev.get()){
 			accelerationSet(speed);
@@ -122,8 +119,6 @@ public class HawkSuperMotor extends CANTalon {
 			}else{
 				super.set(0);
 			}
-		}else if(forwLimitSwitchID < 0){
-			accelerationSet(speed);
 		}
 	}
 	
