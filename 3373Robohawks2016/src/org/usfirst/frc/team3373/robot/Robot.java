@@ -33,10 +33,10 @@ public class Robot extends IterativeRobot {
 	
 	CANTalon calibMotor;
 	
-	boolean goingSallyPort = false;
+	/*boolean goingSallyPort = false;
 	boolean goingDrawbridge = false;
 	boolean goingPortcullis = false;
-	
+	*/
 	CameraServer server;
 	double inches;
 	RobotDrive myRobot;
@@ -582,7 +582,7 @@ public class Robot extends IterativeRobot {
     	switch(index){
     	case 0:
     	if(autoLoopCounter < 1000){
-    		hawkDrive.moveStraight(1, 0);
+    		hawkDrive.wheelControl(1, 1, false, false);
     	} else{
     		hawkDrive.wheelControl(0, 0, false, false);
     		}
@@ -814,12 +814,14 @@ public class Robot extends IterativeRobot {
         					counterShooterX2 = robotTimer;
         				}
         				if(robotTimer<=counterShooterX2+250){                    //Runs the sequence for 250 loops, or five seconds
-        				motor1.set(1);
+        				shooterMain.set(1);
         				}else if(robotTimer<counterShooterX2+500){
-        				motor1.set(-1);
+        				shooterMain.set(1);
+        				shooterControl.set(-1);
         				}
         				else if(robotTimer>=counterShooterX2+500){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
-        				motor1.set(0);
+        				shooterMain.set(0);
+        				shooterControl.set(0);
         				shooter.clearButtons();
         				counterShooterX = 0;
         				counterBoolShooterX = false;
@@ -832,7 +834,8 @@ public class Robot extends IterativeRobot {
     					counterBoolShooterX2 = false;
     					counterShooterX = 0;
     					counterShooterX2 = 0;
-    					motor1.set(0);
+    					shooterMain.set(0);
+        				shooterControl.set(0);;
     				}
     			}
 				if(shooter.isLBHeld()){
@@ -911,7 +914,7 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterB = false;
     				}
     			}
-    			if(shooter.isXPushed()){
+    		/*	if(shooter.isXPushed()){
     				counterBoolShooterX = true;
     			}
     			if(counterBoolShooterX){
@@ -944,7 +947,8 @@ public class Robot extends IterativeRobot {
     				counterShooterY = 0;
     				counterBoolShooterY = false;
     				}
-    			}
+    				*/
+    			//}
     			if(shooter.isStartPushed()){
     				if(counterBoolShooterStart == false){
     				counterBoolShooterStart = true;
@@ -954,7 +958,7 @@ public class Robot extends IterativeRobot {
     				counterShooterStart = 0;
     				motor2.set(0);
     				}
-    			}
+    			} //motor 5 has a limit switch set to 1 (needs to be fixed)
 				shooter.clearButtons();
     			if(counterBoolShooterStart){
     				if(counterShooterStart == 0){
@@ -1025,7 +1029,7 @@ public class Robot extends IterativeRobot {
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
     				//dual1.manualUp();
     			//	dual2.manualUp();
-    			}else if(shooter.isAPushed()){
+    		/*	}else if(shooter.isAPushed()){
     				goingSallyPort = true;
     				shooter.clearA();
     				//PUT PRESET ARM CONTROLS HERE!!!
@@ -1034,27 +1038,32 @@ public class Robot extends IterativeRobot {
     				shooter.clearX();
     			}else if(shooter.isBPushed()){
     				goingPortcullis = true;
-    				shooter.clearB();
-    			}else{
+    				shooter.clearB(); */
+    			} else{
     				//dual1.set(0);
     			//	dual2.set(0);
     			//	System.out.println("Soup.");
     			//	dual1.set(0);
     			//	System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
     		}
-    			if(goingSallyPort){
+    			/*if(goingSallyPort){
     				armToHeight(12);
     			}else if(goingDrawbridge){
     				armToHeight(12);
     			}else if(goingPortcullis){
     				armToHeight(12);
     			}
+    		*/
     		}
+    
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
     			if(shooter.isBackHeld()){
-    				shooterMain.set(-1);
+    				shooterMain.set(1);
     				shooterControl.set(-1);
-    				System.out.println("Yay.");
+    			//	System.out.println("Yay.");
+    			} else{
+    				shooterMain.set(0);
+    				shooterControl.set(0);
     			}
     			if(shooter.getRawAxis(LY)>0.1){
 					//shooterAimMotor.setScaled(1);
@@ -1062,7 +1071,49 @@ public class Robot extends IterativeRobot {
 				if(shooter.getRawAxis(LY)<0.1){
 					//shooterAimMotor.setScaled(-1);
 				}
-				
+				if(shooter.isXHeld()){
+					System.out.println("Good.");
+    				counterBoolShooterX = true;             //Checks whether or not X is held
+    			}else{
+    				counterBoolShooterX = false;             //If not, cancels shooting
+    				counterShooterX = 0;
+    				counterShooterX2 = 0;
+    			}
+    			if(counterBoolShooterX){                 //If X is held, proceeds to shooting phase
+    				if(shooter.isXHeld()){
+    					counterBoolShooterX2 = true;
+    				}
+    				if(counterBoolShooterX2){
+    					System.out.println("Better.");
+    					shooterMain.set(1);
+    					if(counterShooterX2 == 0){
+        					counterShooterX2 = robotTimer;
+        				}
+        				if(robotTimer<=counterShooterX2+250){ 
+        				System.out.println(counterShooterX2);//Runs the sequence for 250 loops, or five seconds
+        				
+        				}else if(robotTimer<counterShooterX2+500){
+        				shooterControl.set(-1);
+        				}
+        				else if(robotTimer>=counterShooterX2+500){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
+        				shooterMain.set(0);
+        				shooterControl.set(0);
+        				shooter.clearButtons();
+        				counterShooterX = 0;
+        				counterBoolShooterX = false;
+        				counterShooterX2 = 0;
+        				counterBoolShooterX2 = false;
+        				}
+    				}
+    				else{
+    					counterBoolShooterX = false;
+    					counterBoolShooterX2 = false;
+    					counterShooterX = 0;
+    					counterShooterX2 = 0;
+    					shooterMain.set(0);
+        				shooterControl.set(0);;
+    				}
+    			}
 				
 				
 				if(shooter.getRawAxis(Ltrigger)>.2 && !(shooterAimMotor.getEncPosition()<motorMin14+50)){
@@ -1142,7 +1193,7 @@ public class Robot extends IterativeRobot {
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		shooterAimMotor.goToHeight(45);
+    		//shooterAimMotor.goToHeight(45);
     		//calibrate(14, 1, false);
     		/*
     		if(shooter.getRawAxis(Ltrigger)>0.02){
@@ -1167,7 +1218,7 @@ public class Robot extends IterativeRobot {
     //		motor3.set(shooter.getRawAxis(LY)/6);
     		//System.out.println(motor3.getSpeed());
     		
-		
+		shooterMain.set(1);
     	break;
     	case 1:
     		calibrate(1, 1, false);
@@ -1359,7 +1410,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-	public void armToHeight(double targetHeight){
+	/*public void armToHeight(double targetHeight){
 		if(armStage1.getHeight() + armStage2.getHeight()<targetHeight-.1){
 			armStage1.goToHeight(armStage1.motor1.travel);
 			armStage2.goToHeight(armStage2.motor1.travel);
@@ -1370,8 +1421,9 @@ public class Robot extends IterativeRobot {
 			goingPortcullis = false;
 			goingSallyPort = false;
 			goingDrawbridge = false;
-		}
-	}
+		*/
+		//}
+	//}
 }   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
