@@ -1004,9 +1004,9 @@ public class Robot extends IterativeRobot {
     			
     			
     			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
-    				armToHeight(0);
+    				sniperArmToHeight(0);
     			}else if(shooter.getRawAxis(Rtrigger)>0.02 && shooter.isLBHeld()){
-    				armToHeight(motorTravelRange7 + motorTravelRange9);
+    				sniperArmToHeight(motorTravelRange7 + motorTravelRange9);
     			}else if(shooter.getRawAxis(Ltrigger)>0.02){
     				armToHeight(0);
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
@@ -1399,6 +1399,20 @@ public class Robot extends IterativeRobot {
 		}else if(armStage1.getHeight() + armStage2.getHeight()>targetHeight+.1){
 			armStage1.goToHeight(0);
 			armStage2.goToHeight(0);
+		}else{
+			goingPortcullis = false;
+			goingSallyPort = false;
+			goingDrawbridge = false;
+		
+		}
+	}
+	public void sniperArmToHeight(double targetHeight){
+		if(armStage1.getHeight() + armStage2.getHeight()<targetHeight-.1){
+			armStage1.sniperToHeight(armStage1.motor1.travel);
+			armStage2.sniperToHeight(armStage2.motor1.travel);
+		}else if(armStage1.getHeight() + armStage2.getHeight()>targetHeight+.1){
+			armStage1.sniperToHeight(0);
+			armStage2.sniperToHeight(0);
 		}else{
 			goingPortcullis = false;
 			goingSallyPort = false;
