@@ -28,10 +28,10 @@ public class Robot extends IterativeRobot {
 	
 	CANTalon calibMotor;
 	
-	/*boolean goingSallyPort = false;
+	boolean goingSallyPort = false;
 	boolean goingDrawbridge = false;
 	boolean goingPortcullis = false;
-	*/
+	
 	CameraServer server;
 	double inches;
 	RobotDrive myRobot;
@@ -1004,16 +1004,14 @@ public class Robot extends IterativeRobot {
     			
     			
     			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
-    			//	dual1.sniperDown();
+    				armToHeight(0);
     			}else if(shooter.getRawAxis(Rtrigger)>0.02 && shooter.isLBHeld()){
-    			//	dual1.sniperUp();
+    				armToHeight(motorTravelRange7 + motorTravelRange9);
     			}else if(shooter.getRawAxis(Ltrigger)>0.02){
-    				//dual1.manualDown();
-    			//	dual2.manualDown();
+    				armToHeight(0);
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
-    				//dual1.manualUp();
-    			//	dual2.manualUp();
-    		/*	}else if(shooter.isAPushed()){
+    				armToHeight(motorTravelRange7 + motorTravelRange9);
+    			}else if(shooter.isAPushed()){
     				goingSallyPort = true;
     				shooter.clearA();
     				//PUT PRESET ARM CONTROLS HERE!!!
@@ -1022,7 +1020,7 @@ public class Robot extends IterativeRobot {
     				shooter.clearX();
     			}else if(shooter.isBPushed()){
     				goingPortcullis = true;
-    				shooter.clearB(); */
+    				shooter.clearB(); 
     			} else{
     				//dual1.set(0);
     			//	dual2.set(0);
@@ -1394,7 +1392,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-	/*public void armToHeight(double targetHeight){
+	public void armToHeight(double targetHeight){
 		if(armStage1.getHeight() + armStage2.getHeight()<targetHeight-.1){
 			armStage1.goToHeight(armStage1.motor1.travel);
 			armStage2.goToHeight(armStage2.motor1.travel);
@@ -1405,9 +1403,9 @@ public class Robot extends IterativeRobot {
 			goingPortcullis = false;
 			goingSallyPort = false;
 			goingDrawbridge = false;
-		*/
-		//}
-	//}
+		
+		}
+	}
 }   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	
