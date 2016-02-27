@@ -667,10 +667,12 @@ public class Robot extends IterativeRobot {
     		
 
     		if(driver.getRawAxis(Rtrigger) > .02){
-    			//dual3.goToHeight(dual3.getHeight + 2 (too be adjusted)) and to be uncommented  eventually
+    			armStage2.goToHeight(armStage2.motor1.travel);
     		}
     		if(driver.getRawAxis(Ltrigger) > .02){
-    			//dual3.goToHeight(dual3.getHeight - 2 (too be adjusted)) and to be uncommented  eventually
+    			armStage2.goToHeight(0);
+
+    			//dual3.goToHeight(dual3.getHeight - 2 (to be adjusted)) and to be uncommented  eventually
     			
     		}
     		
