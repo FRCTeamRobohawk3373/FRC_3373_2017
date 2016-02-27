@@ -1032,13 +1032,13 @@ public class Robot extends IterativeRobot {
     			
     			
     			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
-    				sniperArmToHeight(0);
+    				armStage1.sniperToHeight(0);
     			}else if(shooter.getRawAxis(Rtrigger)>0.02 && shooter.isLBHeld()){
-    				sniperArmToHeight(motorTravelRange7 + motorTravelRange9);
+    				armStage1.sniperToHeight(motorTravelRange7);
     			}else if(shooter.getRawAxis(Ltrigger)>0.02){
-    				armToHeight(0);
+    				armStage1.goToHeight(0);
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
-    				armToHeight(motorTravelRange7 + motorTravelRange9);
+    				armStage1.goToHeight(motorTravelRange7);
     			}else if(shooter.isAPushed()){
     				goingSallyPort = true;
     				shooter.clearA();
@@ -1130,7 +1130,7 @@ public class Robot extends IterativeRobot {
 		inches = 1;
     	
 
-
+		shooterAimMotor.setEncPosition(0);
 
     }
     /**
@@ -1165,7 +1165,7 @@ public class Robot extends IterativeRobot {
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		
+    		System.out.println(shooterAimMotor.getEncPosition());
     	break;
     	case 1:
     		calibrate(1, 1, false);
