@@ -22,9 +22,9 @@ public class HawkDrive {
     	
        if(SniperEnabled){                     
     	   leftDriveMotorFront.set(leftY/4);
-    	   leftDriveMotorBack.set(leftY/4);                        // Sets motor speed to the calculated value
+    	 leftDriveMotorBack.set(leftY/4);                        // Sets motor speed to the calculated value
     	   rightDriveMotorFront.set(rightY/4);
-    	   rightDriveMotorBack.set(rightY/4);
+    	  rightDriveMotorBack.set(rightY/4);
        }else if(turboEnabled){
     	   leftDriveMotorFront.set(leftY);
     	   leftDriveMotorBack.set(leftY);
@@ -32,9 +32,9 @@ public class HawkDrive {
     	   rightDriveMotorBack.set(rightY);
        }else{
     	   leftDriveMotorFront.set(leftY/2);
-    	   leftDriveMotorBack.set(leftY/2);
+    	  leftDriveMotorBack.set(leftY/2);
     	   rightDriveMotorFront.set(rightY/2);
-    	   rightDriveMotorBack.set(rightY/2);
+    	  rightDriveMotorBack.set(rightY/2);
        }	
 
        }
@@ -44,11 +44,11 @@ public class HawkDrive {
 	   	 SmartDashboard.putNumber("Angle", angle);
 	   	 if(angle < standardAngle - 2 && angle > -180){
 	   		 System.out.println("Stopping left");
-	   		 wheelControl(0,1,false,false); 
+	   		 wheelControl(speed-.2,speed,false,false); 
 	   	 }
 	   	 else if(angle < standardAngle +2 && angle < -180){
 	   		 System.out.println("Stopping right");
-	   		 wheelControl(1,0,false,false);
+	   		 wheelControl(speed,speed-.2,false,false);
 	   	 } else {
 	   		 wheelControl(speed, speed, false, false);
 	   		 System.out.println("going straight");
