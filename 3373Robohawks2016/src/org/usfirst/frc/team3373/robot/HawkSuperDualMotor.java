@@ -48,20 +48,14 @@ public class HawkSuperDualMotor{
 	}
 	public void initDown(){
 		if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
-			motor1.initDown();
-			motor2.initDown();
-			}else if(motor1.currentHeight>motor2.currentHeight+.02 && motor1.getSpeed()>=0){
-				motor1.set(.4);
-				motor2.set(.5);
-			}else if(motor2.currentHeight>motor1.currentHeight+.02 && motor2.getSpeed()>=0){
-				motor2.set(.4);
-				motor1.set(.5);
-			}else if(motor1.currentHeight<motor2.currentHeight-.02 && motor1.getSpeed()<=0){
-				motor1.set(-.4);
-				motor2.set(-.5);
-			}else if(motor2.currentHeight<motor1.currentHeight-.02 && motor2.getSpeed()<=0){
-				motor2.set(-.4);
-				motor1.set(-.5);
+			motor1.set(-.3);
+			motor2.set(-.3);
+			}else if(motor1.currentHeight<motor2.currentHeight-.02){
+				motor1.set(-.2);
+				motor2.set(-.3);
+			}else if(motor2.currentHeight<motor1.currentHeight-.02){
+				motor2.set(-.2);
+				motor1.set(-.3);
 			}
 	}
 	public void set(double speed){

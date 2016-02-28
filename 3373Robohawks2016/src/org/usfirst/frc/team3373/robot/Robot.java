@@ -675,7 +675,6 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
 		robotTimer++;    //50 Cycles is one second (20 ms per cycle)
     	//myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
-    	if(isOperatorControl() && isEnabled()){
     		driver.clearButtons();
     	//	motor1.set(driver.getRawAxis(LY));
     	//	motor2.set(driver.getRawAxis(RY));
@@ -863,7 +862,7 @@ public class Robot extends IterativeRobot {
 				}
 				//goToAngle(getAngle() + 2, sniperMode);
 			}
-    		}
+    		
     		
     		
     		
