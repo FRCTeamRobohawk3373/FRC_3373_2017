@@ -54,11 +54,11 @@ public class HawkSuperMotor extends CANTalon {
 			setScaled(-.1* motorDirection);
 		}else if(getEncPosition()>rangeMax+15){                       //Prevents the motor from hitting or passing its upper limit
 			setScaled(.1 * motorDirection);
-		}else if(getEncPosition()<targetEncoderPos+30 && getEncPosition() >targetEncoderPos+50){
+		}else if(getEncPosition()>targetEncoderPos+30 && getEncPosition() <targetEncoderPos+50){
 			setScaled(.1 * motorDirection);
 		}else if(getEncPosition()>targetEncoderPos+30){
 			setScaled(.5 * motorDirection);
-		}else if(getEncPosition()>targetEncoderPos-30 && getEncPosition() < targetEncoderPos-50){
+		}else if(getEncPosition()<targetEncoderPos-30 && getEncPosition() > targetEncoderPos-50){
 			setScaled(-.1 * motorDirection);
 		}else if(getEncPosition()< targetEncoderPos-30){
 			setScaled(-.5 * motorDirection);
