@@ -1039,8 +1039,10 @@ public class Robot extends IterativeRobot {
     				armStage1.sniperToHeight(motorTravelRange7);
     			}else if(shooter.getRawAxis(Ltrigger)>0.02){
     				armStage1.goToHeight(0);
+    				System.out.println("down");
     			}else if(shooter.getRawAxis(Rtrigger)>0.02){
     				armStage1.goToHeight(motorTravelRange7);
+    				System.out.println("up");
     			}else if(shooter.isAPushed()){
     				goingSallyPort = true;
     				shooter.clearA();
@@ -1185,7 +1187,7 @@ public class Robot extends IterativeRobot {
     		
     	*/	
     		
-    		shooterAimMotor.goToHeight(35);
+    		shooterAimMotor.goToHeight(15);
     		System.out.println(shooterAimMotor.getCurrentHeight());
     		
     	break;
