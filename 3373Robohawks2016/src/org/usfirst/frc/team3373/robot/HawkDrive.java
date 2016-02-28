@@ -42,6 +42,7 @@ public class HawkDrive {
 	   	 double angle = ahrs.getAngle() % 360;
 	   	 SmartDashboard.putNumber("Given Angle", ahrs.getAngle());
 	   	 SmartDashboard.putNumber("Angle", angle);
+	   	if(speed > 0){
 	   	 if(angle < standardAngle - 2 && angle > -180){
 	   		 System.out.println("Stopping left");
 	   		 wheelControl(speed-.2,speed,false,false); 
@@ -53,9 +54,22 @@ public class HawkDrive {
 	   		 wheelControl(speed, speed, false, false);
 	   		 System.out.println("going straight");
 	   	 }
+	   		}
+	   	else if(speed < 0){
+	   		if(angle < standardAngle - 2 && angle > -180){
+		   		 System.out.println("Stopping left");
+		   		 wheelControl(speed ,speed +.02,false,false); 
+		   	 }
+		   	 else if(angle < standardAngle +2 && angle < -180){
+		   		 System.out.println("Stopping right");
+		   		 wheelControl(speed +.02 ,speed,false,false);
+		   	 } else {
+		   		 wheelControl(speed, speed, false, false);
+		   		 System.out.println("going straight");
+	   	}
 	   	 ahrs.free();
 	       }
-    
+    	}
     
  /*   public static void goDoubleDistance(double distance){
 	    	   //@param distance = distance to drive... because distance isn't clear enough, apparently
