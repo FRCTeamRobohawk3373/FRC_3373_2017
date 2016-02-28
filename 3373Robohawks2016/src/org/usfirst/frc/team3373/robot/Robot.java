@@ -476,11 +476,12 @@ public class Robot extends IterativeRobot {
    	 
     	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
     	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6, motorDirection6, limitSwitchForwID6, limitSwitchRevID6);
-    	    	/*
+    	    /*
     	armActuatorRight = new HawkSuperMotor(motorID11, motorMin11, motorMax11, motorMaxPercent11, motorMinPercent11, motorTravelRange11, maxSpeedChange11, motorDirection11, limitSwitchForwID11, limitSwitchRevID11);
     	armActuatorLeft = new HawkSuperMotor(motorID12, motorMin12, motorMax12, motorMaxPercent12, motorMinPercent12, motorTravelRange12, maxSpeedChange12, motorDirection12, limitSwitchForwID12, limitSwitchRevID12);
-    	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
     	*/
+    	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
+    	
     	armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
     	armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
     	
@@ -488,11 +489,8 @@ public class Robot extends IterativeRobot {
     	
     	
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10);
-    	//motor2 = new CANTalon(2);
- //   	dual1 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
- //   	dual2 = new HawkSuperDualMotor(motorID1, motorMin1, motorMax1, motorMaxPercent1, motorMinPercent1, motorTravelRange1, maxSpeedChange1, 1,-1,-1, motorID2, motorMin2, motorMax2, motorMaxPercent2, motorMinPercent2, motorTravelRange2, maxSpeedChange2, 1, -1, -1);
-    	//armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
-    	//	motor3 = new HawkSuperMotor(3, Integer.parseInt((prop.getProperty("motorMin3"))), Integer.parseInt((prop.getProperty("motorMax3"))), 100);
+    	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
+
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
     	calibrator = new SuperJoystick(2);
@@ -1216,10 +1214,17 @@ public class Robot extends IterativeRobot {
     		
     		
     	*/	
-    		
+    		/*
     		shooterAimMotor.goToHeight(15);
     		System.out.println(shooterAimMotor.getCurrentHeight());
-    		
+    		*/
+    		System.out.println("Motor1 Pot Value:" + armActuators.motor1.getAnalogInRaw());
+    		System.out.println("Motor1 Pot Value Pos:" + armActuators.motor1.getAnalogInPosition());
+    		System.out.println("Motor2 Pot Value:" + armActuators.motor2.getAnalogInRaw());
+    		System.out.println("Motor2 Pot Value Pos:" + armActuators.motor2.getAnalogInPosition());
+    		armActuators.motor1.set(shooter.getRawAxis(LY));
+    		armActuators.motor2.set(shooter.getRawAxis(RY));
+
     	break;
     	case 1:
     		calibrate(1, 1, false);
