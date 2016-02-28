@@ -588,26 +588,57 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){
     	case 0:
-    	if(autoLoopCounter < 250){
+    		//Enter defense zone. - need to adjust time
+    	if(autoLoopCounter < 200){
     		hawkDrive.moveStraight(.5, 0);
     	} else{
     		hawkDrive.wheelControl(0, 0, false, false);
     		}
     	break;
     	case 1:
-    		
+    		//Low Bar - need to adjust time
+    		if(autoLoopCounter < 500){
+    			hawkDrive.moveStraight(.5, 0);
+    		}
+    		else{
+    			hawkDrive.wheelControl(0, 0, false, false);
+    		}
     	break;
     	case 2:
-    		
+    		//Rough Terrain - will have to adjust and change values (speed and/or time)
+    		if(autoLoopCounter < 500){
+    			hawkDrive.moveStraight(.5, 0);
+    		}
+    		else{
+    			hawkDrive.wheelControl(0, 0, false, false);
+    		}    		
     	break;
     	case 3:
-    		
+    		//Moat - will have to test for speed and/or time
+    		if(autoLoopCounter < 500){
+    			hawkDrive.moveStraight(.5, 0);
+    		}
+    		else{
+    			hawkDrive.wheelControl(0, 0, false, false);
+    		}
     	break;
     	case 4:
-    		
+    		//Rock Wall - will again have to test for different speeds and/or time 
+    	if(autoLoopCounter < 500){
+			hawkDrive.moveStraight(.5, 0);
+		}
+		else{
+			hawkDrive.wheelControl(0, 0, false, false);
+		}
     	break;
     	case 5:
-    		
+    		//Ramparts - will have to test speed and time
+    		if(autoLoopCounter < 500){
+    			hawkDrive.moveStraight(.5, 0);
+    		}
+    		else{
+    			hawkDrive.wheelControl(0, 0, false, false);
+    		}
     	break;
     	case 6:
     		
