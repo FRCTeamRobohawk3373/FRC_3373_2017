@@ -34,6 +34,8 @@ public class Robot extends IterativeRobot {
 	boolean goingDrawbridge = false;
 	boolean goingPortcullis = false;
 	
+	boolean initializing = true;
+	
 	CameraServer server;
 	double inches;
 	RobotDrive myRobot;
@@ -261,8 +263,30 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	
+        armLimitSwitch = new DigitalInput(6);
     	
-    	boolean initializingMotors = true;
+    	while(initializing){
+    		if(!armLimitSwitch.get()){
+    		armStage1.initDown();
+    		}else{
+    			armStage1.set(0);
+    			try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			armStage1.motor1.setEncPosition(0);
+    			armStage1.motor2.setEncPosition(0);
+    			initializing=false;
+    		}
+    		try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	
     	try {                                                                          //Read config file
 			input = new FileInputStream("/home/lvuser/config.properties");
@@ -501,7 +525,6 @@ public class Robot extends IterativeRobot {
         fours = new DigitalInput(2);
         eights = new DigitalInput(3);
         test = new DigitalInput(4);
-        armLimitSwitch = new DigitalInput(6);
         
       // solenoid7 = new DigitalOutput(7);
         
