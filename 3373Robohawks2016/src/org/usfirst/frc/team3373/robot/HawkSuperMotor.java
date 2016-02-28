@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class HawkSuperMotor extends CANTalon {
-	double range = 12;
+	double range;
 	double rangeMin;
 	double rangeMax;
 	double travel;
