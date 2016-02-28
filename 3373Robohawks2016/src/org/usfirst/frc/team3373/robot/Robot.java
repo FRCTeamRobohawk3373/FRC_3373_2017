@@ -1141,7 +1141,8 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     	
-    	System.out.println(index);
+    	
+    //	System.out.println(index);
     	
     	robotTimer++;
     	
@@ -1169,9 +1170,9 @@ public class Robot extends IterativeRobot {
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    	//	System.out.println(shooterAimMotor.getEncPosition());
+    		System.out.println(shooterAimMotor.getEncPosition());
     		
-    		if(!armLimitSwitch.get()){
+    	/*	if(!armLimitSwitch.get()){
     			armStage1.initDown();
     			System.out.println("Going down.");
     		}else{
@@ -1182,7 +1183,7 @@ public class Robot extends IterativeRobot {
     		}
     		
     		
-    		
+    	*/	
     		
     		
     		
