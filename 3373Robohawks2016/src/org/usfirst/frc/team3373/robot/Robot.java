@@ -213,6 +213,7 @@ public class Robot extends IterativeRobot {
 	
 //	int counter;
 	
+	DigitalInput armLimitSwitch;
 	
     DigitalInput ones;
     DigitalInput twos;
@@ -502,6 +503,7 @@ public class Robot extends IterativeRobot {
         fours = new DigitalInput(2);
         eights = new DigitalInput(3);
         test = new DigitalInput(4);
+        armLimitSwitch = new DigitalInput(6);
         
       // solenoid7 = new DigitalOutput(7);
         
@@ -1139,6 +1141,8 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     	
+    	System.out.println(index);
+    	
     	robotTimer++;
     	
     	inches = SmartDashboard.getNumber("Height: ");
@@ -1165,7 +1169,23 @@ public class Robot extends IterativeRobot {
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		System.out.println(shooterAimMotor.getEncPosition());
+    	//	System.out.println(shooterAimMotor.getEncPosition());
+    		
+    		if(!armLimitSwitch.get()){
+    			armStage1.initDown();
+    			System.out.println("Going down.");
+    		}else{
+    			armStage1.motor1.setEncPosition(0);
+    			armStage1.motor2.setEncPosition(0);
+    			System.out.println(armStage1.motor1.getEncPosition());
+    			System.out.println(armStage1.motor2.getEncPosition());
+    		}
+    		
+    		
+    		
+    		
+    		
+    		
     	break;
     	case 1:
     		calibrate(1, 1, false);
