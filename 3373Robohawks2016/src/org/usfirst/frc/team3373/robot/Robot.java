@@ -588,8 +588,8 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){
     	case 0:
-    	if(autoLoopCounter < 1000){
-    		hawkDrive.moveStraight(.5, 0);;
+    	if(autoLoopCounter < 250){
+    		hawkDrive.moveStraight(.5, 0);
     	} else{
     		hawkDrive.wheelControl(0, 0, false, false);
     		}
@@ -1185,7 +1185,8 @@ public class Robot extends IterativeRobot {
     		
     	*/	
     		
-    		
+    		shooterAimMotor.goToHeight(35);
+    		System.out.println(shooterAimMotor.getCurrentHeight());
     		
     	break;
     	case 1:
