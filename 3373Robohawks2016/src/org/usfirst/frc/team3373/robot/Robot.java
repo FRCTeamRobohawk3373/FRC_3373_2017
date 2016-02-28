@@ -1222,8 +1222,8 @@ public class Robot extends IterativeRobot {
     		System.out.println("Motor1 Pot Value Pos:" + armActuators.motor1.getAnalogInPosition());
     		System.out.println("Motor2 Pot Value:" + armActuators.motor2.getAnalogInRaw());
     		System.out.println("Motor2 Pot Value Pos:" + armActuators.motor2.getAnalogInPosition());
-    		armActuators.motor1.set(shooter.getRawAxis(LY));
-    		armActuators.motor2.set(shooter.getRawAxis(RY));
+    		armActuators.motor1.set(shooter.getRawAxis(LY/8));
+    		armActuators.motor2.set(shooter.getRawAxis(RY/8));
 
     	break;
     	case 1:
