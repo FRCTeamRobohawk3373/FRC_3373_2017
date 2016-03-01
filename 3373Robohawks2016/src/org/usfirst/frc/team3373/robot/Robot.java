@@ -264,7 +264,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	
         armLimitSwitch = new DigitalInput(6);
-    	
+    	/*
     	while(initializing){
     		if(!armLimitSwitch.get()){
     		armStage1.initDown();
@@ -286,7 +286,8 @@ public class Robot extends IterativeRobot {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	}
+			*/
+    	//}
     	
     	try {                                                                          //Read config file
 			input = new FileInputStream("/home/lvuser/config.properties");
@@ -507,7 +508,7 @@ public class Robot extends IterativeRobot {
     	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
     	
     	armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
-    	armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
+    	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
     	
     	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, motorDirection14, limitSwitchForwID14, limitSwitchRevID14);
     	
@@ -1224,7 +1225,7 @@ public class Robot extends IterativeRobot {
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
     		System.out.println(shooterAimMotor.getEncPosition());
-    		
+    		shooterAimMotor.goToHeight(35);
     	/*	if(!armLimitSwitch.get()){
     			armStage1.initDown();
     			System.out.println("Going down.");
@@ -1243,8 +1244,8 @@ public class Robot extends IterativeRobot {
     		*/
     		System.out.println("Motor1 Pot Value:" + armActuators.motor1.getAnalogInRaw());
     		System.out.println("Motor2 Pot Value:" + armActuators.motor2.getAnalogInRaw());
-    		armActuators.motor1.set(shooter.getRawAxis(LY/8));
-    		armActuators.motor2.set(shooter.getRawAxis(RY/8));
+    		armActuators.motor1.set(shooter.getRawAxis(LY/4));
+    		armActuators.motor2.set(shooter.getRawAxis(RY/4));
 
     	break;
     	case 1:
