@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //@author Joey Dyer, Drew Marino, Alex Iasso, Dillon Rose
@@ -29,6 +29,9 @@ public class Robot extends IterativeRobot {
 	int rangeMax=0;
 	
 	CANTalon calibMotor;
+	
+	Relay solenoidLeftArm;
+	Relay solenoidRightArm;
 	
 	boolean goingSallyPort = false;
 	boolean goingDrawbridge = false;
@@ -498,8 +501,10 @@ public class Robot extends IterativeRobot {
 		// load a properties file
 
     	
-   	 
-    	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
+ 	 	solenoidLeftArm = new Relay(1, Relay.Direction.kBoth);
+ 	 	solenoidRightArm = new Relay(0, Relay.Direction.kBoth);
+ 	 	
+ 	 	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
     	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6, motorDirection6, limitSwitchForwID6, limitSwitchRevID6);
     	    /*
     	armActuatorRight = new HawkSuperMotor(motorID11, motorMin11, motorMax11, motorMaxPercent11, motorMinPercent11, motorTravelRange11, maxSpeedChange11, motorDirection11, limitSwitchForwID11, limitSwitchRevID11);
@@ -560,6 +565,8 @@ public class Robot extends IterativeRobot {
         server.setQuality(50);
         server.startAutomaticCapture("cam1");
         
+        solenoidLeftArm.set(Relay.Value.kOn);
+        solenoidRightArm.set(Relay.Value.kOn);
     	}
 
 
