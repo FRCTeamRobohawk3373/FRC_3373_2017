@@ -26,7 +26,7 @@ public class HawkActuator extends HawkSuperMotor  {
 			}
 	}
 	public double goToHeight(double targetHeight){
-		targetPotPos = (int) (((range/5.5) * targetHeight) + minPotValue);
+		targetPotPos = (int) (((range/5.5625) * targetHeight) + minPotValue);
 		if(getAnalogInRaw()<minPotValue){                             //Prevents the motor from hitting or passing its lower limit
 			setScaled(.1);
 		}else if(getAnalogInRaw()>maxPotValue){                       //Prevents the motor from hitting or passing its upper limit
