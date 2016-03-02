@@ -30,8 +30,7 @@ public class Robot extends IterativeRobot {
 	
 	CANTalon calibMotor;
 	
-	Relay solenoidLeftArm;
-	Relay solenoidRightArm;
+	Relay solenoid;
 	
 	boolean goingSallyPort = false;
 	boolean goingDrawbridge = false;
@@ -501,8 +500,7 @@ public class Robot extends IterativeRobot {
 		// load a properties file
 
     	
- 	 	solenoidLeftArm = new Relay(1, Relay.Direction.kBoth);
- 	 	solenoidRightArm = new Relay(0, Relay.Direction.kBoth);
+ 	 	solenoid = new Relay(0, Relay.Direction.kBoth);
  	 	
  	 	shooterMain = new HawkSuperMotor(motorID5, motorMin5, motorMax5, motorMaxPercent5, motorMinPercent5, motorTravelRange5, maxSpeedChange5, motorDirection5, limitSwitchForwID5, limitSwitchRevID5);
     	shooterControl = new HawkSuperMotor(motorID6, motorMin6, motorMax6, motorMaxPercent6, motorMinPercent6, motorTravelRange6, maxSpeedChange6, motorDirection6, limitSwitchForwID6, limitSwitchRevID6);
@@ -565,9 +563,8 @@ public class Robot extends IterativeRobot {
         server.setQuality(50);
         server.startAutomaticCapture("cam1");
         
-        solenoidLeftArm.set(Relay.Value.kOn);
-        solenoidRightArm.set(Relay.Value.kOn);
-    	}
+        solenoid.set(Relay.Value.kOn);
+        }
 
 
 
