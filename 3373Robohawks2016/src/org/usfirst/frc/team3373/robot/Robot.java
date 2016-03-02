@@ -1124,7 +1124,11 @@ public class Robot extends IterativeRobot {
     
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
     		if(shooter.isBackHeld()){
-				if(shooterControl.isFwdLimitSwitchClosed()){
+    			System.out.println("Limit Switch: " + shooterControl.isFwdLimitSwitchClosed());
+    			System.out.println("Limit Switch 2: " + shooterControl.isRevLimitSwitchClosed());
+
+				if(!shooterControl.isFwdLimitSwitchClosed()){
+				System.out.println("It made it in here.");
 				shooterMain.set(.8);
 				shooterControl.set(-1);
 				}else{
