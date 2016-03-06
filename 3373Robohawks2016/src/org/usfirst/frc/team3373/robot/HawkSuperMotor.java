@@ -20,6 +20,7 @@ public class HawkSuperMotor extends CANTalon {
 	DigitalInput limitSwitchForw;
 	int revLimitSwitchID;
 	int forwLimitSwitchID;
+	double TargetHeight;
 	//max speed change = maximum speed change between iterations
 	public HawkSuperMotor(int deviceNumber, int encoderMin, int encoderMax,int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int motorDirection1, int limitSwitchForwID,int limitSwitchRevID ) {
 		super(deviceNumber);
@@ -49,26 +50,43 @@ public class HawkSuperMotor extends CANTalon {
 	//	set(speed*((maxPercentSpeed-minPercentSpeed)/100));
 	}
 	public double goToHeight(double targetHeight){
-		targetEncoderPos = (range/travel) * targetHeight;
-		if(getEncPosition()<rangeMin){                             //Prevents the motor from hitting or passing its lower limit
-			setScaled(.1);
-		}else if(getEncPosition()>rangeMax){                       //Prevents the motor from hitting or passing its upper limit
-			setScaled(-.1);
-		}else if(getEncPosition()>targetEncoderPos+30 && getEncPosition() <targetEncoderPos+50){
-			setScaled(-.1);
-		}else if(getEncPosition()>targetEncoderPos+30){
+		double range1 = range/5.625;
+		double range2 = range1 * targetHeight;
+		double range3 = range2 + rangeMin;
+		targetEncoderPos = (int) range3;
+		if(get()<rangeMin-10){                             //Prevents the motor from hitting or passing its lower limit
+			setScaled(.2);
+			System.out.println("reached lower limit. Speed : " + getSpeed());
+		}else if(getAnalogInRaw()>rangeMax+10){                       //Prevents the motor from hitting or passing its upper limit
+			setScaled(-.2);
+			System.out.println("reached upper limit. Speed : " + getSpeed());
+		}else if(getAnalogInRaw()>targetEncoderPos+3 && getAnalogInRaw() <targetEncoderPos+25){
+			setScaled(-.2);
+			System.out.println("slowing while going down");
+		}else if(getAnalogInRaw()>targetEncoderPos+25){
 			setScaled(-.5);
-		}else if(getEncPosition()<targetEncoderPos-30 && getEncPosition() > targetEncoderPos-50){
-			setScaled(.1);
-		}else if(getEncPosition()< targetEncoderPos-30){
+			System.out.println("going down");
+		}else if(getAnalogInRaw()<targetEncoderPos-3 && getAnalogInRaw() > targetEncoderPos-25){
+			setScaled(.2);
+			System.out.println("Slowing whole going up.");
+		}else if(getAnalogInRaw()< targetEncoderPos-25){
 			setScaled(.5);
+			System.out.println("Going down.");
 		}else{
 			setScaled(0);
+			System.out.println("Stopping.");
 		}
+		currentHeight = (getAnalogInRaw() - rangeMin)/ range;
+	/*	System.out.println("Target pot pos:" + targetEncoderPos);
+		System.out.println("range1: "+ range1);
+		System.out.println("range2: "+ range2);
+		System.out.println("range3: "+ range3);*/
+		TargetHeight = targetHeight;
 		return targetEncoderPos;
+
 	}
 	public void initDown(){
-		targetEncoderPos = (range/travel) * -50;
+		targetEncoderPos = (targetEncoderPos-50);
 		if(getEncPosition()<targetEncoderPos+30 && getEncPosition() >targetEncoderPos+50){
 			setScaled(.1);
 		}else if(getEncPosition()>targetEncoderPos+30){

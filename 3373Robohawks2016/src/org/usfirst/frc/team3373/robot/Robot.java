@@ -38,6 +38,8 @@ public class Robot extends IterativeRobot {
 	
 	boolean initializing = true;
 	
+	boolean disableAimHold = false;
+	
 	CameraServer server;
 	double inches;
 	RobotDrive myRobot;
@@ -256,7 +258,7 @@ public class Robot extends IterativeRobot {
 //	Timer robotTimer;
 	//AxisCamera camera;
 
-  	HawkVision visionSystem = new HawkVision();
+  //	HawkVision visionSystem = new HawkVision();
 
 	
     /**
@@ -513,11 +515,11 @@ public class Robot extends IterativeRobot {
     	armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
     	
-    	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, motorDirection14, limitSwitchForwID14, limitSwitchRevID14);
+    	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, 1, limitSwitchForwID14, limitSwitchRevID14);
     	
     	
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10);
-    	armActuators = new HawkDualLinearActuator(motorID11, 10000, 0, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 10000, 0, .02, limitSwitchForwID12, limitSwitchRevID12);
+    	armActuators = new HawkDualLinearActuator(motorID11, 751, 318, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 966, 526, .02, limitSwitchForwID12, limitSwitchRevID12);
 
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
@@ -624,7 +626,7 @@ public class Robot extends IterativeRobot {
     	case 1:
     		//Low Bar - need to adjust time
     		if(autoLoopCounter < 500){
-    			hawkDrive.moveStraight(.5, 0);
+    			hawkDrive.moveStraight(1, 0);
     		}
     		else{
     			hawkDrive.wheelControl(0, 0, false, false);
@@ -632,12 +634,9 @@ public class Robot extends IterativeRobot {
     	break;
     	case 2:
     		//Rough Terrain - will have to adjust and change values (speed and/or time)
-    		if(autoLoopCounter < 500){
-    			hawkDrive.moveStraight(.5, 0);
-    		}
-    		else{
-    			hawkDrive.wheelControl(0, 0, false, false);
-    		}    		
+    		
+    			hawkDrive.moveStraight(.75, 0);
+    		  		
     	break;
     	case 3:
     		//Moat - will have to test for speed and/or time
@@ -673,7 +672,7 @@ public class Robot extends IterativeRobot {
 
     	break;
     	case 8:
-    		
+    		armActuators.goToHeight(1);
     	break;
     	case 9:
     		
@@ -746,15 +745,7 @@ public class Robot extends IterativeRobot {
     		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
     		
 
-    		if(driver.getRawAxis(Rtrigger) > .02){
-    			armStage2.goToHeight(armStage2.motor1.travel);
-    		}
-    		if(driver.getRawAxis(Ltrigger) > .02){
-    			armStage2.goToHeight(0);
-
-    			//dual3.goToHeight(dual3.getHeight - 2 (to be adjusted)) and to be uncommented  eventually
-    			
-    		}
+    		
     		
     		
     		//
@@ -825,10 +816,9 @@ public class Robot extends IterativeRobot {
     		//   SHOOTER (as in, the actual shooting mechanism) CONTROLS
     		
     		if(Shooting){
-    			/*if(shooter.isXPushed()){
-    				motor1.set(1);
-    				shooter.clearButtons();
-    			}*/
+    			
+    			
+    			
     			if(shooter.getPOV() == 0){
     				if(!counterBoolShooterToggle){
     				Shooting = false;
@@ -846,24 +836,7 @@ public class Robot extends IterativeRobot {
     				}
     			}
     			
-    	/*		if(shooter.isAPushed()){
-    				counterBoolShooterA = true;
-    			}
-    			if(counterBoolShooterA){
-        				if(counterShooterA == 0){
-        					counterShooterA = robotTimer;
-        				}
-        				if(robotTimer<counterShooterA+50){                    //Runs the sequence for 50 loops, or one second
-        				smallArmMotor.set(1);
-        				}
-        				else if(robotTimer>=counterShooterA+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-        				smallArmMotor.set(0);
-        				shooter.clearButtons();
-        				counterShooterA = 0;
-        				counterBoolShooterA = false;
-        				}
-        			
-    			}*/
+    	
     			if(shooter.isXHeld()){
     				counterBoolShooterX = true;             //Checks whether or not X is held
     			}else{
@@ -908,16 +881,25 @@ public class Robot extends IterativeRobot {
     				}
     			}
     			
-				if(shooter.isLBHeld()){
-					//sniperMode = true;
-				}
+    			if(shooter.getRawAxis(Ltrigger)>.2){
+    				shooterAimMotor.set(-.5);
+    			}else if(shooter.getRawAxis(Rtrigger)>.2){
+    				shooterAimMotor.set(.5);
+    			}else if(shooter.isRStickPushed()){
+    				disableAimHold = true;
+    			}else if(shooterAimMotor.getEncPosition()<motorMax14/4 && !disableAimHold){
+    				shooterAimMotor.set(.1425);
+    			}else if(shooterAimMotor.getEncPosition()<2*motorMax14/4 && !disableAimHold){
+    				shooterAimMotor.set(.1);
+    			}else if(shooterAimMotor.getEncPosition()<3*motorMax14/4 && !disableAimHold){
+    				shooterAimMotor.set(.07);
+    			}else if(shooterAimMotor.getEncPosition()>motorMax14/4 && !disableAimHold){
+    				shooterAimMotor.set(-.06);
+    			}else{
+    				shooterAimMotor.set(0);
+    			}
+    			
 				//goToAngle(getAngle() - 2, sniperMode);
-			}
-			else if(shooter.getRawAxis(Rtrigger) > .02){
-				if(shooter.isLBHeld()){
-    				//sniperMode = true;
-				}
-				//goToAngle(getAngle() + 2, sniperMode);
 			}
     		
     		
@@ -941,181 +923,16 @@ public class Robot extends IterativeRobot {
     				counterBoolShooterToggle = false;
     				}
     			}
-    			if(shooter.isRStickHeld()){
-    			if(armStage2.motor1.getCurrentHeight()<armStage2.motor1.travel-5){
-    				armStage2.goToHeight(armStage2.motor1.travel-4);
-    				armActuators.goToHeight(10);
+ 
+
+    		
+    			if(shooter.getRawAxis(Rtrigger)>.2){
+    				armActuators.goToHeight(0);
+    			}else if(shooter.getRawAxis(Ltrigger)> .2){
+    				armActuators.goToHeight(5.625);
     			}else{
-    				armActuators.goToHeight(1);
+    				armActuators.set(0);
     			}
-    			}
-    			/*if(shooter.isAPushed()){
-    				counterBoolShooterA = true;
-    			}
-    			if(counterBoolShooterA){
-        				if(counterShooterA == 0){
-        					counterShooterA = robotTimer;
-        				}
-        				if(robotTimer<counterShooterA+50){                    //Runs the sequence for 50 loops, or one second
-        				//motor1.set(1);
-        				}
-        				else if(robotTimer>=counterShooterA+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-        				motor1.set(0);
-        				shooter.clearButtons();
-        				counterShooterA = 0;
-        				counterBoolShooterA = false;
-        				}
-        			*/
-    			//}
-    			if(shooter.isBPushed()){
-    				counterBoolShooterB = true;       //Begins the B button sequence
-    			}
-    			if(counterBoolShooterB){
-    				if(counterShooterB == 0){
-    					counterShooterB = robotTimer;
-    				}
-    				if(robotTimer<counterShooterB+50){                    //Runs the sequence for 50 loops, or one second
-    				smallArmMotor.set(-1);
-    				}
-    				else if(robotTimer>=counterShooterB+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				smallArmMotor.set(0);
-    				shooter.clearButtons();
-    				counterShooterB = 0;
-    				counterBoolShooterB = false;
-    				}
-    			}
-    		/*	if(shooter.isXPushed()){
-    				counterBoolShooterX = true;
-    			}
-    			if(counterBoolShooterX){
-    				if(counterShooterX == 0){
-    					counterShooterX = robotTimer;
-    				}
-    				if(robotTimer<counterShooterX+50){                    //Runs the sequence for 50 loops, or one second
-    				motor2.set(-1);
-    				}
-    				else if(robotTimer>=counterShooterX+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				motor2.set(0);
-    				shooter.clearButtons();
-    				counterShooterX = 0;
-    				counterBoolShooterX = false;
-    				}
-    			}
-    			if(shooter.isYPushed()){
-    				counterBoolShooterY = true;
-    			}
-    			if(counterBoolShooterY){
-    				if(counterShooterY == 0){
-    					counterShooterY = robotTimer;
-    				}
-    				if(robotTimer<counterShooterY+50){                    //Runs the sequence for 50 loops, or one second
-    				motor2.set(-1);
-    				}
-    				else if(robotTimer>=counterShooterY+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				motor2.set(0);
-    				shooter.clearButtons();
-    				counterShooterY = 0;
-    				counterBoolShooterY = false;
-    				}
-    				*/
-    			//}
-    			if(shooter.isStartPushed()){
-    				if(counterBoolShooterStart == false){
-    				counterBoolShooterStart = true;
-    				}else{
-    				counterBoolShooterStart = false;
-    				shooter.clearButtons();
-    				counterShooterStart = 0;
-    				smallArmMotor.set(0);
-    				}
-    			} //motor 5 has a limit switch set to 1 (needs to be fixed)
-				shooter.clearButtons();
-    			if(counterBoolShooterStart){
-    				if(counterShooterStart == 0){
-    					counterShooterStart = robotTimer;
-    				}
-    				if(robotTimer<counterShooterStart+500){                    //Runs the sequence for 50 loops, or one second
-    				smallArmMotor.set(-1);
-    				}
-    				else if(robotTimer>=counterShooterStart+500){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				smallArmMotor.set(0);
-    				shooter.clearButtons();
-    				counterShooterStart = 0;
-    				counterBoolShooterStart = false;
-    				}
-    			}
-    			if(shooter.isLStickPushed()){
-    				counterBoolShooterLS = true;
-    			}
-    			if(counterBoolShooterLS){
-    				if(counterShooterLS == 0){
-    					counterShooterLS = robotTimer;
-    				}
-    				if(robotTimer<counterShooterLS+50){                    //Runs the sequence for 50 loops, or one second
-    				smallArmMotor.set(-1);
-    				}
-    				else if(robotTimer>=counterShooterLS+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				smallArmMotor.set(0);
-    				shooter.clearButtons();
-    				counterShooterLS = 0;
-    				counterBoolShooterLS = false;
-    				}
-    			}
-    			if(shooter.isRStickPushed()){
-    				counterBoolShooterRS = true;
-    			}
-    			if(counterBoolShooterRS){
-    				if(counterShooterRS == 0){
-    					counterShooterRS = robotTimer;
-    				}
-    				if(robotTimer<counterShooterRS+50){                    //Runs the sequence for 50 loops, or one second
-    				smallArmMotor.set(1);
-    				}
-    				else if(robotTimer>=counterShooterRS+50){                 //Resets all variables, and ends sequence (after 50 loops, or one second)
-    				smallArmMotor.set(0);
-    				shooter.clearButtons();
-    				counterShooterRS = 0;
-    				counterBoolShooterRS = false;
-    				}
-    			}
-    			
-    			
-    			
-    			if(shooter.getRawAxis(RY)<-0.1 && shooter.isLBHeld()){
-    				//dual1.sniperDown();
-    			}else if(shooter.getRawAxis(RY)>0.1 && shooter.isLBHeld()){
-    				//dual1.sniperUp();
-    			}
-    			
-    			
-    			
-    			if(shooter.getRawAxis(Ltrigger)>0.02 && shooter.isLBHeld()){
-    				armStage1.sniperToHeight(0);
-    			}else if(shooter.getRawAxis(Rtrigger)>0.02 && shooter.isLBHeld()){
-    				armStage1.sniperToHeight(motorTravelRange7);
-    			}else if(shooter.getRawAxis(Ltrigger)>0.02){
-    				armStage1.goToHeight(0);
-    				System.out.println("down");
-    			}else if(shooter.getRawAxis(Rtrigger)>0.02){
-    				armStage1.goToHeight(motorTravelRange7);
-    				System.out.println("up");
-    			}else if(shooter.isAPushed()){
-    				goingSallyPort = true;
-    				shooter.clearA();
-    				//PUT PRESET ARM CONTROLS HERE!!!
-    			}else if(shooter.isXPushed()){
-    				goingDrawbridge = true;
-    				shooter.clearX();
-    			}else if(shooter.isBPushed()){
-    				goingPortcullis = true;
-    				shooter.clearB(); 
-    			} else{
-    				//dual1.set(0);
-    			//	dual2.set(0);
-    			//	System.out.println("Soup.");
-    			//	dual1.set(0);
-    			//	System.out.println(dual1.motor1.getEncPosition() + "                   " + dual1.motor2.getEncPosition());
-    		}
     			/*if(goingSallyPort){
     				armToHeight(12);
     			}else if(goingDrawbridge){
@@ -1144,32 +961,12 @@ public class Robot extends IterativeRobot {
 				shooterControl.set(0);
 				shooterMain.set(0);
 			}
-    			if(shooter.getRawAxis(LY)>0.1){
-					//shooterAimMotor.setScaled(1);
-				}
-				if(shooter.getRawAxis(LY)<0.1){
-					//shooterAimMotor.setScaled(-1);
-				}
+
+    			smallArmMotor.set(shooter.getRawAxis(RY)/4);
+    		;
 				
 				
-				if(shooter.getRawAxis(Ltrigger)>.2 && !(shooterAimMotor.getEncPosition()<motorMin14+50)){
-					shooterAimMotor.set(-shooter.getRawAxis(Ltrigger)/3);
-						System.out.println("3");
-				}else if(shooter.getRawAxis(Rtrigger)>.2 && !(shooterAimMotor.getEncPosition()>motorMax14 - 50)){
-					shooterAimMotor.set(shooter.getRawAxis(Rtrigger)/3);
-					System.out.println("4");
-				}else if(shooterAimMotor.getEncPosition()>motorMax14 - 50) {
-					shooterAimMotor.set(0);
-				}else if(shooterAimMotor.getEncPosition()<motorMin14+50){
-					shooterAimMotor.set(0);
-				}else if(shooter.isRBHeld()){
-					shooterAimMotor.goToHeight(45);
-				}else if(shooterAimMotor.getEncPosition()<(motorMax14 / 3)){
-					shooterAimMotor.set(.1);
-					System.out.println("Soup.");
-				}else{
-					shooterAimMotor.set(.05);
-				}
+				
     		
     		
     		SmartDashboard.putBoolean("Shooting: ", Shooting);
@@ -1184,7 +981,7 @@ public class Robot extends IterativeRobot {
     		SmartDashboard.putBoolean("D-Pad Right: ", D_Pad2);
     		SmartDashboard.putBoolean("D-Pad Down: ", D_Pad1);
     		SmartDashboard.putBoolean("D-Pad Left: ", D_Pad3);
-
+    		shooter.clearButtons();
     	}    
 
 
@@ -1232,8 +1029,8 @@ public class Robot extends IterativeRobot {
 
     	switch(index){          //Switches motors for calibration. 0 = testing. Soup.
     	case 0:
-    		System.out.println(shooterAimMotor.getEncPosition());
-    		shooterAimMotor.goToHeight(35);
+    	//	System.out.println(shooterAimMotor.getEncPosition());
+    	//	shooterAimMotor.goToHeight(35);
     	/*	if(!armLimitSwitch.get()){
     			armStage1.initDown();
     			System.out.println("Going down.");
@@ -1250,24 +1047,44 @@ public class Robot extends IterativeRobot {
     		shooterAimMotor.goToHeight(15);
     		System.out.println(shooterAimMotor.getCurrentHeight());
     		*/
-    		System.out.println("Motor1 Pot Value:" + armActuators.motor1.getAnalogInRaw());
-    		System.out.println("Motor2 Pot Value:" + armActuators.motor2.getAnalogInRaw());
-    		armActuators.motor1.set(shooter.getRawAxis(LY/4));
-    		armActuators.motor2.set(shooter.getRawAxis(RY/4));
-
+    	//	armActuators.goToHeight(0);
+    	/*	armActuators.motor1.set(shooter.getRawAxis(LY)/4);
+    		armActuators.motor2.set(shooter.getRawAxis(RY)/4);
+    		System.out.println("Motor 1: " + armActuators.motor1.getAnalogInRaw());
+    		System.out.println("Motor 2: " + armActuators.motor2.getAnalogInRaw());*/
+    	//	shooterAimMotor.goToHeight(30);
+    		if(shooter.getRawAxis(Ltrigger)>.2){
+				shooterAimMotor.set(-.5);
+			}else if(shooter.getRawAxis(Rtrigger)>.2){
+				shooterAimMotor.set(.5);
+			}else if(shooter.isRStickPushed()){
+				disableAimHold = true;
+			}else if(shooterAimMotor.getEncPosition()<motorMax14/4 && !disableAimHold){
+				shooterAimMotor.set(.1425);
+			}else if(shooterAimMotor.getEncPosition()<2*motorMax14/4 && !disableAimHold){
+				shooterAimMotor.set(.1);
+			}else if(shooterAimMotor.getEncPosition()<3*motorMax14/4 && !disableAimHold){
+				shooterAimMotor.set(.07);
+			}else if(shooterAimMotor.getEncPosition()>motorMax14/4 && !disableAimHold){
+				shooterAimMotor.set(-.06);
+			}else{
+				shooterAimMotor.set(0);
+			}
     	break;
     	case 1:
-    		calibrate(1, 1, false);
-    		//System.out.println("Soup.");
+    		armActuators.motor1.set(shooter.getRawAxis(LY)/4);
+    		armActuators.motor2.set(shooter.getRawAxis(RY)/4);
+    		System.out.println("Motor 1: " + armActuators.motor1.getAnalogInRaw());
+    		System.out.println("Motor 2: " + armActuators.motor2.getAnalogInRaw());
     	break;
     	case 2:
-    		calibrate(2, 1, false);
+    		armActuators.goToHeight(1.25);
     	break;
     	case 3:
-    		calibrate(3, 1, false);
+    		smallArmMotor.set(shooter.getRawAxis(LY)/4);
     	break;
     	case 4:
-    		calibrate(4, 1, false);
+    		
     	break;
     	case 5:
     		calibrate(5, 1, false);

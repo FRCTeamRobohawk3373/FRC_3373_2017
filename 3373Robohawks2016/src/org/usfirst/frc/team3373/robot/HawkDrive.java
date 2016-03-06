@@ -6,10 +6,10 @@ public class HawkDrive {
 	AHRS ahrs = new AHRS(SPI.Port.kMXP);
 	static boolean motorDone1 = false; //unused currently for goToDistance
 	static boolean motorDone2 = false;
-	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.02, -1,-1,-1);
-	HawkSuperMotor leftDriveMotorBack = new HawkSuperMotor(2,0,0,0,0,0,.02, -1,-1,-1);
-	HawkSuperMotor rightDriveMotorFront = new HawkSuperMotor(3,0,0,0,0,0,.02, 1,-1,-1);
-	HawkSuperMotor rightDriveMotorBack= new HawkSuperMotor(4,0,0,0,0,0,.02, 1,-1,-1);
+	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.04, -1,-1,-1);
+	HawkSuperMotor leftDriveMotorBack = new HawkSuperMotor(2,0,0,0,0,0,.04, -1,-1,-1);
+	HawkSuperMotor rightDriveMotorFront = new HawkSuperMotor(3,0,0,0,0,0,.04, 1,-1,-1);
+	HawkSuperMotor rightDriveMotorBack= new HawkSuperMotor(4,0,0,0,0,0,.04, 1,-1,-1);
 	
     public void wheelControl(double leftY, double rightY, boolean turboEnabled, boolean SniperEnabled){         // Acceleration and speed calculation
     	
@@ -31,10 +31,10 @@ public class HawkDrive {
     	   rightDriveMotorFront.set(rightY);
     	   rightDriveMotorBack.set(rightY);
        }else{
-    	   leftDriveMotorFront.set(leftY/2);
-    	  leftDriveMotorBack.set(leftY/2);
-    	   rightDriveMotorFront.set(rightY/2);
-    	  rightDriveMotorBack.set(rightY/2);
+    	   leftDriveMotorFront.set(leftY*.75);
+    	  leftDriveMotorBack.set(leftY*.75);
+    	   rightDriveMotorFront.set(rightY*.75);
+    	  rightDriveMotorBack.set(rightY*.75);
        }	
 
        }

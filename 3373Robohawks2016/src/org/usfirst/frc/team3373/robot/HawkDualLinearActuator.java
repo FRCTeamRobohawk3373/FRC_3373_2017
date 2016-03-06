@@ -38,18 +38,21 @@ public class HawkDualLinearActuator {
 			System.out.println("No soup.  3 u");
 			motor1.goToHeight(targetHeight);
 			motor2.goToHeight(targetHeight);*/
-		}else if(motor1.getDistanceFromHeight() > 0){
+		}else if(motor1.getDistanceFromHeight() > 0){ //Going down
+			System.out.println("POMASoUPA");
 			if(motor1.getDistanceFromHeight() > motor2.getDistanceFromHeight() + .2){
-				System.out.println("Soup.");
+				System.out.println("Soup. 12");
 				motor1.goToHeight(targetHeight);
 				motor2.sniperToHeight(targetHeight);
 				
 			} else if(motor2.getDistanceFromHeight() > motor1.getDistanceFromHeight() + .2){
-				System.out.println("Stew.");
-				motor1.goToHeight(targetHeight);
-				motor2.sniperToHeight(targetHeight);
+				System.out.println("Stew. 12");
+				motor2.goToHeight(targetHeight);
+				motor1.sniperToHeight(targetHeight);
 			}
-		}else if(motor1.getDistanceFromHeight() < 0){
+		}else if(motor1.getDistanceFromHeight() < 0){ //Going up
+			System.out.println("DistanceFromHeight 1: " + motor1.getDistanceFromHeight());
+			System.out.println("Apple pie.");
 			if(motor1.getDistanceFromHeight() < motor2.getDistanceFromHeight() - .2){
 				System.out.println("Soup.");
 				motor1.goToHeight(targetHeight);
@@ -57,8 +60,8 @@ public class HawkDualLinearActuator {
 				
 			} else if(motor2.getDistanceFromHeight() < motor1.getDistanceFromHeight() - .2){
 				System.out.println("Stew.");
-				motor1.goToHeight(targetHeight);
-				motor2.sniperToHeight(targetHeight);
+				motor2.goToHeight(targetHeight);
+				motor1.sniperToHeight(targetHeight);
 			}
 		}
 		
