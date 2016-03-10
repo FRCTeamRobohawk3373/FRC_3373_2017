@@ -50,28 +50,29 @@ public class HawkSuperMotor extends CANTalon {
 	//	set(speed*((maxPercentSpeed-minPercentSpeed)/100));
 	}
 	public double goToHeight(double targetHeight){
-		double range1 = range/5.625;
+		double range1 = range/travel;
 		double range2 = range1 * targetHeight;
-		double range3 = range2 + rangeMin;
-		targetEncoderPos = (int) range3;
-		if(get()<rangeMin-10){                             //Prevents the motor from hitting or passing its lower limit
+		targetEncoderPos = (int) range2;
+		System.out.println("target, mon!: " + targetEncoderPos);
+		System.out.println("current, mon!: " + getEncPosition());
+		if(Math.abs(getEncPosition())<Math.abs(rangeMin)+100){                             //Prevents the motor from hitting or passing its lower limit
 			setScaled(.2);
 			System.out.println("reached lower limit. Speed : " + getSpeed());
-		}else if(getAnalogInRaw()>rangeMax+10){                       //Prevents the motor from hitting or passing its upper limit
+		}else if(Math.abs(getEncPosition())>Math.abs(rangeMax)-100){                       //Prevents the motor from hitting or passing its upper limit
 			setScaled(-.2);
 			System.out.println("reached upper limit. Speed : " + getSpeed());
-		}else if(getAnalogInRaw()>targetEncoderPos+3 && getAnalogInRaw() <targetEncoderPos+25){
+		}else if(Math.abs(getEncPosition())>Math.abs(targetEncoderPos)+40 && Math.abs(getEncPosition()) <Math.abs(targetEncoderPos)+250){
 			setScaled(-.2);
 			System.out.println("slowing while going down");
-		}else if(getAnalogInRaw()>targetEncoderPos+25){
+		}else if(Math.abs(getEncPosition())>Math.abs(targetEncoderPos)+250){
 			setScaled(-.5);
 			System.out.println("going down");
-		}else if(getAnalogInRaw()<targetEncoderPos-3 && getAnalogInRaw() > targetEncoderPos-25){
+		}else if(Math.abs(getEncPosition())<Math.abs(targetEncoderPos)-40 && Math.abs(getEncPosition()) > Math.abs(targetEncoderPos)-250){
 			setScaled(.2);
 			System.out.println("Slowing whole going up.");
-		}else if(getAnalogInRaw()< targetEncoderPos-25){
+		}else if(Math.abs(getEncPosition())< Math.abs(targetEncoderPos)-250){
 			setScaled(.5);
-			System.out.println("Going down.");
+			System.out.println("Going up.");
 		}else{
 			setScaled(0);
 			System.out.println("Stopping.");

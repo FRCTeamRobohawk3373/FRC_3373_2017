@@ -81,7 +81,7 @@ public class HawkDrive {
     		double currentAngle = Math.abs(ahrs.getAngle() % 360);
     		if(currentAngle < targetAngle-2 && targetAngle<180){
     			wheelControl(0, -.5, false, false);
-    		}else if(currentAngle < targetAngle-2 && targetAngle >180 || currentAngle > targetAngle+2 && targetAngle >180){
+    		}else if(currentAngle < targetAngle-2 && targetAngle >180 && currentAngle <90 || currentAngle > targetAngle+2 && targetAngle >180){
     			wheelControl(-.5,0, false, false);
     		}else{
     			wheelControl(0,0,false, false);

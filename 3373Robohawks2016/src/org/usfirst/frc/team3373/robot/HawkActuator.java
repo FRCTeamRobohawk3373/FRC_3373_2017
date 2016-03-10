@@ -32,10 +32,10 @@ public class HawkActuator extends HawkSuperMotor  {
 		double range2 = range1 * targetHeight;
 		double range3 = range2 + minPotValue;
 		targetPotPos = (int) range3;
-		if(getAnalogInRaw()<minPotValue-10){                             //Prevents the motor from hitting or passing its lower limit
+		if(getAnalogInRaw()<minPotValue+10){                             //Prevents the motor from hitting or passing its lower limit
 			setScaled(.2);
 			System.out.println("reached lower limit. Speed : " + getSpeed());
-		}else if(getAnalogInRaw()>maxPotValue+10){                       //Prevents the motor from hitting or passing its upper limit
+		}else if(getAnalogInRaw()>maxPotValue-10){                       //Prevents the motor from hitting or passing its upper limit
 			setScaled(-.2);
 			System.out.println("reached upper limit. Speed : " + getSpeed());
 		}else if(getAnalogInRaw()>targetPotPos+3 && getAnalogInRaw() <targetPotPos+25){

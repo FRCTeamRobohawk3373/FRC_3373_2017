@@ -51,6 +51,9 @@ public class Robot extends IterativeRobot {
 	HawkSuperMotor shooterControl;
 	HawkSuperMotor smallArmMotor;
 	HawkSuperMotor shooterAimMotor;
+	
+	HawkSuperMotor leftArmStage1;
+	HawkSuperMotor rightArmStage1;
 
 	HawkSuperDualMotor armStage2;
 	HawkSuperDualMotor armStage1;
@@ -518,7 +521,9 @@ public class Robot extends IterativeRobot {
     	
     	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, 1, limitSwitchForwID14, limitSwitchRevID14);
     	
-    	
+    	//motor 7: 0, -3990                    motor 8: 0, 3964
+    	leftArmStage1 = new HawkSuperMotor(8, 0, 3964, 100, 0, 25, .02, 1, limitSwitchForwID8, limitSwitchRevID8);
+    	rightArmStage1 = new HawkSuperMotor(7, 0, -3990, 100, 0, 25, .02, -1, limitSwitchForwID7, limitSwitchRevID7);
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10);
     	armActuators = new HawkDualLinearActuator(motorID11, 751, 318, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 966, 526, .02, limitSwitchForwID12, limitSwitchRevID12);
 
@@ -566,7 +571,6 @@ public class Robot extends IterativeRobot {
         server.setQuality(50);
         server.startAutomaticCapture("cam1");
         
-        solenoid.set(Relay.Value.kOn);
         }
 
 
@@ -599,6 +603,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+        solenoid.set(Relay.Value.kForward);
     	autoLoopCounter++;
     	
     	int index = 15;//for testing purposes
@@ -708,7 +713,7 @@ public class Robot extends IterativeRobot {
     		hawkDrive.turnToXDegrees(315);
     	break;
     	case 15:
-    		
+            solenoid.set(Relay.Value.kForward);
     	break; 
     	}
     }
@@ -746,6 +751,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        solenoid.set(Relay.Value.kForward);
 		robotTimer++;    //50 Cycles is one second (20 ms per cycle)
     	//myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
     		driver.clearButtons();
@@ -1040,7 +1046,8 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     	
-    	
+        solenoid.set(Relay.Value.kForward);
+
     //	System.out.println(index);
     	
     	robotTimer++;
@@ -1124,7 +1131,8 @@ public class Robot extends IterativeRobot {
     		smallArmMotor.set(shooter.getRawAxis(LY)/4);
     	break;
     	case 4:
-    		
+    		rightArmStage1.goToHeight(15);
+    		System.out.println("Yah");
     	break;
     	case 5:
     		calibrate(5, 1, false);
@@ -1133,10 +1141,10 @@ public class Robot extends IterativeRobot {
     		calibrate(6, 1, true);
     	break;
     	case 7:
-    		calibrate(7, 1, true);
+    		calibrate(7, 1, false);
     	break;
     	case 8:
-    		calibrate(8, 1, false);
+    		calibrate(8, -1, false);
     	break;
     	case 9:
     		calibrate(9, -1, false);
@@ -1165,6 +1173,7 @@ public class Robot extends IterativeRobot {
     	}
 		}
 	public void calibrate(int id, int inversion, boolean limitSwitch){
+		
 		calibrator.clearButtons();
 		double calibrationLeftY;
 		int ID;
