@@ -7,10 +7,10 @@ public class HawkDrive {
 	static boolean motorDone1 = false; //unused currently for goToDistance
 	static boolean motorDone2 = false;
 	boolean obstacleStraight = false;
-	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.04, -1,-1,-1);
-	HawkSuperMotor leftDriveMotorBack = new HawkSuperMotor(2,0,0,0,0,0,.04, -1,-1,-1);
-	HawkSuperMotor rightDriveMotorFront = new HawkSuperMotor(3,0,0,0,0,0,.04, 1,-1,-1);
-	HawkSuperMotor rightDriveMotorBack= new HawkSuperMotor(4,0,0,0,0,0,.04, 1,-1,-1);
+	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.08, -1,-1,-1);
+	HawkSuperMotor leftDriveMotorBack = new HawkSuperMotor(2,0,0,0,0,0,.08, -1,-1,-1);
+	HawkSuperMotor rightDriveMotorFront = new HawkSuperMotor(3,0,0,0,0,0,.08, 1,-1,-1);
+	HawkSuperMotor rightDriveMotorBack= new HawkSuperMotor(4,0,0,0,0,0,.08, 1,-1,-1);
 	
     public void wheelControl(double leftY, double rightY, boolean turboEnabled, boolean SniperEnabled){         // Acceleration and speed calculation
     	
