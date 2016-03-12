@@ -5,8 +5,9 @@ public class HawkShooterAim {
 	private CANTalon shooterAimMotor;
 	private int lowBarAngle = 25; //to be tested and changed if needed
 	private int maxEncValue = 972; //from calibration max Enc value and value at 60 degrees
-	public HawkShooterAim(int id){
+	public HawkShooterAim(int id, double p, double i, double d){
 		shooterAimMotor = new CANTalon(id);
+		shooterAimMotor.setPID(p, i, d);
 		shooterAimMotor.changeControlMode(CANTalon.TalonControlMode.Position);
         shooterAimMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
         shooterAimMotor.enableLimitSwitch(false, false);

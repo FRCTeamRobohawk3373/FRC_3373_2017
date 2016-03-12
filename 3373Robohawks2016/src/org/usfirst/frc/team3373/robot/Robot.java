@@ -38,6 +38,8 @@ public class Robot extends IterativeRobot {
 	boolean goingDrawbridge = false;
 	boolean goingPortcullis = false;
 	
+	boolean isShooterAimInManualMode = false;
+	
 	boolean initializing = true;
 	
 	boolean disableAimHold = false;
@@ -520,7 +522,7 @@ public class Robot extends IterativeRobot {
     	//armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
     	
-    	shooterAimMotor = new HawkShooterAim(14);
+    	shooterAimMotor = new HawkShooterAim(14, 10, 0, 0);
     	
     	//motor 7: 0, -3990                    motor 8: 0, 3964
     	leftArmStage1 = new HawkSuperMotor(8, 0, 3964, 100, 0, 25, .02, 1, limitSwitchForwID8, limitSwitchRevID8);
@@ -951,13 +953,16 @@ public class Robot extends IterativeRobot {
     			}
     			*/
     			if(shooter.getRawAxis(Rtrigger)>.2){
+    				isShooterAimInManualMode = true;
     				shooterAimMotor.manualShooterUp();
     			}
     			else if(shooter.getRawAxis(Ltrigger)>.2){
+    				isShooterAimInManualMode = true;
     				shooterAimMotor.manualShooterDown();
     			}
-    			else{
+    			else if(isShooterAimInManualMode){
     				shooterAimMotor.setCurrentPosition();
+    				isShooterAimInManualMode = false;
     			}
     			
 				//goToAngle(getAngle() - 2, sniperMode);
