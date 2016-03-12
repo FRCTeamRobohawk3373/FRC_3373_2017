@@ -106,22 +106,39 @@ public class HawkSuperMotor extends CANTalon {
 		}
 	}
 	public double sniperToHeight(double targetHeight){
-		targetEncoderPos = (range/travel) * targetHeight;
-		if(getEncPosition()<rangeMin){                             //Prevents the motor from hitting or passing its lower limit
-			setScaled(.05);
-		}else if(getEncPosition()>rangeMax){                       //Prevents the motor from hitting or passing its upper limit
-			setScaled(-.05);
-		}else if(getEncPosition()>targetEncoderPos+30 && getEncPosition() <targetEncoderPos+50){
-			setScaled(-.05);
-		}else if(getEncPosition()>targetEncoderPos+30){
+		double range1 = range/travel;
+		double range2 = range1 * targetHeight;
+		targetEncoderPos = (int) range2;
+		System.out.println("target, mon!: " + targetEncoderPos);
+		System.out.println("current, mon!: " + getEncPosition());
+		if(Math.abs(getEncPosition())<Math.abs(rangeMin)+100){                             //Prevents the motor from hitting or passing its lower limit
+			setScaled(.1);
+			System.out.println("reached lower limit. Speed : " + getSpeed());
+		}else if(Math.abs(getEncPosition())>Math.abs(rangeMax)-100){                       //Prevents the motor from hitting or passing its upper limit
+			setScaled(-.1);
+			System.out.println("reached upper limit. Speed : " + getSpeed());
+		}else if(Math.abs(getEncPosition())>Math.abs(targetEncoderPos)+40 && Math.abs(getEncPosition()) <Math.abs(targetEncoderPos)+250){
+			setScaled(-.1);
+			System.out.println("slowing while going down");
+		}else if(Math.abs(getEncPosition())>Math.abs(targetEncoderPos)+250){
 			setScaled(-.25);
-		}else if(getEncPosition()<targetEncoderPos-30 && getEncPosition() > targetEncoderPos-50){
-			setScaled(.05);
-		}else if(getEncPosition()< targetEncoderPos-30){
+			System.out.println("going down");
+		}else if(Math.abs(getEncPosition())<Math.abs(targetEncoderPos)-40 && Math.abs(getEncPosition()) > Math.abs(targetEncoderPos)-250){
+			setScaled(.1);
+			System.out.println("Slowing whole going up.");
+		}else if(Math.abs(getEncPosition())< Math.abs(targetEncoderPos)-250){
 			setScaled(.25);
+			System.out.println("Going up.");
 		}else{
 			setScaled(0);
+			System.out.println("Stopping.");
 		}
+		currentHeight = Math.abs(getEncPosition())/ range;
+	/*	System.out.println("Target pot pos:" + targetEncoderPos);
+		System.out.println("range1: "+ range1);
+		System.out.println("range2: "+ range2);
+		System.out.println("range3: "+ range3);*/
+		TargetHeight = targetHeight;
 		return targetEncoderPos;
 	}
 /*	public double goDistance(double targetDistance){
