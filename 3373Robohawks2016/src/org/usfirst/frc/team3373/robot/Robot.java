@@ -951,6 +951,9 @@ public class Robot extends IterativeRobot {
     			else if(shooter.getRawAxis(Ltrigger)>.2){
     				shooterAimMotor.manualShooterDown();
     			}
+    			else{
+    				shooterAimMotor.setCurrentPosition();
+    			}
     			
 				//goToAngle(getAngle() - 2, sniperMode);
 			}

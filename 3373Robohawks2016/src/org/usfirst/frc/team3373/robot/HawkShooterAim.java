@@ -49,4 +49,7 @@ public class HawkShooterAim {
 	public void manualShooterDown(){
 		relativeChangeTargetEncValue(-1);
 	}
+	public void setCurrentPosition(){
+		shooterAimMotor.set(shooterAimMotor.getEncPosition());
+	}
 }
