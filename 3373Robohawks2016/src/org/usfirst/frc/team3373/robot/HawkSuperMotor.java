@@ -77,7 +77,7 @@ public class HawkSuperMotor extends CANTalon {
 			setScaled(0);
 			System.out.println("Stopping.");
 		}
-		currentHeight = (getAnalogInRaw() - rangeMin)/ range;
+		currentHeight = Math.abs(getEncPosition())/ range;
 	/*	System.out.println("Target pot pos:" + targetEncoderPos);
 		System.out.println("range1: "+ range1);
 		System.out.println("range2: "+ range2);
@@ -88,16 +88,21 @@ public class HawkSuperMotor extends CANTalon {
 	}
 	public void initDown(){
 		targetEncoderPos = (targetEncoderPos-50);
-		if(getEncPosition()<targetEncoderPos+30 && getEncPosition() >targetEncoderPos+50){
-			setScaled(.1);
-		}else if(getEncPosition()>targetEncoderPos+30){
-			setScaled(.5);
-		}else if(getEncPosition()>targetEncoderPos-30 && getEncPosition() < targetEncoderPos-50){
-			setScaled(-.1);
-		}else if(getEncPosition()< targetEncoderPos-30){
+		if(Math.abs(getEncPosition())>Math.abs(targetEncoderPos)+40 && Math.abs(getEncPosition()) <Math.abs(targetEncoderPos)+250){
+			setScaled(-.2);
+			System.out.println("slowing while going down");
+		}else if(Math.abs(getEncPosition())>Math.abs(targetEncoderPos)+250){
 			setScaled(-.5);
+			System.out.println("going down");
+		}else if(Math.abs(getEncPosition())<Math.abs(targetEncoderPos)-40 && Math.abs(getEncPosition()) > Math.abs(targetEncoderPos)-250){
+			setScaled(.2);
+			System.out.println("Slowing whole going up.");
+		}else if(Math.abs(getEncPosition())< Math.abs(targetEncoderPos)-250){
+			setScaled(.5);
+			System.out.println("Going up.");
 		}else{
 			setScaled(0);
+			System.out.println("Stopping.");
 		}
 	}
 	public double sniperToHeight(double targetHeight){

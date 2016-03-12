@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -827,6 +828,10 @@ public class Robot extends IterativeRobot {
     		}
     		}
     		if(counterBoolDriveStraight){
+    			driver.setRumble(Joystick.RumbleType.kLeftRumble, 1);
+    			driver.setRumble(Joystick.RumbleType.kRightRumble, 1);
+    			shooter.setRumble(Joystick.RumbleType.kLeftRumble, 1);
+    			shooter.setRumble(Joystick.RumbleType.kRightRumble, 1);
     			System.out.println("Stage 2 for driving.");
 				if(counterDriveStraight == 0){
 					counterDriveStraight = robotTimer;
@@ -898,15 +903,15 @@ public class Robot extends IterativeRobot {
     					if(counterShooterX2 == 0){
         					counterShooterX2 = robotTimer;
         				}
-        				if(robotTimer<=counterShooterX2+150){                    //Runs the sequence for 250 loops, or five seconds
+        				if(robotTimer<=counterShooterX2+75){                    //Runs the sequence for 250 loops, or five seconds
         				shooterMain.set(-1);
         				System.out.println("Powering up.");
-        				}else if(robotTimer<counterShooterX2+250){
+        				}else if(robotTimer<counterShooterX2+175){
         				shooterMain.set(-1);
         				shooterControl.set(1);
         				System.out.println("Firing.");
         				}
-        				else if(robotTimer>=counterShooterX2+250){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
+        				else if(robotTimer>=counterShooterX2+175){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
         				shooterMain.set(0);
         				shooterControl.set(0);
         				shooter.clearButtons();
