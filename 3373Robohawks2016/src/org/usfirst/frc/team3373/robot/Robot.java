@@ -512,7 +512,7 @@ public class Robot extends IterativeRobot {
     	*/
     	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
     	
-    	armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
+    	//armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
     	
     	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, 1, limitSwitchForwID14, limitSwitchRevID14);
@@ -684,10 +684,24 @@ public class Robot extends IterativeRobot {
 
     	break;
     	case 12:
-    		
+    		armActuators.goToHeight(3);
+    		if(autoLoopCounter < 150 && autoLoopCounter > 50){
+    			hawkDrive.wheelControl(-.75, -.80, false, false);
+    			System.out.println("Treads");
+    		}else{
+    			hawkDrive.wheelControl(0, 0, false, false);
+    			System.out.println("stopping.");
+    		}
     	break;
     	case 13:
-
+    		armActuators.goToHeight(3);
+    		if(autoLoopCounter < 150 && autoLoopCounter > 50){
+    			hawkDrive.moveStraight(.75, 0);
+    			System.out.println("Treads");
+    		}else{
+    			hawkDrive.wheelControl(0, 0, false, false);
+    			System.out.println("stopping.");
+    		}
     	break;
     	case 14:
     		
@@ -1263,7 +1277,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 	}
-	public void armToHeight(double targetHeight){
+/*	public void armToHeight(double targetHeight){
 		if(armStage1.getHeight() + armStage2.getHeight()<targetHeight-.1){
 			armStage1.goToHeight(armStage1.motor1.travel);
 			armStage2.goToHeight(armStage2.motor1.travel);
@@ -1276,8 +1290,8 @@ public class Robot extends IterativeRobot {
 			goingDrawbridge = false;
 		
 		}
-	}
-	public void sniperArmToHeight(double targetHeight){
+	}*/
+	/*public void sniperArmToHeight(double targetHeight){
 		if(armStage1.getHeight() + armStage2.getHeight()<targetHeight-.1){
 			armStage1.sniperToHeight(armStage1.motor1.travel);
 			armStage2.sniperToHeight(armStage2.motor1.travel);
@@ -1290,7 +1304,7 @@ public class Robot extends IterativeRobot {
 			goingDrawbridge = false;
 		
 		}
-	}
+	}*/
 }   
     	//LiveWindow.run(); This should be uncommented when LiveWindow is desired in test mode
     	

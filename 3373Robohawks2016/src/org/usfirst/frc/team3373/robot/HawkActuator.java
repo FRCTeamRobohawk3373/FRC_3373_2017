@@ -42,7 +42,7 @@ public class HawkActuator extends HawkSuperMotor  {
 			setScaled(-.1);
 			System.out.println("slowing while going down");
 		}else if(getAnalogInRaw()>targetPotPos+25){
-			setScaled(-.5);
+			setScaled(-.35);
 			System.out.println("going down");
 		}else if(getAnalogInRaw()<targetPotPos-3 && getAnalogInRaw() > targetPotPos-25){
 			setScaled(.2);
@@ -77,13 +77,13 @@ public class HawkActuator extends HawkSuperMotor  {
 			setScaled(-.1);
 			System.out.println("slowing while going down");
 		}else if(getAnalogInRaw()>targetPotPos+25){
-			setScaled(-.25);
+			setScaled(-.2);
 			System.out.println("going down");
 		}else if(getAnalogInRaw()<targetPotPos-3 && getAnalogInRaw() > targetPotPos-25){
 			setScaled(.1);
 			System.out.println("Slowing whole going up.");
 		}else if(getAnalogInRaw()< targetPotPos-25){
-			setScaled(.25);
+			setScaled(.125);
 			System.out.println("Going down.");
 		}else{
 			setScaled(0/2);
