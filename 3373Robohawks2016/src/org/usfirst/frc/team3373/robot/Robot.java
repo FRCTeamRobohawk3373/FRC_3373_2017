@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 	HawkSuperMotor shooterMain;
 	HawkSuperMotor shooterControl;
 	HawkSuperMotor smallArmMotor;
-	HawkSuperMotor shooterAimMotor;
+	HawkShooterAim shooterAimMotor;
 	
 	HawkSuperMotor leftArmStage1;
 	HawkSuperMotor rightArmStage1;
@@ -519,7 +519,7 @@ public class Robot extends IterativeRobot {
     	//armStage1 = new HawkSuperDualMotor(motorID7, motorMin7, motorMax7, motorMaxPercent7, motorMinPercent7, motorTravelRange7, maxSpeedChange7, motorDirection7, limitSwitchForwID7, limitSwitchRevID7, motorID8, motorMin8, motorMax8, motorMaxPercent8, motorMinPercent8, motorTravelRange8, maxSpeedChange8, motorDirection8, limitSwitchForwID8, limitSwitchRevID8);
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
     	
-    	shooterAimMotor = new HawkSuperMotor(motorID14, motorMin14, motorMax14, motorMaxPercent14, motorMinPercent14, motorTravelRange14, maxSpeedChange14, 1, limitSwitchForwID14, limitSwitchRevID14);
+    	shooterAimMotor = new HawkShooterAim(14);
     	
     	//motor 7: 0, -3990                    motor 8: 0, 3964
     	leftArmStage1 = new HawkSuperMotor(8, 0, 3964, 100, 0, 25, .02, 1, limitSwitchForwID8, limitSwitchRevID8);
@@ -927,7 +927,7 @@ public class Robot extends IterativeRobot {
     				}
     			}
     			
-    			if(shooter.getRawAxis(Ltrigger)>.2){
+    		/*	if(shooter.getRawAxis(Ltrigger)>.2){
     				shooterAimMotor.set(-.5);
     			}else if(shooter.getRawAxis(Rtrigger)>.2){
     				shooterAimMotor.set(.5);
@@ -943,6 +943,13 @@ public class Robot extends IterativeRobot {
     				shooterAimMotor.set(-.06);
     			}else{
     				shooterAimMotor.set(0);
+    			}
+    			*/
+    			if(shooter.getRawAxis(Rtrigger)>.2){
+    				shooterAimMotor.manualShooterUp();
+    			}
+    			else if(shooter.getRawAxis(Ltrigger)>.2){
+    				shooterAimMotor.manualShooterDown();
     			}
     			
 				//goToAngle(getAngle() - 2, sniperMode);
@@ -1037,7 +1044,7 @@ public class Robot extends IterativeRobot {
 		inches = 1;
     	
 
-		shooterAimMotor.setEncPosition(0);
+//		shooterAimMotor.setEncPosition(0);
 
     }
     /**
@@ -1100,7 +1107,7 @@ public class Robot extends IterativeRobot {
     		System.out.println("Motor 1: " + armActuators.motor1.getAnalogInRaw());
     		System.out.println("Motor 2: " + armActuators.motor2.getAnalogInRaw());*/
     	//	shooterAimMotor.goToHeight(30);
-    		if(shooter.getRawAxis(Ltrigger)>.2){
+    		/*if(shooter.getRawAxis(Ltrigger)>.2){
 				shooterAimMotor.set(-.5);
 			}else if(shooter.getRawAxis(Rtrigger)>.2){
 				shooterAimMotor.set(.5);
@@ -1116,7 +1123,8 @@ public class Robot extends IterativeRobot {
 				shooterAimMotor.set(-.06);
 			}else{
 				shooterAimMotor.set(0);
-			}
+				}
+				*/
     	break;
     	case 1:
     		armActuators.motor1.set(shooter.getRawAxis(LY)/4);
