@@ -44,16 +44,17 @@ public class HawkDrive {
     	       }
        }
     public void moveStraight(double speed, double standardAngle){
-	   	 double angle = ahrs.getAngle() % 360;
+	   	 double angle = Math.abs(ahrs.getAngle() % 360);
+	   	 System.out.println("Angle:" + angle);
 	   	 SmartDashboard.putNumber("Given Angle", ahrs.getAngle());
 	   	 System.out.println(ahrs.getAngle());
 	   	 SmartDashboard.putNumber("Angle", angle);
 	   	if(speed >= 0){
-	   	 if(angle < standardAngle - 2 && angle > -180){
+	   	 if(angle > standardAngle -2 && angle > 180){
 	   		 System.out.println("Stopping left");
 	   		 wheelControl(-(speed),-(speed-.2),false,false); 
 	   	 }
-	   	 else if(angle < standardAngle +2 && angle < -180){
+	   	 else if(angle > standardAngle + 2 && angle < 180){
 	   		 System.out.println("Stopping right");
 	   		 wheelControl(-(speed-.2),-(speed),false,false);
 	   	 } else {
@@ -62,11 +63,11 @@ public class HawkDrive {
 	   	 }
 	   		}
 	   	else if(speed < 0){
-	   		if(angle < standardAngle - 2 && angle > -180){
+	   		if(angle < standardAngle +2 && angle < -180){
 		   		 System.out.println("Stopping left");
 		   		 wheelControl(-(speed+.02) ,-(speed),false,false); 
 		   	 }
-		   	 else if(angle < standardAngle +2 && angle < -180){
+		   	 else if(angle < standardAngle - 2 && angle > -180){
 		   		 System.out.println("Stopping right");
 		   		 wheelControl(-(speed) ,-(speed+.02),false,false);
 		   	 } else {

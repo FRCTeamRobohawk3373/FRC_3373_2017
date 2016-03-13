@@ -752,24 +752,26 @@ public class Robot extends IterativeRobot {
     		if(autoLoopCounter == 1){
     		shooterAimMotor.setTargetAngle(15);
     		}
-    		if(autoLoopCounter < 250){
+    		if(autoLoopCounter < 130){
         		armActuators.goToHeight(5);
     		}
-    		if(autoLoopCounter < 150 && autoLoopCounter > 50){
+    		if(autoLoopCounter < 125 && autoLoopCounter > 50){
     			hawkDrive.moveStraight(.75, 0);
     			System.out.println("Treads");
     		}
-    		if(autoLoopCounter < 250 && autoLoopCounter > 150){
-    			hawkDrive.turnToXDegrees(30);
+    		if(autoLoopCounter < 175 && autoLoopCounter > 125){
+    			hawkDrive.turnToXDegrees(320);
     		}
-    		if(autoLoopCounter > 250){
+    		if(autoLoopCounter > 130){
         		armActuators.goToHeight(1.5);
+    		}
+    		if(autoLoopCounter > 175){
         		hawkDrive.wheelControl(0, 0, false, false);
     		}
-    		if(autoLoopCounter == 250){
-    			shooterAimMotor.setTargetAngle(50);
+    		if(autoLoopCounter == 175){
+    			shooterAimMotor.setTargetAngle(25);
     		}
-    		if(autoLoopCounter > 250 &&  autoLoopCounter < 600){
+    		if(autoLoopCounter > 175 &&  autoLoopCounter < 600){
 				counterBoolShooterX = true;             //Checks whether or not X is held
 			}else{
 				counterBoolShooterX = false;             //If not, cancels shooting
@@ -777,14 +779,16 @@ public class Robot extends IterativeRobot {
 				counterShooterX2 = 0;
 			}
 			if(counterBoolShooterX){                 //If X is held, proceeds to shooting phase
-				if(shooter.isXHeld()){
+				System.out.println("Shooting phase 1...");
+				if(autoLoopCounter > 175 &&  autoLoopCounter < 600){
 					counterBoolShooterX2 = true;
+					System.out.println("Good news.");
 				}
 				if(counterBoolShooterX2){
 					if(counterShooterX2 == 0){
     					counterShooterX2 = autoLoopCounter;
     				}
-    				if(autoLoopCounter<=counterShooterX2+75){                    //Runs the sequence for 250 loops, or five seconds
+    				if(autoLoopCounter<=counterShooterX2+30){                    //Runs the sequence for 250 loops, or five seconds
     				shooterMain.set(-1);
     				System.out.println("Powering up.");
     				}else if(autoLoopCounter<counterShooterX2+150){
@@ -820,7 +824,12 @@ public class Robot extends IterativeRobot {
      */
     public void teleopInit(){
     
-
+    	counterBoolShooterX = false;
+		counterBoolShooterX2 = false;
+		counterShooterX = 0;
+		counterShooterX2 = 0;
+		shooterMain.set(0);
+		shooterControl.set(0);
     
     shooterAimMotor.setTargetAngle(shooterAimMotor.getCurrentAngle());
     /**
@@ -828,6 +837,9 @@ public class Robot extends IterativeRobot {
      */
     }
     public void teleopPeriodic() {
+    	System.out.println("Pot valu 1: " + armActuators.motor1.getAnalogInRaw());
+    	System.out.println("Pot valu 2: " + armActuators.motor2.getAnalogInRaw());
+
         solenoid.set(Relay.Value.kForward);
 		robotTimer++;    //50 Cycles is one second (20 ms per cycle)
     	//myRobot.tankDrive(stick.getRawAxis(1), stick.getRawAxis(5));
@@ -1259,9 +1271,9 @@ public class Robot extends IterativeRobot {
 			}
     	break;
     	case 4:
-    		armStage1.goToHeight(4);
-    		/*rightArmStage1.set(shooter.getRawAxis(LY)/4);
-    		leftArmStage1.set(shooter.getRawAxis(RY)/4);*/
+    		//armStage1.goToHeight(4);
+    		rightArmStage1.set(shooter.getRawAxis(LY)/4);
+    		leftArmStage1.set(shooter.getRawAxis(RY)/4);
     		
     	break;
     	case 5:
