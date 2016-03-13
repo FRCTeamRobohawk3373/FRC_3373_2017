@@ -897,7 +897,7 @@ public class Robot extends IterativeRobot {
     		}
     		}
     		if(counterBoolDriveStraight){
-    			driver.setRumble(Joystick.RumbleType.kLeftRumble, 1);
+    			driver.setRumble(Joystick.RumbleType.kLeftRumble, 100);
     			driver.setRumble(Joystick.RumbleType.kRightRumble, 1);
     			shooter.setRumble(Joystick.RumbleType.kLeftRumble, 1);
     			shooter.setRumble(Joystick.RumbleType.kRightRumble, 1);
