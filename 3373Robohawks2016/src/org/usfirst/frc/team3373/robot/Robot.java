@@ -716,7 +716,7 @@ public class Robot extends IterativeRobot {
     	case 11:
 
     	break;
-    	case 12:
+    	case 12: //Drive over rough obstacles (not using moveStraight()
     		armActuators.goToHeight(3);
     		if(autoLoopCounter < 150 && autoLoopCounter > 50){
     			hawkDrive.wheelControl(-.75, -.80, false, false);
@@ -726,7 +726,7 @@ public class Robot extends IterativeRobot {
     			System.out.println("stopping.");
     		}
     	break;
-    	case 13:
+    	case 13: // Drive straight over rough obstacles
     		armActuators.goToHeight(3);
     		shooterAimMotor.setTargetAngle(40);
     		if(autoLoopCounter < 150 && autoLoopCounter > 50){
@@ -737,7 +737,7 @@ public class Robot extends IterativeRobot {
     			System.out.println("stopping.");
     		}
     	break;
-    	case 14:
+    	case 14: //Low Bar
     		armActuators.goToHeight(5);
     		shooterAimMotor.setTargetAngle(15);
     		if(autoLoopCounter < 150 && autoLoopCounter > 50){
@@ -748,19 +748,26 @@ public class Robot extends IterativeRobot {
     			System.out.println("stopping.");
     		}
     	break;
-    	case 15:
-    		armActuators.goToHeight(5);
+    	case 15: //Low bar and shoot (Needs configuring)
+    		if(autoLoopCounter == 1){
     		shooterAimMotor.setTargetAngle(15);
+    		}
+    		if(autoLoopCounter < 250){
+        		armActuators.goToHeight(5);
+    		}
     		if(autoLoopCounter < 150 && autoLoopCounter > 50){
     			hawkDrive.moveStraight(.75, 0);
     			System.out.println("Treads");
-    		}else{
-    			hawkDrive.wheelControl(0, 0, false, false);
-    			System.out.println("stopping.");
+    		}
+    		if(autoLoopCounter < 250 && autoLoopCounter > 150){
+    			hawkDrive.turnToXDegrees(30);
     		}
     		if(autoLoopCounter > 250){
         		armActuators.goToHeight(1.5);
-        		shooterAimMotor.setTargetAngle(50);
+        		hawkDrive.wheelControl(0, 0, false, false);
+    		}
+    		if(autoLoopCounter == 250){
+    			shooterAimMotor.setTargetAngle(50);
     		}
     		if(autoLoopCounter > 250 &&  autoLoopCounter < 600){
 				counterBoolShooterX = true;             //Checks whether or not X is held
@@ -1075,6 +1082,13 @@ public class Robot extends IterativeRobot {
     			}else{
     				armActuators.set(0);
     			}
+    			
+    			if(shooter.getRawAxis(RY) > .2){
+    				armStage1.goToHeight(24.5);
+    			}else if(shooter.getRawAxis(RY) < -.2){
+    				armStage1.goToHeight(.5);
+    			}
+    			
     			/*if(goingSallyPort){
     				armToHeight(12);
     			}else if(goingDrawbridge){
@@ -1104,7 +1118,7 @@ public class Robot extends IterativeRobot {
 				shooterMain.set(0);
 			}
 
-    			smallArmMotor.set(shooter.getRawAxis(RY)/4);
+    			smallArmMotor.set(shooter.getRawAxis(LY)/4);
     		;
 				
 				
