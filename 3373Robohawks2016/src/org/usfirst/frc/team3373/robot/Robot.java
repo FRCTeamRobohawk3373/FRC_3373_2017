@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot {
 	
 	Relay solenoid;
 	
+	
 	boolean goingSallyPort = false;
 	boolean goingDrawbridge = false;
 	boolean goingPortcullis = false;
@@ -704,7 +705,7 @@ public class Robot extends IterativeRobot {
     		}
     	break;
     	case 14:
-    		
+    		hawkDrive.turnToXDegrees(315);
     	break;
     	case 15:
     		
@@ -727,6 +728,7 @@ public class Robot extends IterativeRobot {
     int counterShooterLS = 0;
     int counterShooterRS = 0;
     int counterShooterToggle = 0;
+    int counterDriveStraight = 0;
     
     boolean counterBoolShooterA = false;
     boolean counterBoolShooterB = false;
@@ -737,6 +739,7 @@ public class Robot extends IterativeRobot {
     boolean counterBoolShooterLS = false;
     boolean counterBoolShooterRS = false;
     boolean counterBoolShooterToggle = false;
+    boolean counterBoolDriveStraight = false;
     
     
     /**
@@ -755,9 +758,9 @@ public class Robot extends IterativeRobot {
     		//
     		
     		
-                                                                      //Drive System
+             if(!counterBoolDriveStraight){                                                       //Drive System
     		hawkDrive.wheelControl(driver.getRawAxis(LY), driver.getRawAxis(RY),driver.isRBHeld(),driver.isLBHeld());
-    		
+             }
 
     		
     		
@@ -807,7 +810,30 @@ public class Robot extends IterativeRobot {
     					e.printStackTrace();
     				};
     		}
-    		
+    		if(driver.isBackPushed()){
+    			hawkDrive.ahrs.reset();
+    			System.out.println("Pressed Back.");
+    			if(counterBoolDriveStraight){
+    				counterBoolDriveStraight = false;
+    				counterDriveStraight = 0;    				
+    			}else{
+    			counterBoolDriveStraight = true;
+    		}
+    		}
+    		if(counterBoolDriveStraight){
+    			System.out.println("Stage 2 for driving.");
+				if(counterDriveStraight == 0){
+					counterDriveStraight = robotTimer;
+				}
+				if(robotTimer<=counterDriveStraight+100){                    //Runs the sequence for 250 loops, or five seconds
+					hawkDrive.moveStraight(.75, 0);
+					System.out.println("Should be driving.");
+				}else{
+				counterBoolDriveStraight = false;
+				counterDriveStraight = 0;
+				}
+    		}
+    		driver.clearButtons();
     	/*	if(D_Pad1){                  //Down, Drawbridge automation           
     			smallArmMotor.set(1);
     		}
@@ -866,15 +892,15 @@ public class Robot extends IterativeRobot {
     					if(counterShooterX2 == 0){
         					counterShooterX2 = robotTimer;
         				}
-        				if(robotTimer<=counterShooterX2+250){                    //Runs the sequence for 250 loops, or five seconds
+        				if(robotTimer<=counterShooterX2+150){                    //Runs the sequence for 250 loops, or five seconds
         				shooterMain.set(-1);
         				System.out.println("Powering up.");
-        				}else if(robotTimer<counterShooterX2+500){
+        				}else if(robotTimer<counterShooterX2+250){
         				shooterMain.set(-1);
         				shooterControl.set(1);
         				System.out.println("Firing.");
         				}
-        				else if(robotTimer>=counterShooterX2+500){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
+        				else if(robotTimer>=counterShooterX2+250){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
         				shooterMain.set(0);
         				shooterControl.set(0);
         				shooter.clearButtons();
