@@ -32,17 +32,17 @@ public class HawkSuperDualMotor{
 			motor1.goToHeight(targetHeight);
 			motor2.goToHeight(targetHeight);
 			}else if(motor1.currentHeight>motor2.currentHeight+.02 && motor1.getSpeed()>=0){
-				motor1.sniperToHeight(targetHeight);
-				motor2.goToHeight(targetHeight);
+				motor2.sniperToHeight(targetHeight);
+				motor1.goToHeight(targetHeight);
 			}else if(motor2.currentHeight>motor1.currentHeight+.02 && motor2.getSpeed()>=0){
-				motor2.sniperToHeight(targetHeight);
-				motor1.goToHeight(targetHeight);
-			}else if(motor1.currentHeight<motor2.currentHeight-.02 && motor1.getSpeed()<=0){
 				motor1.sniperToHeight(targetHeight);
 				motor2.goToHeight(targetHeight);
-			}else if(motor2.currentHeight<motor1.currentHeight-.02 && motor2.getSpeed()<=0){
+			}else if(motor1.currentHeight<motor2.currentHeight-.02 && motor1.getSpeed()<=0){
 				motor2.sniperToHeight(targetHeight);
 				motor1.goToHeight(targetHeight);
+			}else if(motor2.currentHeight<motor1.currentHeight-.02 && motor2.getSpeed()<=0){
+				motor1.sniperToHeight(targetHeight);
+				motor2.goToHeight(targetHeight);
 			}
 	}
 	public void sniperToHeight(double targetHeight){
