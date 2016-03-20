@@ -45,25 +45,27 @@ public class HawkDrive {
     	       }
        }
     public void moveStraight(double speed, double standardAngle){
-	   	 double angle = Math.abs(ahrs.getAngle() % 360);
+	   	 double angle = ahrs.getAngle() % 360;
 	   	 System.out.println("Angle:" + angle);
 	   	 SmartDashboard.putNumber("Given Angle", ahrs.getAngle());
 	   	 System.out.println(ahrs.getAngle());
 	   	 SmartDashboard.putNumber("Angle", angle);
-	   	if(speed >= 0){
-	   	 if(angle > standardAngle -2 && angle > 180){
-	   		 System.out.println("Stopping left");
-	   		 wheelControl(-(speed),-(speed-.2),false,false); 
+	   	//if(speed >= 0){
+	   	 if(angle > standardAngle +.2 && angle > 0){
+	   		 System.out.println("compensating right");
+	   		// wheelControl(-(speed-.2),-(speed),false,false); 
+	   		wheelControl(-(speed-.2),-(speed),false,false);
 	   	 }
-	   	 else if(angle > standardAngle + 2 && angle < 180){
-	   		 System.out.println("Stopping right");
-	   		 wheelControl(-(speed-.2),-(speed),false,false);
+	   	 else if(angle < standardAngle -.2 && angle < 0){
+	   		 System.out.println("compensating left");
+	   		//wheelControl(-(speed),-(speed-.2),false,false);
+	   		wheelControl(-(speed),-(speed-.2),false,false); 
 	   	 } else {
 	   		 wheelControl(-speed, -speed, false, false);
 	   		 System.out.println("going straight");
 	   	 }
-	   		}
-	   	else if(speed < 0){
+	   		//}
+	   /*	else if(speed < 0){
 	   		if(angle < standardAngle +2 && angle < -180){
 		   		 System.out.println("Stopping left");
 		   		 wheelControl(-(speed+.02) ,-(speed),false,false); 
@@ -75,23 +77,28 @@ public class HawkDrive {
 		   		 wheelControl(-speed, -speed, false, false);
 		   		 System.out.println("going straight");
 	   	}
+	   	*/
 	   	 ahrs.free();
 	       }
-    	}
     	public void turnToXDegrees(double targetAngle){
     		//45 degrees is 45 to the left, 315 degrees is 45 to the right
     		double currentAngle = Math.abs(ahrs.getAngle() % 360);
-    		if(currentAngle < targetAngle-.5 && targetAngle<180){
-    			wheelControl(0, -.8, false, false);
-    		}else if(currentAngle < targetAngle-.5 && ((targetAngle >180 && currentAngle <180) || (currentAngle > targetAngle+.5 && targetAngle >180))){
+    		if(currentAngle < targetAngle-.2 && targetAngle<=180){
     			wheelControl(-.8,0, false, false);
+    		}else if(targetAngle > 180 && targetAngle+.2 < currentAngle){
+    			wheelControl(0, -.8, false, false);
+    		}else if(targetAngle > 180 && targetAngle-.2 >currentAngle && currentAngle < 180){
+    		
     		}else{
     			wheelControl(0,0,false, false);
     		}
+    		ahrs.free();
+    	}
     /*	if(targetAngle<180){
     		if(currentAngle < targetAngle-3){
     		wheelControl(0, -.5, false, false);
     	}
+    	currentAngle < targetAngle-.5 && ((targetAngle >180 && currentAngle <180) || (currentAngle > targetAngle+.5 && targetAngle >180)
     		else if(currentAngle > targetAngle+3){
     		wheelControl(-.5, 0, false, false);
     	} else{
@@ -109,7 +116,6 @@ public class HawkDrive {
     	}
     }
    */
-}
     
  /*   public static void goDoubleDistance(double distance){
 	    	   //@param distance = distance to drive... because distance isn't clear enough, apparently
