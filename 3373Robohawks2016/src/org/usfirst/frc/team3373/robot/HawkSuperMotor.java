@@ -24,7 +24,7 @@ public class HawkSuperMotor extends CANTalon {
 	//max speed change = maximum speed change between iterations
 	public HawkSuperMotor(int deviceNumber, int encoderMin, int encoderMax,int maxPercent, int minPercent, double travelRange, double maxSpeedChange, int motorDirection1, int limitSwitchForwID,int limitSwitchRevID ) {
 		super(deviceNumber);
-		double encoderRange = encoderMax-encoderMin;
+		double encoderRange = Math.abs(encoderMax-encoderMin);
 		range = encoderRange;
 		rangeMin = encoderMin;
 		rangeMax = encoderMax;
@@ -33,8 +33,8 @@ public class HawkSuperMotor extends CANTalon {
 		currentSpeed = 0.0;
 		maxPercentSpeed = maxPercent;
 		minPercentSpeed = minPercent;
-		currentHeight = ((getEncPosition()/range)*travel);
-		currentEncHeight = (getEncPosition()/range);
+		currentHeight = ((Math.abs(getEncPosition())/range)*travel);
+		currentEncHeight = (Math.abs(getEncPosition())/range);
 		motorDirection = motorDirection1;
 		forwLimitSwitchID = limitSwitchForwID;
 		revLimitSwitchID = limitSwitchRevID;
@@ -77,7 +77,7 @@ public class HawkSuperMotor extends CANTalon {
 			setScaled(0);
 			System.out.println("Stopping.");
 		}
-		currentHeight = Math.abs(getEncPosition())/ range;
+		currentHeight = ((Math.abs(getEncPosition())/range)*travel);
 	/*	System.out.println("Target pot pos:" + targetEncoderPos);
 		System.out.println("range1: "+ range1);
 		System.out.println("range2: "+ range2);
@@ -133,7 +133,7 @@ public class HawkSuperMotor extends CANTalon {
 			setScaled(0);
 			System.out.println("Stopping.");
 		}
-		currentHeight = Math.abs(getEncPosition())/ range;
+		currentHeight = ((Math.abs(getEncPosition())/range)*travel);
 	/*	System.out.println("Target pot pos:" + targetEncoderPos);
 		System.out.println("range1: "+ range1);
 		System.out.println("range2: "+ range2);
@@ -209,6 +209,7 @@ public class HawkSuperMotor extends CANTalon {
 		super.set(0 * motorDirection);
 	}
 	public double getCurrentHeight(){
+		currentHeight = ((Math.abs(getEncPosition())/range)*travel);
 		return currentHeight;
 	}
 

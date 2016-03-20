@@ -61,6 +61,9 @@ public class Robot extends IterativeRobot {
 	boolean goingDrawbridge = false;
 	boolean goingPortcullis = false;
 	
+	boolean generalObstacleMode = false;
+	boolean lowbarMode = false;
+	
 	boolean isShooterAimInManualMode = false;
 	
 	boolean initializing = true;
@@ -296,6 +299,8 @@ public class Robot extends IterativeRobot {
      * used for any initialization code
      */
     public void robotInit() {
+    	
+    	System.out.println("Init");
     	
         armLimitSwitch = new DigitalInput(6);
     	/*
@@ -551,7 +556,7 @@ public class Robot extends IterativeRobot {
     	leftArmStage1 = new HawkSuperMotor(8, 0, 3964, 100, 0, 25, .02, 1, limitSwitchForwID8, limitSwitchRevID8);
     	rightArmStage1 = new HawkSuperMotor(7, 0, -3990, 100, 0, 25, .02, -1, limitSwitchForwID7, limitSwitchRevID7);
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10);
-    	armActuators = new HawkDualLinearActuator(motorID11, 751, 318, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 966, 526, .02, limitSwitchForwID12, limitSwitchRevID12);
+    	armActuators = new HawkDualLinearActuator(motorID11, 482, 66, .02, limitSwitchForwID11, limitSwitchRevID11, motorID12, 966, 526, .02, limitSwitchForwID12, limitSwitchRevID12);
 
     	driver = new SuperJoystick(0);
     	shooter = new SuperJoystick(1);
@@ -699,10 +704,10 @@ public class Robot extends IterativeRobot {
     		}
     	break;
     	case 6:
-    		
+    		hawkDrive.turnToXDegrees(330);
     	break;
     	case 7:
-
+    		hawkDrive.turnToXDegrees(30);
     	break;
     	case 8:
     		armActuators.goToHeight(1);
@@ -719,7 +724,7 @@ public class Robot extends IterativeRobot {
     	case 12: //Drive over rough obstacles (not using moveStraight()
     		armActuators.goToHeight(3);
     		if(autoLoopCounter < 150 && autoLoopCounter > 50){
-    			hawkDrive.wheelControl(-.75, -.80, false, false);
+    			hawkDrive.wheelControl(-.9, -.95, false, false);
     			System.out.println("Treads");
     		}else{
     			hawkDrive.wheelControl(0, 0, false, false);
@@ -730,7 +735,7 @@ public class Robot extends IterativeRobot {
     		armActuators.goToHeight(3);
     		shooterAimMotor.setTargetAngle(40);
     		if(autoLoopCounter < 150 && autoLoopCounter > 50){
-    			hawkDrive.moveStraight(.75, 0);
+    			hawkDrive.moveStraight(.9, 0);
     			System.out.println("Treads");
     		}else{
     			hawkDrive.wheelControl(0, 0, false, false);
@@ -741,7 +746,7 @@ public class Robot extends IterativeRobot {
     		armActuators.goToHeight(5);
     		shooterAimMotor.setTargetAngle(15);
     		if(autoLoopCounter < 150 && autoLoopCounter > 50){
-    			hawkDrive.moveStraight(.75, 0);
+    			hawkDrive.moveStraight(.9, 0);
     			System.out.println("Treads");
     		}else{
     			hawkDrive.wheelControl(0, 0, false, false);
@@ -756,11 +761,11 @@ public class Robot extends IterativeRobot {
         		armActuators.goToHeight(5);
     		}
     		if(autoLoopCounter < 125 && autoLoopCounter > 50){
-    			hawkDrive.moveStraight(.75, 0);
+    			hawkDrive.moveStraight(.9, 0);
     			System.out.println("Treads");
     		}
     		if(autoLoopCounter < 175 && autoLoopCounter > 125){
-    			hawkDrive.turnToXDegrees(320);
+    			hawkDrive.turnToXDegrees(350);
     		}
     		if(autoLoopCounter > 130){
         		armActuators.goToHeight(1.5);
@@ -771,7 +776,7 @@ public class Robot extends IterativeRobot {
     		if(autoLoopCounter == 175){
     			shooterAimMotor.setTargetAngle(25);
     		}
-    		if(autoLoopCounter > 175 &&  autoLoopCounter < 600){
+    		if(autoLoopCounter > 125 &&  autoLoopCounter < 600){
 				counterBoolShooterX = true;             //Checks whether or not X is held
 			}else{
 				counterBoolShooterX = false;             //If not, cancels shooting
@@ -780,7 +785,7 @@ public class Robot extends IterativeRobot {
 			}
 			if(counterBoolShooterX){                 //If X is held, proceeds to shooting phase
 				System.out.println("Shooting phase 1...");
-				if(autoLoopCounter > 175 &&  autoLoopCounter < 600){
+				if(autoLoopCounter > 125 &&  autoLoopCounter < 600){
 					counterBoolShooterX2 = true;
 					System.out.println("Good news.");
 				}
@@ -837,6 +842,9 @@ public class Robot extends IterativeRobot {
      */
     }
     public void teleopPeriodic() {
+    	
+    	SmartDashboard.putBoolean("SHOOTER MODE: ", Shooting);
+    	
     	System.out.println("Pot valu 1: " + armActuators.motor1.getAnalogInRaw());
     	System.out.println("Pot valu 2: " + armActuators.motor2.getAnalogInRaw());
 
@@ -925,7 +933,7 @@ public class Robot extends IterativeRobot {
 					counterDriveStraight = robotTimer;
 				}
 				if(robotTimer<=counterDriveStraight+100){                    //Runs the sequence for 250 loops, or five seconds
-					hawkDrive.moveStraight(.75, 0);
+					hawkDrive.moveStraight(.95, 0);
 					System.out.println("Should be driving.");
 				}else{
 				counterBoolDriveStraight = false;
@@ -976,49 +984,7 @@ public class Robot extends IterativeRobot {
     			}
     			
     	
-    			if(shooter.isXHeld()){
-    				counterBoolShooterX = true;             //Checks whether or not X is held
-    			}else{
-    				counterBoolShooterX = false;             //If not, cancels shooting
-    				counterShooterX = 0;
-    				counterShooterX2 = 0;
-    			}
-    			if(counterBoolShooterX){                 //If X is held, proceeds to shooting phase
-    				if(shooter.isXHeld()){
-    					counterBoolShooterX2 = true;
-    				}
-    				if(counterBoolShooterX2){
-    					if(counterShooterX2 == 0){
-        					counterShooterX2 = robotTimer;
-        				}
-        				if(robotTimer<=counterShooterX2+75){                    //Runs the sequence for 250 loops, or five seconds
-        				shooterMain.set(-1);
-        				System.out.println("Powering up.");
-        				}else if(robotTimer<counterShooterX2+150){
-        				shooterMain.set(-1);
-        				shooterControl.set(1);
-        				System.out.println("Firing.");
-        				}
-        				else if(robotTimer>=counterShooterX2+150){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
-        				shooterMain.set(0);
-        				shooterControl.set(0);
-        				shooter.clearButtons();
-        				counterShooterX = 0;
-        				counterBoolShooterX = false;
-        				counterShooterX2 = 0;
-        				counterBoolShooterX2 = false;
-        				System.out.println("Resetting.");
-        				}
-    				}
-    				else{
-    					counterBoolShooterX = false;
-    					counterBoolShooterX2 = false;
-    					counterShooterX = 0;
-    					counterShooterX2 = 0;
-    					shooterMain.set(0);
-        				shooterControl.set(0);
-    				}
-    			}
+    			
     			
     		/*	if(shooter.getRawAxis(Ltrigger)>.2){
     				shooterAimMotor.set(-.5);
@@ -1087,19 +1053,50 @@ public class Robot extends IterativeRobot {
  
 
     		
+    			if(shooter.isYPushed()){
+    				if(lowbarMode){
+    					lowbarMode=false;
+    					generalObstacleMode = false;
+    				}else{
+    					lowbarMode = true;
+    					generalObstacleMode = false;
+    				}
+    				
+    			}
+    			
+    			if(shooter.isBPushed()){
+    				if(generalObstacleMode){
+    					generalObstacleMode = false;
+    					lowbarMode = false;
+    				}else{
+    					generalObstacleMode = true;
+    					lowbarMode = false;
+    				}
+    			}
+    			
     			if(shooter.getRawAxis(Rtrigger)>.2){
     				armActuators.goToHeight(0);
+    				lowbarMode = false;
+    				generalObstacleMode = false;
     			}else if(shooter.getRawAxis(Ltrigger)> .2){
     				armActuators.goToHeight(5.625);
+    				lowbarMode = false;
+    				generalObstacleMode = false;
+    			}else if(lowbarMode){
+    				shooterAimMotor.setTargetAngle(25);
+    				armActuators.goToHeight(5);
+    			}else if(generalObstacleMode){
+    				shooterAimMotor.setTargetAngle(50);
+    				armActuators.goToHeight(3);
     			}else{
     				armActuators.set(0);
     			}
     			
-    			if(shooter.getRawAxis(RY) > .2){
+    		/*	if(shooter.getRawAxis(RY) > .2){
     				armStage1.goToHeight(24.5);
     			}else if(shooter.getRawAxis(RY) < -.2){
     				armStage1.goToHeight(.5);
-    			}
+    			}*/
     			
     			/*if(goingSallyPort){
     				armToHeight(12);
@@ -1112,6 +1109,51 @@ public class Robot extends IterativeRobot {
     		}
     
     		//SHOOTER AND ARM CONTROLS (Function in both modes)	
+    		
+    		if(shooter.isXHeld()){
+				counterBoolShooterX = true;             //Checks whether or not X is held
+			}else{
+				counterBoolShooterX = false;             //If not, cancels shooting
+				counterShooterX = 0;
+				counterShooterX2 = 0;
+			}
+			if(counterBoolShooterX){                 //If X is held, proceeds to shooting phase
+				if(shooter.isXHeld()){
+					counterBoolShooterX2 = true;
+				}
+				if(counterBoolShooterX2){
+					if(counterShooterX2 == 0){
+    					counterShooterX2 = robotTimer;
+    				}
+    				if(robotTimer<=counterShooterX2+75){                    //Runs the sequence for 250 loops, or five seconds
+    				shooterMain.set(-1);
+    				System.out.println("Powering up.");
+    				}else if(robotTimer<counterShooterX2+150){
+    				shooterMain.set(-1);
+    				shooterControl.set(1);
+    				System.out.println("Firing.");
+    				}
+    				else if(robotTimer>=counterShooterX2+150){                 //Resets all variables, and ends sequence (after 250 more loops, or five seconds)
+    				shooterMain.set(0);
+    				shooterControl.set(0);
+    				shooter.clearButtons();
+    				counterShooterX = 0;
+    				counterBoolShooterX = false;
+    				counterShooterX2 = 0;
+    				counterBoolShooterX2 = false;
+    				System.out.println("Resetting.");
+    				}
+				}
+				else{
+					counterBoolShooterX = false;
+					counterBoolShooterX2 = false;
+					counterShooterX = 0;
+					counterShooterX2 = 0;
+					shooterMain.set(0);
+    				shooterControl.set(0);
+				}
+			}
+    		
     		if(shooter.isBackHeld()){
     			System.out.println("Limit Switch: " + shooterControl.isFwdLimitSwitchClosed());
     			System.out.println("Limit Switch 2: " + shooterControl.isRevLimitSwitchClosed());
@@ -1160,7 +1202,9 @@ public class Robot extends IterativeRobot {
 	    shooterAimMotor.setTargetAngle(shooterAimMotor.getCurrentAngle());
 
 //		shooterAimMotor.setEncPosition(0);
-
+	    
+	    System.out.println("Tinit");
+	    
     }
     /**
      * 
@@ -1171,7 +1215,9 @@ public class Robot extends IterativeRobot {
         solenoid.set(Relay.Value.kForward);
 
     //	System.out.println(index);
+    	System.out.println("Running test mode.");
     	
+        
     	robotTimer++;
     	
   //  	inches = SmartDashboard.getNumber("Height: ");
@@ -1246,34 +1292,28 @@ public class Robot extends IterativeRobot {
     		armActuators.motor2.set(shooter.getRawAxis(RY)/4);
     		System.out.println("Motor 1: " + armActuators.motor1.getAnalogInRaw());
     		System.out.println("Motor 2: " + armActuators.motor2.getAnalogInRaw());
+    		
+    		SmartDashboard.putNumber("Motor 1: " , armActuators.motor1.getAnalogInRaw());
+    		SmartDashboard.putNumber("Motor 2: " , armActuators.motor2.getAnalogInRaw());
     	break;
     	case 2:
     		armActuators.goToHeight(1.25);
     	break;
     	case 3:
-    	//	smallArmMotor.set(shooter.getRawAxis(LY)/4);
-    	//	shooterAimMotor.setTargetAngle(35);
-    		driver.setRumble(Joystick.RumbleType.kLeftRumble, 1);
-			driver.setRumble(Joystick.RumbleType.kRightRumble, 1);
-			shooter.setRumble(Joystick.RumbleType.kLeftRumble, 1);
-			shooter.setRumble(Joystick.RumbleType.kRightRumble, 1);
-			if(shooter.getRawAxis(Rtrigger)>.2){
-				isShooterAimInManualMode = true;
-				shooterAimMotor.manualShooterUp();
-			}
-			else if(shooter.getRawAxis(Ltrigger)>.2){
-				isShooterAimInManualMode = true;
-				shooterAimMotor.manualShooterDown();
-			}
-			else if(isShooterAimInManualMode){
-				shooterAimMotor.setCurrentPosition();
-				isShooterAimInManualMode = false;
-			}
+    		rightArmStage1.set(shooter.getRawAxis(RY)/-4);
+    		leftArmStage1.set(shooter.getRawAxis(LY)/-4);
     	break;
     	case 4:
-    		//armStage1.goToHeight(4);
-    		rightArmStage1.set(shooter.getRawAxis(LY)/4);
-    		leftArmStage1.set(shooter.getRawAxis(RY)/4);
+    		//
+    		
+    		rightArmStage1.goToHeight(10);
+    		//armActuators.goToHeight(1.25);
+    		System.out.println("Left Height: " + leftArmStage1.currentHeight);
+    		System.out.println("Right Height: " + rightArmStage1.currentHeight);
+    		
+    		System.out.println("Left Range: " + leftArmStage1.range);
+    		System.out.println("Left Travel: " + leftArmStage1.travel);
+    		System.out.println("Left encoder: " + leftArmStage1.getEncPosition());
     		
     	break;
     	case 5:

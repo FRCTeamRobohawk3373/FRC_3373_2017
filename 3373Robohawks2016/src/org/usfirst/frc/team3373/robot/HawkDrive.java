@@ -7,10 +7,10 @@ public class HawkDrive {
 	static boolean motorDone1 = false; //unused currently for goToDistance
 	static boolean motorDone2 = false;
 	boolean obstacleStraight = false;
-	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.08, -1,-1,-1);
-	HawkSuperMotor leftDriveMotorBack = new HawkSuperMotor(2,0,0,0,0,0,.08, -1,-1,-1);
-	HawkSuperMotor rightDriveMotorFront = new HawkSuperMotor(3,0,0,0,0,0,.08, 1,-1,-1);
-	HawkSuperMotor rightDriveMotorBack= new HawkSuperMotor(4,0,0,0,0,0,.08, 1,-1,-1);
+	HawkSuperMotor leftDriveMotorFront = new HawkSuperMotor(1,0,0,0,0,0,.1, -1,-1,-1);
+	HawkSuperMotor leftDriveMotorBack = new HawkSuperMotor(2,0,0,0,0,0,.1, -1,-1,-1);
+	HawkSuperMotor rightDriveMotorFront = new HawkSuperMotor(3,0,0,0,0,0,.1, 1,-1,-1);
+	HawkSuperMotor rightDriveMotorBack= new HawkSuperMotor(4,0,0,0,0,0,.1, 1,-1,-1);
 	
     public void wheelControl(double leftY, double rightY, boolean turboEnabled, boolean SniperEnabled){         // Acceleration and speed calculation
     	
@@ -21,13 +21,14 @@ public class HawkDrive {
     		rightY = 0;
     	}
     	
-    	System.out.println("rightY: " + rightY);
-    	System.out.println("leftY: " + leftY);
+    //	System.out.println("rightY: " + rightY);
+    //	System.out.println("leftY: " + leftY);
     	
-    	
+    	leftY = leftY * leftY * leftY;
+    	rightY = rightY * rightY * rightY;
     		System.out.println("Regular drive control.");
     		if(SniperEnabled){                     
-    	    	   leftDriveMotorFront.set(leftY/4);
+    	    	   leftDriveMotorFront.set((leftY)/4);
     	    	 leftDriveMotorBack.set(leftY/4);                        // Sets motor speed to the calculated value
     	    	   rightDriveMotorFront.set(rightY/4);
     	    	  rightDriveMotorBack.set(rightY/4);
@@ -81,9 +82,9 @@ public class HawkDrive {
     		//45 degrees is 45 to the left, 315 degrees is 45 to the right
     		double currentAngle = Math.abs(ahrs.getAngle() % 360);
     		if(currentAngle < targetAngle-.5 && targetAngle<180){
-    			wheelControl(0, -.5, false, false);
-    		}else if(currentAngle < targetAngle-.5 && targetAngle >180 && currentAngle <180 || currentAngle > targetAngle+.5 && targetAngle >180){
-    			wheelControl(-.5,0, false, false);
+    			wheelControl(0, -.8, false, false);
+    		}else if(currentAngle < targetAngle-.5 && ((targetAngle >180 && currentAngle <180) || (currentAngle > targetAngle+.5 && targetAngle >180))){
+    			wheelControl(-.8,0, false, false);
     		}else{
     			wheelControl(0,0,false, false);
     		}

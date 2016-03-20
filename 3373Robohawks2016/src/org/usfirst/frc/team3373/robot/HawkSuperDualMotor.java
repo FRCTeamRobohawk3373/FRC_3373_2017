@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3373.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class HawkSuperDualMotor{
 
 	HawkSuperMotor motor1;
@@ -11,41 +13,55 @@ public class HawkSuperDualMotor{
 		motor2 = new HawkSuperMotor(deviceNumber2, encoderMin2, encoderMax2, maxPercent2, minPercent2, travelRange2, maxSpeedChange2, motorDirection2,limitSwitchForwID2,limitSwitchRevID2);
 	}
 	public void goToHeight(double targetHeight){
-	/*	if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
+		/*if(motor1.getCurrentHeight() > targetHeight - .2 && motor1.getCurrentHeight()< targetHeight + .2){
+			motor1.setScaled(0);
+			motor2.setScaled(0);
+		}else if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
 		motor1.goToHeight(targetHeight);
 		motor2.goToHeight(targetHeight);
-		}else if(motor1.currentHeight>motor2.currentHeight+.02 && motor1.getSpeed()>=0){
+		}else if(motor1.currentHeight>motor2.currentHeight+.02 && motor1.getSpeed()>0){
 			motor1.setScaled(.4);
 			motor2.setScaled(.5);
-		}else if(motor2.currentHeight>motor1.currentHeight+.02 && motor2.getSpeed()>=0){
+			System.out.println("Case 1");
+		}else if(motor2.currentHeight>motor1.currentHeight+.02 && motor2.getSpeed()>0){
 			motor2.setScaled(.4);
 			motor1.setScaled(.5);
+			System.out.println("Case 2");
 		}else if(motor1.currentHeight<motor2.currentHeight-.02 && motor1.getSpeed()<=0){
 			motor1.setScaled(-.4);
 			motor2.setScaled(-.5);
+			System.out.println("Case 3");
 		}else if(motor2.currentHeight<motor1.currentHeight-.02 && motor2.getSpeed()<=0){
 			motor2.setScaled(-.4);
 			motor1.setScaled(-.5);
+			System.out.println("Case 4");
 		}*/
 		
 		if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
 			motor1.goToHeight(targetHeight);
 			motor2.goToHeight(targetHeight);
-			}else if(motor1.currentHeight>motor2.currentHeight+.02 && motor1.getSpeed()>=0){
-				motor2.sniperToHeight(targetHeight);
-				motor1.goToHeight(targetHeight);
-			}else if(motor2.currentHeight>motor1.currentHeight+.02 && motor2.getSpeed()>=0){
+			}else if(motor1.currentHeight>motor2.currentHeight+.02 && motor1.currentHeight < targetHeight){
 				motor1.sniperToHeight(targetHeight);
 				motor2.goToHeight(targetHeight);
-			}else if(motor1.currentHeight<motor2.currentHeight-.02 && motor1.getSpeed()<=0){
+				System.out.println("Case 1");
+				SmartDashboard.putNumber("Case", 1);
+			}else if(motor2.currentHeight>motor1.currentHeight+.02 && motor1.currentHeight < targetHeight){
 				motor2.sniperToHeight(targetHeight);
 				motor1.goToHeight(targetHeight);
-			}else if(motor2.currentHeight<motor1.currentHeight-.02 && motor2.getSpeed()<=0){
+				SmartDashboard.putNumber("Case", 2);
+			}else if(motor1.currentHeight<motor2.currentHeight-.02 && motor1.currentHeight > targetHeight){
 				motor1.sniperToHeight(targetHeight);
 				motor2.goToHeight(targetHeight);
+				System.out.println("Case 3");
+				SmartDashboard.putNumber("Case", 3);
+			}else if(motor2.currentHeight<motor1.currentHeight-.02 && motor1.currentHeight > targetHeight){
+				motor2.sniperToHeight(targetHeight);
+				motor1.goToHeight(targetHeight);
+				System.out.println("Case 4");
+				SmartDashboard.putNumber("Case", 4);
 			}
 	}
-	public void sniperToHeight(double targetHeight){
+/*	public void sniperToHeight(double targetHeight){
 		if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
 			motor1.sniperToHeight(targetHeight);
 			motor2.sniperToHeight(targetHeight);
@@ -62,7 +78,7 @@ public class HawkSuperDualMotor{
 				motor2.set(-.2);
 				motor1.set(-.25);
 			}
-	}
+	}*/
 	public void initDown(){
 		if(!(motor1.currentHeight>motor2.currentHeight+.02)&& !(motor2.currentHeight>motor1.currentHeight+.02)){
 			motor1.set(-.3);
@@ -85,12 +101,12 @@ public class HawkSuperDualMotor{
 	public void manualDown(){
 		goToHeight(0);
 	}
-	public void sniperDown(){
-		sniperToHeight(0);
-	}
-	public void sniperUp(){
-		sniperToHeight(motor1.travel);
-	}
+//	public void sniperDown(){
+//		sniperToHeight(0);
+//	}
+//	public void sniperUp(){
+//		sniperToHeight(motor1.travel);
+//	}
 	public double getHeight(){
 		height = motor1.currentHeight;
 		return height;

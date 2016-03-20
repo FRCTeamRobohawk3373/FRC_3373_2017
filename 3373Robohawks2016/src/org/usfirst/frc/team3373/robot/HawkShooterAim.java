@@ -55,10 +55,10 @@ public class HawkShooterAim {
 		setTargetAngle(generalBreachAngle);
 	}
 	public void manualShooterUp(){
-		relativeChangeTargetEncValue(5);
+		relativeChangeTargetEncValue(8);
 	}
 	public void manualShooterDown(){
-		relativeChangeTargetEncValue(-5);
+		relativeChangeTargetEncValue(-8);
 	}
 	public void setCurrentPosition(){
 		shooterAimMotor.set(shooterAimMotor.getEncPosition());
