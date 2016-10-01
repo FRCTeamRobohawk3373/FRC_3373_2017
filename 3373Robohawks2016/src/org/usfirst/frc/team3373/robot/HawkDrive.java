@@ -94,6 +94,14 @@ public class HawkDrive {
     		}
     		ahrs.free();
     	}
+    	public double getRoll() {
+    		double roll = ahrs.getRoll();
+    		return roll;
+    	}
+    	public double getPitch() {
+    		double pitch = ahrs.getPitch();
+    		return pitch;
+    	}
     /*	if(targetAngle<180){
     		if(currentAngle < targetAngle-3){
     		wheelControl(0, -.5, false, false);
