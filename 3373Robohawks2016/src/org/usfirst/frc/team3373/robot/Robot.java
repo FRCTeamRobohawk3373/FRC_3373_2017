@@ -550,7 +550,7 @@ public class Robot extends IterativeRobot {
     	*/
     	smallArmMotor = new HawkSuperMotor(motorID13, motorMin13, motorMax13, motorMaxPercent13, motorMinPercent13, motorTravelRange13, maxSpeedChange13, motorDirection13, limitSwitchForwID13, limitSwitchRevID13);
     	
-    	armStage1 = new HawkSuperDualMotor(7, 0, -3688, 100, 0, 25, 1, -1, limitSwitchForwID7, limitSwitchRevID7,8, 0, 2855, 100, 0, 25, 1, 1, limitSwitchForwID8, limitSwitchRevID8);
+    	//armStage1 = new HawkSuperDualMotor(7, 0, -3688, 100, 0, 25, 1, -1, limitSwitchForwID7, limitSwitchRevID7,8, 0, 2855, 100, 0, 25, 1, 1, limitSwitchForwID8, limitSwitchRevID8);
     	//armStage2 = new HawkSuperDualMotor(motorID9, motorMin9, motorMax9, motorMaxPercent9, motorMinPercent9, motorTravelRange9, maxSpeedChange9, motorDirection9, limitSwitchForwID9, limitSwitchRevID9, motorID10, motorMin10, motorMax10, motorMaxPercent10, motorMinPercent10, motorTravelRange10, maxSpeedChange10, motorDirection10, limitSwitchForwID10, limitSwitchRevID10 );
     	
     	shooterAimMotor = new HawkShooterAim(14, .75, .001, 0);
@@ -847,8 +847,8 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	
     	SmartDashboard.putBoolean("SHOOTER MODE: ", Shooting);
-    	SmartDashboard.putNumber("EncValue1", armStage1.motor3.getEncPosition());
-    	SmartDashboard.putNumber("EncValue2", armStage1.motor2.getEncPosition());
+    	//SmartDashboard.putNumber("EncValue1", armStage1.motor3.getEncPosition());
+    	//SmartDashboard.putNumber("EncValue2", armStage1.motor2.getEncPosition());
     	
     	
     	System.out.println("Pot valu 1: " + armActuators.motor1.getAnalogInRaw());
@@ -1097,8 +1097,8 @@ public class Robot extends IterativeRobot {
     			}else if(generalObstacleMode){
     				shooterAimMotor.setTargetAngle(50);
     				armActuators.goToHeight(3);
-    			}else if(Math.abs(hawkDrive.getPitch()) > 30){
-    				armActuators.goToHeight(5);
+    			}else if(Math.abs(hawkDrive.getPitch()) > 17){
+    				armActuators.goToHeight(3);
     			}else{
     				armActuators.set(0);
     			}
@@ -1183,9 +1183,9 @@ public class Robot extends IterativeRobot {
 				shooterMain.set(0);
 			}
 
-    		armStage1.motor3.changeControlMode(TalonControlMode.PercentVbus);
-    		armStage1.motor3.set(shooter.getRawAxis(LY)/1.5);
-    		armStage1.motor2.set(shooter.getRawAxis(RY)/-1.5);
+    	//	armStage1.motor3.changeControlMode(TalonControlMode.PercentVbus);
+    	//	armStage1.motor3.set(shooter.getRawAxis(LY)/1.5);
+    	//	armStage1.motor2.set(shooter.getRawAxis(RY)/-1.5);
     		;
 				
 				
@@ -1313,11 +1313,11 @@ public class Robot extends IterativeRobot {
     		armActuators.goToHeight(.75);
     	break;
     	case 3:
-    		armStage1.motor3.changeControlMode(TalonControlMode.PercentVbus);
+    	/*	armStage1.motor3.changeControlMode(TalonControlMode.PercentVbus);
     		armStage1.motor3.set(shooter.getRawAxis(RY)/4);
     		armStage1.motor2.set(shooter.getRawAxis(LY)/-4);
     		System.out.println("Right encoder: " + armStage1.motor3.getEncPosition());
-    		System.out.println("Left encoder: " + armStage1.motor2.getEncPosition());
+    		System.out.println("Left encoder: " + armStage1.motor2.getEncPosition());*/
     	break;
     	case 4:
     		//
@@ -1328,10 +1328,10 @@ public class Robot extends IterativeRobot {
 			}else{
 				armStage1.followToHeight(armStage1.motor2.getCurrentHeight());
 			}*/
-    		armStage1.motor3.changeControlMode(CANTalon.TalonControlMode.Position);
+    	/*	armStage1.motor3.changeControlMode(CANTalon.TalonControlMode.Position);
     		armStage1.motor2.goToHeight(20);
     		armStage1.motor3.set(armStage1.motor2.currentEncHeight * -3688);
-    		System.out.println("Current Encoder Height: " + armStage1.motor2.currentEncHeight);
+    		System.out.println("Current Encoder Height: " + armStage1.motor2.currentEncHeight);*/
     		
     		
     		//armStage1.followToHeight(5);
@@ -1347,7 +1347,7 @@ public class Robot extends IterativeRobot {
     	case 5:
     		//calibrate(5, 1, false);
     		System.out.println(shooter.getRawAxis(RY));
-    		System.out.println("Jeh: " + armStage1.motor2.getEncPosition());
+    	//System.out.println("Jeh: " + armStage1.motor2.getEncPosition());
     	break;
     	case 6:
     		calibrate(6, 1, true);
