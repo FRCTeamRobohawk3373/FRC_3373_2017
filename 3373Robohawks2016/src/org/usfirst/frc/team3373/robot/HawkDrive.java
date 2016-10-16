@@ -45,24 +45,26 @@ public class HawkDrive {
     	       }
        }
     public void moveStraight(double speed, double standardAngle){
-	   	 double angle = (ahrs.getAngle() +360)% 360;
+	   	 double angle = (ahrs.getAngle())% 360;
+	   	 if(angle <0){
+	        	angle+=360;
+	        }
 	   	 //adding 360 to the angle to insure a positive value
 	   	 System.out.println("Angle:" + angle);
 	   	 SmartDashboard.putNumber("Given Angle", ahrs.getAngle());
 	   	 System.out.println(ahrs.getAngle());
 	   	 SmartDashboard.putNumber("Angle", angle);
 	   	//if(speed >= 0){
-	   	 if(angle > standardAngle +.2 && angle > 0){
+	   	 if(angle > standardAngle +.2 && angle < 180){
 	   		 System.out.println("compensating right");
 	   		// wheelControl(-(speed-.2),-(speed),false,false); 
 	   		wheelControl(-(speed-.2),-(speed),false,false);
 	   	 }
-	   	 else if(angle < 0){
-	   		 if(angle > 180){
-	   			 System.out.println("compensating left");
-	   			 //wheelControl(-(speed),-(speed-.2),false,false);
-	   			 wheelControl(-(speed),-(speed-.2),false,false);
-	   		 	}
+	   	 else if(angle > 180){
+	   		System.out.println("compensating left");
+	   		//wheelControl(-(speed),-(speed-.2),false,false);
+	   		wheelControl(-(speed),-(speed-.2),false,false);
+	   		 	
 	   	 } else {
 	   		 wheelControl(-speed, -speed, false, false);
 	   		 System.out.println("going straight");
