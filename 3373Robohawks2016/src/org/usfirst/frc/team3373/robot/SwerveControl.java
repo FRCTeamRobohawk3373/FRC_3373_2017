@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3373.robot;
 
-import com.kauailabs.nav6.frc.IMUAdvanced;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
@@ -42,8 +42,8 @@ public class SwerveControl  {
 	
 	
 	//NavX
-	IMUAdvanced imu;
-	SerialPort serial_port;
+	AHRS ahrs;
+	
 	
 	int encoderUnitsPerRotation = 1660;//was 1665
 	
@@ -63,12 +63,22 @@ public class SwerveControl  {
     
     double radius = 55;
     
+     boolean leftFrontAligned = false;
+	 boolean rightFrontAligned = false;
+	 boolean leftBackAligned = false;
+	 boolean rightBackAligned = false;
+
+	static int leftFrontZero = 0;
+	static int rightFrontZero = 0;
+	static int leftBackZero = 0;
+	static int rightBackZero = 0;
+    
 	SwerveWheel[] wheelArray;
 
 	SwerveWheel FLWheel;
 	SwerveWheel FRWheel;
 	SwerveWheel BLWheel;
-	SwerveWheel BRWheel;
+    SwerveWheel BRWheel;
 	
 	double angleToDiagonal;
 	double robotLength;
@@ -124,7 +134,7 @@ public class SwerveControl  {
 		wheelArray = new SwerveWheel[]{FLWheel, FRWheel, BLWheel, BRWheel};
 		
         try {
-        	serial_port = new SerialPort(57600,SerialPort.Port.kMXP);
+        	
     		
     		// You can add a second parameter to modify the 
     		// update rate (in hz) from 4 to 100.  The default is 100.
@@ -136,7 +146,7 @@ public class SwerveControl  {
     		
     		byte update_rate_hz = 100;
     		//imu = new IMU(serial_port,update_rate_hz);
-    		imu = new IMUAdvanced(serial_port,update_rate_hz);
+    		ahrs = new AHRS(SerialPort.Port.kUSB1);
         	} catch( Exception ex ) {
         		
         	}
@@ -164,14 +174,14 @@ public class SwerveControl  {
 	}
 	
 	public void updatePIDControllers(){
-		rotatePIDInput.setValue(imu.getYaw());
+		rotatePIDInput.setValue(ahrs.getYaw());
 		SmartDashboard.putNumber("PIDInput Value: ", rotatePIDInput.pidGet());
 	}
 	
 	
 	public void relativeRotateRobot(double angle){
 		SmartDashboard.putNumber("Delta Angle", angle);
-		double currentAngle = imu.getYaw();
+		double currentAngle = ahrs.getYaw();
 		SmartDashboard.putNumber("Current Angle:", currentAngle);
 		double targetAngle = currentAngle + angle;
 
@@ -184,7 +194,7 @@ public class SwerveControl  {
 		updatePIDControllers();
 		while(Math.abs(currentAngle - targetAngle) >= 2){ //waits until we are within range of the angle
 			rotationPID.setSetpoint(targetAngle); //tells PID loop to go to the targetAngle
-			currentAngle = imu.getYaw();
+			currentAngle = ahrs.getYaw();
 			updatePIDControllers();
 			//calculateSwerveControl(0,0,0.2);
 			calculateSwerveControl(0, 0, rotatePIDOutput.getPIDValue()); //sets the wheels to rotate based off PID loop
@@ -216,7 +226,7 @@ public class SwerveControl  {
 	 */
 	
 	public void absoluteRotateRobot(double targetAngle){
-		double currentAngle = imu.getYaw();
+		double currentAngle = ahrs.getYaw();
 		if(targetAngle >= 180){
 			targetAngle-=360;
 		} else if(targetAngle < -180){
@@ -225,7 +235,7 @@ public class SwerveControl  {
 		updatePIDControllers();
 		while(Math.abs(currentAngle - targetAngle) >= 1){//waits until we are within range of our target angle
 			rotationPID.setSetpoint(targetAngle);//tells PID loop to go to the target angle
-			currentAngle = imu.getYaw();
+			currentAngle = ahrs.getYaw();
 			SmartDashboard.putNumber("Absolute Current Angle", currentAngle);
 			updatePIDControllers();
 			calculateSwerveControl(0, 0, rotatePIDOutput.getPIDValue());//sets the wheels to rotate based off PID loop
@@ -308,7 +318,7 @@ public class SwerveControl  {
     	
     	
     	if(isFieldCentric){
-    		orientationOffset = imu.getYaw(); //if in field centric mode make offset equal to the current angle of the navX
+    		orientationOffset = ahrs.getYaw(); //if in field centric mode make offset equal to the current angle of the navX
     	}
     	
     	double rotationMagnitude = Math.abs(rAxis);
@@ -476,7 +486,7 @@ public class SwerveControl  {
     	
     	double translationalOffset = 0.0;
     	if(isFieldCentric){
-    		translationalOffset = imu.getYaw();
+    		translationalOffset = ahrs.getYaw();
     	} else {
     		translationalOffset = 0;
     	}
@@ -712,5 +722,61 @@ public class SwerveControl  {
     	//BLWheel.test();
     	//BRWheel.test();
     }
+    
+    public void swerveAlign(){
+    	if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 1){
+    		FLWheel.rotateMotor.set(-.05);
+		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 1){
+			FLWheel.rotateMotor.set(.05);
+		}
+    	
+		if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 1){
+			BLWheel.rotateMotor.set(-.05);
+		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 1){
+			BLWheel.rotateMotor.set(.05);
+		}
+		
+		if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 1){
+			FRWheel.rotateMotor.set(-.05);
+		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 1){
+			FRWheel.rotateMotor.set(.05);
+		}
+		
+		if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 1){
+			BRWheel.rotateMotor.set(-.05);
+		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 1){
+			BRWheel.rotateMotor.set(.05);
+		}
+		
+		if((FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero - 1) && (FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero +1)){
+			leftFrontAligned = true;
+			FLWheel.rotateMotor.set(0);
+		}
+		
+		if((BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero - 1) && (BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero +1)){
+			leftBackAligned = true;
+			BLWheel.rotateMotor.set(0);
+		}
+		
+		if((BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero - 1) && (BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero +1)){
+			rightBackAligned = true;
+			BRWheel.rotateMotor.set(0);
+		}
+		
+		if((FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero - 1) && (FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero +1)){
+			rightFrontAligned = true;
+			FRWheel.rotateMotor.set(0);
+		}
+    }
+	public boolean aligned(){	
+		if(rightFrontAligned && rightBackAligned && leftFrontAligned && leftBackAligned){
+
+			return true;
+		}
+		else{
+			return false;
+		}
+		
+	}
 }
 

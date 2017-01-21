@@ -7,7 +7,7 @@ import com.ctre.*;
 public class SwerveWheel {
 
 	public Talon driveMotor; // private Talon driveMotor;
-	private CANTalon rotateMotor;
+	CANTalon rotateMotor;
 
 	private double rAngle;
 	private double rSpeed;

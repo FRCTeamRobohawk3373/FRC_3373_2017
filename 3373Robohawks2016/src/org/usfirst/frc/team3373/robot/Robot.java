@@ -98,12 +98,12 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		if (!SwerveAlign.aligned()) {
-			SwerveAlign.align();
+			swerve.swerveAlign();
 		} else if (SwerveAlign.aligned() && !isAligned) {
-			SwerveControl.rotateLFMotor.setEncPosition(0);
-			SwerveControl.rotateRFMotor.setEncPosition(0);
-			SwerveControl.rotateLBMotor.setEncPosition(0);
-			SwerveControl.rotateRBMotor.setEncPosition(0);
+			swerve.FLWheel.rotateMotor.setEncPosition(0);
+			swerve.FRWheel.rotateMotor.setEncPosition(0);
+			swerve.BLWheel.rotateMotor.setEncPosition(0);
+			swerve.BRWheel.rotateMotor.setEncPosition(0);
 
 			isAligned = true;
 		}
@@ -123,6 +123,17 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		
+		if (!SwerveAlign.aligned()) {
+			swerve.swerveAlign();
+		} else if (SwerveAlign.aligned() && !isAligned) {
+			swerve.FLWheel.rotateMotor.setEncPosition(0);
+			swerve.FRWheel.rotateMotor.setEncPosition(0);
+			swerve.BLWheel.rotateMotor.setEncPosition(0);
+			swerve.BRWheel.rotateMotor.setEncPosition(0);
+
+			isAligned = true;
+		}
 
 		/*
 		 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) < -.1){
