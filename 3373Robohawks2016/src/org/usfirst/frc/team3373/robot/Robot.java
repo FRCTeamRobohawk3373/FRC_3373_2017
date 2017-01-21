@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team3373.robot;
 
+import com.ctre.*;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,11 +20,55 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser chooser;
 
+	SwerveControl swerve;
+	/***************************
+	 * Robot Talon Identifier * F * 0 ------ 1 * | | * | | * 2--------3 *
+	 ***************************/
+	int frontLeftRotate = 2;
+	int frontRightRotate = 1;
+	int backLeftRotate = 3;
+	int backRightRotate = 0;
+
+	int frontLeftDrive = 0;
+	int frontRightDrive = 1;
+	int backLeftDrive = 2;
+	int backRightDrive = 3;
+
+	boolean haveRun;
+	boolean isAligned;
+
+	double robotWidth = 21.125;// TODO CALIBRATE check
+	double robotLength = 33.5;// TODO CALIBRATE check
+	double rotateRadius = 0.;
+	double objectDistance = 60.;
+	double stackDistance = 45.;
+
+	boolean ismanualLifterMode = true;
+	boolean isCollisionPossible = false;
+
+	int LX = 0;
+	int LY = 1;
+	int Ltrigger = 2;
+	int Rtrigger = 3;
+	int RX = 4;
+	int RY = 5;
+
+	CANTalon testTalon = new CANTalon(2);
+
+	SuperJoystick driver = new SuperJoystick(0);
+	SuperJoystick shooter = new SuperJoystick(1);
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+
+		isAligned = false;
+
+		swerve = new SwerveControl(frontLeftDrive, frontLeftRotate, frontRightDrive, frontRightRotate, backLeftDrive,
+				backLeftRotate, backRightDrive, backRightRotate, robotWidth, robotLength);
+
 		chooser = new SendableChooser();
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
@@ -51,6 +97,17 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+		if (!SwerveAlign.aligned()) {
+			SwerveAlign.align();
+		} else if (SwerveAlign.aligned() && !isAligned) {
+			SwerveControl.rotateLFMotor.setEncPosition(0);
+			SwerveControl.rotateRFMotor.setEncPosition(0);
+			SwerveControl.rotateLBMotor.setEncPosition(0);
+			SwerveControl.rotateRBMotor.setEncPosition(0);
+
+			isAligned = true;
+		}
+
 		switch (autoSelected) {
 		case customAuto:
 			// Put custom auto code here
@@ -66,6 +123,27 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+
+		/*
+		 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) < -.1){
+		 * climbTalon1.set(joystick.getRawAxis(LY)); }else{ climbTalon1.set(0);
+		 * }
+		 */
+		testTalon.set(.99);
+		System.out.println("Analog: " + testTalon.getAnalogInRaw());
+		System.out.println("Digital: " + testTalon.getEncPosition());
+
+		if (driver.isLBHeld()) {
+			// Turbo Mode
+			swerve.setSpeedMode(.8);
+		} else if (driver.isRBHeld()) {
+			// Sniper Mode
+			swerve.setSpeedMode(0.20);
+		} else {
+			// Regular mode
+			swerve.setSpeedMode(0.5);
+		}
+		swerve.move(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 
 	}
 
