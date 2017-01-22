@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	int frontLeftDrive = 0;
 	int frontRightDrive = 1;
 	int backLeftDrive = 2;
-	int backRightDrive = 3;
+	int backRightDrive = 8;
 
 	boolean haveRun;
 	boolean isAligned;

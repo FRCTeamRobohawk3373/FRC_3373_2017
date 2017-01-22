@@ -18,7 +18,7 @@ public class SwerveAlign {
 	}
 	
 	public static void align(){
-		if(SwerveControl.rotateLFMotor.getAnalogInRaw() > leftFrontZero + 1){
+		/*if(SwerveControl.rotateLFMotor.getAnalogInRaw() > leftFrontZero + 1){
 			SwerveControl.rotateLFMotor.set(-.05);
 		}else if(SwerveControl.rotateLFMotor.getAnalogInRaw() < leftFrontZero - 1){
 			SwerveControl.rotateLFMotor.set(.05);
@@ -60,7 +60,7 @@ public class SwerveAlign {
 		if((SwerveControl.rotateRFMotor.getAnalogInRaw() > rightFrontZero - 1) && (SwerveControl.rotateRFMotor.getAnalogInRaw() < rightFrontZero +1)){
 			rightFrontAligned = true;
 			SwerveControl.rotateRFMotor.set(0);
-		}
+		}*/
 	}
 	public static boolean aligned(){	
 		if(rightFrontAligned && rightBackAligned && leftFrontAligned && leftBackAligned){
