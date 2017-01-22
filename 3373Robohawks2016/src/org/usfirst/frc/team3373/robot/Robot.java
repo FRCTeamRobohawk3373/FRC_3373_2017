@@ -55,8 +55,8 @@ public class Robot extends IterativeRobot {
 
 	//CANTalon testTalon = new CANTalon(2);
 
-	SuperJoystick driver = new SuperJoystick(0);
-	SuperJoystick shooter = new SuperJoystick(1);
+	SuperJoystick driver;
+	SuperJoystick shooter;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -64,6 +64,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 
+		driver = new SuperJoystick(0);
+		shooter = new SuperJoystick(1);
+		
 		isAligned = false;
 
 		swerve = new SwerveControl(frontLeftDrive, frontLeftRotate, frontRightDrive, frontRightRotate, backLeftDrive,
@@ -145,7 +148,7 @@ public class Robot extends IterativeRobot {
 /*		System.out.println("Analog: " + testTalon.getAnalogInRaw());
 		System.out.println("Digital: " + testTalon.getEncPosition());*/
 
-		if (driver.isLBHeld()) {
+	/*	if (driver.isLBHeld()) {
 			// Turbo Mode
 			swerve.setSpeedMode(.8);
 		} else if (driver.isRBHeld()) {
@@ -154,9 +157,11 @@ public class Robot extends IterativeRobot {
 		} else {
 			// Regular mode
 			swerve.setSpeedMode(0.5);
-		}
-		swerve.move(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+		}*/
 		swerve.switchToRobotCentric();
+		swerve.setSpeedMode(.5);
+		swerve.move(-driver.getRawAxis(LX), driver.getRawAxis(LY), driver.getRawAxis(RX));
+
 	}
 
 	/**
