@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 	int RX = 4;
 	int RY = 5;
 
-	CANTalon testTalon = new CANTalon(2);
+	//CANTalon testTalon = new CANTalon(2);
 
 	SuperJoystick driver = new SuperJoystick(0);
 	SuperJoystick shooter = new SuperJoystick(1);
@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		if (!SwerveAlign.aligned()) {
+	/*	if (!SwerveAlign.aligned()) {
 			swerve.swerveAlign();
 		} else if (SwerveAlign.aligned() && !isAligned) {
 			swerve.FLWheel.rotateMotor.setEncPosition(0);
@@ -106,7 +106,7 @@ public class Robot extends IterativeRobot {
 			swerve.BRWheel.rotateMotor.setEncPosition(0);
 
 			isAligned = true;
-		}
+		}*/
 
 		switch (autoSelected) {
 		case customAuto:
@@ -124,7 +124,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		
-		if (!SwerveAlign.aligned()) {
+		
+	/*	if (!SwerveAlign.aligned()) {
 			swerve.swerveAlign();
 		} else if (SwerveAlign.aligned() && !isAligned) {
 			swerve.FLWheel.rotateMotor.setEncPosition(0);
@@ -133,16 +134,16 @@ public class Robot extends IterativeRobot {
 			swerve.BRWheel.rotateMotor.setEncPosition(0);
 
 			isAligned = true;
-		}
+		}*/
 
 		/*
 		 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) < -.1){
 		 * climbTalon1.set(joystick.getRawAxis(LY)); }else{ climbTalon1.set(0);
 		 * }
 		 */
-		testTalon.set(.99);
-		System.out.println("Analog: " + testTalon.getAnalogInRaw());
-		System.out.println("Digital: " + testTalon.getEncPosition());
+	//	testTalon.set(.99);
+/*		System.out.println("Analog: " + testTalon.getAnalogInRaw());
+		System.out.println("Digital: " + testTalon.getEncPosition());*/
 
 		if (driver.isLBHeld()) {
 			// Turbo Mode
@@ -155,7 +156,7 @@ public class Robot extends IterativeRobot {
 			swerve.setSpeedMode(0.5);
 		}
 		swerve.move(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-
+		swerve.switchToRobotCentric();
 	}
 
 	/**

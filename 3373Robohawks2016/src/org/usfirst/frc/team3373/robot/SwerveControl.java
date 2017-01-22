@@ -28,16 +28,16 @@ public class SwerveControl  {
 	//must also use a wheel class
 	
 	Talon driveLFMotor;
-	static CANTalon rotateLFMotor;
+	CANTalon rotateLFMotor;
 	//Front Right Wheel
 	Talon driveRFMotor;
-	static CANTalon rotateRFMotor;
+	CANTalon rotateRFMotor;
 	//Back Left Wheel
 	Talon driveLBMotor;
-	static CANTalon rotateLBMotor;
+	CANTalon rotateLBMotor;
 	//Back Right Wheel
 	Talon driveRBMotor;
-	static CANTalon rotateRBMotor;
+	CANTalon rotateRBMotor;
 	
 	
 	
