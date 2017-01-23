@@ -128,17 +128,19 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		
-	/*	if (!SwerveAlign.aligned()) {
+		if (!swerve.aligned()) {
 			swerve.swerveAlign();
-		} else if (SwerveAlign.aligned() && !isAligned) {
+		} else if (swerve.aligned() && !isAligned) {
 			swerve.FLWheel.rotateMotor.setEncPosition(0);
 			swerve.FRWheel.rotateMotor.setEncPosition(0);
 			swerve.BLWheel.rotateMotor.setEncPosition(0);
 			swerve.BRWheel.rotateMotor.setEncPosition(0);
 
 			isAligned = true;
-		}*/
-
+		}
+		
+		System.out.println("Aligned? : " + isAligned + "        " + swerve.aligned());
+		if(isAligned){
 		/*
 		 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) < -.1){
 		 * climbTalon1.set(joystick.getRawAxis(LY)); }else{ climbTalon1.set(0);
@@ -160,15 +162,24 @@ public class Robot extends IterativeRobot {
 		}*/
 		swerve.switchToRobotCentric();
 		swerve.setSpeedMode(.5);
-		swerve.move(-driver.getRawAxis(LX), driver.getRawAxis(LY), driver.getRawAxis(RX));
-
+		swerve.move(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+		System.out.println(swerve.FLWheel.getEncoderValue());
+		System.out.println(swerve.FRWheel.getEncoderValue());
+		System.out.println(swerve.BLWheel.getEncoderValue());
+		System.out.println(swerve.BRWheel.getEncoderValue());
+		System.out.println(swerve.FLWheel.getTargetAngle());
+		System.out.println(swerve.FLWheel.getCurrentAngle());
+		}
 	}
 
 	/**
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
-
+		swerve.BRWheel.setTargetAngle(45);
+		swerve.BRWheel.goToAngle();
+		System.out.println(swerve.BRWheel.getCurrentAngle());
+		System.out.println("Enc: " + swerve.BRWheel.getEncoderValue());
 	}
 
 }
