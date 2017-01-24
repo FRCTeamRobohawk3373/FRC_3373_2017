@@ -80,7 +80,7 @@ public class SwerveWheel {
 	}
 
 	public int getCurrentAngle() {
-		// system.out.println(encoderUnitToAngle(getEncoderValue()));
+		System.out.println(encoderUnitToAngle(getEncoderValue()));
 		return encoderUnitToAngle(getEncoderValue());
 		// return encoderUnitToAngle(rotateMotor.getEncPosition());
 	}
@@ -123,10 +123,14 @@ public class SwerveWheel {
 		double angle = 0;
 		if (encoderValue >= 0) {
 			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
+			System.out.println("angle1" + " " + angle);
 			angle = angle % 360;
+			System.out.println("angle2" + " " + angle);
 		} else if (encoderValue < 0) {
 			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
+			System.out.println("angle3" + " " + angle);
 			angle = angle % 360 + 360;
+			System.out.println("angle4" + " " + angle);
 		}
 		return (int) angle;// (angle+2*(90-angle));
 	}
