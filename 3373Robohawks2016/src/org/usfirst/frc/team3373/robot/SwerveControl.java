@@ -728,44 +728,44 @@ public class SwerveControl  {
     	FRWheel.rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	BLWheel.rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	BRWheel.rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 20){
+		if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 35){
 			FLWheel.rotateMotor.set(-.25);
-		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 20){
+		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 35){
 			FLWheel.rotateMotor.set(.25);
-		}else if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 2){
-			FLWheel.rotateMotor.set(-.1);
-		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 2){
-			FLWheel.rotateMotor.set(.1);
+		}else if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 4){
+			FLWheel.rotateMotor.set(-.15);
+		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 4){
+			FLWheel.rotateMotor.set(.15);
 		}
     	
-		if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 20){
+		if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 35){
 			BLWheel.rotateMotor.set(-.25);
-		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 20){
+		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 35){
 			BLWheel.rotateMotor.set(.25);
-		}else if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 2){
-			BLWheel.rotateMotor.set(-.1);
-		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 2){
-			BLWheel.rotateMotor.set(.1);
+		}else if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 4){
+			BLWheel.rotateMotor.set(-.15);
+		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 4){
+			BLWheel.rotateMotor.set(.15);
 		}
 		
-		if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 20){
+		if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 35){
 			FRWheel.rotateMotor.set(-.25);
-		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 20){
+		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 35){
 			FRWheel.rotateMotor.set(.25);
-		}else if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 2){
-			FRWheel.rotateMotor.set(-.1);
-		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 2){
-			FRWheel.rotateMotor.set(.1);
+		}else if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 4){
+			FRWheel.rotateMotor.set(-.15);
+		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 4){
+			FRWheel.rotateMotor.set(.15);
 		}
 		
-		if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 20){
+		if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 35){
 			BRWheel.rotateMotor.set(-.25);
-		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 20){
+		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 35){
 			BRWheel.rotateMotor.set(.25);
-		}else if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 2){
-			BRWheel.rotateMotor.set(-.1);
-		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 2){
-			BRWheel.rotateMotor.set(.1);
+		}else if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 4){
+			BRWheel.rotateMotor.set(-.15);
+		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 4){
+			BRWheel.rotateMotor.set(.15);
 		}
 		
 		if((FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero - 5) && (FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero +5)){

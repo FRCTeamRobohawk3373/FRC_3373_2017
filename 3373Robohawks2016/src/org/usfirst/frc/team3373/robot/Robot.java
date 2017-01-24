@@ -168,15 +168,15 @@ public class Robot extends IterativeRobot {
 			swerve.FRWheel.rotateMotor.set(0);
 			swerve.BLWheel.rotateMotor.set(0);
 			swerve.BRWheel.rotateMotor.set(0);
-		/*swerve.switchToRobotCentric();
+		swerve.switchToRobotCentric();
 		swerve.setSpeedMode(.5);
-		swerve.move(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+		swerve.move(0, 0, 0);
 		System.out.println(swerve.FLWheel.getEncoderValue());
 		System.out.println(swerve.FRWheel.getEncoderValue());
 		System.out.println(swerve.BLWheel.getEncoderValue());
 		System.out.println(swerve.BRWheel.getEncoderValue());
 		System.out.println(swerve.FLWheel.getTargetAngle());
-		System.out.println(swerve.FLWheel.getCurrentAngle());*/
+		System.out.println(swerve.FLWheel.getCurrentAngle());
 		}
 	}
 
