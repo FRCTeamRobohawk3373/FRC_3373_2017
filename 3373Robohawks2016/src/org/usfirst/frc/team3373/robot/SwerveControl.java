@@ -281,7 +281,6 @@ public class SwerveControl  {
     		calculateHookControl(RX);
     	}
     }
-    
     /**
      * Called by move command, controls both field centric and robot centric modes
      * @param LY Left stick Y Axis
@@ -358,6 +357,7 @@ public class SwerveControl  {
     		
     		if(LY == 0 && LX == 0 && RX == 0){//if our inputs are nothing, don't change the angle(use currentAngle as targetAngle)
     			wheel.setTargetAngle(wheel.getCurrentAngle());
+    			System.out.println("Target " + wheel.getCurrentAngle());
     		}
     		
     		if(wheel.getSpeed() > fastestSpeed){//if speed of wheel is greater than the others store the value
