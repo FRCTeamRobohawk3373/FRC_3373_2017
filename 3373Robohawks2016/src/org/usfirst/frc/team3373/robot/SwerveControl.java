@@ -68,10 +68,10 @@ public class SwerveControl  {
 	 boolean leftBackAligned = false;
 	 boolean rightBackAligned = false;
 
-	static int leftFrontZero = 0;
-	static int rightFrontZero = 0;
-	static int leftBackZero = 0;
-	static int rightBackZero = 0;
+	static int leftFrontZero = 303;
+	static int rightFrontZero = 611;
+	static int leftBackZero = 217;
+	static int rightBackZero = 438;
     
 	SwerveWheel[] wheelArray;
 
@@ -724,49 +724,73 @@ public class SwerveControl  {
     }
     
     public void swerveAlign(){
-    	if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 10){
-    		FLWheel.rotateMotor.set(-.05);
-		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 10){
-			FLWheel.rotateMotor.set(.05);
+    	FLWheel.rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	FRWheel.rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	BLWheel.rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	BRWheel.rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 20){
+			FLWheel.rotateMotor.set(-.25);
+		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 20){
+			FLWheel.rotateMotor.set(.25);
+		}else if(FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero + 2){
+			FLWheel.rotateMotor.set(-.1);
+		}else if(FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero - 2){
+			FLWheel.rotateMotor.set(.1);
 		}
     	
-		if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 10){
-			BLWheel.rotateMotor.set(-.05);
-		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 10){
-			BLWheel.rotateMotor.set(.05);
+		if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 20){
+			BLWheel.rotateMotor.set(-.25);
+		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 20){
+			BLWheel.rotateMotor.set(.25);
+		}else if(BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero + 2){
+			BLWheel.rotateMotor.set(-.1);
+		}else if(BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero - 2){
+			BLWheel.rotateMotor.set(.1);
 		}
 		
-		if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 10){
-			FRWheel.rotateMotor.set(-.05);
-		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 10){
-			FRWheel.rotateMotor.set(.05);
+		if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 20){
+			FRWheel.rotateMotor.set(-.25);
+		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 20){
+			FRWheel.rotateMotor.set(.25);
+		}else if(FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero + 2){
+			FRWheel.rotateMotor.set(-.1);
+		}else if(FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero - 2){
+			FRWheel.rotateMotor.set(.1);
 		}
 		
-		if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 10){
-			BRWheel.rotateMotor.set(-.05);
-		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 10){
-			BRWheel.rotateMotor.set(.05);
+		if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 20){
+			BRWheel.rotateMotor.set(-.25);
+		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 20){
+			BRWheel.rotateMotor.set(.25);
+		}else if(BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero + 2){
+			BRWheel.rotateMotor.set(-.1);
+		}else if(BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero - 2){
+			BRWheel.rotateMotor.set(.1);
 		}
 		
-		if((FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero - 10) && (FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero +10)){
+		if((FLWheel.rotateMotor.getAnalogInRaw() > leftFrontZero - 5) && (FLWheel.rotateMotor.getAnalogInRaw() < leftFrontZero +5)){
 			leftFrontAligned = true;
 			FLWheel.rotateMotor.set(0);
 		}
 		
-		if((BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero - 10) && (BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero +10)){
+		if((BLWheel.rotateMotor.getAnalogInRaw() > leftBackZero - 5) && (BLWheel.rotateMotor.getAnalogInRaw() < leftBackZero +5)){
 			leftBackAligned = true;
 			BLWheel.rotateMotor.set(0);
 		}
 		
-		if((BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero - 10) && (BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero +10)){
+		if((BRWheel.rotateMotor.getAnalogInRaw() > rightBackZero - 5) && (BRWheel.rotateMotor.getAnalogInRaw() < rightBackZero +5)){
 			rightBackAligned = true;
 			BRWheel.rotateMotor.set(0);
 		}
 		
-		if((FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero - 10) && (FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero +10)){
+		if((FRWheel.rotateMotor.getAnalogInRaw() > rightFrontZero - 5) && (FRWheel.rotateMotor.getAnalogInRaw() < rightFrontZero +5)){
 			rightFrontAligned = true;
 			FRWheel.rotateMotor.set(0);
 		}
+		
+		System.out.println("Front Right Whool Analog: " + FRWheel.rotateMotor.getAnalogInRaw());
+		
+		
     }
 	public boolean aligned(){	
 		if(rightFrontAligned && rightBackAligned && leftFrontAligned && leftBackAligned){

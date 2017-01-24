@@ -130,6 +130,10 @@ public class Robot extends IterativeRobot {
 		
 		if (!swerve.aligned()) {
 			swerve.swerveAlign();
+			System.out.println("Front Left: " + swerve.FLWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Front Right: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Back Left: " + swerve.BLWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Back Right: " + swerve.BRWheel.rotateMotor.getAnalogInRaw());
 		} else if (swerve.aligned() && !isAligned) {
 			swerve.FLWheel.rotateMotor.setEncPosition(0);
 			swerve.FRWheel.rotateMotor.setEncPosition(0);
@@ -160,7 +164,11 @@ public class Robot extends IterativeRobot {
 			// Regular mode
 			swerve.setSpeedMode(0.5);
 		}*/
-		swerve.switchToRobotCentric();
+			swerve.FLWheel.rotateMotor.set(0);
+			swerve.FRWheel.rotateMotor.set(0);
+			swerve.BLWheel.rotateMotor.set(0);
+			swerve.BRWheel.rotateMotor.set(0);
+		/*swerve.switchToRobotCentric();
 		swerve.setSpeedMode(.5);
 		swerve.move(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 		System.out.println(swerve.FLWheel.getEncoderValue());
@@ -168,7 +176,7 @@ public class Robot extends IterativeRobot {
 		System.out.println(swerve.BLWheel.getEncoderValue());
 		System.out.println(swerve.BRWheel.getEncoderValue());
 		System.out.println(swerve.FLWheel.getTargetAngle());
-		System.out.println(swerve.FLWheel.getCurrentAngle());
+		System.out.println(swerve.FLWheel.getCurrentAngle());*/
 		}
 	}
 
@@ -176,10 +184,12 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
-		swerve.BRWheel.setTargetAngle(45);
-		swerve.BRWheel.goToAngle();
-		System.out.println(swerve.BRWheel.getCurrentAngle());
-		System.out.println("Enc: " + swerve.BRWheel.getEncoderValue());
+		swerve.FLWheel.rotateMotor.set(0);
+		System.out.println("Front Right Whool Analog: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
+		System.out.println("Front right: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
+		System.out.println("Front left: " + swerve.FLWheel.rotateMotor.getAnalogInRaw());
+		System.out.println("Back right: " + swerve.BRWheel.rotateMotor.getAnalogInRaw());
+		System.out.println("Back left: " + swerve.BLWheel.rotateMotor.getAnalogInRaw());
 	}
 
 }
