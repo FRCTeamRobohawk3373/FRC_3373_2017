@@ -121,6 +121,7 @@ public class SwerveControl  {
 		FLWheel = new SwerveWheel(frontLeftDriveChannel, frontLeftRotateID, p, i, d, (270 - angleToDiagonal), 205);
 		FRWheel = new SwerveWheel(frontRightDriveChannel, frontRightRotateID, p, i, d, (angleToDiagonal + 90), 205);
 		BLWheel = new SwerveWheel(backLeftDriveChannel, backLeftRotateID, p, i, d, (angleToDiagonal + 270), 0);
+		System.out.println("WHEEL");
 		BRWheel = new SwerveWheel(backRightDriveChannel, backRightRotateID, p, i, d, (90 - angleToDiagonal), 0);
 		
 		/*
@@ -166,6 +167,7 @@ public class SwerveControl  {
 	 */
 	
 	public void initPIDControllers(){
+		System.out.println("PIDController");
 		rotationPID.enable();
 		rotationPID.setInputRange(-180, 180); //sets input range from 0 to 360(degrees)
 		rotationPID.setOutputRange(-0.5, 0.5); //sets output range from -1 to 1(max rotation values)
@@ -174,6 +176,7 @@ public class SwerveControl  {
 	}
 	
 	public void updatePIDControllers(){
+		System.out.println("updatePID");
 		rotatePIDInput.setValue(ahrs.getYaw());
 		SmartDashboard.putNumber("PIDInput Value: ", rotatePIDInput.pidGet());
 	}
@@ -272,6 +275,7 @@ public class SwerveControl  {
      */
     
     public void move(double LY, double LX, double RX){
+    	
     	if(isFieldCentric || isRobotCentric){
     		calculateSwerveControl(LY, LX, RX);
     	} else if(isObjectCentric){
@@ -354,10 +358,11 @@ public class SwerveControl  {
     		
     		wheel.setSpeed(Math.sqrt(Math.pow(rotateXComponent + translationalXComponent, 2) + Math.pow((rotateYComponent + translationalYComponent), 2)));//sets the speed based off translational and rotational vectors
     		wheel.setTargetAngle(Math.toDegrees(Math.atan2((rotateYComponent + translationalYComponent), (rotateXComponent + translationalXComponent))));//sets the target angle based off translation and rotational vectors
-    		
+    		System.out.println("close your parens");
     		if(LY == 0 && LX == 0 && RX == 0){//if our inputs are nothing, don't change the angle(use currentAngle as targetAngle)
     			wheel.setTargetAngle(wheel.getCurrentAngle());
     			System.out.println("Target " + wheel.getCurrentAngle());
+    			System.out.println("current " + wheel.getTargetAngle());
     		}
     		
     		if(wheel.getSpeed() > fastestSpeed){//if speed of wheel is greater than the others store the value
