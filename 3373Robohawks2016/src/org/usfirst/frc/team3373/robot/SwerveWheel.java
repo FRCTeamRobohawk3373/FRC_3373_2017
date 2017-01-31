@@ -6,7 +6,7 @@ import com.ctre.*;
 
 public class SwerveWheel {
 
-	public Talon driveMotor; // private Talon driveMotor;
+	Talon driveMotor; // private Talon driveMotor;
 	CANTalon rotateMotor;
 
 	private double rAngle;
@@ -28,13 +28,14 @@ public class SwerveWheel {
 			int distanceFromZero) {
 
 		driveMotor = new Talon(driveMotorChannel);
+		System.out.println("MOTOR");
 		rotateMotor = new CANTalon(rotateMotorID);
 
 		rotateMotor.setPID(p, i, d);
 		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
 		rotateMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		rotateMotor.enableLimitSwitch(false, false);
-		rotateMotor.enableBrakeMode(true);
+		rotateMotor.enableBrakeMode(true); 
 
 		targetAngle = encoderUnitToAngle(rotateMotor.getEncPosition());
 		rAngle = rotateAngle;
@@ -42,6 +43,7 @@ public class SwerveWheel {
 	}
 
 	public double getDeltaTheta() {
+		System.out.println("getDeltaTheta");
 		double deltaTheta = getTargetAngle() - getCurrentAngle();
 
 		while ((deltaTheta < -90) || (deltaTheta > 90)) {
@@ -63,6 +65,7 @@ public class SwerveWheel {
 	}
 
 	public void setTargetAngle(double angle) {
+		System.out.println("setTargetAngle");
 
 		// angle += orientationOffset; this does not work
 
@@ -123,14 +126,14 @@ public class SwerveWheel {
 		double angle = 0;
 		if (encoderValue >= 0) {
 			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
-			System.out.println("angle1" + " " + angle);
+			System.out.println("angle it thinks its at" + " " + angle);
 			angle = angle % 360;
-			System.out.println("angle2" + " " + angle);
+			System.out.println("mod 360 angle it thinks its at" + " " + angle);
 		} else if (encoderValue < 0) {
 			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
-			System.out.println("angle3" + " " + angle);
+			System.out.println("angle it thinks its at" + " " + angle);
 			angle = angle % 360 + 360;
-			System.out.println("angle4" + " " + angle);
+			System.out.println("mod 360 angle it thinks its at" + " " + angle);
 		}
 		return (int) angle;// (angle+2*(90-angle));
 	}
