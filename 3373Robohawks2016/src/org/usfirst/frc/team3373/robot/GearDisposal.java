@@ -2,12 +2,12 @@ package org.usfirst.frc.team3373.robot;
 
 import com.ctre.CANTalon;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+
 
 public class GearDisposal {
 	CANTalon rotateMotor;
 	int rotatePort;
-	DigitalInput pegDetector;
+
 	boolean pegStatus = false;
 	int downPos;
 	int upPos;
@@ -19,15 +19,12 @@ public class GearDisposal {
 	boolean startTimer = false;
 	boolean isUp = true;
 
-	public GearDisposal(int rotateMotorChannel, int pegDetectorChannel, int downPosit, int upPosit, int compressPosit, int desiredDelay) {
+	public GearDisposal(int rotateMotorChannel,  int downPosit, int upPosit, int compressPosit) {
 		rotateMotor = new CANTalon(rotateMotorChannel);
-		pegDetector = new DigitalInput(pegDetectorChannel);
 		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
 		upPos = upPosit;
 		downPos = downPosit;
 		compressPos = compressPosit;
-		delay = desiredDelay;
-
 	}
 
 	public void openGearContainer() {
@@ -46,7 +43,7 @@ public class GearDisposal {
 	}
 
 	public boolean isPegDetected() {
-		if (pegDetector.get()) {
+		if (rotateMotor.isFwdLimitSwitchClosed()) {
 			pegStatus = true;
 		} else {
 			pegStatus = false;
@@ -54,6 +51,9 @@ public class GearDisposal {
 		return pegStatus;
 	}
 
+	public boolean isUp() {
+		return isUp;
+	}
 	
 	//timer method to control dropper
 	/*

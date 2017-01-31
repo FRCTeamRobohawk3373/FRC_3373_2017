@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser chooser;
 
 	SwerveControl swerve;
+	GearDisposal gearControl;
 	/***************************
 	 * Robot Talon Identifier * F * 0 ------ 1 * | | * | | * 2--------3 *
 	 ***************************/
@@ -54,6 +55,9 @@ public class Robot extends IterativeRobot {
 	int Rtrigger = 3;
 	int RX = 4;
 	int RY = 5;
+	
+	int gearControlMode = 1;
+	int gearControlModePrev = 0;
 
 	//CANTalon testTalon = new CANTalon(2);
 
@@ -75,6 +79,8 @@ public class Robot extends IterativeRobot {
 		swerve = new SwerveControl(frontLeftDrive, frontLeftRotate, frontRightDrive, frontRightRotate, backLeftDrive,
 				backLeftRotate, backRightDrive, backRightRotate, robotWidth, robotLength);
 
+		gearControl = new GearDisposal(2, 800, 390, 400);
+				
 		chooser = new SendableChooser();
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
@@ -184,13 +190,29 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
-		swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
+		
+		if(shooter.isYPushed()){
+			gearControlMode = gearControlModePrev;
+			gearControlMode ++;
+			if (gearControlMode == 1){
+				gearControl.closeGearContainer();
+			} else if (gearControlMode == 2) {
+				gearControl.compressGearContainer();
+			} else if (gearControlMode == 3){
+				gearControl.openGearContainer();
+			}
+			gearControlModePrev = gearControlMode;
+			if (gearControlModePrev == 3) {
+				gearControlModePrev = 0;
+			}
+		}
+	//	swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
 	//	swerve.FLWheel.driveMotor.set(.5);
 	//	swerve.FRWheel.driveMotor.set(.1);
 	//	swerve.BLWheel.driveMotor.set(.1);
 		
-		swerve.BRWheel.driveMotor.set(driver.getRawAxis(LX));
-		swerve.BRWheel.rotateMotor.set(0);
+	//	swerve.BRWheel.driveMotor.set(driver.getRawAxis(LX));
+	//	swerve.BRWheel.rotateMotor.set(0);
 		//System.out.println(swerve.BRWheel.driveMotor.toString());
 	/*	System.out.println("Front Right Whool Analog: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
 		System.out.println("Front right: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
