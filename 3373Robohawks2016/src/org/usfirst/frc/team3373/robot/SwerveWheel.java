@@ -228,6 +228,9 @@ public class SwerveWheel {
 		rotateMotor.set(output);
 		SmartDashboard.putNumber("Output to Motor", output);
 		SmartDashboard.putNumber("Current", rotateMotor.getOutputCurrent());
+		
+		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
+		
 	}
 
 	public void disable() {
