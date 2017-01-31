@@ -259,7 +259,7 @@ public class SwerveControl  {
     	
     	double deltaEncoder;
     	deltaEncoder = angle*(encoderUnitsPerRotation/360.0); 
-    	
+
     	return (int)deltaEncoder;
     }
     
