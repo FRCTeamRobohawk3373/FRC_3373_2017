@@ -4,6 +4,7 @@ import com.ctre.CANTalon;
 
 
 
+
 public class GearDisposal {
 	CANTalon rotateMotor;
 	int rotatePort;
@@ -18,6 +19,9 @@ public class GearDisposal {
 	boolean gearUpTimer = false;
 	boolean startTimer = false;
 	boolean isUp = true;
+	double p = 10;
+	double d = 10;
+	double i = 0;
 
 	public GearDisposal(int rotateMotorChannel,  int downPosit, int upPosit, int compressPosit) {
 		rotateMotor = new CANTalon(rotateMotorChannel);
@@ -25,25 +29,31 @@ public class GearDisposal {
 		upPos = upPosit;
 		downPos = downPosit;
 		compressPos = compressPosit;
+		rotateMotor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
+		rotateMotor.setPID(p, i, d);
+
 	}
 
 	public void openGearContainer() {
 		rotateMotor.set(downPos);
 		startingTime = System.currentTimeMillis();
 		isUp = false;
+		System.out.println(rotateMotor.getAnalogInRaw());
 	}
 	
 	public void closeGearContainer() {
 		rotateMotor.set(upPos);
 		isUp = true;
+		System.out.println(rotateMotor.getAnalogInRaw());
 	}
 	
 	public void compressGearContainer() {
 		rotateMotor.set(compressPos);
+		System.out.println(rotateMotor.getAnalogInRaw());
 	}
 
 	public boolean isPegDetected() {
-		if (rotateMotor.isFwdLimitSwitchClosed()) {
+		if (rotateMotor.isRevLimitSwitchClosed()) {
 			pegStatus = true;
 		} else {
 			pegStatus = false;
