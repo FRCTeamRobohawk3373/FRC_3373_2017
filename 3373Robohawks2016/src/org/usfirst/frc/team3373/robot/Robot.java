@@ -1,11 +1,7 @@
 
 package org.usfirst.frc.team3373.robot;
 
-import com.ctre.*;
-import com.ctre.CANTalon.TalonControlMode;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,6 +26,7 @@ public class Robot extends IterativeRobot {
 
 	SwerveControl swerve;
 	GearController gearControl;
+	BallIntake ballIntake;
 	/***************************
 	 * Robot Talon Identifier * F * 0 ------ 1 * | | * | | * 2--------3 *
 	 ***************************/
@@ -85,6 +82,8 @@ public class Robot extends IterativeRobot {
 				backLeftRotate, backRightDrive, backRightRotate, robotWidth, robotLength);
 
 		gearControl = new GearController(2, -667, -497, -425);
+		
+		ballIntake = new BallIntake(11);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -172,7 +171,8 @@ public class Robot extends IterativeRobot {
 				
 				break;
 			case intakeCalibration:
-				
+				ballIntake.calibrate();
+				ballIntake.intakeMotor.set(shooter.getRawAxis(1));
 				break;
 			case hopperCalibration:
 				
