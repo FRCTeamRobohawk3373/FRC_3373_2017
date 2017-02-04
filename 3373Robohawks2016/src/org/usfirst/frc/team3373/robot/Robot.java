@@ -17,17 +17,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	final String current = "Default";
-	final String follower = "Follower";
-	final String motionmagic = "motion magic";
-	final String motionprofile = "Motion Profile";
-	final String percentvbus = "Percent V Bus";
-	final String position = "Position";
-	final String speed = "speed";
-	final String voltage = "voltage";
+	final String normal = "default operation";
+	final String gearCalibration = "Calibrating Gears";
+	final String climberControl = "Calbrating Climber";
+	final String swerveWheelCalibration = "Calbrating Wheels";
+	final String shooterCalibration = "Calibrating Shooter";
+	final String intakeCalibration = "Calibrating Ball Intake";
+	final String hopperCalibration = "Calibrating Hopper";
 
 	String autoSelected;
-	SendableChooser chooser;
+	SendableChooser<String> chooser;
 
 	SwerveControl swerve;
 	GearDisposal gearControl;
@@ -88,16 +87,14 @@ public class Robot extends IterativeRobot {
 		gearControl = new GearDisposal(2, -667, -497, -425);
 
 		chooser = new SendableChooser();
-		chooser.addDefault("current", current);
-		chooser.addObject("follower", follower);
-		chooser.addObject("motionmagic", motionmagic);
-		chooser.addObject("motionprofile", motionprofile);
-		chooser.addObject("percentvbus", percentvbus);
-		chooser.addObject("position", position);
-		chooser.addObject("speed", speed);
-		chooser.addObject("voltage", voltage);
-
-		SmartDashboard.putData("Talon choices", chooser);
+		chooser.addDefault("Normal Operation", normal);
+		chooser.addObject("Gear Calibration", gearCalibration);
+		chooser.addObject("Climber Control", climberControl);
+		chooser.addObject("Swerve wheel calibration", swerveWheelCalibration);
+		chooser.addObject("Shooter Calibration", shooterCalibration);
+		chooser.addObject("Intake Calibration", intakeCalibration);
+		chooser.addObject("Hopper Calibration", hopperCalibration);
+		SmartDashboard.putData("Calibration Choices", chooser);
 	}
 
 	/**
@@ -161,57 +158,36 @@ public class Robot extends IterativeRobot {
 		if (true) {
 
 			switch (autoSelected) {
-			case follower:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.Follower);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.Follower);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.Follower);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.Follower);
+			case gearCalibration:
+				gearControl.calibrate();
+				gearControl.rotateMotor.set(shooter.getRawAxis(1));
+				break;
+			case climberControl:
+				
+				break;
+			case swerveWheelCalibration:
+				
+				break;
+			case shooterCalibration:
+				
+				break;
+			case intakeCalibration:
+				
+				break;
+			case hopperCalibration:
+				
+				break;
+			case normal:
 
-				break;
-			case motionmagic:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.MotionMagic);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.MotionMagic);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.MotionMagic);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.MotionMagic);
-
-				break;
-			case motionprofile:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.MotionProfile);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.MotionProfile);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.MotionProfile);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.MotionProfile);
-
-				break;
-			case percentvbus:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
-
-				break;
-			case position:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
-				break;
-			case speed:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.Speed);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.Speed);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.Speed);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.Speed);
-				break;
-			case voltage:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.Voltage);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.Voltage);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.Voltage);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.Voltage);
-				break;
-			case current:
-				swerve.FLWheel.rotateMotor.changeControlMode(TalonControlMode.Current);
-				swerve.FRWheel.rotateMotor.changeControlMode(TalonControlMode.Current);
-				swerve.BLWheel.rotateMotor.changeControlMode(TalonControlMode.Current);
-				swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.Current);
+				swerve.switchToRobotCentric();
+				// swerve.setSpeedMode(.5);
+				swerve.move(.1, .1, .1);
+				System.out.println(swerve.FLWheel.getEncoderValue());
+				System.out.println(swerve.FRWheel.getEncoderValue());
+				System.out.println(swerve.BLWheel.getEncoderValue());
+				System.out.println(swerve.BRWheel.getEncoderValue());
+				System.out.println(swerve.FLWheel.getTargetAngle());
+				System.out.println(swerve.FLWheel.getCurrentAngle());
 				break;
 			default:
 				// Put default auto code here
@@ -236,15 +212,6 @@ public class Robot extends IterativeRobot {
 			 * swerve.setSpeedMode(0.5); }
 			 */
 
-			swerve.switchToRobotCentric();
-			// swerve.setSpeedMode(.5);
-			swerve.move(.1, .1, .1);
-			System.out.println(swerve.FLWheel.getEncoderValue());
-			System.out.println(swerve.FRWheel.getEncoderValue());
-			System.out.println(swerve.BLWheel.getEncoderValue());
-			System.out.println(swerve.BRWheel.getEncoderValue());
-			System.out.println(swerve.FLWheel.getTargetAngle());
-			System.out.println(swerve.FLWheel.getCurrentAngle());
 		}
 	}
 
