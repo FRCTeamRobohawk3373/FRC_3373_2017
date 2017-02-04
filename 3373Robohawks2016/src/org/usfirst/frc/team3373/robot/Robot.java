@@ -61,6 +61,8 @@ public class Robot extends IterativeRobot {
 
 	int gearControlMode = 1;
 	int gearControlModePrev = 0;
+	
+	int intakeControlMode = 1;
 
 	// CANTalon testTalon = new CANTalon(2);
 
@@ -223,7 +225,7 @@ public class Robot extends IterativeRobot {
 		if (shooter.isYPushed()) {
 			gearControlMode += 1;
 			gearControlMode = gearControlMode % 3;
-			System.out.println("Switching");
+			System.out.println("Switching gear control mode");
 			if (gearControlMode == 0) {
 				gearControl.closeGearContainer();
 				System.out.println("Closing");
@@ -238,6 +240,25 @@ public class Robot extends IterativeRobot {
 		}
 		shooter.clearY();
 		System.out.println(gearControl.isPegDetected());
+		
+		
+		if (shooter.isBackPushed()) {
+			intakeControlMode += 1;
+			intakeControlMode = intakeControlMode % 3;
+			System.out.println("Switching intake mode");
+			if (intakeControlMode == 0) {
+				ballIntake.intakeBalls();
+				System.out.println("intaking balls");
+			} else if (intakeControlMode == 1) {
+				ballIntake.clearBalls();
+				System.out.println("clearing ball intake");
+			} else {
+				ballIntake.ballsOff();
+				System.out.println("ball intake off");
+			}
+
+		}
+		shooter.clearBack();
 		// swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
 		// swerve.FLWheel.driveMotor.set(.5);
 		// swerve.FRWheel.driveMotor.set(.1);
