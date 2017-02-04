@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> chooser;
 
 	SwerveControl swerve;
-	GearDisposal gearControl;
+	GearController gearControl;
 	/***************************
 	 * Robot Talon Identifier * F * 0 ------ 1 * | | * | | * 2--------3 *
 	 ***************************/
@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot {
 		swerve = new SwerveControl(frontLeftDrive, frontLeftRotate, frontRightDrive, frontRightRotate, backLeftDrive,
 				backLeftRotate, backRightDrive, backRightRotate, robotWidth, robotLength);
 
-		gearControl = new GearDisposal(2, -667, -497, -425);
+		gearControl = new GearController(2, -667, -497, -425);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
