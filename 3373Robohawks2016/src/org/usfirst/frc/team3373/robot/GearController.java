@@ -5,7 +5,7 @@ import com.ctre.CANTalon;
 
 
 
-public class GearDisposal {
+public class GearController {
 	CANTalon rotateMotor;
 	int rotatePort;
 
@@ -23,7 +23,7 @@ public class GearDisposal {
 	double d = 10;
 	double i = 0;
 
-	public GearDisposal(int rotateMotorChannel,  int downPosit, int upPosit, int compressPosit) {
+	public GearController(int rotateMotorChannel,  int downPosit, int upPosit, int compressPosit) {
 		rotateMotor = new CANTalon(rotateMotorChannel);
 		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
 		upPos = upPosit;
