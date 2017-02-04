@@ -82,4 +82,11 @@ public class GearDisposal {
 		return gearUpTimer;
 	}
 	 */
+	
+	public void calibrate(){
+		System.out.println("Encoder value: " + rotateMotor.getAnalogInRaw());
+		System.out.println("Limit Switch Status: " + rotateMotor.isRevLimitSwitchClosed());
+		rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	}
+	
 }
