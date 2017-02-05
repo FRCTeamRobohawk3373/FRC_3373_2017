@@ -7,7 +7,7 @@
  */
 
 
-//import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick;
 /**
  *
  * @author Jamie Dyer
@@ -274,5 +274,7 @@ public class SuperJoystick extends Joystick{
     	 if (!flagRStick && !getRawButton(10)){
              flagRStick = true;
     	 }
+    
      }
+    
 }
