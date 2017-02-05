@@ -3,10 +3,10 @@ package org.usfirst.frc.team3373.robot;
 import com.ctre.CANTalon;
 
 public class BallIntake {
-	CANTalon intakeMotor;
+	CANTalonSafetyNet intakeMotor;
 
 	public BallIntake(int intakeTalonPort) {
-intakeMotor = new CANTalon(intakeTalonPort);
+intakeMotor = new CANTalonSafetyNet(intakeTalonPort);
 intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	}
 	public void intakeBalls() {

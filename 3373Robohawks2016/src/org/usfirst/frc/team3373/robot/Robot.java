@@ -228,7 +228,7 @@ public class Robot extends IterativeRobot {
 		
 		
 		
-		System.out.println(gearControl.rotateMotor.getAnalogInPosition());
+		System.out.println(gearControl.rotateMotor.getAnalogInRaw());
 		if (shooter.isYPushed()) {
 			gearControlMode += 1;
 			gearControlMode = gearControlMode % 3;
