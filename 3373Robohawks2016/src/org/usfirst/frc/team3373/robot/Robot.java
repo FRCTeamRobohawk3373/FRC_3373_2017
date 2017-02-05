@@ -22,7 +22,6 @@ public class Robot extends IterativeRobot {
 	final String hopperCalibration = "Calibrating Hopper";
 
 	String autoSelected;
-	SendableChooser<String> chooser;
 
 	SwerveControl swerve;
 	GearController gearControl;
@@ -30,44 +29,49 @@ public class Robot extends IterativeRobot {
 	/***************************
 	 * Robot Talon Identifier * F * 0 ------ 1 * | | * | | * 2--------3 *
 	 ***************************/
-	int frontLeftRotate = 2;
-	int frontRightRotate = 1;
-	int backLeftRotate = 3;
-	int backRightRotate = 0;
+	final String defaultAuto = "Default";
+	final String customAuto = "My Auto";
+	SendableChooser<String> chooser = new SendableChooser<>();
+	SuperJoystick tester;
 
-	int frontLeftDrive = 0;
-	int frontRightDrive = 1;
-	int backLeftDrive = 2;
-	int backRightDrive = 8;
-
-	boolean haveRun;
-	boolean isAligned;
-
-	double robotWidth = 21.125;// TODO CALIBRATE check
-	double robotLength = 33.5;// TODO CALIBRATE check
-	double rotateRadius = 0.;
-	double objectDistance = 60.;
-	double stackDistance = 45.;
-
-	boolean ismanualLifterMode = true;
-	boolean isCollisionPossible = false;
-
+	int testTimer;
+	int angle;
+	boolean firstRun = true;
+	boolean secondRun = false;
+	boolean thirdRun = false;
+	boolean fourthRun = false;
+	
 	int LX = 0;
 	int LY = 1;
 	int Ltrigger = 2;
 	int Rtrigger = 3;
 	int RX = 4;
 	int RY = 5;
-
-	int gearControlMode = 1;
-	int gearControlModePrev = 0;
 	
-	int intakeControlMode = 1;
+	double robotWidth = 21.125;// TODO CALIBRATE check
+	double robotLength = 33.5;// TODO CALIBRATE check
+	
+	int LBdriveChannel = 2;
+	int LBrotateID = 3;
+	int LBencOffset = 226;
 
-	// CANTalon testTalon = new CANTalon(2);
+	int LFdriveChannel = 0;
+	int LFrotateID = 2;
+	int LFencOffset = 127;
+	
+	int RBdriveChannel = 8;
+	int RBrotateID = 0;
+	int RBencOffset = 444;
+	
+	int RFdriveChannel = 1;
+	int RFrotateID = 1;
+	int RFencOffset = 631;
 
 	SuperJoystick driver;
 	SuperJoystick shooter;
+	
+	int intakeControlMode = 0;
+	int gearControlMode = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -78,14 +82,11 @@ public class Robot extends IterativeRobot {
 		driver = new SuperJoystick(0);
 		shooter = new SuperJoystick(1);
 
-		isAligned = false;
+		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
-		swerve = new SwerveControl(frontLeftDrive, frontLeftRotate, frontRightDrive, frontRightRotate, backLeftDrive,
-				backLeftRotate, backRightDrive, backRightRotate, robotWidth, robotLength);
-
-		gearControl = new GearController(2, -667, -497, -425);
+	//	gearControl = new GearController(2, -667, -497, -425);
 		
-		ballIntake = new BallIntake(11);
+	//	ballIntake = new BallIntake(11);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -155,46 +156,15 @@ public class Robot extends IterativeRobot {
 		 * isAligned = true; }
 		 */
 
-		System.out.println("Aligned? : " + isAligned + "        " + swerve.aligned());
-		if (true) {
+			
+				if(driver.getRawAxis(Rtrigger) > .1){
+					swerve.isFieldCentric = true;
+				}else{
+					swerve.isFieldCentric = false;
+				}
+				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 
-			switch (autoSelected) {
-			case gearCalibration:
-				gearControl.calibrate();
-				gearControl.rotateMotor.set(shooter.getRawAxis(1));
-				break;
-			case climberControl:
-				
-				break;
-			case swerveWheelCalibration:
-				
-				break;
-			case shooterCalibration:
-				
-				break;
-			case intakeCalibration:
-				ballIntake.calibrate();
-				ballIntake.intakeMotor.set(shooter.getRawAxis(1));
-				break;
-			case hopperCalibration:
-				
-				break;
-			case normal:
-
-				swerve.switchToRobotCentric();
-				// swerve.setSpeedMode(.5);
-				swerve.move(.1, .1, .1);
-				System.out.println(swerve.FLWheel.getEncoderValue());
-				System.out.println(swerve.FRWheel.getEncoderValue());
-				System.out.println(swerve.BLWheel.getEncoderValue());
-				System.out.println(swerve.BRWheel.getEncoderValue());
-				System.out.println(swerve.FLWheel.getTargetAngle());
-				System.out.println(swerve.FLWheel.getCurrentAngle());
-				break;
-			default:
-				// Put default auto code here
-				break;
-			}
+			
 
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
@@ -215,12 +185,49 @@ public class Robot extends IterativeRobot {
 			 */
 
 		}
-	}
+	
 
 	/**
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
+		switch (autoSelected) {
+		case gearCalibration:
+			gearControl.calibrate();
+			gearControl.rotateMotor.set(shooter.getRawAxis(1));
+			break;
+		case climberControl:
+			
+			break;
+		case swerveWheelCalibration:
+			
+			break;
+		case shooterCalibration:
+			
+			break;
+		case intakeCalibration:
+			ballIntake.calibrate();
+			ballIntake.intakeMotor.set(shooter.getRawAxis(1));
+			break;
+		case hopperCalibration:
+			
+			break;
+		case normal:
+			if(tester.getRawAxis(Rtrigger) > .1){
+				swerve.isFieldCentric = true;
+			}else{
+				swerve.isFieldCentric = false;
+			}
+			swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+			break;
+		default:
+			// Put default auto code here
+			break;
+		}
+		
+		
+		
+		
 		System.out.println(gearControl.rotateMotor.getAnalogInPosition());
 		if (shooter.isYPushed()) {
 			gearControlMode += 1;

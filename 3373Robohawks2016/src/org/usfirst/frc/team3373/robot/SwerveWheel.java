@@ -1,49 +1,139 @@
 package org.usfirst.frc.team3373.robot;
 
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
+
+import java.util.*;
+
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.*;
 
 public class SwerveWheel {
-
-	Talon driveMotor; // private Talon driveMotor;
+	
 	CANTalon rotateMotor;
-
-	private double rAngle;
-	private double rSpeed;
+	Talon driveMotor;
+	private double targetAngle;
 	private double speed;
-	private int targetAngle;
-	private int encoderUnitsPerRotation = 1660;// was 1665
-	private double speedModifier = 0.3;// This sets robot default speed to 75%,
-										// sniper and turbo mode changes these
-										// numbers
-	private int encoderAtHome = 0;
-	private int homeToZero = 0;
+	private static int encoderUnitsPerRotation = 855;//Maximum units, not actually the range of units... 855 is the range. Maybe change it?
+	private double speedModifier = .5;
+	private int encOffset;
+	double rotateAngle;
+	
+	public SwerveWheel(int driveMotorChannel, int rotateMotorID, double p, double i, double d, double rotateAng, int distanceFromZero, int encoderOffset){
 
-	private double output = 0.3;
-
-	// orientation is negative 1, if banebots are facing forwards, orientation
-	// is 1 if the banebots are facing backwards
-	public SwerveWheel(int driveMotorChannel, int rotateMotorID, double p, double i, double d, double rotateAngle,
-			int distanceFromZero) {
-
-		driveMotor = new Talon(driveMotorChannel);
-		System.out.println("MOTOR");
 		rotateMotor = new CANTalon(rotateMotorID);
-
+		driveMotor = new Talon(driveMotorChannel);
+		encOffset = encoderOffset;
+		
 		rotateMotor.setPID(p, i, d);
-		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
-		rotateMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+		rotateMotor.changeControlMode(TalonControlMode.Position);
+		rotateMotor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
 		rotateMotor.enableLimitSwitch(false, false);
 		rotateMotor.enableBrakeMode(true); 
-
-		targetAngle = encoderUnitToAngle(rotateMotor.getEncPosition());
-		rAngle = rotateAngle;
-		homeToZero = distanceFromZero;
+		rotateAngle = rotateAng;
+		
 	}
+	public int calculateTargetAngle(double x, double y){
+		int angle = (int) Math.toDegrees(Math.atan2(y,-x));
+		if(angle <= 0){
+			angle += 360;
+		}
+		return angle;
+		
+	}
+	
+	public int calculateTargetEncoder(){ //Actually used! This method calculates the target encoder position, fed directly into the set() method in rotate(), accounting for offset as a result of the encoder zero value.
+		double targetEnc = targetAngle;
+		targetEnc = targetEnc/360;
+		targetEnc = targetEnc * encoderUnitsPerRotation;
+			targetEnc += encOffset;
+			targetEnc = targetEnc % 870;
+		if(targetEnc < 15){
+			targetEnc = 15;
+		}
+		int finalityal = (int) targetEnc;
+		return finalityal;
+	}
+	
+	public void setTargetAngle(double TA){
+		targetAngle = TA;
+	}
+	public double getTargetAngle() {
+		return targetAngle;
+	}
+	public void setSpeed(double speedIn){
+		speed = speedIn;
+	}
+	public double getSpeed(){
+		return speed;
+	}
+	public int angleToEncoderUnit(double angle) {
 
+		double deltaEncoder;
+		deltaEncoder = angle * (encoderUnitsPerRotation / 360.0) + 15;
+
+		return (int) deltaEncoder;
+	}
+	public int encoderUnitToAngle(int encoderValue) {
+		double angle = 0;
+		if (encoderValue >= 0) {
+			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
+			angle = angle % 360;
+		} else if (encoderValue < 0) {
+			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
+			angle = angle % 360 + 360;
+		}
+		return (int) angle;// (angle+2*(90-angle));
+	}
+	public void setSpeedModifier(double speed) {
+		speedModifier = speed;
+	}
+	public void disable() {
+		rotateMotor.set(0);
+	}
+	public double getCurrentAngle(){
+		double currentAngle = (rotateMotor.getAnalogInRaw() - encOffset);
+		if(currentAngle <= 0){
+			currentAngle += 870;
+		}
+		currentAngle = currentAngle / (encoderUnitsPerRotation / 360.0);
+		return currentAngle;
+	}
+	public double calculateDriveSpeed(double x, double y){
+		double speed = 0;
+		double square = (x*x) + (y*y);
+		speed = Math.sqrt(square);
+		return speed;
+	}
+	public void drive(double x, double y) {
+		/*
+		 * if(Math.abs(targetAngle-currentAngle) > 2)
+		 * driveMotor.set(speed*speedModifier); else{
+		 * driveMotor.set(-speed*speedModifier); }
+		 */
+		SmartDashboard.putNumber("Speed: " + this.toString(), speed * speedModifier);
+		driveMotor.set(calculateDriveSpeed(x, y) * speedModifier);// *directionalModifier
+	}
+	public void driveWheel() {
+		driveMotor.set(speed * speedModifier);// *directionalModifier
+	}
+	public int encoderCheck(int targetEncoder){
+		int target = 0;
+		target = targetEncoder;
+		//	target += encOffset;
+			target = target % 870;
+		if(target < 15){
+			target = 15;
+		}
+		return target;
+	}
+	public void rotate(){
+		rotateMotor.changeControlMode(TalonControlMode.Position);
+		int encoderTarget = angleToEncoderUnit(getDeltaTheta()) + rotateMotor.getAnalogInRaw();
+		encoderTarget = encoderCheck(encoderTarget);
+		rotateMotor.set(encoderTarget);
+	}
 	public double getDeltaTheta() {
-		System.out.println("getDeltaTheta");
 		double deltaTheta = getTargetAngle() - getCurrentAngle();
 
 		while ((deltaTheta < -90) || (deltaTheta > 90)) {
@@ -63,178 +153,7 @@ public class SwerveWheel {
 		// }
 
 	}
-
-	public void setTargetAngle(double angle) {
-		System.out.println("setTargetAngle");
-
-		// angle += orientationOffset; this does not work
-
-		if (angle < 0) {
-			angle += 360;
-		} else if (angle >= 360) {
-			angle -= 360;
-		}
-
-		targetAngle = (int) angle;
+	public double getRAngle(){
+		return rotateAngle;
 	}
-
-	public int getTargetAngle() {
-		return targetAngle;
-	}
-
-	public int getCurrentAngle() {
-		System.out.println(encoderUnitToAngle(getEncoderValue()));
-		return encoderUnitToAngle(getEncoderValue());
-		// return encoderUnitToAngle(rotateMotor.getEncPosition());
-	}
-
-	public int getRAngle() {
-		return (int) rAngle;
-	}
-
-	public double getRSpeed() {
-		return rSpeed;
-	}
-
-	public void setRAngle(double ra) {
-		rAngle = ra;
-	}
-
-	public void setRSpeed(double rs) {
-		rSpeed = rs;
-	}
-
-	public void goToAngle() {
-		rotateMotor.set(getEncoderValue() + angleToEncoderUnit(getDeltaTheta()));
-		// rotateMotor.set(rotateMotor.getEncPosition() +
-		// angleToEncoderUnit(getDeltaTheta()));
-	}
-
-	public void setSpeed(double magnitude) {
-		speed = magnitude;
-	}
-
-	public double getSpeed() {
-		return speed;
-	}
-
-	public int getEncoderValue() {
-		return rotateMotor.getEncPosition();// - homeToZero;
-	}
-
-	public int encoderUnitToAngle(int encoderValue) {
-		double angle = 0;
-		if (encoderValue >= 0) {
-			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
-			System.out.println("angle it thinks its at" + " " + angle);
-			angle = angle % 360;
-			System.out.println("mod 360 angle it thinks its at" + " " + angle);
-		} else if (encoderValue < 0) {
-			angle = (encoderValue * (360.0 / encoderUnitsPerRotation));
-			System.out.println("angle it thinks its at" + " " + angle);
-			angle = angle % 360 + 360;
-			System.out.println("mod 360 angle it thinks its at" + " " + angle);
-		}
-		return (int) angle;// (angle+2*(90-angle));
-	}
-
-	public int angleToEncoderUnit(double angle) {// Only pass in deltaTheta
-
-		double deltaEncoder;
-		deltaEncoder = angle * (encoderUnitsPerRotation / 360.0);
-
-		return (int) deltaEncoder;
-	}
-
-	public void drive() {
-		/*
-		 * if(Math.abs(targetAngle-currentAngle) > 2)
-		 * driveMotor.set(speed*speedModifier); else{
-		 * driveMotor.set(-speed*speedModifier); }
-		 */
-		SmartDashboard.putNumber("Speed: " + this.toString(), speed * speedModifier);
-		driveMotor.set(speed * speedModifier);// *directionalModifier
-	}
-	/*
-	 * public void goToHome(){ rotateMotor.enableLimitSwitch(true, false);
-	 * rotateMotor.changeControlMode(CANTalon.ControlMode.PercentVbus);
-	 * while(!rotateMotor.isFwdLimitSwitchClosed()){ rotateMotor.set(.2); }
-	 * encoderAtHome = rotateMotor.getEncPosition();
-	 * rotateMotor.enableLimitSwitch(false, false);
-	 * 
-	 * rotateMotor.changeControlMode(CANTalon.ControlMode.Position);
-	 * rotateMotor.set(encoderAtHome); }
-	 */
-
-	public void goToHome() {
-		// rotateMotor.enableLimitSwitch(true, false);
-		rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		while (!rotateMotor.isFwdLimitSwitchClosed()) {
-			rotateMotor.set(.15);
-		}
-		encoderAtHome = rotateMotor.getEncPosition();
-		SmartDashboard.putNumber("Encoder At Home: ", encoderAtHome);
-		rotateMotor.set(0);
-		rotateMotor.enableLimitSwitch(false, false);
-		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
-	}
-	/*
-	 * public void calibration(boolean saveValue){ SmartDashboard.putNumber(
-	 * "Encoder At Home: ", encoderAtHome);
-	 * SmartDashboard.putNumber("OffsetSavedValue", offsetFromZero);
-	 * SmartDashboard.putNumber("CurrentAngle: ",
-	 * encoderUnitToAngle(rotateMotor.getEncPosition()));
-	 * SmartDashboard.putNumber("Distance from Zero", encoderAtHome -
-	 * rotateMotor.getEncPosition());
-	 * 
-	 * if (saveValue) { offsetFromZero = (encoderAtHome -
-	 * rotateMotor.getEncPosition());
-	 * SmartDashboard.putNumber("OffsetSavedValue", offsetFromZero); } }
-	 */
-
-	public void goToZero() {
-		goToHome();
-		rotateMotor.setP(5);
-		rotateMotor.setD(8);
-		rotateMotor.set(encoderAtHome - homeToZero);
-		/*
-		 * while(rotateMotor.getEncPosition() - (encoderAtHome) <= 2){ //wait }
-		 * rotateMotor.changeControlMode(CANTalon.ControlMode.Position);
-		 */
-	}
-
-	public void setSpeedModifier(double speed) {
-		speedModifier = speed;
-	}
-
-	public void test() {
-		double current = rotateMotor.getOutputCurrent();
-		rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-
-		if (current > 0.95) {
-			output -= 0.05;
-		} else if (current < 0.7) {
-			output += 0.05;
-		}
-
-		if (output > 0.3) {
-			output = 0.3;
-		}
-
-		if (output < 0) {
-			output = 0;
-		}
-
-		rotateMotor.set(output);
-		SmartDashboard.putNumber("Output to Motor", output);
-		SmartDashboard.putNumber("Current", rotateMotor.getOutputCurrent());
-		
-		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
-		
-	}
-
-	public void disable() {
-		rotateMotor.set(0);
-	}
-
 }
