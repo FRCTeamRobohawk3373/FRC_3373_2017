@@ -23,7 +23,7 @@ public class SwerveControl {
 	double robotLength;
 	double robotWidth;
     
-    double radius = 55;
+    double radius;
     
     double orientationOffset;
     
@@ -198,11 +198,42 @@ for (SwerveWheel wheel : wheelArray2){
     	RBWheel.driveWheel();
     	LBWheel.driveWheel();
     	
+    }
+    
+    public void calculateObjectControl(double RX){
+    	
+    	radius = 55;
+    	
+    	//TODO change radius to ultrasonic input in order for this to work
+    	//Radius: distance to front of robot (lengthwise)
+    	
+    	double distanceToFront = radius;
+    	double distanceToBack = radius + robotLength;
+    	
+    	LFWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth/2, distanceToFront)));
+    	RFWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth/2, distanceToFront)));
+    	LBWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth/2, distanceToBack)));
+    	RBWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth/2, distanceToBack)));
+    	
+    	LBWheel.setSpeed(RX);
+    	RBWheel.setSpeed(RX);
+    	
+    	double speedRatio = Math.sqrt(Math.pow((robotWidth/2), 2) + Math.pow(distanceToFront, 2)) / Math.sqrt(Math.pow((robotWidth/2), 2) + Math.pow(distanceToBack, 2));
+    	
+    	LFWheel.setSpeed(speedRatio * RX);
+    	RFWheel.setSpeed(speedRatio * RX);
+    	
+    	RFWheel.rotate();
+    	LFWheel.rotate();
+    	LBWheel.rotate();
+    	RBWheel.rotate();
     	
     	
-    	
-    	
-    	
+    	//Make the wheels drive at their calculated speed
+    	RFWheel.driveWheel();
+    	LFWheel.driveWheel();
+    	RBWheel.driveWheel();
+    	LBWheel.driveWheel();
     }
     
 }

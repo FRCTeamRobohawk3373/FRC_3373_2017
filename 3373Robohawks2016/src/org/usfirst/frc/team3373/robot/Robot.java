@@ -159,11 +159,14 @@ public class Robot extends IterativeRobot {
 			
 				if(driver.getRawAxis(Rtrigger) > .1){
 					swerve.isFieldCentric = true;
+					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+				}else if(driver.getRawAxis(Ltrigger) > .1){
+					swerve.isFieldCentric = false;
+					swerve.calculateObjectControl(driver.getRawAxis(RX));
 				}else{
 					swerve.isFieldCentric = false;
+					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}
-				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-
 			
 
 			/*
