@@ -3,9 +3,9 @@ package org.usfirst.frc.team3373.robot;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.I2C.Port;
+
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Talon;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveControl {
