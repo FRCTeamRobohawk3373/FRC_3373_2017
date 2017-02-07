@@ -6,7 +6,7 @@ import com.ctre.CANTalon;
 
 
 public class GearController {
-	CANTalon rotateMotor;
+	CANTalonSafetyNet rotateMotor;
 	int rotatePort;
 
 	boolean pegStatus = false;
@@ -24,7 +24,7 @@ public class GearController {
 	double i = 0;
 
 	public GearController(int rotateMotorChannel,  int downPosit, int upPosit, int compressPosit) {
-		rotateMotor = new CANTalon(rotateMotorChannel);
+		rotateMotor = new CANTalonSafetyNet(rotateMotorChannel);
 		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
 		upPos = upPosit;
 		downPos = downPosit;
