@@ -2,58 +2,76 @@ package org.usfirst.frc.team3373.robot;
 
 import com.ctre.CANTalon;
 
-
-
-
 public class GearController {
-	CANTalonSafetyNet rotateMotor;
+	CANTalonSafetyNet rotateGearDoor;
 	int rotatePort;
 
 	boolean pegStatus = false;
-	int downPos;
-	int upPos;
+	int openPos;
+	int closedPos;
 	int compressPos;
 	int delay;
+
+	int target = 0;
+	
+	int current = 0;
+
 	long startingTime;
 	long currentTime;
 	boolean gearUpTimer = false;
 	boolean startTimer = false;
 	boolean isUp = true;
-	double p = 10;
-	double d = 10;
-	double i = 0;
+ //@const param gear door
+	 int gearspeedPos1 = 150;
+	 double gearspeed1 = 0.2;
+	 int gearspeedPos2 = 150;
+	 double gearspeed2 = 0.05;
+	 int gearspeedPos3 = 20;
+	 double gearspeed3 = 0.0;
 
-	public GearController(int rotateMotorChannel,  int downPosit, int upPosit, int compressPosit) {
-		rotateMotor = new CANTalonSafetyNet(rotateMotorChannel);
-		rotateMotor.changeControlMode(CANTalon.TalonControlMode.Position);
-		upPos = upPosit;
-		downPos = downPosit;
+	public GearController(int rotateMotorChannel, int downPosit, int upPosit, int compressPosit) {
+		rotateGearDoor = new CANTalonSafetyNet(rotateMotorChannel);
+		rotateGearDoor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		closedPos = upPosit;
+		openPos = downPosit;
 		compressPos = compressPosit;
-		rotateMotor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
-		rotateMotor.setPID(p, i, d);
+		rotateGearDoor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
+		target = rotateGearDoor.getAnalogInRaw();
+		rotateGearDoor.enableLimitSwitch(false, false);
+		
 
 	}
 
 	public void openGearContainer() {
-		rotateMotor.set(downPos);
-		startingTime = System.currentTimeMillis();
+		//rotateGearDoor.set(openPos);
+		target = openPos;
 		isUp = false;
-		System.out.println(rotateMotor.getAnalogInRaw());
-	}
-	
-	public void closeGearContainer() {
-		rotateMotor.set(upPos);
-		isUp = true;
-		System.out.println(rotateMotor.getAnalogInRaw());
-	}
-	
-	public void compressGearContainer() {
-		rotateMotor.set(compressPos);
-		System.out.println(rotateMotor.getAnalogInRaw());
+		System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
+	public void closeGearContainer() {
+		//rotateGearDoor.set(closedPos);
+		target = closedPos;
+		isUp = true;
+		System.out.println(rotateGearDoor.getAnalogInRaw());
+	}
+
+	public void compressGearContainer() {
+		//rotateGearDoor.set(compressPos);
+		target = compressPos;
+		System.out.println(rotateGearDoor.getAnalogInRaw());
+	}
+
+	public void goToCurrentTarget() {
+		
+		rotateGearDoor.set(target);
+		System.out.println("actual: " + rotateGearDoor.getAnalogInRaw());
+		System.out.println("target: " + target);
+	}
+
+
 	public boolean isPegDetected() {
-		if (rotateMotor.isRevLimitSwitchClosed()) {
+		if (rotateGearDoor.isRevLimitSwitchClosed()) {
 			pegStatus = true;
 		} else {
 			pegStatus = false;
@@ -64,29 +82,47 @@ public class GearController {
 	public boolean isUp() {
 		return isUp;
 	}
-	
-	//timer method to control dropper
-	/*
-	 private boolean gearTimer() {
-	 
-		if (startTimer) {
-			currentTime = System.currentTimeMillis();
-			if (currentTime - startingTime >= delay) {
-				gearUpTimer = true;
-			} else {
-				gearUpTimer = false;
-			}
-		} else {
 
-		}
-		return gearUpTimer;
-	}
+	// timer method to control dropper
+	/*
+	 * private boolean gearTimer() {
+	 * 
+	 * if (startTimer) { currentTime = System.currentTimeMillis(); if
+	 * (currentTime - startingTime >= delay) { gearUpTimer = true; } else {
+	 * gearUpTimer = false; } } else {
+	 * 
+	 * } return gearUpTimer; }
 	 */
+
+	public void calibrate() {
+		System.out.println("Encoder value: " + rotateGearDoor.getAnalogInRaw());
+		System.out.println("Limit Switch Status: " + rotateGearDoor.isRevLimitSwitchClosed());
+		rotateGearDoor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	}
+
+
 	
-	public void calibrate(){
-		System.out.println("Encoder value: " + rotateMotor.getAnalogInRaw());
-		System.out.println("Limit Switch Status: " + rotateMotor.isRevLimitSwitchClosed());
-		rotateMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+	public void setGearDoorSpeed(){
+		current = rotateGearDoor.getAnalogInRaw();
+		System.out.println("Target: " + target + "   Current: " + current + "    ");
+	if (target > (current+gearspeedPos1)&& target > current){
+			rotateGearDoor.set(gearspeed1);
+		}
+	if (target < (current-gearspeedPos1)&& target < current){
+		rotateGearDoor.set(-gearspeed1);
+		}
+	if (target > (current+gearspeedPos2)&& target > current){
+		rotateGearDoor.set(gearspeed2);
+	}
+	if (target < (current+gearspeedPos2)&& target < current){
+		rotateGearDoor.set(-gearspeed2);
+	}
+	if (target < (current+gearspeedPos3)&& target < current){
+		rotateGearDoor.set(gearspeed3);
+	}
+	if (target > (current-gearspeedPos3) && target > current){
+		rotateGearDoor.set(gearspeed3);
+	}
 	}
 	
 }

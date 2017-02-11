@@ -67,8 +67,11 @@ public class Robot extends IterativeRobot {
 	int RFrotateID = 1;
 	int RFencOffset = 631;
 
-	SuperJoystick driver;
-	SuperJoystick shooter;
+	//SuperJoystick driver;
+	//SuperJoystick shooter;
+	
+	static JoystickOverride driver;
+	static JoystickOverride shooter;
 	
 	int intakeControlMode = 0;
 	int gearControlMode = 0;
@@ -79,8 +82,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		System.out.println("INITiating");
-		driver = new SuperJoystick(0);
-		shooter = new SuperJoystick(1);
+		//driver = new SuperJoystick(0);
+		//shooter = new SuperJoystick(1);
+		
+		driver = new JoystickOverride(0);
+		shooter = new JoystickOverride(1);
 
 		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
@@ -200,8 +206,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		switch (autoSelected) {
 		case gearCalibration:
-			gearControl.calibrate();
-			gearControl.rotateMotor.set(shooter.getRawAxis(1));
+			//gearControl.calibrate();
+			//gearControl.rotateMotor.set(shooter.getRawAxis(1));
 			break;
 		case climberControl:
 			
@@ -213,28 +219,29 @@ public class Robot extends IterativeRobot {
 			
 			break;
 		case intakeCalibration:
-			ballIntake.calibrate();
-			ballIntake.intakeMotor.set(shooter.getRawAxis(1));
+			//ballIntake.calibrate();
+			//ballIntake.intakeMotor.set(shooter.getRawAxis(1));
 			break;
 		case hopperCalibration:
 			
 			break;
 		case normal:
-			if(tester.getRawAxis(Rtrigger) > .1){
+			if(driver.getAxis(Rtrigger) > .1){
 				swerve.isFieldCentric = true;
+				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
+			}else if(driver.getAxis(Ltrigger) > .1){
+				swerve.isFieldCentric = false;
+				swerve.calculateObjectControl(driver.getAxis(RX));
 			}else{
 				swerve.isFieldCentric = false;
+				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
 			}
-			swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-			break;
-		default:
-			// Put default auto code here
 			break;
 		}
 		
 		
 		
-		
+	/*	
 		System.out.println(gearControl.rotateMotor.getAnalogInRaw());
 		if (shooter.isYPushed()) {
 			gearControlMode += 1;
@@ -273,6 +280,9 @@ public class Robot extends IterativeRobot {
 
 		}
 		shooter.clearBack();
+		
+	*/	
+	
 		// swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
 		// swerve.FLWheel.driveMotor.set(.5);
 		// swerve.FRWheel.driveMotor.set(.1);

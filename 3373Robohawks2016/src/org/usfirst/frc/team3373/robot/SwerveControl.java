@@ -3,9 +3,9 @@ package org.usfirst.frc.team3373.robot;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.I2C.Port;
+
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveControl {
@@ -49,7 +49,7 @@ public class SwerveControl {
 		
 		wheelArray1 = new SwerveWheel[]{LFWheel, RBWheel};
 		wheelArray2 = new SwerveWheel[]{LBWheel, RFWheel};
-		ahrs = new AHRS(SerialPort.Port.kUSB1);
+		ahrs = new AHRS(Port.kMXP);
 	}
 	
 	public void turnToAngle(double x, double y){
