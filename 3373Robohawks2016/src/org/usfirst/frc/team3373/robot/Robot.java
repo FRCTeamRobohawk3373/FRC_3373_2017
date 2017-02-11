@@ -75,6 +75,9 @@ public class Robot extends IterativeRobot {
 	
 	int intakeControlMode = 0;
 	int gearControlMode = 0;
+	
+	private boolean sRecord=false;
+	private boolean sPlayer=false;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -103,6 +106,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Intake Calibration", intakeCalibration);
 		chooser.addObject("Hopper Calibration", hopperCalibration);
 		SmartDashboard.putData("Calibration Choices", chooser);
+		
 	}
 
 	/**
@@ -199,7 +203,34 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
+	public void testInit() {
+		sRecord = false;
+		try {
+			JoystickRecord.RecordInit("JoystickRecord.txt", 750);
+			JoystickPlayer.PlayerInit("JoystickRecord.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void testPeriodic() {
+		autoSelected = (String) chooser.getSelected();
+		if (Robot.driver.isStartHeld()) {
+			while (Robot.driver.isStartHeld()) {
+			}
+			sRecord = true;
+		}
+		if (sRecord) {
+			sRecord = !JoystickRecord.record();
+		}
+		if (Robot.driver.isBackHeld()) {
+			while (Robot.driver.isBackHeld()) {
+			}
+			sPlayer = true;
+		}
+		if (sPlayer) {
+			sPlayer = !JoystickPlayer.Play();
+		}
+		
 		switch (autoSelected) {
 		case gearCalibration:
 			//gearControl.calibrate();
