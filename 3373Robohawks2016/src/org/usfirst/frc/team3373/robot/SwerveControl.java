@@ -22,6 +22,7 @@ public class SwerveControl {
 	double angleToDiagonal;
 	double robotLength;
 	double robotWidth;
+	double objectRadius = 48;
     
     double radius;
     
@@ -62,6 +63,9 @@ public class SwerveControl {
 		//if(y < .03 &&)
 		wheel.rotate();
 		}
+	}
+	public void setRotateDistance(double distance){
+		objectRadius = distance;
 	}
 	public void setSpeed(double x, double y){
 		if((Math.abs(x) > .1) || (Math.abs(y) > .1)){
@@ -202,7 +206,7 @@ for (SwerveWheel wheel : wheelArray2){
     
     public void calculateObjectControl(double RX){
     	
-    	radius = 55;
+    	radius = objectRadius;
     	
     	//TODO change radius to ultrasonic input in order for this to work
     	//Radius: distance to front of robot (lengthwise)
