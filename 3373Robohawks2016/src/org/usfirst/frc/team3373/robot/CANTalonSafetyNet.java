@@ -73,4 +73,8 @@ public class CANTalonSafetyNet{
 		else
 			return 42;
 	}
+	public void enableLimitSwitch(boolean forward, boolean reverse){
+		if (isFound)
+			talon.enableLimitSwitch(forward, reverse);
+	}
 }

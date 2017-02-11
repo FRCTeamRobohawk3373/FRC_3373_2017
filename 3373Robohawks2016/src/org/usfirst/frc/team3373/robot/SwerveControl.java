@@ -5,7 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 
 import edu.wpi.first.wpilibj.SerialPort;
-
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveControl {
