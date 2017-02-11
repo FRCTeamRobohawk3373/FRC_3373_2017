@@ -11,11 +11,12 @@ public class JoystickRecord {
 	static JoystickOverride driver = new JoystickOverride(0);
 	static JoystickOverride shooter = new JoystickOverride(1);
 	//private static FileWriter fw;
+	
 
 	public static void RecordInit(String fileLabel, int tlength) throws Exception {
 		try {
 			duration = tlength;
-			File f = new File("/home/lvuser/JoystickRecords/" + fileLabel);
+			File f = new File("/home/lvuser/" + fileLabel);
 
 			if (f.exists()) {
 				f.delete();
