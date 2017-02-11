@@ -177,6 +177,10 @@ public class Robot extends IterativeRobot {
 					swerve.isFieldCentric = false;
 					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}
+				
+				if(driver.isAHeld()){
+					swerve.setRotateDistance(distance);
+				}
 			
 
 			/*
