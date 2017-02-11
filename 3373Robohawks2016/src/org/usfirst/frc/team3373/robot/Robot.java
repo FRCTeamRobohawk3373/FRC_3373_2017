@@ -22,6 +22,8 @@ public class Robot extends IterativeRobot {
 	final String hopperCalibration = "Calibrating Hopper";
 
 	String autoSelected;
+	
+	UltraSonic ultraSonic;
 
 	SwerveControl swerve;
 	GearController gearControl;
@@ -80,6 +82,10 @@ public class Robot extends IterativeRobot {
 	int retreatCounter = 0;
 	int retreatTargetCycles = 60;
 
+	private boolean sRecord=false;
+	private boolean sPlayer=false;
+
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -91,7 +97,7 @@ public class Robot extends IterativeRobot {
 		
 		driver = new JoystickOverride(0);
 		shooter = new JoystickOverride(1);
-
+		ultraSonic = new UltraSonic(0);
 		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
 		gearControl = new GearController(13, 275, 542, 580);
@@ -107,6 +113,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Intake Calibration", intakeCalibration);
 		chooser.addObject("Hopper Calibration", hopperCalibration);
 		SmartDashboard.putData("Calibration Choices", chooser);
+		
 	}
 
 	/**
@@ -165,7 +172,15 @@ public class Robot extends IterativeRobot {
 					swerve.isFieldCentric = false;
 					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}
+
 			}
+
+				
+				if(driver.isAHeld()){
+					swerve.setRotateDistance(ultraSonic.getDistance());
+				}
+			
+
 
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
@@ -191,8 +206,36 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
+	public void testInit() {
+		sRecord = false;
+		try {
+			JoystickRecord.RecordInit("JoystickRecord.txt", 750);
+			JoystickPlayer.PlayerInit("JoystickRecord.txt");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void testPeriodic() {
+		
+
+		if (Robot.driver.isStartHeld()) {
+			while (Robot.driver.isStartHeld()) {
+			}
+			sRecord = true;
+		}
+		if (sRecord) {
+			sRecord = !JoystickRecord.record();
+		}
+		if (Robot.driver.isBackHeld()) {
+			while (Robot.driver.isBackHeld()) {
+			}
+			sPlayer = true;
+		}
+		if (sPlayer) {
+			sPlayer = !JoystickPlayer.Play();
+		}
 		autoSelected = (String) chooser.getSelected();
+
 		switch (autoSelected) {
 		case gearCalibration:
 			gearControl.calibrate();

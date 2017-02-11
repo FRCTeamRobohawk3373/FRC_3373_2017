@@ -17,14 +17,14 @@ public class JoystickPlayer {
 	public static void PlayerInit(String fileLabel) throws Exception {
 		fname = fileLabel;
 		try {
-			File f = new File("/home/lvuser/JoystickRecords/" + fileLabel);
+			File f = new File("/home/lvuser/" + fileLabel);
 
 			if (!f.exists()) {
 				System.out.println("File Not Found");
 				throw new FileNotFoundException();
 			} else {
 				System.out.println("File Found");
-				fr = new FileReader("/home/lvuser/JoystickRecords/" + fileLabel);
+				fr = new FileReader("/home/lvuser/" + fileLabel);
 				Reader = new BufferedReader(fr);
 				count = 0;
 				/*
@@ -63,7 +63,7 @@ public class JoystickPlayer {
 				System.out.println("file length: " + count * 2);
 				count = 0;
 				Reader.close();
-				fr = new FileReader("/home/lvuser/JoystickRecords/" + fname);
+				fr = new FileReader("/home/lvuser/" + fname);
 				Reader = new BufferedReader(fr);
 
 				return true;
@@ -80,7 +80,7 @@ public class JoystickPlayer {
 		try {
 			count = 0;
 			Reader.close();
-			fr = new FileReader("/home/lvuser/JoystickRecords/" + fname);
+			fr = new FileReader("/home/lvuser/" + fname);
 			Reader = new BufferedReader(fr);
 		} catch (Exception e) {
 			e.printStackTrace();
