@@ -22,6 +22,8 @@ public class Robot extends IterativeRobot {
 	final String hopperCalibration = "Calibrating Hopper";
 
 	String autoSelected;
+	
+	UltraSonic ultraSonic;
 
 	SwerveControl swerve;
 	GearController gearControl;
@@ -87,7 +89,7 @@ public class Robot extends IterativeRobot {
 		
 		driver = new JoystickOverride(0);
 		shooter = new JoystickOverride(1);
-
+		ultraSonic = new UltraSonic(0);
 		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
 	//	gearControl = new GearController(2, -667, -497, -425);
@@ -175,7 +177,7 @@ public class Robot extends IterativeRobot {
 				}
 				
 				if(driver.isAHeld()){
-					swerve.setRotateDistance(distance);
+					swerve.setRotateDistance(ultraSonic.getDistance());
 				}
 			
 
