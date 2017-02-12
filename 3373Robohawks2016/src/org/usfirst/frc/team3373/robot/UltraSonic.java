@@ -29,8 +29,10 @@ public class UltraSonic {
 		isSingleSensor = true;
 		analogSensor = new AnalogInput(analogPort);
 		lookUp = new LookupTable();
-		calibrationDistances = new double[]{12,18,24,30,36,42};
-		calibrationVoltages = new double[]{0.319,0.513, 0.618, 0.739, 0.889, 1.021};
+/*		calibrationDistances = new double[]{12,18,24,30,36,42};
+		calibrationVoltages = new double[]{0.319,0.513, 0.618, 0.739, 0.889, 1.021};*/
+		calibrationDistances = new double[]{12,17,22,34.5,46,51, 71, 101};
+		calibrationVoltages = new double[]{0.28,0.40, 0.56, 0.835, 1.12, 1.24, 1.71, 2.45};
 	}
 
 	public double getDistance() {
@@ -41,8 +43,11 @@ public class UltraSonic {
 			System.out.println("Sensor 1: " + lookUp.lookUpValue(analogSensor.getAverageVoltage(), calibrationVoltages, calibrationDistances) );
 			System.out.println("Sensor 2: " + lookUp.lookUpValue(analogSensor2.getAverageVoltage(), calibrationVoltages, calibrationDistances) );
 		//	System.out.println("Sensor 3: " +  lookUp.lookUpValue(analogSensor3.getAverageVoltage(), calibrationVoltages, calibrationDistances));
-			double averageDistance = (analogSensor.getAverageVoltage()  + analogSensor2.getAverageVoltage()) /2;
-			return lookUp.lookUpValue(averageDistance, calibrationVoltages, calibrationDistances);
+			double averageVoltage = (analogSensor.getAverageVoltage()  + analogSensor2.getAverageVoltage()) /2;
+			if( lookUp.lookUpValue(averageVoltage, calibrationVoltages, calibrationDistances) == calibrationDistances[calibrationDistances.length -1])
+				return calibrationDistances[0];
+			else
+				return lookUp.lookUpValue(averageVoltage, calibrationVoltages, calibrationDistances);
 		}
 		/*double distance2;
 		if (isSingleSensor) {

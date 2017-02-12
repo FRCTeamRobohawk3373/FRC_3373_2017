@@ -182,6 +182,7 @@ public class Robot extends IterativeRobot {
 				
 				if(driver.isAHeld()){
 					swerve.setRotateDistance(ultraSonic.getDistance());
+					System.out.println("ULTRUHSONICK DUSTUNCE: " + ultraSonic.getDistance());
 				}
 			
 
@@ -246,7 +247,7 @@ public class Robot extends IterativeRobot {
 			
 			break;
 		case swerveWheelCalibration:
-			
+			System.out.println(ultraSonic.analogSensor.getAverageVoltage());
 			break;
 		case shooterCalibration:
 			
@@ -269,6 +270,9 @@ public class Robot extends IterativeRobot {
 				swerve.isFieldCentric = false;
 				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
 			}
+			
+			System.out.println("UltraSonic Voltage: " + ultraSonic.analogSensor.getAverageVoltage());
+			
 			break;
 		}
 		

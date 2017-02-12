@@ -27,6 +27,8 @@ public class SwerveControl {
     double radius;
     
     double orientationOffset;
+    double sensorToWheelDistance = 3.25;
+    double boilerRadius = 10;
     
 	SwerveWheel LBWheel;
 	SwerveWheel LFWheel;
@@ -65,7 +67,7 @@ public class SwerveControl {
 		}
 	}
 	public void setRotateDistance(double distance){
-		objectRadius = distance;
+		objectRadius = distance +  boilerRadius + sensorToWheelDistance;
 	}
 	public void setSpeed(double x, double y){
 		if((Math.abs(x) > .1) || (Math.abs(y) > .1)){
@@ -118,6 +120,8 @@ public class SwerveControl {
     	}
     	if(isFieldCentric){
     		orientationOffset = ahrs.getYaw(); //if in field centric mode make offset equal to the current angle of the navX
+    	}else{
+    		orientationOffset = 0;
     	}
     	double rotationMagnitude = Math.abs(rAxis);
        
