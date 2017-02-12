@@ -240,32 +240,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		sRecord = false;
-		try {
-			JoystickRecord.RecordInit("JoystickRecord.txt", 750);
-			JoystickPlayer.PlayerInit("JoystickRecord.txt");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	public void testPeriodic() {
-		
-
-		if (Robot.driver.isStartHeld()) {
-			while (Robot.driver.isStartHeld()) {
-			}
-			sRecord = true;
-		}
-		if (sRecord) {
-			System.out.println("Started recording");
-			sRecord = !JoystickRecord.record();
-		}
-		if (Robot.driver.isBackHeld()) {
-			sPlayer = true;
-		}
-		if (sPlayer) {
-			System.out.println("Started playing");
-			sPlayer = !JoystickPlayer.Play();
-		}
 		autoSelected = (String) chooser.getSelected();
 
 		switch (autoSelected) {
@@ -290,16 +266,41 @@ public class Robot extends IterativeRobot {
 			
 			break;
 		case normal:
-			/* if(driver.getAxis(Rtrigger) > .1){
-				swerve.isFieldCentric = true;
-				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
-			}else if(driver.getAxis(Ltrigger) > .1){
-				swerve.isFieldCentric = false;
-				swerve.calculateObjectControl(driver.getAxis(RX));
-			}else{
-				swerve.isFieldCentric = false;
-				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
-			} */
+			if (Robot.driver.isStartHeld()) {
+				while (Robot.driver.isStartHeld()) {
+				}
+				if (!sRecord) {
+					sRecord = true;
+					try {
+						JoystickRecord.RecordInit("JoystickRecord.txt");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println("started");
+				} else {
+					sRecord = false;
+					JoystickRecord.Stop();
+					System.out.println("stopped");
+				}
+			}
+			if (sRecord) {
+				JoystickRecord.record();
+			}
+			if (Robot.driver.isBackHeld()) {
+				while (Robot.driver.isBackHeld()) {
+				}
+				try {
+					JoystickPlayer.PlayerInit("JoystickRecord.txt");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				sPlayer = true;
+			}
+			if (sPlayer) {
+				sPlayer = !JoystickPlayer.Play();
+			}
 			
 			if(driver.getRawAxis(Rtrigger) > .1){
 				swerve.isFieldCentric = true;
