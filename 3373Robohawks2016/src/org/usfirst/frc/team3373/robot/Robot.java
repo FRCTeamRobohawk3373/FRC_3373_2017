@@ -78,8 +78,13 @@ public class Robot extends IterativeRobot {
 	int intakeControlMode = 0;
 	int gearControlMode = 0;
 	
+	boolean pegRetreating;
+	int retreatCounter = 0;
+	int retreatTargetCycles = 60;
+
 	private boolean sRecord=false;
 	private boolean sPlayer=false;
+
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -95,7 +100,7 @@ public class Robot extends IterativeRobot {
 		ultraSonic = new UltraSonic(0);
 		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
-	//	gearControl = new GearController(2, -667, -497, -425);
+		gearControl = new GearController(13, 275, 542, 580);
 		
 	//	ballIntake = new BallIntake(11);
 
@@ -123,33 +128,21 @@ public class Robot extends IterativeRobot {
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	public void autonomousInit() {
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
+	
 	}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		/*
-		 * if (!SwerveAlign.aligned()) { swerve.swerveAlign(); } else if
-		 * (SwerveAlign.aligned() && !isAligned) {
-		 * swerve.FLWheel.rotateMotor.setEncPosition(0);
-		 * swerve.FRWheel.rotateMotor.setEncPosition(0);
-		 * swerve.BLWheel.rotateMotor.setEncPosition(0);
-		 * swerve.BRWheel.rotateMotor.setEncPosition(0);
-		 * 
-		 * isAligned = true; }
-		 */
-
+		this.retreatFromGearPeg();
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		autoSelected = (String) chooser.getSelected();
+		
 
 		/*
 		 * if (!swerve.aligned()) { swerve.swerveAlign(); System.out.println(
@@ -168,7 +161,7 @@ public class Robot extends IterativeRobot {
 		 * isAligned = true; }
 		 */
 
-			
+			if (!pegRetreating){
 				if(driver.getRawAxis(Rtrigger) > .1){
 					swerve.isFieldCentric = true;
 					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
@@ -179,12 +172,16 @@ public class Robot extends IterativeRobot {
 					swerve.isFieldCentric = false;
 					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}
+
+			}
+
 				
 				if(driver.isAHeld()){
 					swerve.setRotateDistance(ultraSonic.getDistance());
 					System.out.println("ULTRUHSONICK DUSTUNCE: " + ultraSonic.getDistance());
 				}
 			
+
 
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
@@ -220,7 +217,8 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	public void testPeriodic() {
-		autoSelected = (String) chooser.getSelected();
+		
+
 		if (Robot.driver.isStartHeld()) {
 			while (Robot.driver.isStartHeld()) {
 			}
@@ -237,11 +235,12 @@ public class Robot extends IterativeRobot {
 		if (sPlayer) {
 			sPlayer = !JoystickPlayer.Play();
 		}
-		
+		autoSelected = (String) chooser.getSelected();
+
 		switch (autoSelected) {
 		case gearCalibration:
-			//gearControl.calibrate();
-			//gearControl.rotateMotor.set(shooter.getRawAxis(1));
+			gearControl.calibrate();
+			gearControl.rotateGearDoor.set(shooter.getRawAxis(1)*.1);
 			break;
 		case climberControl:
 			
@@ -260,7 +259,7 @@ public class Robot extends IterativeRobot {
 			
 			break;
 		case normal:
-			if(driver.getAxis(Rtrigger) > .1){
+			/* if(driver.getAxis(Rtrigger) > .1){
 				swerve.isFieldCentric = true;
 				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
 			}else if(driver.getAxis(Ltrigger) > .1){
@@ -269,75 +268,96 @@ public class Robot extends IterativeRobot {
 			}else{
 				swerve.isFieldCentric = false;
 				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
+			} */
+			if (shooter.isYPushed()) {
+				gearControlMode += 1;
+				gearControlMode = gearControlMode % 3;
+				System.out.println("Switching gear control mode");
+				if (gearControlMode == 0) {
+					gearControl.closeGearContainer();
+					System.out.println("Closing");
+				} else if (gearControlMode == 1) {
+					gearControl.compressGearContainer();
+					System.out.println("compressing");
+				} else {
+					gearControl.openGearContainer();
+					System.out.println("opening");
+				}
+
 			}
+
 			
 			System.out.println("UltraSonic Voltage: " + ultraSonic.analogSensor.getAverageVoltage());
 			
-			break;
+
+			gearControl.setGearDoorSpeed(1);
+			shooter.clearY();
+			System.out.println(gearControl.isPegDetected());
+			
+			
+			if (shooter.isBackPushed()) {
+				intakeControlMode += 1;
+				intakeControlMode = intakeControlMode % 3;
+				System.out.println("Switching intake mode");
+				if (intakeControlMode == 0) {
+					ballIntake.intakeBalls();
+					System.out.println("intaking balls");
+				} else if (intakeControlMode == 1) {
+					ballIntake.clearBalls();
+					System.out.println("clearing ball intake");
+				} else {
+					ballIntake.ballsOff();
+					System.out.println("ball intake off");
+				}
+
+			}
+			shooter.clearBack();
+break;
 		}
+	}
+		
+		
+			// swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
+			// swerve.FLWheel.driveMotor.set(.5);
+			// swerve.FRWheel.driveMotor.set(.1);
+			// swerve.BLWheel.driveMotor.set(.1);
+
+			// swerve.BRWheel.driveMotor.set(driver.getRawAxis(LX));
+			// swerve.BRWheel.rotateMotor.set(0);
+			// System.out.println(swerve.BRWheel.driveMotor.toString());
+			/*
+			 * System.out.println("Front Right Whool Analog: " +
+			 * swerve.FRWheel.rotateMotor.getAnalogInRaw()); System.out.println(
+			 * "Front right: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
+			 * System.out.println("Front left: " +
+			 * swerve.FLWheel.rotateMotor.getAnalogInRaw()); System.out.println(
+			 * "Back right: " + swerve.BRWheel.rotateMotor.getAnalogInRaw());
+			 * System.out.println("Back left: " +
+			 * swerve.BLWheel.rotateMotor.getAnalogInRaw());
+		
+		
 		
 		
 		
 	/*	
-		System.out.println(gearControl.rotateMotor.getAnalogInRaw());
-		if (shooter.isYPushed()) {
-			gearControlMode += 1;
-			gearControlMode = gearControlMode % 3;
-			System.out.println("Switching gear control mode");
-			if (gearControlMode == 0) {
-				gearControl.closeGearContainer();
-				System.out.println("Closing");
-			} else if (gearControlMode == 1) {
-				gearControl.compressGearContainer();
-				System.out.println("compressing");
-			} else {
-				gearControl.openGearContainer();
-				System.out.println("opening");
-			}
-
-		}
-		shooter.clearY();
-		System.out.println(gearControl.isPegDetected());
 		
-		
-		if (shooter.isBackPushed()) {
-			intakeControlMode += 1;
-			intakeControlMode = intakeControlMode % 3;
-			System.out.println("Switching intake mode");
-			if (intakeControlMode == 0) {
-				ballIntake.intakeBalls();
-				System.out.println("intaking balls");
-			} else if (intakeControlMode == 1) {
-				ballIntake.clearBalls();
-				System.out.println("clearing ball intake");
-			} else {
-				ballIntake.ballsOff();
-				System.out.println("ball intake off");
-			}
-
-		}
-		shooter.clearBack();
-		
-	*/	
-	
-		// swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
-		// swerve.FLWheel.driveMotor.set(.5);
-		// swerve.FRWheel.driveMotor.set(.1);
-		// swerve.BLWheel.driveMotor.set(.1);
-
-		// swerve.BRWheel.driveMotor.set(driver.getRawAxis(LX));
-		// swerve.BRWheel.rotateMotor.set(0);
-		// System.out.println(swerve.BRWheel.driveMotor.toString());
-		/*
-		 * System.out.println("Front Right Whool Analog: " +
-		 * swerve.FRWheel.rotateMotor.getAnalogInRaw()); System.out.println(
-		 * "Front right: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
-		 * System.out.println("Front left: " +
-		 * swerve.FLWheel.rotateMotor.getAnalogInRaw()); System.out.println(
-		 * "Back right: " + swerve.BRWheel.rotateMotor.getAnalogInRaw());
-		 * System.out.println("Back left: " +
-		 * swerve.BLWheel.rotateMotor.getAnalogInRaw());
 		 */
-	}
+	
 
+
+	public void retreatFromGearPeg(){
+		if(pegRetreating){
+		retreatCounter ++;
+		swerve.calculateSwerveControl(-0.25, 0, 0);
+		if(retreatCounter > 10){ //10 = time to wait before opening door (1/2 seconds)
+		gearControl.openGearContainer();
+		gearControl.setGearDoorSpeed(.5);
+		}
+		if(retreatCounter > 60){ //60 = target number of cycles (1/20 second each) before it ends
+			pegRetreating = false;
+			retreatCounter = 0;
+		}
+	}
+	}
+	
 }

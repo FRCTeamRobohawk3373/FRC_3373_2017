@@ -13,7 +13,7 @@ public class GearController {
 	int delay;
 
 	int target = 0;
-	
+
 	int current = 0;
 
 	long startingTime;
@@ -21,13 +21,11 @@ public class GearController {
 	boolean gearUpTimer = false;
 	boolean startTimer = false;
 	boolean isUp = true;
- //@const param gear door
-	 int gearspeedPos1 = 150;
-	 double gearspeed1 = 0.2;
-	 int gearspeedPos2 = 150;
-	 double gearspeed2 = 0.05;
-	 int gearspeedPos3 = 20;
-	 double gearspeed3 = 0.0;
+
+	double gearDoorError;
+	double gearDoorSpeed;
+	
+	double gearDoorSpeedModifier;
 
 	public GearController(int rotateMotorChannel, int downPosit, int upPosit, int compressPosit) {
 		rotateGearDoor = new CANTalonSafetyNet(rotateMotorChannel);
@@ -38,37 +36,35 @@ public class GearController {
 		rotateGearDoor.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
 		target = rotateGearDoor.getAnalogInRaw();
 		rotateGearDoor.enableLimitSwitch(false, false);
-		
 
 	}
 
 	public void openGearContainer() {
-		//rotateGearDoor.set(openPos);
+		// rotateGearDoor.set(openPos);
 		target = openPos;
 		isUp = false;
 		System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void closeGearContainer() {
-		//rotateGearDoor.set(closedPos);
+		// rotateGearDoor.set(closedPos);
 		target = closedPos;
 		isUp = true;
 		System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void compressGearContainer() {
-		//rotateGearDoor.set(compressPos);
+		// rotateGearDoor.set(compressPos);
 		target = compressPos;
 		System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void goToCurrentTarget() {
-		
+
 		rotateGearDoor.set(target);
 		System.out.println("actual: " + rotateGearDoor.getAnalogInRaw());
 		System.out.println("target: " + target);
 	}
-
 
 	public boolean isPegDetected() {
 		if (rotateGearDoor.isRevLimitSwitchClosed()) {
@@ -100,29 +96,32 @@ public class GearController {
 		rotateGearDoor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	}
 
-
-	
-	public void setGearDoorSpeed(){
+	public void setGearDoorSpeed(double speedMod) {
+		gearDoorSpeedModifier = speedMod;
 		current = rotateGearDoor.getAnalogInRaw();
-		System.out.println("Target: " + target + "   Current: " + current + "    ");
-	if (target > (current+gearspeedPos1)&& target > current){
-			rotateGearDoor.set(gearspeed1);
+		gearDoorError=Math.abs(current-target);
+		System.out.println("Target: " + target + "   Current: " + current + "  Error:" + gearDoorError);
+
+		// x/360*800 where x=degrees
+		if (gearDoorError<10) {  // stop deadband
+			gearDoorSpeed=0;
+			System.out.print("stop");
 		}
-	if (target < (current-gearspeedPos1)&& target < current){
-		rotateGearDoor.set(-gearspeed1);
+		else if (gearDoorError<80) {  // low speed deadband 
+			gearDoorSpeed=0.1 * gearDoorSpeedModifier;
+			System.out.print("slow");
 		}
-	if (target > (current+gearspeedPos2)&& target > current){
-		rotateGearDoor.set(gearspeed2);
+		else { // highs speed mode
+			gearDoorSpeed=0.5 * gearDoorSpeedModifier; 
+			System.out.print("fast");
+		}
+
+		if (target < current) {
+			rotateGearDoor.set(-gearDoorSpeed);
+		}
+		else {
+			rotateGearDoor.set(gearDoorSpeed);
+		}
 	}
-	if (target < (current+gearspeedPos2)&& target < current){
-		rotateGearDoor.set(-gearspeed2);
-	}
-	if (target < (current+gearspeedPos3)&& target < current){
-		rotateGearDoor.set(gearspeed3);
-	}
-	if (target > (current-gearspeedPos3) && target > current){
-		rotateGearDoor.set(gearspeed3);
-	}
-	}
-	
+
 }
