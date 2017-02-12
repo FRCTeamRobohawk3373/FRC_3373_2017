@@ -30,6 +30,8 @@ public class SwerveControl {
     double sensorToWheelDistance = 3.25;
     double boilerRadius = 10;
     
+    int robotFront = 1; //Which side of the robot is the front. 1 is default, goes up to 4.
+    
 	SwerveWheel LBWheel;
 	SwerveWheel LFWheel;
 	SwerveWheel RBWheel;
@@ -86,6 +88,14 @@ public class SwerveControl {
 		this.turnToAngle(x, y);
 		this.setSpeed(x, y);
 	}
+	
+	public void setRobotFront(int side){
+		if(side >= 1 && side <= 4){
+		robotFront = side;
+		}else{
+			robotFront = 1;
+		}
+	}
     public void calculateSwerveControl(double LY, double LX, double RX){
     	System.out.println(ahrs.getYaw());
     	SmartDashboard.putNumber("LY", LY);
@@ -123,6 +133,19 @@ public class SwerveControl {
     	}else{
     		orientationOffset = 0;
     	}
+    	
+    	if(robotFront == 1){
+    		orientationOffset += 0;
+    	}else if(robotFront == 2){
+    		orientationOffset += 90;
+    	}else if(robotFront == 3){
+    		orientationOffset += 180;
+    	}else if(robotFront == 4){
+    		orientationOffset += 270;
+    	}
+    	
+    	orientationOffset = orientationOffset % 360;
+    	
     	double rotationMagnitude = Math.abs(rAxis);
        
     	
@@ -242,6 +265,27 @@ for (SwerveWheel wheel : wheelArray2){
     	LFWheel.driveWheel();
     	RBWheel.driveWheel();
     	LBWheel.driveWheel();
+    }
+    
+    public void turbo(){
+    	LFWheel.setSpeedModifier(.8);
+    	LBWheel.setSpeedModifier(.8);
+    	RFWheel.setSpeedModifier(.8);
+    	RBWheel.setSpeedModifier(.8);
+    }
+    
+    public void sniper(){
+    	LFWheel.setSpeedModifier(.3);
+    	LBWheel.setSpeedModifier(.3);
+    	RFWheel.setSpeedModifier(.3);
+    	RBWheel.setSpeedModifier(.3);
+    }
+    
+    public void normalSpeed(){
+    	LFWheel.setSpeedModifier(.6);
+    	LBWheel.setSpeedModifier(.6);
+    	RFWheel.setSpeedModifier(.6);
+    	RBWheel.setSpeedModifier(.6);
     }
     
 }
