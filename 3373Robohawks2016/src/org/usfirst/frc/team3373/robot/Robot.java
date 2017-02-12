@@ -146,7 +146,12 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		
-
+		if(driver.isYPushed()){
+			swerve.setSpinAngle(180);
+			swerve.spinXdegrees();
+			driver.clearY();
+		}
+		driver.clearY();
 		/*
 		 * if (!swerve.aligned()) { swerve.swerveAlign(); System.out.println(
 		 * "Front Left: " + swerve.FLWheel.rotateMotor.getAnalogInRaw());
