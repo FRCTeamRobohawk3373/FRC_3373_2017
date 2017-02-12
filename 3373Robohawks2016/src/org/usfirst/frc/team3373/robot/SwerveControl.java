@@ -53,7 +53,7 @@ public class SwerveControl {
 		
 		wheelArray1 = new SwerveWheel[]{LFWheel, RBWheel};
 		wheelArray2 = new SwerveWheel[]{LBWheel, RFWheel};
-		ahrs = new AHRS(Port.kMXP);
+		ahrs = new AHRS(SerialPort.Port.kMXP);
 	}
 	
 	public void turnToAngle(double x, double y){
@@ -97,7 +97,6 @@ public class SwerveControl {
 		}
 	}
     public void calculateSwerveControl(double LY, double LX, double RX){
-    	System.out.println(ahrs.getYaw());
     	SmartDashboard.putNumber("LY", LY);
     	SmartDashboard.putNumber("LX", LX);
     	SmartDashboard.putNumber("RX", RX);
@@ -132,17 +131,17 @@ public class SwerveControl {
     		orientationOffset = ahrs.getYaw(); //if in field centric mode make offset equal to the current angle of the navX
     	}else{
     		orientationOffset = 0;
+    		if(robotFront == 1){
+        		orientationOffset += 0;
+        	}else if(robotFront == 2){
+        		orientationOffset += 90;
+        	}else if(robotFront == 3){
+        		orientationOffset += 180;
+        	}else if(robotFront == 4){
+        		orientationOffset += 270;
+        	}
     	}
-    	
-    	if(robotFront == 1){
-    		orientationOffset += 0;
-    	}else if(robotFront == 2){
-    		orientationOffset += 90;
-    	}else if(robotFront == 3){
-    		orientationOffset += 180;
-    	}else if(robotFront == 4){
-    		orientationOffset += 270;
-    	}
+    
     	
     	orientationOffset = orientationOffset % 360;
     	

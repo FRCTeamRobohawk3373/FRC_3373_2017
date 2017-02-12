@@ -63,9 +63,9 @@ public class JoystickOverride extends Joystick {
 		}
 	}
 
-	public double getAxis(int axis) {
+	public double getRawAxis(int axis) {
 		if (controls[axis + 10].equalsIgnoreCase("NULL")) {
-			return getRawAxis(axis);
+			return super.getRawAxis(axis);
 		} else {
 			double value = Double.parseDouble(controls[axis + 10]);
 			controls[axis + 10] = "NULL";
@@ -76,7 +76,7 @@ public class JoystickOverride extends Joystick {
 
 	public int getPOV() {
 		if (controls[16].equalsIgnoreCase("NULL")) {
-			return getPOV();
+			return super.getPOV();
 		} else {
 			int poval = Integer.parseInt(controls[16]);
 			controls[16] = "NULL";
