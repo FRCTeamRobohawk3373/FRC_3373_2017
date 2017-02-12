@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team3373.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +21,7 @@ public class Robot extends IterativeRobot {
 	final String shooterCalibration = "Calibrating Shooter";
 	final String intakeCalibration = "Calibrating Ball Intake";
 	final String hopperCalibration = "Calibrating Hopper";
+	CameraServer server;
 
 	String autoSelected;
 	
@@ -91,7 +93,8 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		System.out.println("INITiating");
+		CameraServer.getInstance().startAutomaticCapture(1);
+		CameraServer.getInstance().startAutomaticCapture(0);
 		//driver = new SuperJoystick(0);
 		//shooter = new SuperJoystick(1);
 		
