@@ -42,15 +42,13 @@ public class JoystickPlayer {
 	}
 
 	public static boolean Play() {
-		// JoystickRecord.driver1.setcontrol(false);
-		// JoystickRecord.shooter1.setcontrol(false);
 		String driverInS;
 		String shooterInS;
 		try {
 			if ((driverInS = Reader.readLine()) != null) {
 				shooterInS = Reader.readLine();
-				// System.out.println("0:" + driverInS);
-				// System.out.println("1:" + shooterInS);
+				System.out.println("0:" + driverInS);
+				System.out.println("1:" + shooterInS);
 
 				driverButtons = driverInS.split(" ");
 				Robot.driver.SetButtons(driverButtons);

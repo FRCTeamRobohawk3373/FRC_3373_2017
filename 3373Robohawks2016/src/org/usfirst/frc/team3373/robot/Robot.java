@@ -93,8 +93,12 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+
 	/*	CameraServer.getInstance().startAutomaticCapture(1);
 		CameraServer.getInstance().startAutomaticCapture(0);*/
+
+		//CameraServer.getInstance().startAutomaticCapture(1);
+		//CameraServer.getInstance().startAutomaticCapture(0);
 		//driver = new SuperJoystick(0);
 		//shooter = new SuperJoystick(1);
 		
@@ -149,7 +153,12 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		
-
+		if(driver.isYPushed()){
+			swerve.setSpinAngle(180);
+			swerve.spinXdegrees();
+			driver.clearY();
+		}
+		driver.clearY();
 		/*
 		 * if (!swerve.aligned()) { swerve.swerveAlign(); System.out.println(
 		 * "Front Left: " + swerve.FLWheel.rotateMotor.getAnalogInRaw());
@@ -191,11 +200,11 @@ public class Robot extends IterativeRobot {
 			/*	if(driver.getPOV() == 0){
 					swerve.setRobotFront(1);
 				}else if(driver.getPOV() == 90){
-					swerve.setRobotFront(2);
+					swerve.setRobotFront(4);
 				}else if(driver.getPOV() == 180){
 					swerve.setRobotFront(3);
 				}else if(driver.getPOV() == 270){
-					swerve.setRobotFront(4);
+					swerve.setRobotFront(2);
 				}
 				
 				*/
@@ -208,7 +217,6 @@ public class Robot extends IterativeRobot {
 				
 				if(driver.isAHeld()){
 					swerve.setRotateDistance(ultraSonic.getDistance());
-					System.out.println("ULTRUHSONICK DUSTUNCE: " + ultraSonic.getDistance());
 				}
 			
 
@@ -239,32 +247,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		sRecord = false;
-		try {
-			JoystickRecord.RecordInit("JoystickRecord.txt", 750);
-			JoystickPlayer.PlayerInit("JoystickRecord.txt");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	public void testPeriodic() {
-		
-
-		if (Robot.driver.isStartHeld()) {
-			while (Robot.driver.isStartHeld()) {
-			}
-			sRecord = true;
-		}
-		if (sRecord) {
-			sRecord = !JoystickRecord.record();
-		}
-		if (Robot.driver.isBackHeld()) {
-			while (Robot.driver.isBackHeld()) {
-			}
-			sPlayer = true;
-		}
-		if (sPlayer) {
-			sPlayer = !JoystickPlayer.Play();
-		}
 		autoSelected = (String) chooser.getSelected();
 
 		switch (autoSelected) {
@@ -292,18 +276,79 @@ public class Robot extends IterativeRobot {
 			
 			break;
 		case normal:
-			 if(driver.getAxis(Rtrigger) > .1){
+
+			 if(driver.getRawAxis(Rtrigger) > .1){
+			if (Robot.driver.isStartHeld()) {
+				while (Robot.driver.isStartHeld()) {
+				}
+				if (!sRecord) {
+					sRecord = true;
+					try {
+						JoystickRecord.RecordInit("JoystickRecord.txt");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println("started");
+				} else {
+					sRecord = false;
+					JoystickRecord.Stop();
+					System.out.println("stopped");
+				}
+			}
+			if (sRecord) {
+				JoystickRecord.record();
+			}
+			if (Robot.driver.isBackHeld()) {
+				while (Robot.driver.isBackHeld()) {
+				}
+				try {
+					JoystickPlayer.PlayerInit("JoystickRecord.txt");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				sPlayer = true;
+			}
+			if (sPlayer) {
+				sPlayer = !JoystickPlayer.Play();
+			}
+			
+			if(driver.getRawAxis(Rtrigger) > .1){
+
 				swerve.isFieldCentric = true;
-				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
-			}else if(driver.getAxis(Ltrigger) > .1){
+				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+			}else if(driver.getRawAxis(Ltrigger) > .1){
 				swerve.isFieldCentric = false;
-				swerve.calculateObjectControl(driver.getAxis(RX));
+				swerve.calculateObjectControl(driver.getRawAxis(RX));
 			}else{
 				swerve.isFieldCentric = false;
-				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
+
+				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 			} 
 			
+
+				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+			}
 			
+			if(driver.isLBHeld()){
+				swerve.sniper();
+			}else if(driver.isRBHeld()){
+				swerve.turbo();
+			}else{
+				swerve.normalSpeed();
+			}
+			
+			if(driver.getPOV() == 0){
+				swerve.setRobotFront(1);
+			}else if(driver.getPOV() == 90){
+				swerve.setRobotFront(4);
+			}else if(driver.getPOV() == 180){
+				swerve.setRobotFront(3);
+			}else if(driver.getPOV() == 270){
+				swerve.setRobotFront(2);
+			}
+
 			
 			if (shooter.isYPushed()) {
 				gearControlMode += 1;
@@ -323,12 +368,10 @@ public class Robot extends IterativeRobot {
 			}
 
 			
-			System.out.println("UltraSonic Voltage: " + ultraSonic.analogSensor.getAverageVoltage());
 			
 
 			gearControl.setGearDoorSpeed(1);
 			shooter.clearY();
-			System.out.println(gearControl.isPegDetected());
 			
 			
 			if (shooter.isBackPushed()) {

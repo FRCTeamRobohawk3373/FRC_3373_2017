@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--AgileJ Ltd. (http://www.agilej.com)--><ajsv>
+    <diagram creationDate="2017-Feb-12 20:33" licenseGrade="evaluation" licenseeName="anon" licenseeOrganization="unknown" populationMethod="manual" version="1.9.0.v20160922-0809">
+        <filterScript>
+
+// no filter script yet defined for this class diagram
+// use CTRL+SPACE for completion suggestions
+
+</filterScript>
+        <class className="org.usfirst.frc.team3373.robot.SwerveControl" modelMemberId="org.usfirst.frc.team3373.robot.SwerveControl" project="3373Robohawks2017" xLocation="2274" yLocation="2541"/>
+        <class className="org.usfirst.frc.team3373.robot.SwerveWheel" modelMemberId="org.usfirst.frc.team3373.robot.SwerveWheel" project="3373Robohawks2017" xLocation="2457" yLocation="1181"/>
+        <class className="org.usfirst.frc.team3373.robot.Robot" modelMemberId="org.usfirst.frc.team3373.robot.Robot" project="3373Robohawks2017" xLocation="1323" yLocation="1841"/>
+        <class className="org.usfirst.frc.team3373.robot.GearController" modelMemberId="org.usfirst.frc.team3373.robot.GearController" project="3373Robohawks2017" xLocation="159" yLocation="686"/>
+        <class className="org.usfirst.frc.team3373.robot.JoystickOverride" modelMemberId="org.usfirst.frc.team3373.robot.JoystickOverride" project="3373Robohawks2017" xLocation="867" yLocation="1559"/>
+        <class className="org.usfirst.frc.team3373.robot.SuperJoystick" modelMemberId="org.usfirst.frc.team3373.robot.SuperJoystick" project="3373Robohawks2017" xLocation="1860" yLocation="1786"/>
+        <class className="org.usfirst.frc.team3373.robot.CANTalonSafetyNet" modelMemberId="org.usfirst.frc.team3373.robot.CANTalonSafetyNet" project="3373Robohawks2017" xLocation="1045" yLocation="456"/>
+        <class className="org.usfirst.frc.team3373.robot.UltraSonic" modelMemberId="org.usfirst.frc.team3373.robot.UltraSonic" project="3373Robohawks2017" xLocation="2275" yLocation="2005"/>
+        <class className="org.usfirst.frc.team3373.robot.Shooter" modelMemberId="org.usfirst.frc.team3373.robot.Shooter" project="3373Robohawks2017" xLocation="1858" yLocation="1091"/>
+        <class className="org.usfirst.frc.team3373.robot.JoystickRecord" modelMemberId="org.usfirst.frc.team3373.robot.JoystickRecord" project="3373Robohawks2017" xLocation="2302" yLocation="480"/>
+        <class className="org.usfirst.frc.team3373.robot.JoystickPlayer" modelMemberId="org.usfirst.frc.team3373.robot.JoystickPlayer" project="3373Robohawks2017" xLocation="879" yLocation="1149"/>
+        <class className="org.usfirst.frc.team3373.robot.PIDInputObject" modelMemberId="org.usfirst.frc.team3373.robot.PIDInputObject" project="3373Robohawks2017" xLocation="1697" yLocation="739"/>
+        <class className="org.usfirst.frc.team3373.robot.BallIntake" modelMemberId="org.usfirst.frc.team3373.robot.BallIntake" project="3373Robohawks2017" xLocation="1499" yLocation="100"/>
+        <class className="org.usfirst.frc.team3373.robot.SwerveAcceleration" modelMemberId="org.usfirst.frc.team3373.robot.SwerveAcceleration" project="3373Robohawks2017" xLocation="2457" yLocation="927"/>
+        <class className="org.usfirst.frc.team3373.robot.SwerveAlign" modelMemberId="org.usfirst.frc.team3373.robot.SwerveAlign" project="3373Robohawks2017" xLocation="1459" yLocation="1383"/>
+        <class className="org.usfirst.frc.team3373.robot.LookupTable" modelMemberId="org.usfirst.frc.team3373.robot.LookupTable" project="3373Robohawks2017" xLocation="2198" yLocation="242"/>
+        <class className="org.usfirst.frc.team3373.robot.PIDOutputObject" modelMemberId="org.usfirst.frc.team3373.robot.PIDOutputObject" project="3373Robohawks2017" xLocation="1446" yLocation="1070"/>
+        <class className="org.usfirst.frc.team3373.robot.Deadband" modelMemberId="org.usfirst.frc.team3373.robot.Deadband" project="3373Robohawks2017" xLocation="1725" yLocation="448"/>
+    </diagram>
+</ajsv>

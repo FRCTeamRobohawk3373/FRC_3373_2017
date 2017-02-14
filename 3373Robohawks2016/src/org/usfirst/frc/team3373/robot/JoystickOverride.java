@@ -46,26 +46,27 @@ public class JoystickOverride extends Joystick {
 	}
 
 	public boolean isButtonPushed(int button) {
-		if (controls[button - 1].equalsIgnoreCase("NULL")) {
-			if (getRawButton(button)) {
-				return true;
-			} else {
-				return false;
-			}
+		if (getRawButton(button)) {
+			return true;
 		} else {
-			if (controls[button - 1].equalsIgnoreCase("true")) {
-				controls[button - 1] = "NULL";
-				return true;
-			} else {
-				controls[button - 1] = "NULL";
+			if (controls[button - 1].equalsIgnoreCase("NULL")) {
 				return false;
+			} else {
+				if (controls[button - 1].equalsIgnoreCase("1")) {
+					controls[button - 1] = "NULL";
+					return true;
+				} else {
+					controls[button - 1] = "NULL";
+					return false;
+				}
 			}
 		}
+
 	}
 
-	public double getAxis(int axis) {
+	public double getRawAxis(int axis) {
 		if (controls[axis + 10].equalsIgnoreCase("NULL")) {
-			return getRawAxis(axis);
+			return super.getRawAxis(axis);
 		} else {
 			double value = Double.parseDouble(controls[axis + 10]);
 			controls[axis + 10] = "NULL";
@@ -76,7 +77,7 @@ public class JoystickOverride extends Joystick {
 
 	public int getPOV() {
 		if (controls[16].equalsIgnoreCase("NULL")) {
-			return getPOV();
+			return super.getPOV();
 		} else {
 			int poval = Integer.parseInt(controls[16]);
 			controls[16] = "NULL";

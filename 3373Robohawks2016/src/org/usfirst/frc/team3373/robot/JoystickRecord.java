@@ -5,17 +5,14 @@ import java.io.*;
 
 public class JoystickRecord {
 
-	private static int duration;
 	private static int count;
 	private static BufferedWriter printline;
 	static JoystickOverride driver = new JoystickOverride(0);
 	static JoystickOverride shooter = new JoystickOverride(1);
-	//private static FileWriter fw;
-	
+	// private static FileWriter fw;
 
-	public static void RecordInit(String fileLabel, int tlength) throws Exception {
+	public static void RecordInit(String fileLabel) throws Exception {
 		try {
-			duration = tlength;
 			File f = new File("/home/lvuser/" + fileLabel);
 
 			if (f.exists()) {
@@ -34,111 +31,105 @@ public class JoystickRecord {
 
 	}
 
-	public static boolean record() {
+	public static void record() {
 		String stringdata = "";
 		try {
-			if (count < duration) {
-				stringdata = RecordDriver();
-				printline.write(stringdata);
-				printline.newLine();
-				//System.out.println("0: " + stringdata);
+			stringdata = RecordDriver();
+			printline.write(stringdata);
+			printline.newLine();
+			// System.out.println("0: " + stringdata);
 
-				stringdata = RecordShooter();
-				printline.write(stringdata);
-				printline.newLine();
-				//System.out.println("1: " + stringdata);
-				count++;
-			} else if (count >= duration) {
-//				printline.write(
-//						"false false false false false false false false false false 0.0 0.0 0.0 0.0 0.0 0.0 -1");
-//				printline.newLine();
-//				printline.write(
-//						"false false false false false false false false false false 0.0 0.0 0.0 0.0 0.0 0.0 -1");
-//				printline.newLine();
-
-				printline.flush();
-				printline.close();
-				System.out.println("file length: " + count * 2);
-				//printline = new BufferedWriter(fw);
-				count++;
-				return true;
-			}
+			stringdata = RecordShooter();
+			printline.write(stringdata);
+			printline.newLine();
+			// System.out.println("1: " + stringdata);
+			count++;
+			System.out.println("file length: " + count * 2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
 	}
 
-	static String RecordDriver() {
+	public static void Stop() {
+		try {
+			printline.flush();
+			printline.close();
+			System.out.println("final file length: " + count * 2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static String RecordDriver() {
 		String Buttons = "";
 		if (driver.isAHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("A pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isBHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("B pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isXHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("X pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isYHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("Y pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isLBHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("LB pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isRBHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("RB pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isBackHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("Back pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isStartHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("Start pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isLStickHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("LStickPushed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (driver.isRStickHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("RStickPushed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		// System.out.println("LX Axis:" + driver.getRawAxis(0));
@@ -159,76 +150,76 @@ public class JoystickRecord {
 		return Buttons;
 	}
 
-	static String RecordShooter() {
+	private static String RecordShooter() {
 		String Buttons = "";
 		if (shooter.isAHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("A pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isBHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("B pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isXHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("X pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isYHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("Y pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isLBHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("LB pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isRBHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("RB pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isBackHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("Back pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isStartHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("Start pressed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isLStickHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("LStickPushed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		if (shooter.isRStickHeld()) {
-			Buttons += "true ";
+			Buttons += "1 ";
 			// System.out.println("RStickPushed");
 		} else {
-			Buttons += "false ";
+			Buttons += "0 ";
 		}
 
 		// System.out.println("LX Axis:" + shooter.getRawAxis(0));
