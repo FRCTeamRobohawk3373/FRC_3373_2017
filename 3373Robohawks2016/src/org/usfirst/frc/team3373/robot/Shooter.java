@@ -31,5 +31,11 @@ public double getShooterTargetVoltage(){
 public void setShooterMotor(double LX){
 	shooterMotor.set(targetVoltage);
 }
+public void disableShooter(){
+	shooterMotor.set(0);
+}
+public void spinUpShooter(){
+	shooterMotor.set(10.4);
+}
 
 }

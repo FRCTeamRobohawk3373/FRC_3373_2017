@@ -52,24 +52,24 @@ public class Robot extends IterativeRobot {
 	int RX = 4;
 	int RY = 5;
 	
-	double robotWidth = 21.125;// TODO CALIBRATE check
-	double robotLength = 33.5;// TODO CALIBRATE check
+	double robotWidth = 23.125;// TODO CALIBRATE check
+	double robotLength = 27.56;// TODO CALIBRATE check
 	
-	int LBdriveChannel = 2;
-	int LBrotateID = 3;
-	int LBencOffset = 226;
+	int LBdriveChannel = 1;
+	int LBrotateID = 2;
+	int LBencOffset = 739;
 
-	int LFdriveChannel = 0;
-	int LFrotateID = 2;
-	int LFencOffset = 127;
+	int LFdriveChannel = 4;
+	int LFrotateID = 3;
+	int LFencOffset = 179;
 	
 	int RBdriveChannel = 8;
-	int RBrotateID = 0;
-	int RBencOffset = 444;
+	int RBrotateID = 7;
+	int RBencOffset = 492;
 	
-	int RFdriveChannel = 1;
-	int RFrotateID = 1;
-	int RFencOffset = 631;
+	int RFdriveChannel = 6;
+	int RFrotateID = 5;
+	int RFencOffset = 212;
 
 	//SuperJoystick driver;
 	//SuperJoystick shooter;
@@ -93,8 +93,8 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		CameraServer.getInstance().startAutomaticCapture(1);
-		CameraServer.getInstance().startAutomaticCapture(0);
+	/*	CameraServer.getInstance().startAutomaticCapture(1);
+		CameraServer.getInstance().startAutomaticCapture(0);*/
 		//driver = new SuperJoystick(0);
 		//shooter = new SuperJoystick(1);
 		
@@ -103,9 +103,9 @@ public class Robot extends IterativeRobot {
 		ultraSonic = new UltraSonic(0);
 		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
-		gearControl = new GearController(13, 275, 542, 580);
+		gearControl = new GearController(12, 275, 542, 580);
 		
-	//	ballIntake = new BallIntake(11);
+		ballIntake = new BallIntake(13);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -139,6 +139,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		this.retreatFromGearPeg();
+	}
+	public void teleopInit(){
+		
 	}
 
 	/**
@@ -185,7 +188,7 @@ public class Robot extends IterativeRobot {
 					swerve.normalSpeed();
 				}
 				
-				if(driver.getPOV() == 0){
+			/*	if(driver.getPOV() == 0){
 					swerve.setRobotFront(1);
 				}else if(driver.getPOV() == 90){
 					swerve.setRobotFront(2);
@@ -195,7 +198,7 @@ public class Robot extends IterativeRobot {
 					swerve.setRobotFront(4);
 				}
 				
-				
+				*/
 				
 				
 				
@@ -273,7 +276,10 @@ public class Robot extends IterativeRobot {
 			
 			break;
 		case swerveWheelCalibration:
-			System.out.println(ultraSonic.analogSensor.getAverageVoltage());
+			System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Front Right Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
 			break;
 		case shooterCalibration:
 			
@@ -286,7 +292,7 @@ public class Robot extends IterativeRobot {
 			
 			break;
 		case normal:
-			/* if(driver.getAxis(Rtrigger) > .1){
+			 if(driver.getAxis(Rtrigger) > .1){
 				swerve.isFieldCentric = true;
 				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
 			}else if(driver.getAxis(Ltrigger) > .1){
@@ -295,7 +301,10 @@ public class Robot extends IterativeRobot {
 			}else{
 				swerve.isFieldCentric = false;
 				swerve.calculateSwerveControl(-driver.getAxis(LY), driver.getAxis(LX), driver.getAxis(RX));
-			} */
+			} 
+			
+			
+			
 			if (shooter.isYPushed()) {
 				gearControlMode += 1;
 				gearControlMode = gearControlMode % 3;

@@ -117,10 +117,10 @@ public class GearController {
 		}
 
 		if (target < current) {
-			rotateGearDoor.set(-gearDoorSpeed);
+			rotateGearDoor.set(gearDoorSpeed);
 		}
 		else {
-			rotateGearDoor.set(gearDoorSpeed);
+			rotateGearDoor.set(-gearDoorSpeed);
 		}
 	}
 

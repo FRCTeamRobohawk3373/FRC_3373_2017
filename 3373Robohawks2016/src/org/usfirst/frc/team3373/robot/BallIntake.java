@@ -10,10 +10,10 @@ intakeMotor = new CANTalonSafetyNet(intakeTalonPort);
 intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	}
 	public void intakeBalls() {
-		intakeMotor.set(1);
+		intakeMotor.set(0.5);
 	}
 	public void clearBalls() {
-		intakeMotor.set(-.5);
+		intakeMotor.set(-0.25);
 	}
 	public void ballsOff() {
 		intakeMotor.set(0);
