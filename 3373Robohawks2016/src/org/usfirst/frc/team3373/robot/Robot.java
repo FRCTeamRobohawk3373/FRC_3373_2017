@@ -40,6 +40,7 @@ public class Robot extends IterativeRobot {
 
 	int testTimer;
 	int angle;
+	int shooterCounter;
 	boolean firstRun = true;
 	boolean secondRun = false;
 	boolean thirdRun = false;
@@ -86,6 +87,8 @@ public class Robot extends IterativeRobot {
 
 	private boolean sRecord=false;
 	private boolean sPlayer=false;
+	
+	boolean intakeOn;
 
 
 	/**
@@ -220,8 +223,26 @@ public class Robot extends IterativeRobot {
 				if(driver.isAHeld()){
 					swerve.setRotateDistance(ultraSonic.getDistance());
 				}
-			
-
+				
+				if(shooter.isLBHeld()){
+					intakeOn = true;
+					shooterCounter ++;	
+				} else{
+					shooterCounter = 0;
+				}
+				if(shooter.isRBPushed()){
+					intakeOn = false;
+				}
+				if(!intakeOn){
+					ballIntake.ballsOff();
+				}
+				else if (intakeOn){
+					if(shooterCounter>=70){
+					ballIntake.ballsOut();
+					}else{
+					ballIntake.ballsIn();
+				}
+	}
 
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
@@ -378,13 +399,13 @@ public class Robot extends IterativeRobot {
 			
 			if (shooter.isBackPushed()) {
 				intakeControlMode += 1;
-				intakeControlMode = intakeControlMode % 3;
+				intakeControlMode = intakeControlMode % 2;
 				System.out.println("Switching intake mode");
 				if (intakeControlMode == 0) {
-					ballIntake.intakeBalls();
+					ballIntake.ballsIn();
 					System.out.println("intaking balls");
 				} else if (intakeControlMode == 1) {
-					ballIntake.clearBalls();
+					ballIntake.ballsOut();
 					System.out.println("clearing ball intake");
 				} else {
 					ballIntake.ballsOff();
