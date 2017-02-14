@@ -142,7 +142,9 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		this.retreatFromGearPeg();
+	//	this.retreatFromGearPeg();
+		System.out.println(driver.getPOV());
+
 	}
 	public void teleopInit(){
 		
