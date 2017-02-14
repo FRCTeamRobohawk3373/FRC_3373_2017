@@ -95,4 +95,10 @@ public class CANTalonSafetyNet {
 		if (isFound)
 			talon.enableLimitSwitch(forward, reverse);
 	}
+	public double getOutputVoltage() {
+		if (isFound)
+			return talon.getOutputVoltage();
+		else
+			return 42;
+	}
 }
