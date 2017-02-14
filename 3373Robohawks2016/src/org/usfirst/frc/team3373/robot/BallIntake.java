@@ -13,16 +13,16 @@ public class BallIntake {
 		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	}
 
-	public void intakeBalls() {
-		accelerate(0.5);
+	public void ballsIn() {
+		this.accelerate(0.5);
 	}
 
-	public void clearBalls() {
-		accelerate(-0.25);
+	public void ballsOut() {
+		this.accelerate(-0.25);
 	}
 
 	public void ballsOff() {
-		intakeMotor.set(0);
+		this.accelerate(0);
 	}
 
 	public void calibrate() {
