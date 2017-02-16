@@ -224,26 +224,26 @@ public class Robot extends IterativeRobot {
 					swerve.setRotateDistance(ultraSonic.getDistance());
 				}
 				
-				if(shooter.isLBHeld()){
+				if(shooter.isRBHeld()){
 					intakeOn = true;
 					shooterCounter ++;	
 				} else{
 					shooterCounter = 0;
 				}
-				if(shooter.isRBPushed()){
+				if(shooter.isLBPushed()){
 					intakeOn = false;
 				}
 				if(!intakeOn){
 					ballIntake.ballsOff();
 				}
 				else if (intakeOn){
-					if(shooterCounter>=70){
+					if(shooterCounter>=40){
 					ballIntake.ballsOut();
 					}else{
 					ballIntake.ballsIn();
 				}
 	}
-
+shooter.clearLB();
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
 			 * -.1){ climbTalon1.set(joystick.getRawAxis(LY)); }else{
