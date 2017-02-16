@@ -30,6 +30,7 @@ public class Robot extends IterativeRobot {
 	SwerveControl swerve;
 	GearController gearControl;
 	BallIntake ballIntake;
+	Shooter ballDisposal;
 	/***************************
 	 * Robot Talon Identifier * F * 0 ------ 1 * | | * | | * 2--------3 *
 	 ***************************/
@@ -113,6 +114,8 @@ public class Robot extends IterativeRobot {
 		gearControl = new GearController(12, 275, 542, 580);
 		
 		ballIntake = new BallIntake(13);
+		
+		ballDisposal = new Shooter(14);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -244,6 +247,16 @@ public class Robot extends IterativeRobot {
 				}
 	}
 shooter.clearLB();
+
+	if(shooter.isStartPushed()){
+		pegRetreating = true;
+	}
+	shooter.clearStart();
+	
+	if(shooter.isAPushed()){
+		ballDisposal.determineShooterVoltage(ultraSonic.getDistance());
+	}
+	shooter.clearA();
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
 			 * -.1){ climbTalon1.set(joystick.getRawAxis(LY)); }else{

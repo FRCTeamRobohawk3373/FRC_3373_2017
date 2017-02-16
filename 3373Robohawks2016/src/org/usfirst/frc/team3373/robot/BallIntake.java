@@ -8,7 +8,7 @@ public class BallIntake {
 	double maxDelta;
 	public BallIntake(int intakeTalonPort) {
 		currentSpeed = 0;
-		maxDelta = .05;
+		maxDelta = .025;
 		intakeMotor = new CANTalonSafetyNet(intakeTalonPort);
 		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	}
