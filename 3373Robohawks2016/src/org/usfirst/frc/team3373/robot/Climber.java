@@ -31,7 +31,7 @@ public class Climber {
 	int currentSpikeCounter = 0;
 
 	public Climber(int climberPort, int ultraSonicPort, int ultraSonicPort2, int digitalTrigger) {
-		ultraSonic = new UltraSonic(ultraSonicPort, ultraSonicPort2, digitalTrigger);
+		//ultraSonic = new UltraSonic(ultraSonicPort, ultraSonicPort2, digitalTrigger);
 		// ultraSonic = new UltraSonic(0);
 	
 		
@@ -76,6 +76,7 @@ public class Climber {
 		 * else if (ultraSonic.getDistance() < height && speedMod != 0) {
 		 * speedMod = .8; }
 		 */
+		/*
 		if (ultraSonic.getDistance() <= maxSpeedHeight || ultraSonic.getDistance() > 40)
 			speedMod = maxSpeed;
 		else if (ultraSonic.getDistance() >= minSpeedHeight)
@@ -84,16 +85,19 @@ public class Climber {
 		else
 			speedMod = (((minSpeed - maxSpeed) / minSpeedHeight) * ultraSonic.getDistance())
 					+ maxSpeed;
+					*/
+		if(climber.getOutputCurrent() > 25)
+			speedMod = 0;
 		climber.set(speed * speedMod);
 		System.out.println("Speed Modifier    " + speedMod);
-		
+		/*
 		try {
 			printline.write(climber.getOutputCurrent() + "," + climber.getOutputVoltage() + "," + ultraSonic.getDistance());
 			printline.newLine();
 		} catch (IOException e) {
 			System.out.println("Failed!D:");
 			e.printStackTrace();
-		}
+		} */
 		
 	}
 	

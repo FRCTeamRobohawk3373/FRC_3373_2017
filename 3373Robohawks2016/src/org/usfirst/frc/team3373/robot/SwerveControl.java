@@ -55,7 +55,7 @@ public class SwerveControl {
 
 		wheelArray1 = new SwerveWheel[] { LFWheel, RBWheel };
 		wheelArray2 = new SwerveWheel[] { LBWheel, RFWheel };
-		ahrs = new AHRS(SerialPort.Port.kMXP);
+		ahrs = new AHRS(SerialPort.Port.kUSB1);
 	}
 
 	public void turnToAngle(double x, double y) {

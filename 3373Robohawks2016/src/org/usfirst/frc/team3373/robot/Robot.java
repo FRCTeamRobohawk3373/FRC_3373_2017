@@ -26,6 +26,7 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	
 	UltraSonic ultraSonic;
+	Climber climber;
 
 	SwerveControl swerve;
 	GearController gearControl;
@@ -90,6 +91,7 @@ public class Robot extends IterativeRobot {
 	private boolean sPlayer=false;
 	
 	boolean intakeOn;
+	double intakeTarget = .5;
 
 
 	/**
@@ -108,6 +110,7 @@ public class Robot extends IterativeRobot {
 		
 		driver = new JoystickOverride(0);
 		shooter = new JoystickOverride(1);
+		climber = new Climber(15,0 ,0 ,0);
 		ultraSonic = new UltraSonic(0);
 		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
@@ -149,7 +152,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 	//	this.retreatFromGearPeg();
-		System.out.println(driver.getPOV());
+	
 
 	}
 	public void teleopInit(){
@@ -160,7 +163,9 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		
+		climber.climb(shooter.getRawAxis(LY));
+		climber.printCurrent();
+		climber.printVoltage();
 		if(driver.isYPushed()){
 			swerve.setSpinAngle(180);
 			swerve.spinXdegrees();
@@ -205,7 +210,7 @@ public class Robot extends IterativeRobot {
 					swerve.normalSpeed();
 				}
 				
-			/*	if(driver.getPOV() == 0){
+				if(driver.getPOV() == 0){
 					swerve.setRobotFront(1);
 				}else if(driver.getPOV() == 90){
 					swerve.setRobotFront(4);
@@ -215,7 +220,7 @@ public class Robot extends IterativeRobot {
 					swerve.setRobotFront(2);
 				}
 				
-				*/
+				
 				
 				
 				
@@ -294,8 +299,7 @@ shooter.clearLB();
 			 * swerve.setSpeedMode(0.20); } else { // Regular mode
 			 * swerve.setSpeedMode(0.5); }
 			 */
-
-		}
+			}
 	
 
 	/**
@@ -325,11 +329,23 @@ shooter.clearLB();
 			
 			break;
 		case intakeCalibration:
-			//ballIntake.calibrate();
-			//ballIntake.intakeMotor.set(shooter.getRawAxis(1));
+		
 			break;
 		case hopperCalibration:
-			
+			if(shooter.isAPushed()){
+				intakeTarget += .05;
+			}
+			shooter.clearA();
+			if (shooter.isBPushed()){
+				intakeTarget -= .05;
+			}
+			shooter.clearB();
+			if(shooter.isLBHeld()){
+				ballIntake.ballsOut();
+			} else{
+			ballIntake.goToSetSpeed(intakeTarget);
+			}
+
 			break;
 		case normal:
 
