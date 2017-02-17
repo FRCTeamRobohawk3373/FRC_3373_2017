@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 
 	int testTimer;
 	int angle;
-	int shooterCounter;
+	int intakeCounter;
 	boolean firstRun = true;
 	boolean secondRun = false;
 	boolean thirdRun = false;
@@ -187,13 +187,13 @@ public class Robot extends IterativeRobot {
 			if (!pegRetreating){
 				if(driver.getRawAxis(Rtrigger) > .1){
 					swerve.isFieldCentric = true;
-					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+					swerve.calculateSwerveControl(driver.getRawAxis(LY), -driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}else if(driver.getRawAxis(Ltrigger) > .1){
 					swerve.isFieldCentric = false;
 					swerve.calculateObjectControl(driver.getRawAxis(RX));
 				}else{
 					swerve.isFieldCentric = false;
-					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+					swerve.calculateSwerveControl(driver.getRawAxis(LY), -driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}
 				
 				
@@ -229,9 +229,9 @@ public class Robot extends IterativeRobot {
 				
 				if(shooter.isRBHeld()){
 					intakeOn = true;
-					shooterCounter ++;	
+					intakeCounter ++;	
 				} else{
-					shooterCounter = 0;
+					intakeCounter = 0;
 				}
 				if(shooter.isLBPushed()){
 					intakeOn = false;
@@ -240,7 +240,7 @@ public class Robot extends IterativeRobot {
 					ballIntake.ballsOff();
 				}
 				else if (intakeOn){
-					if(shooterCounter>=40){
+					if(intakeCounter>=40){
 					ballIntake.ballsOut();
 					}else{
 					ballIntake.ballsIn();
@@ -251,12 +251,32 @@ shooter.clearLB();
 	if(shooter.isStartPushed()){
 		pegRetreating = true;
 	}
+	this.retreatFromGearPeg();
 	shooter.clearStart();
 	
 	if(shooter.isAPushed()){
 		ballDisposal.determineShooterVoltage(ultraSonic.getDistance());
 	}
 	shooter.clearA();
+	
+	if (shooter.isYPushed()) {
+		gearControlMode += 1;
+		gearControlMode = gearControlMode % 3;
+		System.out.println("Switching gear control mode");
+		if (gearControlMode == 0) {
+			gearControl.closeGearContainer();
+			System.out.println("Closing");
+		} else if (gearControlMode == 1) {
+			gearControl.compressGearContainer();
+			System.out.println("compressing");
+		} else {
+			gearControl.openGearContainer();
+			System.out.println("opening");
+		}
+
+	}
+	shooter.clearY();
+	gearControl.setGearDoorSpeed(1);
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
 			 * -.1){ climbTalon1.set(joystick.getRawAxis(LY)); }else{
@@ -386,28 +406,13 @@ shooter.clearLB();
 			}
 
 			
-			if (shooter.isYPushed()) {
-				gearControlMode += 1;
-				gearControlMode = gearControlMode % 3;
-				System.out.println("Switching gear control mode");
-				if (gearControlMode == 0) {
-					gearControl.closeGearContainer();
-					System.out.println("Closing");
-				} else if (gearControlMode == 1) {
-					gearControl.compressGearContainer();
-					System.out.println("compressing");
-				} else {
-					gearControl.openGearContainer();
-					System.out.println("opening");
-				}
-
-			}
+			
 
 			
 			
 
-			gearControl.setGearDoorSpeed(1);
-			shooter.clearY();
+			
+		
 			
 			
 			if (shooter.isBackPushed()) {
@@ -463,10 +468,12 @@ break;
 	public void retreatFromGearPeg(){
 		if(pegRetreating){
 		retreatCounter ++;
-		swerve.calculateSwerveControl(-0.25, 0, 0);
-		if(retreatCounter > 10){ //10 = time to wait before opening door (1/2 seconds)
+		swerve.setRobotFront(1);
+		swerve.calculateSwerveControl(0.25, 0, 0);
+		if(retreatCounter > 17){ //25 = time to wait before opening door (1/2 seconds)
 		gearControl.openGearContainer();
 		gearControl.setGearDoorSpeed(.5);
+		gearControlMode = 2;
 		}
 		if(retreatCounter > 60){ //60 = target number of cycles (1/20 second each) before it ends
 			pegRetreating = false;
