@@ -358,17 +358,17 @@ public class SwerveControl {
 	}
 
 	public void sniper() {
-		LFWheel.setSpeedModifier(.3);
-		LBWheel.setSpeedModifier(.3);
-		RFWheel.setSpeedModifier(.3);
-		RBWheel.setSpeedModifier(.3);
+		LFWheel.setSpeedModifier(.2);
+		LBWheel.setSpeedModifier(.2);
+		RFWheel.setSpeedModifier(.2);
+		RBWheel.setSpeedModifier(.2);
 	}
 
 	public void normalSpeed() {
-		LFWheel.setSpeedModifier(.6);
-		LBWheel.setSpeedModifier(.6);
-		RFWheel.setSpeedModifier(.6);
-		RBWheel.setSpeedModifier(.6);
+		LFWheel.setSpeedModifier(.5);
+		LBWheel.setSpeedModifier(.5);
+		RFWheel.setSpeedModifier(.5);
+		RBWheel.setSpeedModifier(.5);
 	}
 
 	public void setSpinAngle(int angle) {

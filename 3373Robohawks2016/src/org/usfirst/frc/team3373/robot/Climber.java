@@ -27,6 +27,8 @@ public class Climber {
 	double previousVoltage;
 	double current;
 	public double getOutputVoltage;
+	boolean isMaxHeight = false;
+	int spikeCurrentCounter = 0;
 
 	int currentSpikeCounter = 0;
 
@@ -77,17 +79,27 @@ public class Climber {
 		 * speedMod = .8; }
 		 */
 		/*
-		if (ultraSonic.getDistance() <= maxSpeedHeight || ultraSonic.getDistance() > 40)
+		if ((ultraSonic.getDistance() <= maxSpeedHeight || ultraSonic.getDistance() > 40) && !isMaxHeight)
 			speedMod = maxSpeed;
-		else if (ultraSonic.getDistance() >= minSpeedHeight)
+		else if (ultraSonic.getDistance() >= minSpeedHeight && !isMaxHeight)
 			speedMod = minSpeed;
 
-		else
+		else if(!isMaxHeight)
 			speedMod = (((minSpeed - maxSpeed) / minSpeedHeight) * ultraSonic.getDistance())
 					+ maxSpeed;
 					*/
-		if(climber.getOutputCurrent() > 25)
+		if(climber.getOutputCurrent() > 45){
+			spikeCurrentCounter++;
+		}
+		if(spikeCurrentCounter >= 10){
 			speedMod = 0;
+			isMaxHeight = false;
+		}
+		if(!isMaxHeight){
+			speedMod = 1;
+			System.out.println("speedMod = 1!!!");
+		}
+		
 		climber.set(speed * speedMod);
 		System.out.println("Speed Modifier    " + speedMod);
 		/*
@@ -130,6 +142,10 @@ public class Climber {
 
 	public void disableBrake() {
 		climber.enableBrakeMode(false);
+	}
+	public void setMaxHeightFalse(){
+		isMaxHeight = false;
+		System.out.println("HAHAHAHAHAHAHAHAHA  Soup.");
 	}
 }
 

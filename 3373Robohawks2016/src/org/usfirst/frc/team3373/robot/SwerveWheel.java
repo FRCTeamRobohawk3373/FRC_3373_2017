@@ -17,7 +17,7 @@ public class SwerveWheel {
 														// units... 855 is the
 														// range. Maybe change
 														// it?
-	private double speedModifier = .6;
+	private double speedModifier = .5;
 	private int encOffset;
 	double rotateAngle;
 

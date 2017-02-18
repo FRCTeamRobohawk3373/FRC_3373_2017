@@ -20,7 +20,7 @@ public class GearController {
 	long currentTime;
 	boolean gearUpTimer = false;
 	boolean startTimer = false;
-	boolean isUp = true;
+	boolean isCompressed = true;
 
 	double gearDoorError;
 	double gearDoorSpeed;
@@ -40,22 +40,23 @@ public class GearController {
 	}
 
 	public void openGearContainer() {
+		isCompressed = false;
 		// rotateGearDoor.set(openPos);
 		target = openPos;
-		isUp = false;
 		System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void closeGearContainer() {
 		// rotateGearDoor.set(closedPos);
 		target = closedPos;
-		isUp = true;
+		isCompressed = false;
 		System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void compressGearContainer() {
 		// rotateGearDoor.set(compressPos);
 		target = compressPos;
+		isCompressed = true;
 		System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
@@ -75,8 +76,8 @@ public class GearController {
 		return pegStatus;
 	}
 
-	public boolean isUp() {
-		return isUp;
+	public boolean isCompressed() {
+		return isCompressed;
 	}
 
 	// timer method to control dropper
