@@ -28,7 +28,7 @@ public class GearController {
 	double gearDoorSpeedModifier;
 
 	public GearController(int rotateMotorChannel, int downPosit, int upPosit, int compressPosit) {
-		rotateGearDoor = new CANTalonSafetyNet(rotateMotorChannel);
+		rotateGearDoor = new CANTalonSafetyNet(rotateMotorChannel, 1);
 		rotateGearDoor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		closedPos = upPosit;
 		openPos = downPosit;

@@ -21,7 +21,7 @@ public class Climber {
 	double minSpeedHeight = 24;
 	double maxSpeed = 1;
 	double minSpeed = .4;
-	double speedMod = 1;
+	double speedMod = .6;
 	boolean toggle = true;
 	double previousCurrent;
 	double previousVoltage;
@@ -33,21 +33,21 @@ public class Climber {
 	int currentSpikeCounter = 0;
 
 	public Climber(int climberPort, int ultraSonicPort, int ultraSonicPort2, int digitalTrigger) {
-		//ultraSonic = new UltraSonic(ultraSonicPort, ultraSonicPort2, digitalTrigger);
+		// ultraSonic = new UltraSonic(ultraSonicPort, ultraSonicPort2,
+		// digitalTrigger);
 		// ultraSonic = new UltraSonic(0);
-	
-		
-		climber = new CANTalonSafetyNet(climberPort);
+
+		climber = new CANTalonSafetyNet(climberPort, .05);
 		previousCurrent = climber.getOutputCurrent();
 		previousVoltage = climber.getOutputVoltage();
 
 	}
-	
-	public void climberInit(){
+
+	public void climberInit() {
 		try {
 
 			File f = new File("/home/lvuser/ClimberCurrent.txt");
-			
+
 			FileWriter fw = new FileWriter(f);
 			printline = new BufferedWriter(fw);
 			if (f.exists()) {
@@ -79,41 +79,42 @@ public class Climber {
 		 * speedMod = .8; }
 		 */
 		/*
-		if ((ultraSonic.getDistance() <= maxSpeedHeight || ultraSonic.getDistance() > 40) && !isMaxHeight)
-			speedMod = maxSpeed;
-		else if (ultraSonic.getDistance() >= minSpeedHeight && !isMaxHeight)
-			speedMod = minSpeed;
-
-		else if(!isMaxHeight)
-			speedMod = (((minSpeed - maxSpeed) / minSpeedHeight) * ultraSonic.getDistance())
-					+ maxSpeed;
-					*/
-		if(climber.getOutputCurrent() > 45){
+		 * if ((ultraSonic.getDistance() <= maxSpeedHeight ||
+		 * ultraSonic.getDistance() > 40) && !isMaxHeight) speedMod = maxSpeed;
+		 * else if (ultraSonic.getDistance() >= minSpeedHeight && !isMaxHeight)
+		 * speedMod = minSpeed;
+		 * 
+		 * else if(!isMaxHeight) speedMod = (((minSpeed - maxSpeed) /
+		 * minSpeedHeight) * ultraSonic.getDistance()) + maxSpeed;
+		 */
+		double current = climber.getOutputCurrent();
+		if (current > 30 && previousCurrent > 30) {
 			spikeCurrentCounter++;
+		} else if (!isMaxHeight) {
+			spikeCurrentCounter = 0;
 		}
-		if(spikeCurrentCounter >= 10){
+		if (spikeCurrentCounter >= 15) {
 			speedMod = 0;
-			isMaxHeight = false;
+			isMaxHeight = true;
 		}
-		if(!isMaxHeight){
+		if (!isMaxHeight) {
 			speedMod = 1;
 			System.out.println("speedMod = 1!!!");
 		}
-		
-		climber.set(speed * speedMod);
+		SmartDashboard.putNumber("spikeCurrentCounter", spikeCurrentCounter);
+		previousCurrent = current;
+		climber.accelerate(speed * speedMod);
 		System.out.println("Speed Modifier    " + speedMod);
 		/*
-		try {
-			printline.write(climber.getOutputCurrent() + "," + climber.getOutputVoltage() + "," + ultraSonic.getDistance());
-			printline.newLine();
-		} catch (IOException e) {
-			System.out.println("Failed!D:");
-			e.printStackTrace();
-		} */
-		
+		 * try { printline.write(climber.getOutputCurrent() + "," +
+		 * climber.getOutputVoltage() + "," + ultraSonic.getDistance());
+		 * printline.newLine(); } catch (IOException e) {
+		 * System.out.println("Failed!D:"); e.printStackTrace(); }
+		 */
+
 	}
-	
-	public void climberClose(){
+
+	public void climberClose() {
 		try {
 			printline.flush();
 			printline.close();
@@ -134,16 +135,16 @@ public class Climber {
 
 	public void printVoltage() {
 		SmartDashboard.putNumber("Voltage", climber.getOutputVoltage());
-		//SmartDashboard.putNumber("Spike Number", currentSpikeCounter);
-		//if (climber.getOutputVoltage() >= previousVoltage * 5) {
-			//currentSpikeCounter++; }
-		}
-	
+		// SmartDashboard.putNumber("Spike Number", currentSpikeCounter);
+		// if (climber.getOutputVoltage() >= previousVoltage * 5) {
+		// currentSpikeCounter++; }
+	}
 
 	public void disableBrake() {
 		climber.enableBrakeMode(false);
 	}
-	public void setMaxHeightFalse(){
+
+	public void setMaxHeightFalse() {
 		isMaxHeight = false;
 		System.out.println("HAHAHAHAHAHAHAHAHA  Soup.");
 	}

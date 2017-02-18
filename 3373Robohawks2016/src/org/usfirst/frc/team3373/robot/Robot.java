@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
 		
 		ballIntake = new BallIntake(13);
 		
-		ballDisposal = new Shooter(14);
+		ballDisposal = new Shooter(16);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -295,6 +295,10 @@ shooter.clearLB();
 		ballDisposal.spinUpShooter();
 	}
 	shooter.clearX();
+	if(shooter.isBPushed()){
+		ballDisposal.disableShooter();
+	}
+	shooter.clearB();
 	
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <

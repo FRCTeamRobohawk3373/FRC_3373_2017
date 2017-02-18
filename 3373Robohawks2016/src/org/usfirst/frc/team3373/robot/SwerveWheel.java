@@ -24,8 +24,8 @@ public class SwerveWheel {
 	public SwerveWheel(int driveMotorChannel, int rotateMotorID, double p, double i, double d, double rotateAng,
 			int distanceFromZero, int encoderOffset) {
 
-		rotateMotor = new CANTalonSafetyNet(rotateMotorID);
-		driveMotor = new CANTalonSafetyNet(driveMotorChannel);
+		rotateMotor = new CANTalonSafetyNet(rotateMotorID,1);
+		driveMotor = new CANTalonSafetyNet(driveMotorChannel,1);
 		encOffset = encoderOffset;
 
 		rotateMotor.setPID(p, i, d);
@@ -179,5 +179,8 @@ public class SwerveWheel {
 
 	public double getRAngle() {
 		return rotateAngle;
+	}
+	public void setCurrentPosition(){
+		rotateMotor.set(rotateMotor.getAnalogInRaw());
 	}
 }

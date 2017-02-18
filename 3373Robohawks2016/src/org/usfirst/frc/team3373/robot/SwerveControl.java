@@ -300,17 +300,26 @@ public class SwerveControl {
 		 * RFWheel.goToAngle(); LFWheel.goToAngle(); RBWheel.goToAngle();
 		 * LBWheel.goToAngle();
 		 */
-
-		RFWheel.rotate();
-		LFWheel.rotate();
-		LBWheel.rotate();
-		RBWheel.rotate();
-
-		// Make the wheels drive at their calculated speed
-		RFWheel.driveWheel();
-		LFWheel.driveWheel();
-		RBWheel.driveWheel();
-		LBWheel.driveWheel();
+		//if (LY > .05 && LX > .05 && RX > .05) {
+			
+		
+			// Make the wheels drive at their calculated speed
+			
+		if(LY < .05 && LX < .05 && RX < .05 && LY > -.05 && LX > -.05 && RX > -.05){
+			RFWheel.setCurrentPosition();
+			LFWheel.setCurrentPosition();
+			LBWheel.setCurrentPosition();
+			RBWheel.setCurrentPosition(); 
+		}else{
+			RFWheel.rotate();
+			LFWheel.rotate();
+			LBWheel.rotate();
+			RBWheel.rotate();
+		}
+			RFWheel.driveWheel();
+			LFWheel.driveWheel();
+			RBWheel.driveWheel();
+			LBWheel.driveWheel();
 
 	}
 
@@ -383,7 +392,7 @@ public class SwerveControl {
 			if (ahrs.getAngle() < spinAngle - 50) {
 				calculateSwerveControl(0, 0, .8);
 				isToSpinAngle = false;
-			} else if (ahrs.getAngle() < spinAngle -.2) {
+			} else if (ahrs.getAngle() < spinAngle - .2) {
 				calculateSwerveControl(0, 0, .6);
 				isToSpinAngle = false;
 			} else {

@@ -7,13 +7,17 @@ import com.ctre.CANTalon.TalonControlMode;
 public class CANTalonSafetyNet {
 	boolean isFound = true;
 	CANTalon talon;
+	double maxDelta;
+	double currentSpeed;
 
-	public CANTalonSafetyNet(int port) {
+	public CANTalonSafetyNet(int port, double maxDel) {
 		try {
 			talon = new CANTalon(port);
 		} catch (Exception e) {
 			isFound = false;
 		}
+		maxDelta = maxDel;
+		currentSpeed = 0;
 	}
 
 	public int getAnalogInRaw() {
@@ -95,10 +99,32 @@ public class CANTalonSafetyNet {
 		if (isFound)
 			talon.enableLimitSwitch(forward, reverse);
 	}
+
 	public double getOutputVoltage() {
 		if (isFound)
 			return talon.getOutputVoltage();
 		else
 			return 42;
+	}
+
+	public void accelerate(double speed) {
+		if (isFound) {
+			double currentDelta = Math.abs(currentSpeed - speed);
+			if (currentDelta > maxDelta) {
+				if (speed > currentSpeed) {
+					speed = currentSpeed + maxDelta;
+				} else {
+					speed = currentSpeed - maxDelta;
+				}
+			}
+			// System.out.println("Speed:" + speed);
+			currentSpeed = speed;
+			this.set(speed);
+		}
+	}
+	public void setVoltageCompensationRampRate(double r8){ //r8 == rate
+		if(isFound){
+			talon.setVoltageCompensationRampRate(r8);
+		}
 	}
 }

@@ -5,12 +5,12 @@ import com.ctre.CANTalon;
 public class BallIntake {
 	CANTalonSafetyNet intakeMotor;
 	double currentSpeed;
-	double maxDelta;
+	double maxDelta = .025;
 
 	public BallIntake(int intakeTalonPort) {
 		currentSpeed = 0;
 		maxDelta = .025;
-		intakeMotor = new CANTalonSafetyNet(intakeTalonPort);
+		intakeMotor = new CANTalonSafetyNet(intakeTalonPort, maxDelta);
 		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	}
 
