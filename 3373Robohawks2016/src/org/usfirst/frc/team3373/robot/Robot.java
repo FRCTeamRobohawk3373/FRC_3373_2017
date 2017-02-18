@@ -276,6 +276,7 @@ shooter.clearLB();
 	if(shooter.isDPadDownPushed()){
 		ballDisposal.decreaseDistanceToTarget();
 	}
+	ballDisposal.setShooterMotor();
 	if (shooter.isYPushed()) {
 		gearControlMode += 1;
 		gearControlMode = gearControlMode % 2;
