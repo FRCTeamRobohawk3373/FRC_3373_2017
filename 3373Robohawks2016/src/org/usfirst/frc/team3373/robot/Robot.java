@@ -60,19 +60,19 @@ public class Robot extends IterativeRobot {
 	
 	int LBdriveChannel = 1;
 	int LBrotateID = 2;
-	int LBencOffset = 739;
+	int LBencOffset = 505;
 
 	int LFdriveChannel = 4;
 	int LFrotateID = 3;
-	int LFencOffset = 179;
+	int LFencOffset = 729;
 	
 	int RBdriveChannel = 8;
 	int RBrotateID = 7;
-	int RBencOffset = 492;
+	int RBencOffset = 252;
 	
 	int RFdriveChannel = 6;
 	int RFrotateID = 5;
-	int RFencOffset = 212;
+	int RFencOffset = 208;
 
 	//SuperJoystick driver;
 	//SuperJoystick shooter;
@@ -152,7 +152,10 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 	//	this.retreatFromGearPeg();
-	
+		System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
+		System.out.println("Front Right Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
+		System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
+		System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
 
 	}
 	public void teleopInit(){
@@ -196,13 +199,13 @@ public class Robot extends IterativeRobot {
 			if (!pegRetreating){
 				if(driver.getRawAxis(Rtrigger) > .1){
 					swerve.isFieldCentric = true;
-					swerve.calculateSwerveControl(driver.getRawAxis(LY), -driver.getRawAxis(LX), driver.getRawAxis(RX));
+					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}else if(driver.getRawAxis(Ltrigger) > .1){
 					swerve.isFieldCentric = false;
 					swerve.calculateObjectControl(driver.getRawAxis(RX));
 				}else{
 					swerve.isFieldCentric = false;
-					swerve.calculateSwerveControl(driver.getRawAxis(LY), -driver.getRawAxis(LX), driver.getRawAxis(RX));
+					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
 				}
 				
 				
@@ -496,6 +499,7 @@ break;
 			retreatCounter = 0;
 			gearControl.closeGearContainer();
 			gearControlMode = 0;
+			swerve.setRobotFront(3);
 		}
 	}
 	}
