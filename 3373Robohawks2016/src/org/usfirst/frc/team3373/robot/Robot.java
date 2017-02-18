@@ -163,6 +163,10 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		if(shooter.isBackPushed()){
+			climber.setMaxHeightFalse();
+		}
+		shooter.clearBack();
 		climber.climb(shooter.getRawAxis(LY));
 		climber.printCurrent();
 		climber.printVoltage();
@@ -266,7 +270,7 @@ shooter.clearLB();
 	
 	if (shooter.isYPushed()) {
 		gearControlMode += 1;
-		gearControlMode = gearControlMode % 3;
+		gearControlMode = gearControlMode % 2;
 		System.out.println("Switching gear control mode");
 		if (gearControlMode == 0) {
 			gearControl.closeGearContainer();
@@ -274,9 +278,6 @@ shooter.clearLB();
 		} else if (gearControlMode == 1) {
 			gearControl.compressGearContainer();
 			System.out.println("compressing");
-		} else {
-			gearControl.openGearContainer();
-			System.out.println("opening");
 		}
 
 	}
@@ -489,11 +490,12 @@ break;
 		if(retreatCounter > 17){ //25 = time to wait before opening door (1/2 seconds)
 		gearControl.openGearContainer();
 		gearControl.setGearDoorSpeed(.5);
-		gearControlMode = 2;
 		}
 		if(retreatCounter > 60){ //60 = target number of cycles (1/20 second each) before it ends
 			pegRetreating = false;
 			retreatCounter = 0;
+			gearControl.closeGearContainer();
+			gearControlMode = 0;
 		}
 	}
 	}
