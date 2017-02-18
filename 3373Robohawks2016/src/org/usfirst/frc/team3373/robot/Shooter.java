@@ -37,5 +37,10 @@ public void disableShooter(){
 public void spinUpShooter(){
 	shooterMotor.set(10.4);
 }
-
+public void increaseDistanceToTarget(){
+	targetVoltage += .05;
+}
+public void decreaseDistanceToTarget(){
+	targetVoltage -= .05;
+}
 }

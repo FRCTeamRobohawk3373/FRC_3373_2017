@@ -270,7 +270,12 @@ shooter.clearLB();
 		ballDisposal.determineShooterVoltage(ultraSonic.getDistance());
 	}
 	shooter.clearA();
-	
+	if(shooter.isDPadUpPushed()){
+		ballDisposal.increaseDistanceToTarget();
+	}
+	if(shooter.isDPadDownPushed()){
+		ballDisposal.decreaseDistanceToTarget();
+	}
 	if (shooter.isYPushed()) {
 		gearControlMode += 1;
 		gearControlMode = gearControlMode % 2;
@@ -286,6 +291,11 @@ shooter.clearLB();
 	}
 	shooter.clearY();
 	gearControl.setGearDoorSpeed(1);
+	if(shooter.isXPushed()){
+		ballDisposal.spinUpShooter();
+	}
+	shooter.clearX();
+	
 			/*
 			 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
 			 * -.1){ climbTalon1.set(joystick.getRawAxis(LY)); }else{
