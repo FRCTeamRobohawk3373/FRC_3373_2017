@@ -43,28 +43,28 @@ public class GearController {
 		isCompressed = false;
 		// rotateGearDoor.set(openPos);
 		target = openPos;
-		System.out.println(rotateGearDoor.getAnalogInRaw());
+		//System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void closeGearContainer() {
 		// rotateGearDoor.set(closedPos);
 		target = closedPos;
 		isCompressed = false;
-		System.out.println(rotateGearDoor.getAnalogInRaw());
+	//	System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void compressGearContainer() {
 		// rotateGearDoor.set(compressPos);
 		target = compressPos;
 		isCompressed = true;
-		System.out.println(rotateGearDoor.getAnalogInRaw());
+	//	System.out.println(rotateGearDoor.getAnalogInRaw());
 	}
 
 	public void goToCurrentTarget() {
 
 		rotateGearDoor.set(target);
-		System.out.println("actual: " + rotateGearDoor.getAnalogInRaw());
-		System.out.println("target: " + target);
+		//System.out.println("actual: " + rotateGearDoor.getAnalogInRaw());
+		//System.out.println("target: " + target);
 	}
 
 	public boolean isPegDetected() {
@@ -101,20 +101,20 @@ public class GearController {
 		gearDoorSpeedModifier = speedMod;
 		current = rotateGearDoor.getAnalogInRaw();
 		gearDoorError=Math.abs(current-target);
-		System.out.println("Target: " + target + "   Current: " + current + "  Error:" + gearDoorError);
+		//System.out.println("Target: " + target + "   Current: " + current + "  Error:" + gearDoorError);
 
 		// x/360*800 where x=degrees
 		if (gearDoorError<10) {  // stop deadband
 			gearDoorSpeed=0;
-			System.out.print("stop");
+		//	System.out.print("stop");
 		}
 		else if (gearDoorError<80) {  // low speed deadband 
 			gearDoorSpeed=0.1 * gearDoorSpeedModifier;
-			System.out.print("slow");
+		//	System.out.print("slow");
 		}
 		else { // highs speed mode
 			gearDoorSpeed=0.5 * gearDoorSpeedModifier; 
-			System.out.print("fast");
+		//	System.out.print("fast");
 		}
 
 		if (target < current) {
