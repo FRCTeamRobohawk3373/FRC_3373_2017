@@ -9,7 +9,6 @@ package org.usfirst.frc.team3373.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 //@author Kofi Asenso and Matthew Heller
-
 public class JoystickOverride extends Joystick {
 
 	private boolean flagA = true;
@@ -22,20 +21,11 @@ public class JoystickOverride extends Joystick {
 	private boolean flagBack = true;
 	private boolean flagLStick = true;
 	private boolean flagRStick = true;
-	private boolean flagDPadUp = true;
-	private boolean flagDPadDown = true;
-	private boolean flagDPadLeft = true;
-	private boolean flagDPadRight = true;
-	private boolean flagDPadUpRight = true;
-	private boolean flagDPadUpLeft = true;
-	private boolean flagDPadDownRight = true;
-	private boolean flagDPadDownLeft = true;
-	private boolean flagDPadNotPushed = true;
 
 	// private boolean usercontrol = true;
 
-	private String[] controls = { "NULL", "NULL", "NULL", "NULL", "NULL", "NULL", "NULL", "NULL", "NULL", "NULL",
-			"NULL", "NULL", "NULL", "NULL", "NULL", "NULL", "NULL" };
+	private String[] controls = { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0.0", "0.0", "0.0", "0.0", "0.0",
+			"0.0", "-1" };
 
 	JoystickOverride(int port) {
 		super(port); // also need to clear joystick class
@@ -59,40 +49,28 @@ public class JoystickOverride extends Joystick {
 		if (getRawButton(button)) {
 			return true;
 		} else {
-			if (controls[button - 1].equalsIgnoreCase("NULL")) {
+			if (controls[button - 1].equalsIgnoreCase("0")) {
 				return false;
 			} else {
-				if (controls[button - 1].equalsIgnoreCase("1")) {
-					controls[button - 1] = "NULL";
-					return true;
-				} else {
-					controls[button - 1] = "NULL";
-					return false;
-				}
+				return true;
 			}
 		}
 
 	}
 
 	public double getRawAxis(int axis) {
-		if (controls[axis + 10].equalsIgnoreCase("NULL")) {
+		if (controls[axis + 10].equalsIgnoreCase("0.0")) {
 			return super.getRawAxis(axis);
 		} else {
-			double value = Double.parseDouble(controls[axis + 10]);
-			controls[axis + 10] = "NULL";
-			return value;
-
+			return Double.parseDouble(controls[axis + 10]);
 		}
 	}
 
 	public int getPOV() {
-		if (controls[16].equalsIgnoreCase("NULL")) {
+		if (super.getPOV() > -1) {
 			return super.getPOV();
 		} else {
-			int poval = Integer.parseInt(controls[16]);
-			controls[16] = "NULL";
-			return poval;
-
+			return Integer.parseInt(controls[16]);
 		}
 	}
 
@@ -185,78 +163,7 @@ public class JoystickOverride extends Joystick {
 			return false;
 		}
 	}
-	   public boolean isDPadUpPushed(){
-	    	if(getPOV() == 0){
-	    		flagDPadUp = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadDownPushed(){
-	    	if(getPOV() == 180){
-	    		flagDPadDown = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadLeftPushed(){
-	    	if(getPOV() == 270){
-	    		flagDPadLeft = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadRightPushed(){
-	    	if(getPOV() == 90){
-	    		flagDPadUp = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadUpRightPushed(){
-	    	if(getPOV() == 45){
-	    		flagDPadUpRight = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadUpLeftPushed(){
-	    	if(getPOV() == 315){
-	    		flagDPadUpLeft = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadDownRightPushed(){
-	    	if(getPOV() == 135){
-	    		flagDPadDownRight = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadDownLeftPushed(){
-	    	if(getPOV() == 225){
-	    		flagDPadDownLeft = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
-	    public boolean isDPadNotPushed(){
-	    	if(getPOV() == -1){
-	    		flagDPadNotPushed = false;
-	    		return true;
-	    	} else {
-	    		return false;
-	    	}
-	    }
+
 	public boolean isAHeld() {
 		if (isButtonPushed(1)) {
 			return true;
@@ -336,69 +243,6 @@ public class JoystickOverride extends Joystick {
 			return false;
 		}
 	}
-    public boolean isDPadUpHeld(){
-    	if(getPOV() == 0){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadDownHeld(){
-    	if(getPOV() == 180){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadLeftHeld(){
-    	if(getPOV() == 270){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadRightHeld(){
-    	if(getPOV() == 90){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadUpRightHeld(){
-    	if(getPOV() == 45){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadUpLeftHeld(){
-    	if(getPOV() == 315){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadDownRightHeld(){
-    	if(getPOV() == 135){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadDownLeftHeld(){
-    	if(getPOV() == 225){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
-    public boolean isDPadNotHeld(){
-    	if(getPOV() == -1){
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
 
 	public void clearButtons() {
 		if (!flagA && !isButtonPushed(1)) { // toggles
@@ -493,78 +337,5 @@ public class JoystickOverride extends Joystick {
 		}
 
 	}
-    public void clearDPad(){
-   	 if(!flagDPadUp && getPOV() != 0){
-   		 flagDPadUp = true;
-   	 }
-   	 if(!flagDPadDown && getPOV() != 180){
-   		 flagDPadDown = true;
-   	 }
-   	 if(!flagDPadLeft && getPOV() != 270){
-   		 flagDPadLeft = true;
-   	 }
-   	 if(!flagDPadRight && getPOV() != 0){
-   		 flagDPadRight = true;
-   	 }
-   	 if(!flagDPadNotPushed && getPOV() != -1){
-   		 flagDPadNotPushed = true;
-   	 }
-   	 if(!flagDPadUpRight && getPOV() != 45){
-   		 flagDPadUpRight = true;
-   	 }
-   	 if(!flagDPadUpLeft && getPOV() != 315){
-   		 flagDPadUpLeft = true;
-   	 }
-   	 if(!flagDPadDownRight && getPOV() != 135){
-   		 flagDPadDownRight = true;
-   	 }
-   	 if(!flagDPadDownLeft && getPOV() != 225){
-   		 flagDPadDownLeft = true;
-   	 }
-    }
-    public void clearDPadUp(){
-   	 if(!flagDPadUp && getPOV() != 0){
-   		 flagDPadUp = true;
-   	 }
-    }
-    public void clearDPadDown(){
-   	 if(!flagDPadDown && getPOV() != 180){
-   		 flagDPadDown = true;
-   	 }
-    }
-    public void clearDPadLeft(){
-   	 if(!flagDPadLeft && getPOV() != 270){
-   		 flagDPadLeft = true;
-   	 }
-    }
-    public void clearDPadRight(){
-   	 if(!flagDPadRight && getPOV() != 0){
-   		 flagDPadRight = true;
-   	 }
-    }
-    public void clearDPadNotPushed(){
-   	 if(!flagDPadNotPushed && getPOV() != -1){
-   		 flagDPadNotPushed = true;
-   	 }
-    }
-    public void clearDPadUpRight(){
-   	 if(!flagDPadUpRight && getPOV() != 45){
-   		 flagDPadUpRight = true;
-   	 }
-    }
-    public void clearDPadUpLeft(){
-   	 if(!flagDPadUpLeft && getPOV() != 315){
-   		 flagDPadUpLeft = true;
-   	 } 
-    }
-    public void clearDPadDownRight(){
-   	 if(!flagDPadDownRight && getPOV() != 135){
-   		 flagDPadDownRight = true;
-   	 }
-    }
-    public void clearDPadDownLeft(){
-   	 if(!flagDPadDownLeft && getPOV() != 225){
-   		 flagDPadDownLeft = true;
-   	 }
-    }
+
 }
