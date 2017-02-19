@@ -8,7 +8,7 @@ LookupTable lookupTable;
 double[] calibrationVoltages;
 double[] calibrationDistances;
 double distanceToTarget;
-double targetVoltage;
+double targetVoltage = 0;
 public Shooter(int shooterPort){
 	shooterMotor = new CANTalonSafetyNet(shooterPort, .05);
 	lookupTable = new LookupTable();
@@ -29,14 +29,16 @@ public double getDistanceToTarget(){
 public double getShooterTargetVoltage(){
 	return targetVoltage;
 }
-public void setShooterMotor(double LX){
+public void setShooterMotor(){
 	shooterMotor.set(targetVoltage);
 }
 public void disableShooter(){
 	shooterMotor.set(0);
+	targetVoltage = 0;
 }
 public void spinUpShooter(){
 	shooterMotor.set(10.4);
+	targetVoltage = 10.4;
 }
 public void increaseDistanceToTarget(){
 	targetVoltage += .05;
