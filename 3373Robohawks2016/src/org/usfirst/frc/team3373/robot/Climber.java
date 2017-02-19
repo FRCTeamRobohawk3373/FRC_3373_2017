@@ -21,7 +21,7 @@ public class Climber {
 	double minSpeedHeight = 24;
 	double maxSpeed = 1;
 	double minSpeed = .4;
-	double speedMod = .6;
+	double speedMod = .8;
 	boolean toggle = true;
 	double previousCurrent;
 	double previousVoltage;
@@ -98,7 +98,7 @@ public class Climber {
 			isMaxHeight = true;
 		}
 		if (!isMaxHeight) {
-			speedMod = 1;
+			speedMod = .8;
 			System.out.println("speedMod = 1!!!");
 		}
 		SmartDashboard.putNumber("spikeCurrentCounter", spikeCurrentCounter);

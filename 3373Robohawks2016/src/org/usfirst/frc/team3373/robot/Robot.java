@@ -237,6 +237,7 @@ public class Robot extends IterativeRobot {
 				
 				if(driver.isAHeld()){
 					swerve.setRotateDistance(ultraSonic.getDistance());
+					System.out.print("        US Distance: " + ultraSonic.getDistance());
 				}
 				
 				if(shooter.isRBHeld()){

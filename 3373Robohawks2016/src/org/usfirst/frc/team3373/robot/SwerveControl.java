@@ -282,6 +282,7 @@ public class SwerveControl {
 													// store the value
 				fastestSpeed = wheel.getSpeed();
 			}
+			
 		}
 
 		if (fastestSpeed > 1) { // if the fastest speed is greater than 1(our
@@ -333,10 +334,10 @@ public class SwerveControl {
 		double distanceToFront = radius;
 		double distanceToBack = radius + robotLength;
 
-		LFWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
-		RFWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
-		LBWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
-		RBWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
+		LFWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
+		RFWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
+		LBWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
+		RBWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
 
 		LBWheel.setSpeed(RX);
 		RBWheel.setSpeed(RX);
