@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 	
 	int LBdriveChannel = 1;
 	int LBrotateID = 2;
-	int LBencOffset = 505;
+	int LBencOffset = 775;
 
 	int LFdriveChannel = 4;
 	int LFrotateID = 3;
@@ -166,6 +166,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
 		if(shooter.isBackPushed()){
 			climber.setMaxHeightFalse();
 		}
@@ -406,68 +407,162 @@ shooter.clearLB();
 				sPlayer = !JoystickPlayer.Play();
 			}
 			
-			if(driver.getRawAxis(Rtrigger) > .1){
-
-				swerve.isFieldCentric = true;
-				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-			}else if(driver.getRawAxis(Ltrigger) > .1){
-				swerve.isFieldCentric = false;
-				swerve.calculateObjectControl(driver.getRawAxis(RX));
-			}else{
-				swerve.isFieldCentric = false;
-
-				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-			} 
-			
-
-				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-			}
-			
-			if(driver.isLBHeld()){
-				swerve.sniper();
-			}else if(driver.isRBHeld()){
-				swerve.turbo();
-			}else{
-				swerve.normalSpeed();
-			}
-			
-			if(driver.getPOV() == 0){
-				swerve.setRobotFront(1);
-			}else if(driver.getPOV() == 90){
-				swerve.setRobotFront(4);
-			}else if(driver.getPOV() == 180){
-				swerve.setRobotFront(3);
-			}else if(driver.getPOV() == 270){
-				swerve.setRobotFront(2);
-			}
-
-			
-			
-
-			
-			
-
-			
-		
-			
-			
-			if (shooter.isBackPushed()) {
-				intakeControlMode += 1;
-				intakeControlMode = intakeControlMode % 2;
-				System.out.println("Switching intake mode");
-				if (intakeControlMode == 0) {
-					ballIntake.ballsIn();
-					System.out.println("intaking balls");
-				} else if (intakeControlMode == 1) {
-					ballIntake.ballsOut();
-					System.out.println("clearing ball intake");
-				} else {
-					ballIntake.ballsOff();
-					System.out.println("ball intake off");
-				}
-
+			if(shooter.isBackPushed()){
+				climber.setMaxHeightFalse();
 			}
 			shooter.clearBack();
+			climber.climb(shooter.getRawAxis(LY));
+			climber.printCurrent();
+			climber.printVoltage();
+			if(driver.isYPushed()){
+				swerve.setSpinAngle(180);
+				swerve.spinXdegrees();
+				driver.clearY();
+			}
+			driver.clearY();
+			/*
+			 * if (!swerve.aligned()) { swerve.swerveAlign(); System.out.println(
+			 * "Front Left: " + swerve.FLWheel.rotateMotor.getAnalogInRaw());
+			 * System.out.println("Front Right: " +
+			 * swerve.FRWheel.rotateMotor.getAnalogInRaw()); System.out.println(
+			 * "Back Left: " + swerve.BLWheel.rotateMotor.getAnalogInRaw());
+			 * System.out.println("Back Right: " +
+			 * swerve.BRWheel.rotateMotor.getAnalogInRaw()); } else if
+			 * (swerve.aligned() && !isAligned) {
+			 * swerve.FLWheel.rotateMotor.setEncPosition(0);
+			 * swerve.FRWheel.rotateMotor.setEncPosition(0);
+			 * swerve.BLWheel.rotateMotor.setEncPosition(0);
+			 * swerve.BRWheel.rotateMotor.setEncPosition(0);
+			 * 
+			 * isAligned = true; }
+			 */
+
+				if (!pegRetreating){
+					if(driver.getRawAxis(Rtrigger) > .1){
+						swerve.isFieldCentric = true;
+						swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+					}else if(driver.getRawAxis(Ltrigger) > .1){
+						swerve.isFieldCentric = false;
+						swerve.calculateObjectControl(driver.getRawAxis(RX));
+					}else{
+						swerve.isFieldCentric = false;
+						swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
+					}
+					
+					
+					if(driver.isLBHeld()){
+						swerve.sniper();
+					}else if(driver.isRBHeld()){
+						swerve.turbo();
+					}else{
+						swerve.normalSpeed();
+					}
+					
+					if(driver.getPOV() == 0){
+						swerve.setRobotFront(1);
+					}else if(driver.getPOV() == 90){
+						swerve.setRobotFront(4);
+					}else if(driver.getPOV() == 180){
+						swerve.setRobotFront(3);
+					}else if(driver.getPOV() == 270){
+						swerve.setRobotFront(2);
+					}
+					
+					
+					
+					
+					
+
+				}
+
+					
+					if(driver.isAHeld()){
+						swerve.setRotateDistance(ultraSonic.getDistance());
+						System.out.print("        US Distance: " + ultraSonic.getDistance());
+					}
+					
+					if(shooter.isRBHeld()){
+						intakeOn = true;
+						intakeCounter ++;	
+					} else{
+						intakeCounter = 0;
+					}
+					if(shooter.isLBPushed()){
+						intakeOn = false;
+					}
+					if(!intakeOn){
+						ballIntake.ballsOff();
+					}
+					else if (intakeOn){
+						if(intakeCounter>=40){
+						ballIntake.ballsOut();
+						}else{
+						ballIntake.ballsIn();
+					}
+		}
+	shooter.clearLB();
+
+		if(shooter.isStartPushed()){
+			pegRetreating = true;
+		}
+		this.retreatFromGearPeg();
+		shooter.clearStart();
+		
+		if(shooter.isAPushed()){
+			ballDisposal.determineShooterVoltage(ultraSonic.getDistance());
+		}
+		shooter.clearA();
+		if(shooter.isDPadUpPushed()){
+			ballDisposal.increaseDistanceToTarget();
+		}
+		if(shooter.isDPadDownPushed()){
+			ballDisposal.decreaseDistanceToTarget();
+		}
+		ballDisposal.setShooterMotor();
+		if (shooter.isYPushed()) {
+			gearControlMode += 1;
+			gearControlMode = gearControlMode % 2;
+			System.out.println("Switching gear control mode");
+			if (gearControlMode == 0) {
+				gearControl.closeGearContainer();
+				System.out.println("Closing");
+			} else if (gearControlMode == 1) {
+				gearControl.compressGearContainer();
+				System.out.println("compressing");
+			}
+
+		}
+		shooter.clearY();
+		gearControl.setGearDoorSpeed(1);
+		if(shooter.isXPushed()){
+			ballDisposal.spinUpShooter();
+		}
+		shooter.clearX();
+		if(shooter.isBPushed()){
+			ballDisposal.disableShooter();
+		}
+		shooter.clearB();
+		
+				/*
+				 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
+				 * -.1){ climbTalon1.set(joystick.getRawAxis(LY)); }else{
+				 * climbTalon1.set(0); }
+				 */
+				// testTalon.set(.99);
+				/*
+				 * System.out.println("Analog: " + testTalon.getAnalogInRaw());
+				 * System.out.println("Digital: " + testTalon.getEncPosition());
+				 */
+
+				/*
+				 * if (driver.isLBHeld()) { // Turbo Mode swerve.setSpeedMode(.8); }
+				 * else if (driver.isRBHeld()) { // Sniper Mode
+				 * swerve.setSpeedMode(0.20); } else { // Regular mode
+				 * swerve.setSpeedMode(0.5); }
+				 */
+				}
+		
+
 break;
 		}
 	}

@@ -99,9 +99,6 @@ public class Climber {
 		}
 		if (!isMaxHeight) {
 
-			speedMod = .8;
-			System.out.println("speedMod = 1!!!");
-
 			speedMod = .6;
 		}
 		SmartDashboard.putNumber("spikeCurrentCounter", spikeCurrentCounter);
