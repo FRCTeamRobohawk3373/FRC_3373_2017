@@ -127,4 +127,9 @@ public class CANTalonSafetyNet {
 			talon.setVoltageCompensationRampRate(r8);
 		}
 	}
+	public void setEncPosition(int position){
+		if(isFound){
+			talon.setEncPosition(position);
+		}
+	}
 }

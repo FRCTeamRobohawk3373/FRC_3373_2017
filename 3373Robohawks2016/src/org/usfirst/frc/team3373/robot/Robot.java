@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
 		
 		ballIntake = new BallIntake(13);
 		
-		ballDisposal = new Shooter(16);
+		ballDisposal = new Shooter(16, 17, 3);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -200,7 +200,7 @@ public class Robot extends IterativeRobot {
 				if(driver.getRawAxis(Rtrigger) > .1){
 					swerve.isFieldCentric = true;
 					swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-				}else if(driver.getRawAxis(Ltrigger) > .1){
+				}else  if(driver.getRawAxis(Ltrigger) > .1){
 					swerve.isFieldCentric = false;
 					swerve.calculateObjectControl(driver.getRawAxis(RX));
 				}else{
