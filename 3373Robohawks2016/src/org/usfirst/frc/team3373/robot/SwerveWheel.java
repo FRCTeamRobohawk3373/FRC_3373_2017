@@ -153,6 +153,8 @@ public class SwerveWheel {
 		rotateMotor.changeControlMode(TalonControlMode.Position);
 		int encoderTarget = angleToEncoderUnit(getDeltaTheta()) + rotateMotor.getAnalogInRaw();
 		encoderTarget = encoderCheck(encoderTarget);
+		System.out.println("Encoder Target??? : " + encoderTarget);
+		System.out.println("Current Encodet Value??? : " + rotateMotor.getAnalogInRaw());
 		rotateMotor.set(encoderTarget);
 	}
 

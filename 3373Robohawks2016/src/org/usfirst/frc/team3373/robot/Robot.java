@@ -2,6 +2,7 @@
 package org.usfirst.frc.team3373.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,8 +22,9 @@ public class Robot extends IterativeRobot {
 	final String shooterCalibration = "Calibrating Shooter";
 	final String intakeCalibration = "Calibrating Ball Intake";
 	final String hopperCalibration = "Calibrating Hopper";
-	CameraServer server;
-
+	
+	DigitalInput gearDoorLimit;
+	
 	String autoSelected;
 	
 	UltraSonic ultraSonic;
@@ -60,7 +62,7 @@ public class Robot extends IterativeRobot {
 	
 	int LBdriveChannel = 1;
 	int LBrotateID = 2;
-	int LBencOffset = 505;
+	int LBencOffset = 775;
 
 	int LFdriveChannel = 4;
 	int LFrotateID = 3;
@@ -92,6 +94,9 @@ public class Robot extends IterativeRobot {
 	
 	boolean intakeOn;
 	double intakeTarget = .5;
+	
+	int autoCounter = 0;
+	boolean autoFinished = false;
 
 
 	/**
@@ -115,6 +120,7 @@ public class Robot extends IterativeRobot {
 		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
 
 		gearControl = new GearController(12, 275, 542, 580);
+		gearDoorLimit = new DigitalInput(0);
 		
 		ballIntake = new BallIntake(13);
 		
@@ -151,12 +157,25 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+		autoCounter ++;
+		if(ultraSonic.getDistance() > 9 && !autoFinished){
+			swerve.driveStraight(.5);
+		}
+		else if(!gearDoorLimit.get() && !autoFinished){
+			swerve.driveStraight(.2);
+		}
+		else{
+			this.retreatFromGearPeg();
+			autoFinished = true;			
+		}
 	//	this.retreatFromGearPeg();
+		/*
 		System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
 		System.out.println("Front Right Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
 		System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
 		System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
-
+		*/
+		
 	}
 	public void teleopInit(){
 		
@@ -166,6 +185,9 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		
+		System.out.println("Target Angle (LB Wheel): " + swerve.LBWheel.getTargetAngle() + "           Current Angle: " + swerve.LBWheel.getCurrentAngle());
+		
 		if(shooter.isBackPushed()){
 			climber.setMaxHeightFalse();
 		}
@@ -368,7 +390,7 @@ shooter.clearLB();
 			break;
 		case normal:
 
-			 if(driver.getRawAxis(Rtrigger) > .1){
+
 			if (Robot.driver.isStartHeld()) {
 				while (Robot.driver.isStartHeld()) {
 				}
@@ -419,8 +441,6 @@ shooter.clearLB();
 			} 
 			
 
-				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-			}
 			
 			if(driver.isLBHeld()){
 				swerve.sniper();

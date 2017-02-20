@@ -305,17 +305,17 @@ public class SwerveControl {
 		
 			// Make the wheels drive at their calculated speed
 			
-		if(LY < .05 && LX < .05 && RX < .05 && LY > -.05 && LX > -.05 && RX > -.05){
+		/*if(LY < .05 && LX < .05 && RX < .05 && LY > -.05 && LX > -.05 && RX > -.05){
 			RFWheel.setCurrentPosition();
 			LFWheel.setCurrentPosition();
 			LBWheel.setCurrentPosition();
 			RBWheel.setCurrentPosition(); 
-		}else{
+		}else{*/
 			RFWheel.rotate();
 			LFWheel.rotate();
 			LBWheel.rotate();
 			RBWheel.rotate();
-		}
+	//	}
 			RFWheel.driveWheel();
 			LFWheel.driveWheel();
 			RBWheel.driveWheel();
@@ -399,6 +399,21 @@ public class SwerveControl {
 				calculateSwerveControl(0, 0, 0);
 				isToSpinAngle = true;
 			}
+		}
+	}
+	public void driveStraight(double speedMod){
+		double currentAngle = ahrs.getAngle() % 360;
+		if(currentAngle < 0){
+			currentAngle += 360;
+		}
+		if(currentAngle>.2 && currentAngle < 180){
+			calculateSwerveControl(.8*speedMod,.6*speedMod,0);
+		}
+		else if(currentAngle < 359.8 && currentAngle < 180){
+			calculateSwerveControl(.6*speedMod,.7*speedMod,0);
+		}
+		else{
+			calculateSwerveControl(.8*speedMod,.8*speedMod,0);
 		}
 	}
 
