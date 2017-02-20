@@ -31,8 +31,8 @@ public class UltraSonic {
 		lookUp = new LookupTable();
 /*		calibrationDistances = new double[]{12,18,24,30,36,42};
 		calibrationVoltages = new double[]{0.319,0.513, 0.618, 0.739, 0.889, 1.021};*/
-		calibrationDistances = new double[]{12,17,22,34.5,46,51, 71, 101};
-		calibrationVoltages = new double[]{0.28,0.40, 0.56, 0.835, 1.12, 1.24, 1.71, 2.45};
+		calibrationDistances = new double[]{12,17,22,34.5,46,51, 71, 101,125,150,175,200};
+		calibrationVoltages = new double[]{0.28,0.40, 0.56, 0.835, 1.12, 1.24, 1.71, 2.45,3.03,3.64,4.25,4.75};
 	}
 
 	public double getDistance() {
@@ -75,5 +75,8 @@ public class UltraSonic {
 			System.out.println("UltraSonic Sensor 3: " + analogSensor3.getAverageVoltage());
 
 		}
+	}
+	public double printVoltage(){
+		return analogSensor.getAverageVoltage();
 	}
 }

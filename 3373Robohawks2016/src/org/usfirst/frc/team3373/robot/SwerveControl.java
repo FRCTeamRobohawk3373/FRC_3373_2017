@@ -282,6 +282,7 @@ public class SwerveControl {
 													// store the value
 				fastestSpeed = wheel.getSpeed();
 			}
+			
 		}
 
 		if (fastestSpeed > 1) { // if the fastest speed is greater than 1(our
@@ -305,17 +306,17 @@ public class SwerveControl {
 		
 			// Make the wheels drive at their calculated speed
 			
-		if(LY < .05 && LX < .05 && RX < .05 && LY > -.05 && LX > -.05 && RX > -.05){
+		/*if(LY < .05 && LX < .05 && RX < .05 && LY > -.05 && LX > -.05 && RX > -.05){
 			RFWheel.setCurrentPosition();
 			LFWheel.setCurrentPosition();
 			LBWheel.setCurrentPosition();
 			RBWheel.setCurrentPosition(); 
-		}else{
+		}else{*/
 			RFWheel.rotate();
 			LFWheel.rotate();
 			LBWheel.rotate();
 			RBWheel.rotate();
-		}
+	//	}
 			RFWheel.driveWheel();
 			LFWheel.driveWheel();
 			RBWheel.driveWheel();
@@ -333,10 +334,10 @@ public class SwerveControl {
 		double distanceToFront = radius;
 		double distanceToBack = radius + robotLength;
 
-		LFWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
-		RFWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
-		LBWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
-		RBWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
+		LFWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
+		RFWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToFront)));
+		LBWheel.setTargetAngle(180 + Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
+		RBWheel.setTargetAngle(180 - Math.toDegrees(Math.atan2(robotWidth / 2, distanceToBack)));
 
 		LBWheel.setSpeed(RX);
 		RBWheel.setSpeed(RX);
@@ -399,6 +400,21 @@ public class SwerveControl {
 				calculateSwerveControl(0, 0, 0);
 				isToSpinAngle = true;
 			}
+		}
+	}
+	public void driveStraight(double speedMod){
+		double currentAngle = ahrs.getAngle() % 360;
+		if(currentAngle < 0){
+			currentAngle += 360;
+		}
+		if(currentAngle>.2 && currentAngle < 180){
+			calculateSwerveControl(.8*speedMod,.6*speedMod,0);
+		}
+		else if(currentAngle < 359.8 && currentAngle < 180){
+			calculateSwerveControl(.6*speedMod,.7*speedMod,0);
+		}
+		else{
+			calculateSwerveControl(.8*speedMod,.8*speedMod,0);
 		}
 	}
 
