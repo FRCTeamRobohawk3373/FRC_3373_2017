@@ -31,6 +31,7 @@ public double getShooterTargetVoltage(){
 }
 public void setShooterMotor(){
 	shooterMotor.set(targetVoltage);
+	System.out.println("Shooter Voltage: " + targetVoltage + "             Actual voltage: " + shooterMotor.get() + "             Delta Voltage: " + (targetVoltage-shooterMotor.get()));
 }
 public void disableShooter(){
 	shooterMotor.set(0);
@@ -41,9 +42,9 @@ public void spinUpShooter(){
 	targetVoltage = 10.4;
 }
 public void increaseDistanceToTarget(){
-	targetVoltage += .05;
+	targetVoltage += .025;
 }
 public void decreaseDistanceToTarget(){
-	targetVoltage -= .05;
+	targetVoltage -= .025;
 }
 }

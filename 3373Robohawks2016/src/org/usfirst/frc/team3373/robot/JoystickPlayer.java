@@ -47,8 +47,8 @@ public class JoystickPlayer {
 		try {
 			if ((driverInS = Reader.readLine()) != null) {
 				shooterInS = Reader.readLine();
-				System.out.println("0:" + driverInS);
-				System.out.println("1:" + shooterInS);
+				//System.out.println("0:" + driverInS);
+				//System.out.println("1:" + shooterInS);
 
 				driverButtons = driverInS.split(" ");
 				Robot.driver.SetButtons(driverButtons);

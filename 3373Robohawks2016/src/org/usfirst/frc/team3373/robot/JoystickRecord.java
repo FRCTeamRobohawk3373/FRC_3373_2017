@@ -52,6 +52,11 @@ public class JoystickRecord {
 
 	public static void Stop() {
 		try {
+			printline.write("0 0 0 0 0 0 0 0 0 0 0.0 0.0 0.0 0.0 0.0 0.0 -1");
+			printline.newLine();
+			printline.write("0 0 0 0 0 0 0 0 0 0 0.0 0.0 0.0 0.0 0.0 0.0 -1");
+			printline.newLine();
+			
 			printline.flush();
 			printline.close();
 			System.out.println("final file length: " + count * 2);
