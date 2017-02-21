@@ -161,7 +161,7 @@ int shooterTimer = 0;
 		
 		ballIntake = new BallIntake(13);
 		
-		ballDisposal = new Shooter(16, 17, 3, 3);
+		ballDisposal = new Shooter(16, 17, 18, 3);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -387,24 +387,22 @@ shooter.clearLB();
 			 * swerve.setSpeedMode(0.20); } else { // Regular mode
 			 * swerve.setSpeedMode(0.5); }
 			 */
-	if(!ballDisposal.isIndexerUp()){
-		indexerResetTimer ++;
-	}
+	
 	if(shooter.getRawAxis(Ltrigger)> .1){
 		shooterTimer ++;
-		if(indexerResetTimer >20){
+		if(shooterTimer < 30){
 		ballDisposal.setGoingUp();
+		indexerResetTimer = 0;
 		}
-		if (shooterTimer < 50){ 
+		else if (20 < shooterTimer && shooterTimer  < 50){ 
 		ballDisposal.setGoingDown();
+		indexerResetTimer ++;
 		}else{
-			indexerResetTimer = 0;
 			shooterTimer = 0;
 		}
 	} else {
-		shooterTimer = 0;
+		shooterTimer ++;
 		ballDisposal.setGoingDown();
-		indexerResetTimer = 0;
 	}
 	
 		ballDisposal.setIndexerSpeed(.5);

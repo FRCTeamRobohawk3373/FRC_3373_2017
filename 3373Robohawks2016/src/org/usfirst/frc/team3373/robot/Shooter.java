@@ -11,7 +11,7 @@ public class Shooter {
 CANTalonSafetyNet shooterMotor;
 CANTalonSafetyNet indexerMotor;
 LookupTable lookupTable;
-Relay rotationSpike;
+CANTalonSafetyNet rotationMotor;
 AnalogInput potentiometer;
 double[] calibrationVoltages;
 double[] calibrationDistances;
@@ -36,7 +36,7 @@ public Shooter(int shooterPort, int indexerPort, int rotationPort, int potPort){
 	
 	shooterMotor = new CANTalonSafetyNet(shooterPort, .05);
 	indexerMotor = new CANTalonSafetyNet(indexerPort, .1);
-	rotationSpike = new Relay(rotationPort);
+	rotationMotor = new CANTalonSafetyNet(rotationPort, .1);
 	currentEncPosition = 0;
 	previousPosition = 0;
 	spikeCurrentCounter = 0;
@@ -87,10 +87,12 @@ public void decreaseDistanceToTarget(){
 	targetVoltage -= .025;
 }
 public void rotateBalls(){
-	rotationSpike.set(Relay.Value.kForward);
+
+	rotationMotor.set(-.15);
+
 }
 public void stopRotatingBalls(){
-	rotationSpike.set(Relay.Value.kOff);
+	rotationMotor.set(0);
 }
 public void zeroIndexer(){
 	if(!isReset){
