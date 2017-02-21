@@ -94,25 +94,25 @@ public class Robot extends IterativeRobot {
 								//	New Values (Shouter)
 	int LBdriveChannel = 1;
 	int LBrotateID = 2;
-	int LBencOffset = 775;
+	int LBencOffset = 423;
 	int LBEncMin = 11;
 	int LBEncMax = 873;
 
 	int LFdriveChannel = 4;
 	int LFrotateID = 3;
-	int LFencOffset = 729;
+	int LFencOffset = 607;
 	int LFEncMin = 15;
 	int LFEncMax = 894;
 	
 	int RBdriveChannel = 8;
 	int RBrotateID = 7;
-	int RBencOffset = 252;
+	int RBencOffset = 475;
 	int RBEncMin = 12;
 	int RBEncMax = 897;
 	
 	int RFdriveChannel = 6;
 	int RFrotateID = 5;
-	int RFencOffset = 208;
+	int RFencOffset = 210;
 	int RFEncMin = 13;
 	int RFEncMax = 962;
 
@@ -129,6 +129,8 @@ public class Robot extends IterativeRobot {
 	int retreatCounter = 0;
 	int retreatTargetCycles = 60;
 
+	boolean pegAssaulting;	
+	
 	private boolean sRecord=false;
 	private boolean sPlayer=false;
 	
@@ -145,7 +147,7 @@ int shooterTimer = 0;
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		//CameraServer.getInstance().startAutomaticCapture(1);
+		CameraServer.getInstance().startAutomaticCapture(1);
 		CameraServer.getInstance().startAutomaticCapture(0);
 		//driver = new SuperJoystick(0);
 		//shooter = new SuperJoystick(1);
@@ -173,6 +175,8 @@ int shooterTimer = 0;
 		chooser.addObject("Hopper Calibration", hopperCalibration);
 		SmartDashboard.putData("Calibration Choices", chooser);
 		
+		pegAssaulting = false;
+		indexerResetTimer = 30;
 	}
 
 	/**
@@ -207,8 +211,7 @@ int shooterTimer = 0;
 		}*/
 		
 		//ballDisposal.calibrate(shooter.getRawAxis(LX));
-		ballDisposal.usePotInput();
-		ballDisposal.setIndexerSpeed(.5);
+		System.out.println("EFWEFWE: " + swerve.ahrs.getYaw());
 		
 		
 	//	this.retreatFromGearPeg();
@@ -331,7 +334,16 @@ shooter.clearLB();
 	}
 	this.retreatFromGearPeg();
 	shooter.clearStart();
-	
+	SmartDashboard.putBoolean("Peg Assault", pegAssaulting);
+	if(shooter.isBackPushed()){
+		if(!pegAssaulting){
+			pegAssaulting = true;
+		} else {
+			pegAssaulting = false;
+		}
+	}
+	shooter.clearBack();
+	this.assaultGearPeg();
 	if(shooter.isAPushed()){
 		ballDisposal.determineShooterVoltage(ultraSonic.getDistance());
 	}
@@ -386,11 +398,11 @@ shooter.clearLB();
 	
 	if(shooter.getRawAxis(Ltrigger)> .1){
 		shooterTimer ++;
-		if(shooterTimer < 30){
+		if(shooterTimer < 30 || indexerResetTimer > 30){
 		ballDisposal.setGoingUp();
 		indexerResetTimer = 0;
 		}
-		else if (20 < shooterTimer && shooterTimer  < 50){ 
+		else if (30 < shooterTimer && shooterTimer  < 50){ 
 		ballDisposal.setGoingDown();
 		indexerResetTimer ++;
 		}else{
@@ -398,6 +410,7 @@ shooter.clearLB();
 		}
 	} else {
 		shooterTimer ++;
+		indexerResetTimer ++;
 		ballDisposal.setGoingDown();
 	}
 	
@@ -432,10 +445,10 @@ shooter.clearLB();
 			
 			break;
 		case swerveWheelCalibration:
-	/*		System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
 			System.out.println("Front Right Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
 			System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
-			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());*/
+			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
 			
 			swerve.LBWheel.rotateMotor.changeControlMode(TalonControlMode.Disabled);
 			
@@ -774,5 +787,13 @@ break;
 		}
 	}
 	}
-	
+	public void assaultGearPeg(){
+		if(pegAssaulting){
+				if(gearControl.isPegDetected()){
+					swerve.calculateSwerveControl(0, 0, 0);
+					pegAssaulting = false;
+					pegRetreating = true;
+				}
+		}
+	}
 }

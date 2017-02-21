@@ -69,9 +69,9 @@ public class GearController {
 
 	public boolean isPegDetected() {
 		if (rotateGearDoor.isRevLimitSwitchClosed()) {
-			pegStatus = true;
-		} else {
 			pegStatus = false;
+		} else {
+			pegStatus = true;
 		}
 		return pegStatus;
 	}
