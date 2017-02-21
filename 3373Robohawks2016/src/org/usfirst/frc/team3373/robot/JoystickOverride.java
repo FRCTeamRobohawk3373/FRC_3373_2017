@@ -31,7 +31,6 @@ public class JoystickOverride extends Joystick {
 	private boolean flagDPadDownLeft = true;
 	private boolean flagDPadNotPushed = true;
 
-	// private boolean usercontrol = true;
 
 	private String[] controls = { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0.0", "0.0", "0.0", "0.0", "0.0",
 			"0.0", "-1" };
@@ -58,10 +57,10 @@ public class JoystickOverride extends Joystick {
 		if (getRawButton(button)) {
 			return true;
 		} else {
-			if (controls[button - 1].equalsIgnoreCase("0")) {
-				return false;
-			} else {
+			if (controls[button - 1].equalsIgnoreCase("1")) {
 				return true;
+			} else {
+				return false;
 			}
 		}
 
