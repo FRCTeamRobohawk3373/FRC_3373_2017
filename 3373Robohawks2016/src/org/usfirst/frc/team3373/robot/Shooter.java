@@ -3,19 +3,22 @@ package org.usfirst.frc.team3373.robot;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.*;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.Relay;
 
 public class Shooter {
 CANTalonSafetyNet shooterMotor;
 CANTalonSafetyNet indexerMotor;
-DigitalOutput rotationSpike;
 LookupTable lookupTable;
+Relay rotationSpike;
+AnalogInput potentiometer;
 double[] calibrationVoltages;
 double[] calibrationDistances;
 double distanceToTarget;
 double targetVoltage = 0;
-double current;
-double previousCurrent;
+double currentEncPosition;
+double previousPosition;
 double spikeCurrentCounter;
 boolean isReset;
 
@@ -26,16 +29,16 @@ int indexerError;
 int target;
 boolean indexerUp;
 
-int indexerUpPos;
-int indexerDownPos;
+int indexerUpPos = 2300;
+int indexerDownPos = 0;
 
-public Shooter(int shooterPort, int indexerPort, int rotationPort){
+public Shooter(int shooterPort, int indexerPort, int rotationPort, int potPort){
 	
 	shooterMotor = new CANTalonSafetyNet(shooterPort, .05);
 	indexerMotor = new CANTalonSafetyNet(indexerPort, .1);
-	rotationSpike = new DigitalOutput(rotationPort);
-	current = 0;
-	previousCurrent = 0;
+	rotationSpike = new Relay(rotationPort);
+	currentEncPosition = 0;
+	previousPosition = 0;
 	spikeCurrentCounter = 0;
 	isReset = false;
 	lookupTable = new LookupTable();
@@ -43,7 +46,9 @@ public Shooter(int shooterPort, int indexerPort, int rotationPort){
 	calibrationVoltages = new double[]{7.325,7.7,8.2,8.675,9.45,9.375,10.4,11.6};  //dependent variable
 	shooterMotor.changeControlMode(TalonControlMode.Voltage);
 	shooterMotor.setVoltageCompensationRampRate(12);
-	indexerMotor.changeControlMode(TalonControlMode.Position);
+	indexerMotor.changeControlMode(TalonControlMode.PercentVbus);
+	indexerMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+	potentiometer = new AnalogInput(potPort);
 	
 }
 public void determineShooterVoltage(double distance){
@@ -57,9 +62,15 @@ public double getDistanceToTarget(){
 public double getShooterTargetVoltage(){
 	return targetVoltage;
 }
+public boolean isShooterOn(){
+	if(targetVoltage > 5){
+		return true;
+	}else{
+		return false;
+	}
+}
 public void setShooterMotor(){
 	shooterMotor.set(targetVoltage);
-	System.out.println("Shooter Voltage: " + targetVoltage + "             Actual voltage: " + shooterMotor.get() + "             Delta Voltage: " + (targetVoltage-shooterMotor.get()));
 }
 public void disableShooter(){
 	shooterMotor.set(0);
@@ -76,15 +87,18 @@ public void decreaseDistanceToTarget(){
 	targetVoltage -= .025;
 }
 public void rotateBalls(){
-	rotationSpike.set(true);
+	rotationSpike.set(Relay.Value.kForward);
 }
 public void stopRotatingBalls(){
-	rotationSpike.set(false);
+	rotationSpike.set(Relay.Value.kOff);
 }
 public void zeroIndexer(){
-	previousCurrent = current;
-	current = indexerMotor.getOutputCurrent();
-	if (current > 30 && previousCurrent > 30) {
+	if(!isReset){
+		indexerMotor.changeControlMode(TalonControlMode.PercentVbus);
+	previousPosition = currentEncPosition;
+	System.out.println("Current position: " + indexerMotor.getEncPosition());
+	currentEncPosition = indexerMotor.getEncPosition();
+	if ((previousPosition < currentEncPosition +2) || (previousPosition > currentEncPosition-2)) {
 		spikeCurrentCounter++;
 	} else if (!isReset) {
 		spikeCurrentCounter = 0;
@@ -95,47 +109,82 @@ public void zeroIndexer(){
 	}
 	
 	if(!isReset){
-		indexerMotor.set(-.05);
+		indexerMotor.set(-.1);
 	}
 	
 	if(isReset){
-		indexerMotor.setEncPosition(0);
+		indexerMotor.setEncPosition(-40);
+		indexerUp = false;
+	}
 	}
 }
 public void indexBall(){
+	if(isReset){
+		//indexerMotor.changeControlMode(TalonControlMode.Position);
 	if(indexerUp){
-		indexerMotor.set(indexerDownPos);
+		target = indexerDownPos;
+	}else{
+		target = indexerUpPos;
 	}
-	else{
-		indexerMotor.set(indexerUpPos);
-	}
+}
 }
 
 public void setIndexerSpeed(double speedMod){
-	indexerSpeedModifier = speedMod;
-	currentPosition = indexerMotor.getAnalogInRaw();
+	if(isReset){
+		indexerSpeedModifier = speedMod;
+	
+	currentPosition = indexerMotor.getEncPosition();
 	indexerError=Math.abs(currentPosition-target);
 	//System.out.println("Target: " + target + "   Current: " + current + "  Error:" + gearDoorError);
 
 	// x/360*800 where x=degrees
-	if (indexerError<10) {  // stop deadband
+	if (indexerError<70) {  // stop deadband
 		indexerSpeed=0;
-	//	System.out.print("stop");
+		System.out.println("stop");
 	}
-	else if (indexerError<80) {  // low speed deadband 
-		indexerSpeed=0.1 * indexerSpeedModifier;
-	//	System.out.print("slow");
+	else if (indexerError<250) {  // low speed deadband 
+		indexerSpeed=0.025 * indexerSpeedModifier;
+		System.out.println("slow");
 	}
-	else { // highs speed mode
-		indexerSpeed=0.5 * indexerSpeedModifier; 
-	//	System.out.print("fast");
+	else if(indexerError < 700){ // highs speed mode
+		indexerSpeed=0.05 * indexerSpeedModifier; 
+		System.out.println("fast");
+	} else { //sanic fast mode
+		indexerSpeed = .8 *indexerSpeedModifier;
 	}
 
-	if (target < current) {
-		indexerMotor.set(indexerSpeed);
+	if (target < currentPosition) {
+		System.out.println("Setting Sopeed ( 1)"); 
+		indexerMotor.set(-indexerSpeed);
 	}
 	else {
-		indexerMotor.set(-indexerSpeed);
+		System.out.println("Sttetering Sopeed (2)");
+		indexerMotor.set(indexerSpeed);
+	}
+	System.out.println("Indexer target speed: " + indexerSpeed + "                 Indexer actual speed: " + indexerMotor.get() + "              Encoder Valu: " + indexerMotor.getEncPosition());
+}}
+public void calibrate(double LX){
+	indexerMotor.changeControlMode(TalonControlMode.PercentVbus);
+	indexerMotor.set(LX);
+	System.out.println("Indexer Encoder Position: " + indexerMotor.getEncPosition());
+}
+public void setGoingUp(){
+	target = indexerUpPos;
+	indexerUp = true;
+}
+public void setGoingDown(){
+	target = indexerDownPos;
+	indexerUp = false;
+}
+public void usePotInput(){
+	target = (int)((460) * potentiometer.getVoltage());
+}
+public boolean isIndexerUp(){
+	if(indexerUp){
+		return true;
+	}
+	else {
+		return false;
 	}
 }
 }

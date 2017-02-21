@@ -1,8 +1,11 @@
 
 package org.usfirst.frc.team3373.robot;
 
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +28,12 @@ public class Robot extends IterativeRobot {
 	
 	DigitalInput gearDoorLimit;
 	
+	int FLEncoderMin = 300;
+	int FLEncoderMax = 300;
+	
 	String autoSelected;
+	
+	CameraServer server;
 	
 	UltraSonic ultraSonic;
 	Climber climber;
@@ -57,24 +65,56 @@ public class Robot extends IterativeRobot {
 	int RX = 4;
 	int RY = 5;
 	
-	double robotWidth = 23.125;// TODO CALIBRATE check
-	double robotLength = 27.56;// TODO CALIBRATE check
+/*	double robotWidth = 23.125;// TODO CALIBRATE check
+	double robotLength = 27.56;// TODO CALIBRATE check*/
 	
+	double robotWidth = 21.125;// TODO CALIBRATE check
+	double robotLength = 33.5;// TODO CALIBRATE check
+	
+	//Old Values (Biscuit)
+/*	int LBdriveChannel = 2;
+	int LBrotateID = 3;
+	int LBencOffset = 233;
+
+	int LFdriveChannel = 0;
+	int LFrotateID = 2;
+	int LFencOffset = 128;
+	
+	int RBdriveChannel = 8;
+	int RBrotateID = 0;
+	int RBencOffset = 448;
+	
+	int RFdriveChannel = 1;
+	int RFrotateID = 1;
+	int RFencOffset = 427;
+	*/
+	
+	
+	
+								//	New Values (Shouter)
 	int LBdriveChannel = 1;
 	int LBrotateID = 2;
 	int LBencOffset = 775;
+	int LBEncMin = 11;
+	int LBEncMax = 873;
 
 	int LFdriveChannel = 4;
 	int LFrotateID = 3;
 	int LFencOffset = 729;
+	int LFEncMin = 15;
+	int LFEncMax = 894;
 	
 	int RBdriveChannel = 8;
 	int RBrotateID = 7;
 	int RBencOffset = 252;
+	int RBEncMin = 12;
+	int RBEncMax = 897;
 	
 	int RFdriveChannel = 6;
 	int RFrotateID = 5;
 	int RFencOffset = 208;
+	int RFEncMin = 13;
+	int RFEncMax = 962;
 
 	//SuperJoystick driver;
 	//SuperJoystick shooter;
@@ -97,19 +137,16 @@ public class Robot extends IterativeRobot {
 	
 	int autoCounter = 0;
 	boolean autoFinished = false;
+	int indexerResetTimer = 0;
 
-
+int shooterTimer = 0;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-
-	/*	CameraServer.getInstance().startAutomaticCapture(1);
-		CameraServer.getInstance().startAutomaticCapture(0);*/
-
 		//CameraServer.getInstance().startAutomaticCapture(1);
-		//CameraServer.getInstance().startAutomaticCapture(0);
+		CameraServer.getInstance().startAutomaticCapture(0);
 		//driver = new SuperJoystick(0);
 		//shooter = new SuperJoystick(1);
 		
@@ -117,14 +154,14 @@ public class Robot extends IterativeRobot {
 		shooter = new JoystickOverride(1);
 		climber = new Climber(15,0 ,0 ,0);
 		ultraSonic = new UltraSonic(0);
-		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LFdriveChannel, LFrotateID, LFencOffset, RBdriveChannel, RBrotateID, RBencOffset, RFdriveChannel, RFrotateID, RFencOffset, robotWidth, robotLength);
+		swerve = new SwerveControl(LBdriveChannel, LBrotateID, LBencOffset, LBEncMin, LBEncMax, LFdriveChannel, LFrotateID, LFencOffset, LFEncMin, LFEncMax, RBdriveChannel, RBrotateID, RBencOffset, RBEncMin, RBEncMax, RFdriveChannel, RFrotateID, RFencOffset, RFEncMin, RFEncMax, robotWidth, robotLength);
 
 		gearControl = new GearController(12, 275, 542, 580);
 		gearDoorLimit = new DigitalInput(0);
 		
 		ballIntake = new BallIntake(13);
 		
-		ballDisposal = new Shooter(16, 17, 3);
+		ballDisposal = new Shooter(16, 17, 3, 3);
 
 		chooser = new SendableChooser();
 		chooser.addDefault("Normal Operation", normal);
@@ -157,7 +194,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		autoCounter ++;
+/*		autoCounter ++;
 		if(ultraSonic.getDistance() > 9 && !autoFinished){
 			swerve.driveStraight(.5);
 		}
@@ -167,7 +204,13 @@ public class Robot extends IterativeRobot {
 		else{
 			this.retreatFromGearPeg();
 			autoFinished = true;			
-		}
+		}*/
+		
+		//ballDisposal.calibrate(shooter.getRawAxis(LX));
+		ballDisposal.usePotInput();
+		ballDisposal.setIndexerSpeed(.5);
+		
+		
 	//	this.retreatFromGearPeg();
 		/*
 		System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
@@ -185,9 +228,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		
-		System.out.println("Target Angle (LB Wheel): " + swerve.LBWheel.getTargetAngle() + "           Current Angle: " + swerve.LBWheel.getCurrentAngle());
-		
+		ballDisposal.zeroIndexer();
+		System.out.println("LFWheel Analog In Raw: " + swerve.LFWheel.rotateMotor.getAnalogInRaw() + "        RFWheel Analog In Raw: " + swerve.RFWheel.rotateMotor.getAnalogInRaw() + "        LBWheel Analog In Raw: " + swerve.LBWheel.rotateMotor.getAnalogInRaw() + "        RBWheel Analog In Raw: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
 
 		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
 		if(shooter.isBackPushed()){
@@ -319,10 +361,12 @@ shooter.clearLB();
 	gearControl.setGearDoorSpeed(1);
 	if(shooter.isXPushed()){
 		ballDisposal.spinUpShooter();
+		ballDisposal.rotateBalls();
 	}
 	shooter.clearX();
 	if(shooter.isBPushed()){
 		ballDisposal.disableShooter();
+		ballDisposal.stopRotatingBalls();
 	}
 	shooter.clearB();
 	
@@ -343,7 +387,36 @@ shooter.clearLB();
 			 * swerve.setSpeedMode(0.20); } else { // Regular mode
 			 * swerve.setSpeedMode(0.5); }
 			 */
-			}
+	if(!ballDisposal.isIndexerUp()){
+		indexerResetTimer ++;
+	}
+	if(shooter.getRawAxis(Ltrigger)> .1){
+		shooterTimer ++;
+		if(indexerResetTimer >20){
+		ballDisposal.setGoingUp();
+		}
+		if (shooterTimer < 50){ 
+		ballDisposal.setGoingDown();
+		}else{
+			indexerResetTimer = 0;
+			shooterTimer = 0;
+		}
+	} else {
+		shooterTimer = 0;
+		ballDisposal.setGoingDown();
+		indexerResetTimer = 0;
+	}
+	
+		ballDisposal.setIndexerSpeed(.5);
+	}
+
+		
+		
+		
+	
+	
+	
+			
 	
 
 	/**
@@ -351,6 +424,7 @@ shooter.clearLB();
 	 */
 	public void testInit() {
 		sRecord = false;
+		
 	}
 	public void testPeriodic() {
 		autoSelected = (String) chooser.getSelected();
@@ -364,13 +438,25 @@ shooter.clearLB();
 			
 			break;
 		case swerveWheelCalibration:
-			System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
+	/*		System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
 			System.out.println("Front Right Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
 			System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
-			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());*/
+			
+			swerve.LBWheel.rotateMotor.changeControlMode(TalonControlMode.Disabled);
+			
+			if(swerve.LBWheel.rotateMotor.getAnalogInRaw() < FLEncoderMin){
+				FLEncoderMin = swerve.LBWheel.rotateMotor.getAnalogInRaw();
+			}
+			if(swerve.LBWheel.rotateMotor.getAnalogInRaw() > FLEncoderMax){
+				FLEncoderMax = swerve.LBWheel.rotateMotor.getAnalogInRaw();
+			}
+			System.out.println("Encoder Min: " + FLEncoderMin);
+			System.out.println("Encoder Max: " + FLEncoderMax);
+			
 			break;
 		case shooterCalibration:
-			
+			ballDisposal.calibrate(shooter.getRawAxis(LX));
 			break;
 		case intakeCalibration:
 		

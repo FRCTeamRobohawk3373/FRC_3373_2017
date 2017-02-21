@@ -42,16 +42,16 @@ public class SwerveControl {
 
 	AHRS ahrs;
 
-	public SwerveControl(int LBdriveChannel, int LBrotateID, int LBencOffset, int LFdriveChannel, int LFrotateID,
-			int LFencOffset, int RBdriveChannel, int RBrotateID, int RBencOffset, int RFdriveChannel, int RFrotateID,
-			int RFencOffset, double width, double length) {
+	public SwerveControl(int LBdriveChannel, int LBrotateID, int LBencOffset, int LBEncMin, int LBEncMax, int LFdriveChannel, int LFrotateID,
+			int LFencOffset, int LFEncMin, int LFEncMax, int RBdriveChannel, int RBrotateID, int RBencOffset, int RBEncMin, int RBEncMax, int RFdriveChannel, int RFrotateID,
+			int RFencOffset, int RFEncMin, int RFEncMax, double width, double length) {
 		robotWidth = width;
 		robotLength = length;
 		angleToDiagonal = Math.toDegrees(Math.atan2(length, width));
-		LBWheel = new SwerveWheel(LBdriveChannel, LBrotateID, p, i, d, -(270 - angleToDiagonal), 0, LBencOffset);
-		LFWheel = new SwerveWheel(LFdriveChannel, LFrotateID, p, i, d, -(angleToDiagonal + 90), 0, LFencOffset);
-		RBWheel = new SwerveWheel(RBdriveChannel, RBrotateID, p, i, d, -(angleToDiagonal + 270), 0, RBencOffset);
-		RFWheel = new SwerveWheel(RFdriveChannel, RFrotateID, p, i, d, -(90 - angleToDiagonal), 0, RFencOffset);
+		LBWheel = new SwerveWheel(LBdriveChannel, LBrotateID, p, i, d, -(270 - angleToDiagonal), 0, LBencOffset, LBEncMin, LBEncMax);
+		LFWheel = new SwerveWheel(LFdriveChannel, LFrotateID, p, i, d, -(angleToDiagonal + 90), 0, LFencOffset, LFEncMin, LFEncMax);
+		RBWheel = new SwerveWheel(RBdriveChannel, RBrotateID, p, i, d, -(angleToDiagonal + 270), 0, RBencOffset, RBEncMin, RBEncMax);
+		RFWheel = new SwerveWheel(RFdriveChannel, RFrotateID, p, i, d, -(90 - angleToDiagonal), 0, RFencOffset, RFEncMin, RFEncMax);
 
 		wheelArray1 = new SwerveWheel[] { LFWheel, RBWheel };
 		wheelArray2 = new SwerveWheel[] { LBWheel, RFWheel };

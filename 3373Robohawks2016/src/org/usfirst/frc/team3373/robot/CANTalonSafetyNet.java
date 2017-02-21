@@ -132,4 +132,11 @@ public class CANTalonSafetyNet {
 			talon.setEncPosition(position);
 		}
 	}
+	public int getEncPosition(){
+		if(isFound){
+		return talon.getEncPosition();
+		}else{
+			return 42;
+		}
+	}
 }

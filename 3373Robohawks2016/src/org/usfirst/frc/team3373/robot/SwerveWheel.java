@@ -12,7 +12,7 @@ public class SwerveWheel {
 	CANTalonSafetyNet driveMotor;
 	private double targetAngle;
 	private double speed;
-	private static int encoderUnitsPerRotation = 855;// Maximum units, not
+	private int encoderUnitsPerRotation;// Maximum units, not
 														// actually the range of
 														// units... 855 is the
 														// range. Maybe change
@@ -20,13 +20,21 @@ public class SwerveWheel {
 	private double speedModifier = .5;
 	private int encOffset;
 	double rotateAngle;
+	
+	int rotationEncoderMin;
+	int rotationEncoderMax;
 
 	public SwerveWheel(int driveMotorChannel, int rotateMotorID, double p, double i, double d, double rotateAng,
-			int distanceFromZero, int encoderOffset) {
+			int distanceFromZero, int encoderOffset, int encoderMin, int encoderMax) {
 
 		rotateMotor = new CANTalonSafetyNet(rotateMotorID,1);
-		driveMotor = new CANTalonSafetyNet(driveMotorChannel,1);
+		driveMotor = new CANTalonSafetyNet(driveMotorChannel, 1);
 		encOffset = encoderOffset;
+		
+		rotationEncoderMin = encoderMin;
+		rotationEncoderMax = encoderMax;
+		encoderUnitsPerRotation = encoderMax - encoderMin;
+		
 
 		rotateMotor.setPID(p, i, d);
 		rotateMotor.changeControlMode(TalonControlMode.Position);
@@ -56,9 +64,10 @@ public class SwerveWheel {
 		targetEnc = targetEnc / 360;
 		targetEnc = targetEnc * encoderUnitsPerRotation;
 		targetEnc += encOffset;
-		targetEnc = targetEnc % 870;
-		if (targetEnc < 15) {
-			targetEnc = 15;
+		targetEnc = targetEnc % rotationEncoderMax;
+		if (targetEnc < rotationEncoderMin) {
+			targetEnc = rotationEncoderMin;
+			System.out.println("ASREHTDYTEZEGHFDSBAEWGSEBTSERTSETDETHBRDERBTR^^^FSBFDGBSDRS666SDFBTSRTNFSDRBTRDTBDFYTSERBYFDBRYSREER");
 		}
 		int finalityal = (int) targetEnc;
 		return finalityal;
@@ -83,7 +92,7 @@ public class SwerveWheel {
 	public int angleToEncoderUnit(double angle) {
 
 		double deltaEncoder;
-		deltaEncoder = angle * (encoderUnitsPerRotation / 360.0) + 15;
+		deltaEncoder = angle * (encoderUnitsPerRotation / 360.0) + rotationEncoderMin;
 
 		return (int) deltaEncoder;
 	}
@@ -111,7 +120,7 @@ public class SwerveWheel {
 	public double getCurrentAngle() {
 		double currentAngle = (rotateMotor.getAnalogInRaw() - encOffset);
 		if (currentAngle <= 0) {
-			currentAngle += 870;
+			currentAngle += rotationEncoderMax;
 		}
 		currentAngle = currentAngle / (encoderUnitsPerRotation / 360.0);
 		return currentAngle;
@@ -142,9 +151,11 @@ public class SwerveWheel {
 		int target = 0;
 		target = targetEncoder;
 		// target += encOffset;
-		target = target % 870;
-		if (target < 15) {
-			target = 15;
+		target += rotationEncoderMax;
+		target = target % rotationEncoderMax;
+		if (target < rotationEncoderMin) {
+			System.out.println("ASREHTDYTEZEGHFDSBAEWGSEBTSERTSETDETHBRDERBTR^^^FSBFDGBSDRS666SDFBTSRTNFSDRBTRDTBDFYTSERBYFDBRYSREER " + target);
+			target = rotationEncoderMin;
 		}
 		return target;
 	}
@@ -153,8 +164,6 @@ public class SwerveWheel {
 		rotateMotor.changeControlMode(TalonControlMode.Position);
 		int encoderTarget = angleToEncoderUnit(getDeltaTheta()) + rotateMotor.getAnalogInRaw();
 		encoderTarget = encoderCheck(encoderTarget);
-		System.out.println("Encoder Target??? : " + encoderTarget);
-		System.out.println("Current Encodet Value??? : " + rotateMotor.getAnalogInRaw());
 		rotateMotor.set(encoderTarget);
 	}
 
