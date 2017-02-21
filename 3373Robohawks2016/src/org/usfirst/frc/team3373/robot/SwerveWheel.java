@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveWheel {
 
-	CANTalonSafetyNet rotateMotor;
-	CANTalonSafetyNet driveMotor;
+	CANTalon rotateMotor;
+	CANTalon driveMotor;
 	private double targetAngle;
 	private double speed;
 	private int encoderUnitsPerRotation;// Maximum units, not
@@ -27,8 +27,8 @@ public class SwerveWheel {
 	public SwerveWheel(int driveMotorChannel, int rotateMotorID, double p, double i, double d, double rotateAng,
 			int distanceFromZero, int encoderOffset, int encoderMin, int encoderMax) {
 
-		rotateMotor = new CANTalonSafetyNet(rotateMotorID,1);
-		driveMotor = new CANTalonSafetyNet(driveMotorChannel, 1);
+		rotateMotor = new CANTalon(rotateMotorID);
+		driveMotor = new CANTalon(driveMotorChannel);
 		encOffset = encoderOffset;
 		
 		rotationEncoderMin = encoderMin;
@@ -67,7 +67,6 @@ public class SwerveWheel {
 		targetEnc = targetEnc % rotationEncoderMax;
 		if (targetEnc < rotationEncoderMin) {
 			targetEnc = rotationEncoderMin;
-			System.out.println("ASREHTDYTEZEGHFDSBAEWGSEBTSERTSETDETHBRDERBTR^^^FSBFDGBSDRS666SDFBTSRTNFSDRBTRDTBDFYTSERBYFDBRYSREER");
 		}
 		int finalityal = (int) targetEnc;
 		return finalityal;
@@ -154,7 +153,6 @@ public class SwerveWheel {
 		target += rotationEncoderMax;
 		target = target % rotationEncoderMax;
 		if (target < rotationEncoderMin) {
-			System.out.println("ASREHTDYTEZEGHFDSBAEWGSEBTSERTSETDETHBRDERBTR^^^FSBFDGBSDRS666SDFBTSRTNFSDRBTRDTBDFYTSERBYFDBRYSREER " + target);
 			target = rotationEncoderMin;
 		}
 		return target;

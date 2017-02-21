@@ -382,14 +382,12 @@ public class SwerveControl {
 	}
 
 	public void setSpinAngle(int angle) {
-		System.out.println("SETTING ANGLE");
 		spinAngle = angle + ahrs.getAngle();
 		isToSpinAngle = false;
 	}
 
 	public void spinXdegrees() {
 		while (!isToSpinAngle) {
-			System.out.println("Spinning");
 			if (ahrs.getAngle() < spinAngle - 50) {
 				calculateSwerveControl(0, 0, .8);
 				isToSpinAngle = false;

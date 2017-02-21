@@ -229,8 +229,7 @@ int shooterTimer = 0;
 	 */
 	public void teleopPeriodic() {
 		ballDisposal.zeroIndexer();
-		System.out.println("LFWheel Analog In Raw: " + swerve.LFWheel.rotateMotor.getAnalogInRaw() + "        RFWheel Analog In Raw: " + swerve.RFWheel.rotateMotor.getAnalogInRaw() + "        LBWheel Analog In Raw: " + swerve.LBWheel.rotateMotor.getAnalogInRaw() + "        RBWheel Analog In Raw: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
-
+		
 		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
 		if(shooter.isBackPushed()){
 			climber.setMaxHeightFalse();
@@ -347,13 +346,10 @@ shooter.clearLB();
 	if (shooter.isYPushed()) {
 		gearControlMode += 1;
 		gearControlMode = gearControlMode % 2;
-		System.out.println("Switching gear control mode");
 		if (gearControlMode == 0) {
 			gearControl.closeGearContainer();
-			System.out.println("Closing");
 		} else if (gearControlMode == 1) {
 			gearControl.compressGearContainer();
-			System.out.println("compressing");
 		}
 
 	}
@@ -561,16 +557,12 @@ shooter.clearLB();
 			if (shooter.isBackPushed()) {
 				intakeControlMode += 1;
 				intakeControlMode = intakeControlMode % 2;
-				System.out.println("Switching intake mode");
 				if (intakeControlMode == 0) {
 					ballIntake.ballsIn();
-					System.out.println("intaking balls");
 				} else if (intakeControlMode == 1) {
 					ballIntake.ballsOut();
-					System.out.println("clearing ball intake");
 				} else {
 					ballIntake.ballsOff();
-					System.out.println("ball intake off");
 				}
 
 
