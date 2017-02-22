@@ -128,6 +128,7 @@ public class Robot extends IterativeRobot {
 	private boolean sPlayer = false;
 
 	boolean intakeOn;
+	boolean shooterOn;
 	double intakeTarget = .5;
 
 	int autoCounter = 0;
@@ -381,12 +382,14 @@ public class Robot extends IterativeRobot {
 		 * swerve.setSpeedMode(0.20); } else { // Regular mode
 		 * swerve.setSpeedMode(0.5); }
 		 */
-		shooterTimer++;
+		
+		if(ballDisposal.shooterMotor.get() != 0){
+			shooterTimer ++;
 		if (shooter.getRawAxis(Ltrigger) > .1) {
-			if (shooterTimer < 5) {
+			if(shooterTimer < 20){
 				ballDisposal.setGoingUp();
 				ballDisposal.stopRotatingBalls();
-			} else if (5 < shooterTimer && shooterTimer < 20) {
+			} else if (21< shooterTimer && shooterTimer < 40){
 				ballDisposal.setGoingDown();
 				ballDisposal.rotateBalls();
 			} else {
@@ -396,10 +399,9 @@ public class Robot extends IterativeRobot {
 			ballDisposal.setGoingDown();
 			ballDisposal.stopRotatingBalls();
 		}
-
+		}
 		ballDisposal.setIndexerSpeed(.5);
 	}
-
 	/**
 	 * This function is called periodically during test mode
 	 */
