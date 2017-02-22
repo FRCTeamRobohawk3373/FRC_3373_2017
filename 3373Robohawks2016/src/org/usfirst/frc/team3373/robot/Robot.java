@@ -383,10 +383,10 @@ public class Robot extends IterativeRobot {
 		 */
 		shooterTimer++;
 		if (shooter.getRawAxis(Ltrigger) > .1) {
-			if (shooterTimer < 30) {
+			if (shooterTimer < 20) {
 				ballDisposal.setGoingUp();
 				ballDisposal.stopRotatingBalls();
-			} else if (30 < shooterTimer && shooterTimer < 50) {
+			} else if (20 < shooterTimer && shooterTimer < 30) {
 				ballDisposal.setGoingDown();
 				ballDisposal.rotateBalls();
 			} else {
