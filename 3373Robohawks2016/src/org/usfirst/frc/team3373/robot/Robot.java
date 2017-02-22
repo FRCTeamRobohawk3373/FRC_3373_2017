@@ -408,7 +408,7 @@ public class Robot extends IterativeRobot {
 
 		if (ballDisposal.shooterMotor.get() != 0) {
 
-			if (shooter.getRawAxis(Ltrigger) > .1) {
+			if (shooter.getRawAxis(Rtrigger) > .1) {
 				shooterTimer++;
 				if (shooterTimer < 20) {
 					ballDisposal.setGoingUp();
@@ -423,8 +423,9 @@ public class Robot extends IterativeRobot {
 			ballDisposal.setGoingDown();
 			ballDisposal.stopRotatingBalls();
 		}
-		
-	
+		}
+		if(shooter.getRawAxis(Ltrigger) > .1){
+			ballDisposal.unjam();
 		}
 		ballDisposal.setIndexerSpeed(.5);
 	}
