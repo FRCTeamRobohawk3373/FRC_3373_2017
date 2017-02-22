@@ -382,26 +382,29 @@ public class Robot extends IterativeRobot {
 		 * swerve.setSpeedMode(0.20); } else { // Regular mode
 		 * swerve.setSpeedMode(0.5); }
 		 */
-		
-		if(ballDisposal.shooterMotor.get() != 0){
-			shooterTimer ++;
-		if (shooter.getRawAxis(Ltrigger) > .1) {
-			if(shooterTimer < 20){
-				ballDisposal.setGoingUp();
-				ballDisposal.stopRotatingBalls();
-			} else if (21< shooterTimer && shooterTimer < 40){
-				ballDisposal.setGoingDown();
-				ballDisposal.rotateBalls();
+
+		if (ballDisposal.shooterMotor.get() != 0) {
+
+			if (shooter.getRawAxis(Ltrigger) > .1) {
+				shooterTimer++;
 			} else {
-				shooterTimer = 0;
-			}
-		} else {
 			ballDisposal.setGoingDown();
 			ballDisposal.stopRotatingBalls();
+		}
+		
+		if (shooterTimer < 20) {
+			ballDisposal.setGoingUp();
+			ballDisposal.stopRotatingBalls();
+		} else if (21 < shooterTimer && shooterTimer < 40) {
+			ballDisposal.setGoingDown();
+			ballDisposal.rotateBalls();
+		} else {
+			shooterTimer = 0;
 		}
 		}
 		ballDisposal.setIndexerSpeed(.5);
 	}
+
 	/**
 	 * This function is called periodically during test mode
 	 */
