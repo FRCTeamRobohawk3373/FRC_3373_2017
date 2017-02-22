@@ -411,7 +411,7 @@ public class SwerveControl {
 			calculateSwerveControl(.8*speedMod,0,-.1);
 			System.out.println("Correcting 1");
 		}
-		else if(currentAngle < 359.8 && currentAngle < 180){
+		else if(currentAngle < 359.8 && currentAngle > 180){
 			calculateSwerveControl(.8*speedMod,0,.1);
 			System.out.println("Correcting 2");
 		}

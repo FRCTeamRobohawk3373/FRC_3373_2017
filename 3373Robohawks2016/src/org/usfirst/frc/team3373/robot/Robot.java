@@ -208,9 +208,9 @@ public class Robot extends IterativeRobot {
 			  swerve.driveStraight(.4);
 		  } */
 		  if(ultraSonic.getDistance() > 18 && !autoFinished){
-			  swerve.driveStraight(.4);
+			  swerve.driveStraight(.8);
 		  }else if(!gearControl.isPegDetected() && !autoFinished){
-			  swerve.driveStraight(.2);
+			  swerve.driveStraight(.3);
 		  }
 		  else if(!autoFinished && autoCounter < 150){
 			  pegRetreating = true;
