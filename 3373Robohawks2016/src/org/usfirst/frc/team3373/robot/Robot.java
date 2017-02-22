@@ -211,7 +211,7 @@ int shooterTimer = 0;
 		}*/
 		
 		//ballDisposal.calibrate(shooter.getRawAxis(LX));
-		System.out.println("EFWEFWE: " + swerve.ahrs.getYaw());
+		System.out.println("EFWEFWE: " + swerve.ahrs.getYaw() + "     "+ swerve.ahrs.getAngle());
 		
 		
 	//	this.retreatFromGearPeg();
