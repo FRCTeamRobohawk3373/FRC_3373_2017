@@ -87,7 +87,7 @@ public void decreaseDistanceToTarget(){
 	targetVoltage -= .025;
 }
 public void rotateBalls(){
-	rotationMotor.set(-.3);
+	rotationMotor.set(-.2);
 }
 public void stopRotatingBalls(){
 	rotationMotor.set(0);
@@ -98,7 +98,7 @@ public void zeroIndexer(){
 	previousPosition = currentEncPosition;
 	System.out.println("Current position: " + indexerMotor.getEncPosition());
 	currentEncPosition = indexerMotor.getEncPosition();
-	if ((previousPosition < currentEncPosition +2) || (previousPosition > currentEncPosition-2)) {
+	if ((previousPosition < currentEncPosition +1) || (previousPosition > currentEncPosition-1)) {
 		spikeCurrentCounter++;
 	} else if (!isReset) {
 		spikeCurrentCounter = 0;
@@ -138,27 +138,25 @@ public void setIndexerSpeed(double speedMod){
 	//System.out.println("Target: " + target + "   Current: " + current + "  Error:" + gearDoorError);
 
 	// x/360*800 where x=degrees
-	if (indexerError<70) {  // stop deadband
+	if (indexerError<40) {  // stop deadband
 		indexerSpeed=0;
 		System.out.println("stop");
 	}
-	else if (indexerError<250) {  // low speed deadband 
+	else if (indexerError<200) {  // low speed deadband 
 		indexerSpeed=0.025 * indexerSpeedModifier;
 		System.out.println("slow");
 	}
-	else if(indexerError < 700){ // highs speed mode
+	else if(indexerError < 400){ // highs speed mode
 		indexerSpeed=0.05 * indexerSpeedModifier; 
 		System.out.println("fast");
 	} else { //sanic fast mode
-		indexerSpeed = .8 *indexerSpeedModifier;
+		indexerSpeed = 1 *indexerSpeedModifier;
 	}
 
 	if (target < currentPosition) {
-		System.out.println("Setting Sopeed ( 1)"); 
 		indexerMotor.set(-indexerSpeed);
 	}
 	else {
-		System.out.println("Sttetering Sopeed (2)");
 		indexerMotor.set(indexerSpeed);
 	}
 	System.out.println("Indexer target speed: " + indexerSpeed + "                 Indexer actual speed: " + indexerMotor.get() + "              Encoder Valu: " + indexerMotor.getEncPosition());

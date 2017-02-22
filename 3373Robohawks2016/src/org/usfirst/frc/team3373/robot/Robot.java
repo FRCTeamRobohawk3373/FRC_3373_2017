@@ -188,22 +188,40 @@ public class Robot extends IterativeRobot {
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	public void autonomousInit() {
-
+		swerve.setRobotFront(3);
+		swerve.ahrs.reset();
+		pegRetreating = false;
+		pegAssaulting = false;
+		swerve.LFWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
+		swerve.LBWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
+		swerve.RFWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
+		swerve.RBWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
 	}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		/*
-		 * autoCounter ++; if(ultraSonic.getDistance() > 9 && !autoFinished){
-		 * swerve.driveStraight(.5); } else if(!gearDoorLimit.get() &&
-		 * !autoFinished){ swerve.driveStraight(.2); } else{
-		 * this.retreatFromGearPeg(); autoFinished = true; }
-		 */
+		
+		  autoCounter ++; 
+		 /* if(autoCounter <150){
+			  swerve.driveStraight(.4);
+		  } */
+		  if(ultraSonic.getDistance() > 18 && !autoFinished){
+			  swerve.driveStraight(.4);
+		  }else if(!gearControl.isPegDetected() && !autoFinished){
+			  swerve.driveStraight(.2);
+		  }
+		  else if(!autoFinished && autoCounter < 150){
+			  pegRetreating = true;
+		  }else if(!autoFinished){
+			  autoFinished = true;
+			  pegRetreating = false;
+		  }
+		  this.retreatFromGearPeg();
 
 		// ballDisposal.calibrate(shooter.getRawAxis(LX));
-		System.out.println("EFWEFWE: " + swerve.ahrs.getYaw() + "     " + swerve.ahrs.getAngle());
+		//System.out.println("EFWEFWE: " + swerve.ahrs.getYaw() + "     " + swerve.ahrs.getAngle());
 
 		// this.retreatFromGearPeg();
 		/*
@@ -219,7 +237,13 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-
+		swerve.setRobotFront(1);
+		pegRetreating = false;
+		pegAssaulting = false;
+		swerve.LFWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
+		swerve.LBWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
+		swerve.RFWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
+		swerve.RBWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
 	}
 
 	/**
@@ -386,13 +410,13 @@ public class Robot extends IterativeRobot {
 
 			if (shooter.getRawAxis(Ltrigger) > .1) {
 				shooterTimer++;
-				if (shooterTimer < 40) {
+				if (shooterTimer < 20) {
 					ballDisposal.setGoingUp();
 					ballDisposal.stopRotatingBalls();
 				} else {
 					ballDisposal.setGoingDown();
 					ballDisposal.rotateBalls();
-				} if (shooterTimer > 80) {
+				} if (shooterTimer > 60) {
 					shooterTimer = 0;
 				}
 			} else {
