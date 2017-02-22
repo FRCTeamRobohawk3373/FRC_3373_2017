@@ -362,10 +362,10 @@ public class SwerveControl {
 	}
 
 	public void turbo() {
-		LFWheel.setSpeedModifier(.8);
-		LBWheel.setSpeedModifier(.8);
-		RFWheel.setSpeedModifier(.8);
-		RBWheel.setSpeedModifier(.8);
+		LFWheel.setSpeedModifier(1);
+		LBWheel.setSpeedModifier(1);
+		RFWheel.setSpeedModifier(1);
+		RBWheel.setSpeedModifier(1);
 	}
 
 	public void sniper() {

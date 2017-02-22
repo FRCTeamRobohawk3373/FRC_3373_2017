@@ -107,7 +107,7 @@ public class Robot extends IterativeRobot {
 	int RFrotateID = 5;
 	int RFencOffset = 210;
 	int RFEncMin = 13;
-	int RFEncMax = 962;
+	int RFEncMax = 888;
 
 	// SuperJoystick driver;
 	// SuperJoystick shooter;
@@ -425,13 +425,13 @@ public class Robot extends IterativeRobot {
 			System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
 			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
 
-			swerve.LBWheel.rotateMotor.changeControlMode(TalonControlMode.Disabled);
+			swerve.RFWheel.rotateMotor.changeControlMode(TalonControlMode.Disabled);
 
-			if (swerve.LBWheel.rotateMotor.getAnalogInRaw() < FLEncoderMin) {
-				FLEncoderMin = swerve.LBWheel.rotateMotor.getAnalogInRaw();
+			if (swerve.RFWheel.rotateMotor.getAnalogInRaw() < FLEncoderMin) {
+				FLEncoderMin = swerve.RFWheel.rotateMotor.getAnalogInRaw();
 			}
-			if (swerve.LBWheel.rotateMotor.getAnalogInRaw() > FLEncoderMax) {
-				FLEncoderMax = swerve.LBWheel.rotateMotor.getAnalogInRaw();
+			if (swerve.RFWheel.rotateMotor.getAnalogInRaw() > FLEncoderMax) {
+				FLEncoderMax = swerve.RFWheel.rotateMotor.getAnalogInRaw();
 			}
 			System.out.println("Encoder Min: " + FLEncoderMin);
 			System.out.println("Encoder Max: " + FLEncoderMax);
