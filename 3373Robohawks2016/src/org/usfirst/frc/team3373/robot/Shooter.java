@@ -87,9 +87,7 @@ public void decreaseDistanceToTarget(){
 	targetVoltage -= .025;
 }
 public void rotateBalls(){
-
-	rotationMotor.set(-.15);
-
+	rotationMotor.set(-.3);
 }
 public void stopRotatingBalls(){
 	rotationMotor.set(0);
