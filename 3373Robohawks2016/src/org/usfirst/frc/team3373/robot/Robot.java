@@ -387,20 +387,21 @@ public class Robot extends IterativeRobot {
 
 			if (shooter.getRawAxis(Ltrigger) > .1) {
 				shooterTimer++;
+				if (shooterTimer < 40) {
+					ballDisposal.setGoingUp();
+					ballDisposal.stopRotatingBalls();
+				} else {
+					ballDisposal.setGoingDown();
+					ballDisposal.rotateBalls();
+				} if (shooterTimer > 80) {
+					shooterTimer = 0;
+				}
 			} else {
 			ballDisposal.setGoingDown();
 			ballDisposal.stopRotatingBalls();
 		}
 		
-		if (shooterTimer < 20) {
-			ballDisposal.setGoingUp();
-			ballDisposal.stopRotatingBalls();
-		} else if (21 < shooterTimer && shooterTimer < 40) {
-			ballDisposal.setGoingDown();
-			ballDisposal.rotateBalls();
-		} else {
-			shooterTimer = 0;
-		}
+	
 		}
 		ballDisposal.setIndexerSpeed(.5);
 	}
