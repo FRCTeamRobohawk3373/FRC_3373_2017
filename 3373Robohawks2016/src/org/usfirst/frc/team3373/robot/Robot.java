@@ -404,7 +404,6 @@ shooter.clearLB();
 		else if (30 < shooterTimer && shooterTimer  < 50){ 
 		ballDisposal.setGoingDown();
 		ballDisposal.rotateBalls();
-		indexerResetTimer ++;
 		}else{
 			shooterTimer = 0;
 		}
