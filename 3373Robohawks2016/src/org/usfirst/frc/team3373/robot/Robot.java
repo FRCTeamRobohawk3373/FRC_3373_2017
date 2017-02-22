@@ -395,12 +395,10 @@ shooter.clearLB();
 			 * swerve.setSpeedMode(0.20); } else { // Regular mode
 			 * swerve.setSpeedMode(0.5); }
 			 */
-	
+	shooterTimer ++;
 	if(shooter.getRawAxis(Ltrigger)> .1){
-		shooterTimer ++;
 		if(shooterTimer < 30){
 		ballDisposal.setGoingUp();
-		indexerResetTimer = 0;
 		ballDisposal.stopRotatingBalls();
 		}
 		else if (30 < shooterTimer && shooterTimer  < 50){ 
@@ -411,8 +409,6 @@ shooter.clearLB();
 			shooterTimer = 0;
 		}
 	} else {
-		shooterTimer ++;
-		indexerResetTimer ++;
 		ballDisposal.setGoingDown();
 	}
 	
