@@ -398,12 +398,14 @@ shooter.clearLB();
 	
 	if(shooter.getRawAxis(Ltrigger)> .1){
 		shooterTimer ++;
-		if(shooterTimer < 30 || indexerResetTimer > 30){
+		if(shooterTimer < 30){
 		ballDisposal.setGoingUp();
 		indexerResetTimer = 0;
+		ballDisposal.stopRotatingBalls();
 		}
 		else if (30 < shooterTimer && shooterTimer  < 50){ 
 		ballDisposal.setGoingDown();
+		ballDisposal.rotateBalls();
 		indexerResetTimer ++;
 		}else{
 			shooterTimer = 0;
