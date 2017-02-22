@@ -229,10 +229,8 @@ public class Robot extends IterativeRobot {
 		ballDisposal.zeroIndexer();
 
 		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
-		if (shooter.isBackPushed()) {
-			climber.setMaxHeightFalse();
-		}
-		shooter.clearBack();
+
+		//shooter.clearBack();
 		climber.climb(shooter.getRawAxis(LY));
 		climber.printCurrent();
 		climber.printVoltage();
@@ -323,6 +321,7 @@ public class Robot extends IterativeRobot {
 		shooter.clearStart();
 		SmartDashboard.putBoolean("Peg Assault", pegAssaulting);
 		if (shooter.isBackPushed()) {
+			climber.setMaxHeightFalse();
 			if (!pegAssaulting) {
 				pegAssaulting = true;
 			} else {
