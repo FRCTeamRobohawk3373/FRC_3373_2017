@@ -92,6 +92,9 @@ public void rotateBalls(){
 public void stopRotatingBalls(){
 	rotationMotor.set(0);
 }
+public void unjam(){
+	rotationMotor.set(.05);
+}
 public void zeroIndexer(){
 	if(!isReset){
 		indexerMotor.changeControlMode(TalonControlMode.PercentVbus);
