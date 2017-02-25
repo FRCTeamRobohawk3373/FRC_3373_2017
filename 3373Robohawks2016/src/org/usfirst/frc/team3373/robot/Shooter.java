@@ -150,7 +150,7 @@ public void setIndexerSpeed(double speedMod){
 		System.out.println("slow");
 	}
 	else if(indexerError < 400){ // highs speed mode
-		indexerSpeed=0.05 * indexerSpeedModifier; 
+		indexerSpeed=0.1 * indexerSpeedModifier; 
 		System.out.println("fast");
 	} else { //sanic fast mode
 		indexerSpeed = 1 *indexerSpeedModifier;

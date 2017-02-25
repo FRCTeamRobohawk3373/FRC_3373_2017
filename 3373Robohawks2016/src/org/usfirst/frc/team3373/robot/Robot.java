@@ -34,6 +34,11 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 
 	CameraServer server;
+	
+    DigitalInput ones; //Input for the 16-slot dial
+    DigitalInput twos;
+    DigitalInput fours;
+    DigitalInput eights;
 
 	UltraSonic ultraSonic;
 	Climber climber;
@@ -142,6 +147,11 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+    	ones = new DigitalInput(0);
+        twos = new DigitalInput(1);
+        fours = new DigitalInput(2);
+        eights = new DigitalInput(3);
+		
 		CameraServer.getInstance().startAutomaticCapture(1);
 		CameraServer.getInstance().startAutomaticCapture(0);
 		// driver = new SuperJoystick(0);
@@ -202,37 +212,82 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		
+		int index = 15;//for testing purposes
+    	if(ones.get()){
+    		index -= 1;
+    	}
+    	if(twos.get()){
+    		index -= 2;
+    	}
+    	if(fours.get()){
+    		index -= 4;
+    	}
+    	if(eights.get()){
+    		index -= 8;
+    	}
+    	
+    	switch(index){
+    	case 0: //Move forwards
+    		
+    	break;
+    	case 1: //Gear placement and retreat
+    		 if(!autoFinished){
+   			  if(gearControl.isPegDetected()){
+   				  pegRetreating = true;
+   				  autoFinished = true;
+   			  }else{
+   					  swerve.driveStraight(.6);
+   				  }
+   		  }else{
+   			  swerve.calculateSwerveControl(-.1, 0, 0);
+   		  }
+   		  
+   		  this.retreatFromGearPeg();
+        	break;
+    	case 2:
+    		
+        	break;
+    	case 3:
+    		
+        	break;
+    	case 4:
+    		
+        	break;
+    	case 5:
+    		
+        	break;
+    	case 6:
+    		
+        	break;
+    	case 7:
+    		
+        	break;
+    	case 8:
+    		
+        	break;
+    	case 9:
+    		
+        	break;
+    	case 10:
+    		
+        	break;
+    	case 11:
+    		
+        	break;
+    	case 12:
+    		
+        	break;
+    	case 13:
+    		
+        	break;
+    	case 14:
+    		
+        	break;
+    	case 15:
+    		
+        	break;
+    	}
 		  autoCounter ++; 
-		 /* if(autoCounter <150){
-			  swerve.driveStraight(.4);
-		  } */
-		  if(ultraSonic.getDistance() > 18 && !autoFinished){
-			  swerve.driveStraight(.8);
-		  }else if(!gearControl.isPegDetected() && !autoFinished){
-			  swerve.driveStraight(.3);
-		  }
-		  else if(!autoFinished && autoCounter < 150){
-			  pegRetreating = true;
-		  }else if(!autoFinished){
-			  autoFinished = true;
-			  pegRetreating = false;
-		  }
-		  this.retreatFromGearPeg();
-
-		// ballDisposal.calibrate(shooter.getRawAxis(LX));
-		//System.out.println("EFWEFWE: " + swerve.ahrs.getYaw() + "     " + swerve.ahrs.getAngle());
-
-		// this.retreatFromGearPeg();
-		/*
-		 * System.out.println("Front Left Encoder: " +
-		 * swerve.LFWheel.rotateMotor.getAnalogInRaw()); System.out.println(
-		 * "Front Right Encoder: " +
-		 * swerve.RFWheel.rotateMotor.getAnalogInRaw()); System.out.println(
-		 * "Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
-		 * System.out.println("Back Roight Encoder: " +
-		 * swerve.RBWheel.rotateMotor.getAnalogInRaw());
-		 */
 
 	}
 
@@ -250,6 +305,240 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		int index = 15;//for testing purposes
+    	if(ones.get()){
+    		index -= 1;
+    	}
+    	if(twos.get()){
+    		index -= 2;
+    	}
+    	if(fours.get()){
+    		index -= 4;
+    	}
+    	if(eights.get()){
+    		index -= 8;
+    	}
+    	
+    	switch(index){
+    	case 0: //Regular Function
+    		
+    	break;
+    	case 1: //Regular Function
+    		
+        	break;
+    	case 2: //Record Move and Shoot (Red)
+    		this.recordInput("RedMoveAndShoot.txt");
+        	break;
+    	case 3: //Record Move and Shoot (Blu)
+    		this.recordInput("BluMoveAndShoot.txt");
+        	break;
+    	case 4: //Record Move and dump hopper (Red)
+    		this.recordInput("RedMoveAndDumpHopper.txt");
+        	break;
+    	case 5: //Record Move and dump hopper (Blu)
+    		this.recordInput("BluMoveAndDumpHopper.txt");
+        	break;
+    	case 6: //Playback Move and Shoot (Red)
+    		this.playbackInput("RedMoveAndShoot.txt");
+        	break;
+    	case 7: //Playback Move and Shoot (Blu)
+    		this.playbackInput("BluMoveAndShoot.txt");
+        	break;
+    	case 8: //Playback Move and dump hopper (Red)
+    		this.playbackInput("RedMoveAndDumpHopper.txt");
+        	break;
+    	case 9: //Playback Move and dump hopper (Blu)
+    		this.playbackInput("BluMoveAndDumpHopper.txt");
+        	break;
+    	case 10: //Regular Function
+    		
+        	break;
+    	case 11: //Regular Function
+    		
+        	break;
+    	case 12: //Regular Function
+    		
+        	break;
+    	case 13: //Regular Function
+    		
+        	break;
+    	case 14: //Regular Function
+    		
+        	break;
+    	case 15: //Regular Function
+    		
+        	break;
+    	}
+    	
+    	
+    	
+    	
+    	
+		this.activateControl();
+		
+		
+		
+	}
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testInit() {
+		sRecord = false;
+
+	}
+
+	public void testPeriodic() {
+		autoSelected = (String) chooser.getSelected();
+
+		switch (autoSelected) {
+		case gearCalibration:
+			gearControl.calibrate();
+			gearControl.rotateGearDoor.set(shooter.getRawAxis(1) * .1);
+			break;
+		case climberControl:
+
+			break;
+		case swerveWheelCalibration:
+			System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Front Right Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
+
+			swerve.RFWheel.rotateMotor.changeControlMode(TalonControlMode.Disabled);
+
+			if (swerve.RFWheel.rotateMotor.getAnalogInRaw() < FLEncoderMin) {
+				FLEncoderMin = swerve.RFWheel.rotateMotor.getAnalogInRaw();
+			}
+			if (swerve.RFWheel.rotateMotor.getAnalogInRaw() > FLEncoderMax) {
+				FLEncoderMax = swerve.RFWheel.rotateMotor.getAnalogInRaw();
+			}
+			System.out.println("Encoder Min: " + FLEncoderMin);
+			System.out.println("Encoder Max: " + FLEncoderMax);
+
+			break;
+		case shooterCalibration:
+			ballDisposal.calibrate(shooter.getRawAxis(LX));
+			break;
+		case intakeCalibration:
+
+			break;
+		case hopperCalibration:
+			if (shooter.isAPushed()) {
+				intakeTarget += .05;
+			}
+			shooter.clearA();
+			if (shooter.isBPushed()) {
+				intakeTarget -= .05;
+			}
+			shooter.clearB();
+			if (shooter.isLBHeld()) {
+				ballIntake.ballsOut();
+			} else {
+				ballIntake.goToSetSpeed(intakeTarget);
+			}
+
+			break;
+		case normal:
+			this.activateControl();
+		}
+	}
+
+	// swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
+	// swerve.FLWheel.driveMotor.set(.5);
+	// swerve.FRWheel.driveMotor.set(.1);
+	// swerve.BLWheel.driveMotor.set(.1);
+
+	// swerve.BRWheel.driveMotor.set(driver.getRawAxis(LX));
+	// swerve.BRWheel.rotateMotor.set(0);
+	// System.out.println(swerve.BRWheel.driveMotor.toString());
+	/*
+	 * System.out.println("Front Right Whool Analog: " +
+	 * swerve.FRWheel.rotateMotor.getAnalogInRaw()); System.out.println(
+	 * "Front right: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
+	 * System.out.println("Front left: " +
+	 * swerve.FLWheel.rotateMotor.getAnalogInRaw()); System.out.println(
+	 * "Back right: " + swerve.BRWheel.rotateMotor.getAnalogInRaw());
+	 * System.out.println("Back left: " +
+	 * swerve.BLWheel.rotateMotor.getAnalogInRaw());
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * /*
+	 * 
+	 */
+	public void recordInput(String fileName){
+		if (Robot.driver.isStartHeld()) {
+			while (Robot.driver.isStartHeld()) {
+			}
+			if (!sRecord) {
+				sRecord = true;
+				try {
+					JoystickRecord.RecordInit(fileName);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("started");
+			} else {
+				sRecord = false;
+				JoystickRecord.Stop();
+				System.out.println("stopped");
+			}
+		}
+		if (sRecord) {
+			JoystickRecord.record();
+		}
+	}
+	public void playbackInput(String fileName){
+		if (Robot.driver.isBackHeld()) {
+			while (Robot.driver.isBackHeld()) {
+			}
+			try {
+				JoystickPlayer.PlayerInit(fileName);
+				//JoystickPlayer.PlayerInit("JoystickRecord.txt");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sPlayer = true;
+		}
+		if (sPlayer) {
+			sPlayer = !JoystickPlayer.Play();
+		}
+	}
+	public void retreatFromGearPeg() {
+		if (pegRetreating) {
+			retreatCounter++;
+			swerve.setRobotFront(1);
+			swerve.calculateSwerveControl(0.25, 0, 0);
+			if (retreatCounter > 17) { // 25 = time to wait before opening door
+										// (1/2 seconds)
+				gearControl.openGearContainer();
+				gearControl.setGearDoorSpeed(.5);
+			}
+			if (retreatCounter > 60) { // 60 = target number of cycles (1/20
+										// second each) before it ends
+				pegRetreating = false;
+				retreatCounter = 0;
+				gearControl.closeGearContainer();
+				gearControlMode = 0;
+				swerve.setRobotFront(3);
+			}
+		}
+	}
+
+	public void assaultGearPeg() {
+		if (pegAssaulting) {
+			if (gearControl.isPegDetected()) {
+				swerve.calculateSwerveControl(0, 0, 0);
+				pegAssaulting = false;
+				pegRetreating = true;
+			}
+		}
+	}
+	public void activateControl(){
 		ballDisposal.zeroIndexer();
 
 		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
@@ -430,355 +719,5 @@ public class Robot extends IterativeRobot {
 		ballDisposal.setIndexerSpeed(.5);
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
-	public void testInit() {
-		sRecord = false;
-
 	}
 
-	public void testPeriodic() {
-		autoSelected = (String) chooser.getSelected();
-
-		switch (autoSelected) {
-		case gearCalibration:
-			gearControl.calibrate();
-			gearControl.rotateGearDoor.set(shooter.getRawAxis(1) * .1);
-			break;
-		case climberControl:
-
-			break;
-		case swerveWheelCalibration:
-			System.out.println("Front Left Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
-			System.out.println("Front Right Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
-			System.out.println("Back Left Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
-			System.out.println("Back Roight Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
-
-			swerve.RFWheel.rotateMotor.changeControlMode(TalonControlMode.Disabled);
-
-			if (swerve.RFWheel.rotateMotor.getAnalogInRaw() < FLEncoderMin) {
-				FLEncoderMin = swerve.RFWheel.rotateMotor.getAnalogInRaw();
-			}
-			if (swerve.RFWheel.rotateMotor.getAnalogInRaw() > FLEncoderMax) {
-				FLEncoderMax = swerve.RFWheel.rotateMotor.getAnalogInRaw();
-			}
-			System.out.println("Encoder Min: " + FLEncoderMin);
-			System.out.println("Encoder Max: " + FLEncoderMax);
-
-			break;
-		case shooterCalibration:
-			ballDisposal.calibrate(shooter.getRawAxis(LX));
-			break;
-		case intakeCalibration:
-
-			break;
-		case hopperCalibration:
-			if (shooter.isAPushed()) {
-				intakeTarget += .05;
-			}
-			shooter.clearA();
-			if (shooter.isBPushed()) {
-				intakeTarget -= .05;
-			}
-			shooter.clearB();
-			if (shooter.isLBHeld()) {
-				ballIntake.ballsOut();
-			} else {
-				ballIntake.goToSetSpeed(intakeTarget);
-			}
-
-			break;
-		case normal:
-
-			if (Robot.driver.isStartHeld()) {
-				while (Robot.driver.isStartHeld()) {
-				}
-				if (!sRecord) {
-					sRecord = true;
-					try {
-						JoystickRecord.RecordInit("JoystickRecord.txt");
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					System.out.println("started");
-				} else {
-					sRecord = false;
-					JoystickRecord.Stop();
-					System.out.println("stopped");
-				}
-			}
-			if (sRecord) {
-				JoystickRecord.record();
-			}
-			if (Robot.driver.isBackHeld()) {
-				while (Robot.driver.isBackHeld()) {
-				}
-				try {
-					JoystickPlayer.PlayerInit("JoystickRecord.txt");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				sPlayer = true;
-			}
-			if (sPlayer) {
-				sPlayer = !JoystickPlayer.Play();
-			}
-
-			if (driver.getRawAxis(Rtrigger) > .1) {
-
-				swerve.isFieldCentric = true;
-				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-			} else if (driver.getRawAxis(Ltrigger) > .1) {
-				swerve.isFieldCentric = false;
-				swerve.calculateObjectControl(driver.getRawAxis(RX));
-			} else {
-				swerve.isFieldCentric = false;
-
-				swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX), driver.getRawAxis(RX));
-			}
-
-			if (driver.isLBHeld()) {
-				swerve.sniper();
-			} else if (driver.isRBHeld()) {
-				swerve.turbo();
-			} else {
-				swerve.normalSpeed();
-			}
-
-			if (driver.getPOV() == 0) {
-				swerve.setRobotFront(1);
-			} else if (driver.getPOV() == 90) {
-				swerve.setRobotFront(4);
-			} else if (driver.getPOV() == 180) {
-				swerve.setRobotFront(3);
-			} else if (driver.getPOV() == 270) {
-				swerve.setRobotFront(2);
-			}
-
-			if (shooter.isBackPushed()) {
-				intakeControlMode += 1;
-				intakeControlMode = intakeControlMode % 2;
-				if (intakeControlMode == 0) {
-					ballIntake.ballsIn();
-				} else if (intakeControlMode == 1) {
-					ballIntake.ballsOut();
-				} else {
-					ballIntake.ballsOff();
-				}
-
-				if (shooter.isBackPushed()) {
-					climber.setMaxHeightFalse();
-
-				}
-				shooter.clearBack();
-				climber.climb(shooter.getRawAxis(LY));
-				climber.printCurrent();
-				climber.printVoltage();
-				if (driver.isYPushed()) {
-					swerve.setSpinAngle(180);
-					swerve.spinXdegrees();
-					driver.clearY();
-				}
-				driver.clearY();
-				/*
-				 * if (!swerve.aligned()) { swerve.swerveAlign();
-				 * System.out.println( "Front Left: " +
-				 * swerve.FLWheel.rotateMotor.getAnalogInRaw());
-				 * System.out.println("Front Right: " +
-				 * swerve.FRWheel.rotateMotor.getAnalogInRaw());
-				 * System.out.println( "Back Left: " +
-				 * swerve.BLWheel.rotateMotor.getAnalogInRaw());
-				 * System.out.println("Back Right: " +
-				 * swerve.BRWheel.rotateMotor.getAnalogInRaw()); } else if
-				 * (swerve.aligned() && !isAligned) {
-				 * swerve.FLWheel.rotateMotor.setEncPosition(0);
-				 * swerve.FRWheel.rotateMotor.setEncPosition(0);
-				 * swerve.BLWheel.rotateMotor.setEncPosition(0);
-				 * swerve.BRWheel.rotateMotor.setEncPosition(0);
-				 * 
-				 * isAligned = true; }
-				 */
-
-				if (!pegRetreating) {
-					if (driver.getRawAxis(Rtrigger) > .1) {
-						swerve.isFieldCentric = true;
-						swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX),
-								driver.getRawAxis(RX));
-					} else if (driver.getRawAxis(Ltrigger) > .1) {
-						swerve.isFieldCentric = false;
-						swerve.calculateObjectControl(driver.getRawAxis(RX));
-					} else {
-						swerve.isFieldCentric = false;
-						swerve.calculateSwerveControl(-driver.getRawAxis(LY), driver.getRawAxis(LX),
-								driver.getRawAxis(RX));
-					}
-
-					if (driver.isLBHeld()) {
-						swerve.sniper();
-					} else if (driver.isRBHeld()) {
-						swerve.turbo();
-					} else {
-						swerve.normalSpeed();
-					}
-
-					if (driver.getPOV() == 0) {
-						swerve.setRobotFront(1);
-					} else if (driver.getPOV() == 90) {
-						swerve.setRobotFront(4);
-					} else if (driver.getPOV() == 180) {
-						swerve.setRobotFront(3);
-					} else if (driver.getPOV() == 270) {
-						swerve.setRobotFront(2);
-					}
-
-				}
-
-				if (driver.isAHeld()) {
-					swerve.setRotateDistance(ultraSonic.getDistance());
-					System.out.print("        US Distance: " + ultraSonic.getDistance());
-				}
-
-				if (shooter.isRBHeld()) {
-					intakeOn = true;
-					intakeCounter++;
-				} else {
-					intakeCounter = 0;
-				}
-				if (shooter.isLBPushed()) {
-					intakeOn = false;
-				}
-				if (!intakeOn) {
-					ballIntake.ballsOff();
-				} else if (intakeOn) {
-					if (intakeCounter >= 40) {
-						ballIntake.ballsOut();
-					} else {
-						ballIntake.ballsIn();
-					}
-				}
-				shooter.clearLB();
-
-				if (shooter.isStartPushed()) {
-					pegRetreating = true;
-				}
-				this.retreatFromGearPeg();
-				shooter.clearStart();
-
-				if (shooter.isAPushed()) {
-					ballDisposal.determineShooterVoltage(ultraSonic.getDistance());
-				}
-				shooter.clearA();
-				if (shooter.isDPadUpPushed()) {
-					ballDisposal.increaseDistanceToTarget();
-				}
-				if (shooter.isDPadDownPushed()) {
-					ballDisposal.decreaseDistanceToTarget();
-				}
-				ballDisposal.setShooterMotor();
-				if (shooter.isYPushed()) {
-					gearControlMode += 1;
-					gearControlMode = gearControlMode % 2;
-					System.out.println("Switching gear control mode");
-					if (gearControlMode == 0) {
-						gearControl.closeGearContainer();
-						System.out.println("Closing");
-					} else if (gearControlMode == 1) {
-						gearControl.compressGearContainer();
-						System.out.println("compressing");
-					}
-
-				}
-				shooter.clearY();
-				gearControl.setGearDoorSpeed(1);
-				if (shooter.isXPushed()) {
-					ballDisposal.spinUpShooter();
-				}
-				shooter.clearX();
-				if (shooter.isBPushed()) {
-					ballDisposal.disableShooter();
-				}
-				shooter.clearB();
-
-				/*
-				 * if(joystick.getRawAxis(LY) > .1 || joystick.getRawAxis(LY) <
-				 * -.1){ climbTalon1.set(joystick.getRawAxis(LY)); }else{
-				 * climbTalon1.set(0); }
-				 */
-				// testTalon.set(.99);
-				/*
-				 * System.out.println("Analog: " + testTalon.getAnalogInRaw());
-				 * System.out.println("Digital: " + testTalon.getEncPosition());
-				 */
-
-				/*
-				 * if (driver.isLBHeld()) { // Turbo Mode
-				 * swerve.setSpeedMode(.8); } else if (driver.isRBHeld()) { //
-				 * Sniper Mode swerve.setSpeedMode(0.20); } else { // Regular
-				 * mode swerve.setSpeedMode(0.5); }
-				 */
-			}
-
-			break;
-		}
-	}
-
-	// swerve.BRWheel.rotateMotor.changeControlMode(TalonControlMode.PercentVbus);
-	// swerve.FLWheel.driveMotor.set(.5);
-	// swerve.FRWheel.driveMotor.set(.1);
-	// swerve.BLWheel.driveMotor.set(.1);
-
-	// swerve.BRWheel.driveMotor.set(driver.getRawAxis(LX));
-	// swerve.BRWheel.rotateMotor.set(0);
-	// System.out.println(swerve.BRWheel.driveMotor.toString());
-	/*
-	 * System.out.println("Front Right Whool Analog: " +
-	 * swerve.FRWheel.rotateMotor.getAnalogInRaw()); System.out.println(
-	 * "Front right: " + swerve.FRWheel.rotateMotor.getAnalogInRaw());
-	 * System.out.println("Front left: " +
-	 * swerve.FLWheel.rotateMotor.getAnalogInRaw()); System.out.println(
-	 * "Back right: " + swerve.BRWheel.rotateMotor.getAnalogInRaw());
-	 * System.out.println("Back left: " +
-	 * swerve.BLWheel.rotateMotor.getAnalogInRaw());
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * /*
-	 * 
-	 */
-
-	public void retreatFromGearPeg() {
-		if (pegRetreating) {
-			retreatCounter++;
-			swerve.setRobotFront(1);
-			swerve.calculateSwerveControl(0.25, 0, 0);
-			if (retreatCounter > 17) { // 25 = time to wait before opening door
-										// (1/2 seconds)
-				gearControl.openGearContainer();
-				gearControl.setGearDoorSpeed(.5);
-			}
-			if (retreatCounter > 60) { // 60 = target number of cycles (1/20
-										// second each) before it ends
-				pegRetreating = false;
-				retreatCounter = 0;
-				gearControl.closeGearContainer();
-				gearControlMode = 0;
-				swerve.setRobotFront(3);
-			}
-		}
-	}
-
-	public void assaultGearPeg() {
-		if (pegAssaulting) {
-			if (gearControl.isPegDetected()) {
-				swerve.calculateSwerveControl(0, 0, 0);
-				pegAssaulting = false;
-				pegRetreating = true;
-			}
-		}
-	}
-}
