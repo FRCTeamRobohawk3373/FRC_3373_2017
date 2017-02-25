@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveWheel {
 
-	CANTalon rotateMotor;
-	CANTalon driveMotor;
+	CANTalonSafetyNet rotateMotor;
+	CANTalonSafetyNet driveMotor;
 	private double targetAngle;
 	private double speed;
 	private int encoderUnitsPerRotation;// Maximum units, not
@@ -27,8 +27,8 @@ public class SwerveWheel {
 	public SwerveWheel(int driveMotorChannel, int rotateMotorID, double p, double i, double d, double rotateAng,
 			int distanceFromZero, int encoderOffset, int encoderMin, int encoderMax) {
 
-		rotateMotor = new CANTalon(rotateMotorID);
-		driveMotor = new CANTalon(driveMotorChannel);
+		rotateMotor = new CANTalonSafetyNet(rotateMotorID, 1);
+		driveMotor = new CANTalonSafetyNet(driveMotorChannel, 1);
 		encOffset = encoderOffset;
 		
 		rotationEncoderMin = encoderMin;

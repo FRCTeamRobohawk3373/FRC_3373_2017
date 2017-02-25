@@ -30,6 +30,8 @@ public class Robot extends IterativeRobot {
 
 	int FLEncoderMin = 300;
 	int FLEncoderMax = 300;
+	
+	boolean hasRunRecording;
 
 	String autoSelected;
 
@@ -147,6 +149,8 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		hasRunRecording = false;
+		
     	ones = new DigitalInput(0);
         twos = new DigitalInput(1);
         fours = new DigitalInput(2);
@@ -166,7 +170,6 @@ public class Robot extends IterativeRobot {
 				RBEncMax, RFdriveChannel, RFrotateID, RFencOffset, RFEncMin, RFEncMax, robotWidth, robotLength);
 
 		gearControl = new GearController(12, 275, 542, 580);
-		gearDoorLimit = new DigitalInput(0);
 
 		ballIntake = new BallIntake(13);
 
@@ -198,6 +201,8 @@ public class Robot extends IterativeRobot {
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	public void autonomousInit() {
+		sRecord = false;
+		this.resetRecordingRun();
 		swerve.setRobotFront(3);
 		swerve.ahrs.reset();
 		pegRetreating = false;
@@ -212,18 +217,21 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		int index = 15;//for testing purposes
+		int index = 1;//for testing purposes
     	if(ones.get()){
-    		index -= 1;
+    		index += 1;
     	}
     	if(twos.get()){
-    		index -= 2;
+    		index += 2;
     	}
     	if(fours.get()){
-    		index -= 4;
+    		index += 4;
     	}
     	if(eights.get()){
-    		index -= 8;
+    		index += 8;
+    	}
+    	if(index == 16){
+    		index = 0;
     	}
     	
     	switch(index){
@@ -244,17 +252,21 @@ public class Robot extends IterativeRobot {
    		  
    		  this.retreatFromGearPeg();
         	break;
-    	case 2:
-    		
+    	case 2: //playback Move and Shoot (Red)
+    		this.activateControl();
+    		this.playbackInput("RedMoveAndShoot.txt");
         	break;
-    	case 3:
-    		
+    	case 3: //playback Move and Shoot (Blu)
+    		this.activateControl();
+    		this.playbackInput("BluMoveAndShoot.txt");
         	break;
-    	case 4:
-    		
+    	case 4: //playback Move and dump hopper (Red)
+    		this.activateControl();
+    		this.playbackInput("RedMoveAndDumpHopper.txt");
         	break;
-    	case 5:
-    		
+    	case 5: //playback Move and dump hopper (Blu)
+    		this.activateControl();
+    		this.playbackInput("BluMoveAndDumpHopper.txt");
         	break;
     	case 6:
     		
@@ -287,11 +299,13 @@ public class Robot extends IterativeRobot {
     		
         	break;
     	}
-		  autoCounter ++; 
+		  autoCounter ++;
 
 	}
 
 	public void teleopInit() {
+		sRecord = false;
+		this.resetRecordingRun();
 		swerve.setRobotFront(1);
 		pegRetreating = false;
 		pegAssaulting = false;
@@ -305,18 +319,21 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		int index = 15;//for testing purposes
+		int index = 1;//for testing purposes
     	if(ones.get()){
-    		index -= 1;
+    		index += 1;
     	}
     	if(twos.get()){
-    		index -= 2;
+    		index += 2;
     	}
     	if(fours.get()){
-    		index -= 4;
+    		index += 4;
     	}
     	if(eights.get()){
-    		index -= 8;
+    		index += 8;
+    	}
+    	if(index == 16){
+    		index = 0;
     	}
     	
     	switch(index){
@@ -326,29 +343,29 @@ public class Robot extends IterativeRobot {
     	case 1: //Regular Function
     		
         	break;
-    	case 2: //Record Move and Shoot (Red)
-    		this.recordInput("RedMoveAndShoot.txt");
-        	break;
-    	case 3: //Record Move and Shoot (Blu)
-    		this.recordInput("BluMoveAndShoot.txt");
-        	break;
-    	case 4: //Record Move and dump hopper (Red)
-    		this.recordInput("RedMoveAndDumpHopper.txt");
-        	break;
-    	case 5: //Record Move and dump hopper (Blu)
-    		this.recordInput("BluMoveAndDumpHopper.txt");
-        	break;
-    	case 6: //Playback Move and Shoot (Red)
+    	case 2: //playback Move and Shoot (Red)
     		this.playbackInput("RedMoveAndShoot.txt");
         	break;
-    	case 7: //Playback Move and Shoot (Blu)
+    	case 3: //playback Move and Shoot (Blu)
     		this.playbackInput("BluMoveAndShoot.txt");
         	break;
-    	case 8: //Playback Move and dump hopper (Red)
+    	case 4: //playback Move and dump hopper (Red)
     		this.playbackInput("RedMoveAndDumpHopper.txt");
         	break;
-    	case 9: //Playback Move and dump hopper (Blu)
+    	case 5: //playback Move and dump hopper (Blu)
     		this.playbackInput("BluMoveAndDumpHopper.txt");
+        	break;
+    	case 6: //record Move and Shoot (Red)
+    		this.recordInput("RedMoveAndShoot.txt");
+        	break;
+    	case 7: //record Move and Shoot (Blu)
+    		this.recordInput("BluMoveAndShoot.txt");
+        	break;
+    	case 8: //record Move and dump hopper (Red)
+    		this.recordInput("RedMoveAndDumpHopper.txt");
+        	break;
+    	case 9: //record Move and dump hopper (Blu)
+    		this.recordInput("BluMoveAndDumpHopper.txt");
         	break;
     	case 10: //Regular Function
     		
@@ -384,7 +401,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		sRecord = false;
-
+		this.resetRecordingRun();
 	}
 
 	public void testPeriodic() {
@@ -420,7 +437,9 @@ public class Robot extends IterativeRobot {
 			ballDisposal.calibrate(shooter.getRawAxis(LX));
 			break;
 		case intakeCalibration:
-
+			
+	    	
+	    	
 			break;
 		case hopperCalibration:
 			if (shooter.isAPushed()) {
@@ -468,6 +487,9 @@ public class Robot extends IterativeRobot {
 	 * /*
 	 * 
 	 */
+	public void resetRecordingRun(){
+		hasRunRecording = false;
+	}
 	public void recordInput(String fileName){
 		if (Robot.driver.isStartHeld()) {
 			while (Robot.driver.isStartHeld()) {
@@ -489,11 +511,13 @@ public class Robot extends IterativeRobot {
 		}
 		if (sRecord) {
 			JoystickRecord.record();
+			System.out.println("RECORDING!! " + fileName);
 		}
 	}
 	public void playbackInput(String fileName){
-		if (Robot.driver.isBackHeld()) {
+		if (Robot.driver.isBackHeld() || !hasRunRecording) {
 			while (Robot.driver.isBackHeld()) {
+				System.out.println("Back Held!");
 			}
 			try {
 				JoystickPlayer.PlayerInit(fileName);
@@ -503,9 +527,11 @@ public class Robot extends IterativeRobot {
 				e.printStackTrace();
 			}
 			sPlayer = true;
+			hasRunRecording = true;
 		}
 		if (sPlayer) {
 			sPlayer = !JoystickPlayer.Play();
+			System.out.println("Playing back! " + fileName);
 		}
 	}
 	public void retreatFromGearPeg() {
