@@ -297,7 +297,6 @@ public class SwerveControl {
 			}
 		}
 
-		// Makes the wheels go to calculated target angle
 		/*
 		 * RFWheel.goToAngle(); LFWheel.goToAngle(); RBWheel.goToAngle();
 		 * LBWheel.goToAngle();
@@ -305,20 +304,20 @@ public class SwerveControl {
 		//if (LY > .05 && LX > .05 && RX > .05) {
 			
 		
-			// Make the wheels drive at their calculated speed
+
 			
-		/*if(LY < .05 && LX < .05 && RX < .05 && LY > -.05 && LX > -.05 && RX > -.05){
+		if(LY < .05 && LX < .05 && RX < .05 && LY > -.05 && LX > -.05 && RX > -.05){ //If the joystick is not pressed, keep the wheels where they are.
 			RFWheel.setCurrentPosition();
 			LFWheel.setCurrentPosition();
 			LBWheel.setCurrentPosition();
 			RBWheel.setCurrentPosition(); 
-		}else{*/
-			RFWheel.rotate();
+		}else{
+			RFWheel.rotate();		// Makes the wheels go to calculated target angle
 			LFWheel.rotate();
 			LBWheel.rotate();
 			RBWheel.rotate();
-	//	}
-			RFWheel.driveWheel();
+		}
+			RFWheel.driveWheel();			// Make the wheels drive at their calculated speed
 			LFWheel.driveWheel();
 			RBWheel.driveWheel();
 			LBWheel.driveWheel();
@@ -328,6 +327,7 @@ public class SwerveControl {
 	public void calculateObjectControl(double RX) {
 
 		radius = objectRadius;
+		System.out.println("RADIUSSSSSSSSS!!!: " + radius);
 
 		// TODO change radius to ultrasonic input in order for this to work
 		// Radius: distance to front of robot (lengthwise)
