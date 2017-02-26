@@ -38,6 +38,7 @@ public class Robot extends IterativeRobot {
 	int BREncoderMax = 300;
 	
 	boolean hasHitPeg = false;
+	boolean truePeg = false;
 	
 	boolean hasRunRecording;
 
@@ -587,9 +588,16 @@ public class Robot extends IterativeRobot {
 	public void retreatFromGearPeg() {
 		if (pegRetreating) {
 			if(!hasHitPeg){
-				swerve.calculateSwerveControl(.2, 0, 0);
+				retreatCounter++;
+				swerve.calculateSwerveControl(.35, 0, 0);
 				if(gearControl.isPegDetected()){
 					hasHitPeg = true;
+					retreatCounter = 0;
+					truePeg = true;
+				}else if(retreatCounter > 100){
+					hasHitPeg = true;
+					retreatCounter = 0;
+					truePeg = false;
 				}
 			}else{
 			retreatCounter++;
@@ -598,13 +606,16 @@ public class Robot extends IterativeRobot {
 			swerve.calculateSwerveControl(0.325, 0, 0); //was .25
 			if (retreatCounter > 17) { // 25 = time to wait before opening door
 										// (1/2 seconds)
+				if(truePeg){
 				gearControl.openGearContainer();
 				gearControl.setGearDoorSpeed(.5);
+				}
 			}
 			if (retreatCounter > 60) { // 60 = target number of cycles (1/20
 										// second each) before it ends
 				pegRetreating = false;
 				hasHitPeg = false;
+				truePeg = false;
 				retreatCounter = 0;
 				gearControl.closeGearContainer();
 				gearControlMode = 0;
