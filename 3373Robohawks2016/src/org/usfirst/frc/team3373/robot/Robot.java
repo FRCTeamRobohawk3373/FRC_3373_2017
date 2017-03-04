@@ -139,6 +139,9 @@ public class Robot extends IterativeRobot {
 	boolean pegRetreating;
 	int retreatCounter = 0;
 	int retreatTargetCycles = 60;
+	
+	int gearAlignCounter = 1000;
+	int gearAlignCycleTime = 50;
 
 	boolean pegAssaulting;
 
@@ -329,6 +332,7 @@ public class Robot extends IterativeRobot {
 		swerve.LBWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
 		swerve.RFWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
 		swerve.RBWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
+		JoystickPlayer.Stop();
 	}
 
 	/**
@@ -639,7 +643,7 @@ public class Robot extends IterativeRobot {
 		ballDisposal.zeroIndexer();
 
 		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
-
+		SmartDashboard.putNumber("Shooter Voltage", ballDisposal.targetVoltage);
 		//shooter.clearBack();
 		climber.climb(shooter.getRawAxis(LY));
 		climber.printCurrent();
@@ -695,6 +699,11 @@ public class Robot extends IterativeRobot {
 				swerve.setRobotFront(3);
 			} else if (driver.getPOV() == 270) {
 				swerve.setRobotFront(2);
+			}
+			
+			if(driver.isBHeld()){
+				gearAlignCounter = 0;
+				this.gearAlign();
 			}
 
 		}
@@ -817,6 +826,11 @@ public class Robot extends IterativeRobot {
 			ballDisposal.unjam();
 		}
 		ballDisposal.setIndexerSpeed(.5);
+	}
+	public void gearAlign(){
+		if(gearAlignCounter != 0 && gearAlignCounter < gearAlignCycleTime){
+			swerve.calculateSwerveControl(-.2, 0, 0);
+		}
 	}
 
 	}

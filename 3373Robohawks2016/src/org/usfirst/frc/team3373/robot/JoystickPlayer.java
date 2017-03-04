@@ -73,10 +73,13 @@ public class JoystickPlayer {
 		}
 		return false;
 	}
-
+	
 	public static void Stop() {
 		try {
 			count = 0;
+			String[] values = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0.0", "0.0", "0.0", "0.0", "0.0","0.0", "-1"};
+			Robot.driver.SetButtons(values);
+			Robot.shooter.SetButtons(values);
 			Reader.close();
 			fr = new FileReader("/home/lvuser/" + fname);
 			Reader = new BufferedReader(fr);
