@@ -183,7 +183,7 @@ public class Robot extends IterativeRobot {
 				LFrotateID, LFencOffset, LFEncMin, LFEncMax, RBdriveChannel, RBrotateID, RBencOffset, RBEncMin,
 				RBEncMax, RFdriveChannel, RFrotateID, RFencOffset, RFEncMin, RFEncMax, robotWidth, robotLength);
 
-		gearControl = new GearController(12, 275, 542, 580);
+		gearControl = new GearController(12, 360, 580, 615);
 
 		ballIntake = new BallIntake(13);
 
@@ -250,7 +250,7 @@ public class Robot extends IterativeRobot {
     	
     	switch(index){
     	case 0: //Move forwards
-    		
+    		swerve.driveStraight(.8);
     	break;
     	case 1: //Gear placement and retreat
     		autoCounter++;
@@ -260,7 +260,7 @@ public class Robot extends IterativeRobot {
    				  autoFinished = true;
    				  autoCounter = 0;
    			  }else{
-   					  swerve.driveStraight(.6);
+   					  swerve.driveStraight(.45);
    				  }
    		  }else{
    			  if(autoCounter < 10 && autoCounter != 0){
@@ -275,11 +275,11 @@ public class Robot extends IterativeRobot {
     		this.activateControl();
     		this.playbackInput("RedMoveAndShoot.txt");
         	break;
-    	case 3: //playback Move and Shoot (Blu)
+    	case 3: //playback Move and Shoot (Blu) -- Actually is left side gear!!
     		this.activateControl();
     		this.playbackInput("BluMoveAndShoot.txt");
         	break;
-    	case 4: //playback Move and dump hopper (Red)
+    	case 4: //playback Move and dump hopper (Red) -- Actually is shoot blue!!
     		this.activateControl();
     		this.playbackInput("RedMoveAndDumpHopper.txt");
         	break;
@@ -288,7 +288,7 @@ public class Robot extends IterativeRobot {
     		this.playbackInput("BluMoveAndDumpHopper.txt");
         	break;
     	case 6:
-    		
+
         	break;
     	case 7:
     		
@@ -644,6 +644,10 @@ public class Robot extends IterativeRobot {
 		ballDisposal.zeroIndexer();
 		System.out.println( "         ANGlE" + swerve.ahrs.getAngle());
 		System.out.println( "      Acceleration" + swerve.ahrs.getRawAccelX());
+
+
+		//SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
+	
 		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
 		SmartDashboard.putNumber("Shooter Voltage", ballDisposal.targetVoltage);
 		SmartDashboard.putBoolean("Compressed:", gearControl.isCompressed);

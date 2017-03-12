@@ -96,12 +96,13 @@ public class Climber {
 		if (spikeCurrentCounter >= 15) {
 			speedMod = 0;
 			isMaxHeight = true;
+			this.enableBrake();
 		}
 		if (!isMaxHeight) {
 
 			speedMod = 1;
 		}
-		SmartDashboard.putNumber("spikeCurrentCounter", spikeCurrentCounter);
+		//SmartDashboard.putNumber("spikeCurrentCounter", spikeCurrentCounter);
 		previousCurrent = current;
 		climber.accelerate(speed * speedMod);
 		/*
@@ -126,7 +127,7 @@ public class Climber {
 		previousCurrent = current;
 		current = climber.getOutputCurrent();
 		SmartDashboard.putNumber("Current", climber.getOutputCurrent());
-		SmartDashboard.putNumber("Spike Number", currentSpikeCounter);
+		//SmartDashboard.putNumber("Spike Number", currentSpikeCounter);
 		if (climber.getOutputCurrent() >= previousCurrent * 5) {
 			currentSpikeCounter++;
 		}
@@ -141,6 +142,10 @@ public class Climber {
 
 	public void disableBrake() {
 		climber.enableBrakeMode(false);
+	}
+	
+	public void enableBrake(){
+		climber.enableBrakeMode(true);
 	}
 
 	public void setMaxHeightFalse() {
