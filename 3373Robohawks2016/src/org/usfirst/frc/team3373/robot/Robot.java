@@ -141,7 +141,7 @@ public class Robot extends IterativeRobot {
 	int retreatTargetCycles = 60;
 	
 	int gearAlignCounter = 1000;
-	int gearAlignCycleTime = 50;
+	int gearAlignCycleTime = 20;
 
 	boolean pegAssaulting;
 
@@ -325,7 +325,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		sRecord = false;
 		this.resetRecordingRun();
-		swerve.setRobotFront(1);
+		swerve.setRobotFront(3);
 		pegRetreating = false;
 		pegAssaulting = false;
 		swerve.LFWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
@@ -342,7 +342,7 @@ public class Robot extends IterativeRobot {
 		int index = 1;//for testing purposes
     	if(ones.get()){
     		index += 1;
-    	}
+  	}
     	if(twos.get()){
     		index += 2;
     	}
@@ -608,14 +608,14 @@ public class Robot extends IterativeRobot {
 			swerve.setRobotFront(1);
 			swerve.normalSpeed();
 			swerve.calculateSwerveControl(0.325, 0, 0); //was .25
-			if (retreatCounter > 17) { // 25 = time to wait before opening door
+			if (retreatCounter > 13) { // 25 = time to wait before opening door
 										// (1/2 seconds)
 				if(truePeg){
 				gearControl.openGearContainer();
 				gearControl.setGearDoorSpeed(.5);
 				}
 			}
-			if (retreatCounter > 60) { // 60 = target number of cycles (1/20
+			if (retreatCounter > 100) { // (was) 60 = target number of cycles (1/20
 										// second each) before it ends
 				pegRetreating = false;
 				hasHitPeg = false;
@@ -640,10 +640,13 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	public void activateControl(){
+		gearAlignCounter++;
 		ballDisposal.zeroIndexer();
-
+		System.out.println( "         ANGlE" + swerve.ahrs.getAngle());
+		System.out.println( "      Acceleration" + swerve.ahrs.getRawAccelX());
 		SmartDashboard.putNumber("UltraSonic Voltage", ultraSonic.printVoltage());
 		SmartDashboard.putNumber("Shooter Voltage", ballDisposal.targetVoltage);
+		SmartDashboard.putBoolean("Compressed:", gearControl.isCompressed);
 		//shooter.clearBack();
 		climber.climb(shooter.getRawAxis(LY));
 		climber.printCurrent();
@@ -702,9 +705,9 @@ public class Robot extends IterativeRobot {
 			}
 			
 			if(driver.isBHeld()){
-				gearAlignCounter = 0;
-				this.gearAlign();
+				gearAlignCounter = 0;		
 			}
+			this.gearAlign();
 
 		}
 
@@ -808,13 +811,13 @@ public class Robot extends IterativeRobot {
 
 			if (shooter.getRawAxis(Rtrigger) > .1) {
 				shooterTimer++;
-				if (shooterTimer < 20) {
+				if (shooterTimer < 25) {
 					ballDisposal.setGoingUp();
 					ballDisposal.stopRotatingBalls();
 				} else {
 					ballDisposal.setGoingDown();
 					ballDisposal.rotateBalls();
-				} if (shooterTimer > 60) {
+				} if (shooterTimer > 65) {
 					shooterTimer = 0;
 				}
 			} else {
@@ -828,8 +831,10 @@ public class Robot extends IterativeRobot {
 		ballDisposal.setIndexerSpeed(.5);
 	}
 	public void gearAlign(){
+		System.out.println("GearAligning!!!");
 		if(gearAlignCounter != 0 && gearAlignCounter < gearAlignCycleTime){
-			swerve.calculateSwerveControl(-.2, 0, 0);
+			swerve.calculateSwerveControl(-.4, 0, 0);
+
 		}
 	}
 

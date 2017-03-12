@@ -56,7 +56,7 @@ public class SwerveControl {
 
 		wheelArray1 = new SwerveWheel[] { LFWheel, RBWheel };
 		wheelArray2 = new SwerveWheel[] { LBWheel, RFWheel };
-		ahrs = new AHRS(Port.kMXP);
+		ahrs = new AHRS(SerialPort.Port.kMXP);
 	}
 
 	public void turnToAngle(double x, double y) {
@@ -406,13 +406,13 @@ public class SwerveControl {
 		if(currentAngle < 0){
 			currentAngle += 360;
 		}
-		System.out.println(currentAngle);
+		System.out.println(" CUUREEEENNNTT ANNNGLGGLLEEE"+ currentAngle + " " + ahrs.getAngle());
 		if(currentAngle>1 && currentAngle < 180){
-			calculateSwerveControl(.8*speedMod,0,-.05);
+			calculateSwerveControl(.8*speedMod,0,-.1);
 			System.out.println("Correcting 1");
 		}
 		else if(currentAngle < 359 && currentAngle > 180){
-			calculateSwerveControl(.8*speedMod,0,.05);
+			calculateSwerveControl(.8*speedMod,0,.1);
 			System.out.println("Correcting 2");
 		}
 		else{

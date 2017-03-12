@@ -88,7 +88,7 @@ public class Climber {
 		 * minSpeedHeight) * ultraSonic.getDistance()) + maxSpeed;
 		 */
 		double current = climber.getOutputCurrent();
-		if (current > 30 && previousCurrent > 30) {
+		if (current > 40 && previousCurrent > 40) {
 			spikeCurrentCounter++;
 		} else if (!isMaxHeight) {
 			spikeCurrentCounter = 0;
@@ -99,7 +99,7 @@ public class Climber {
 		}
 		if (!isMaxHeight) {
 
-			speedMod = .8;
+			speedMod = 1;
 		}
 		SmartDashboard.putNumber("spikeCurrentCounter", spikeCurrentCounter);
 		previousCurrent = current;
@@ -145,7 +145,7 @@ public class Climber {
 
 	public void setMaxHeightFalse() {
 		isMaxHeight = false;
-		System.out.println("HAHAHAHAHAHAHAHAHA  Soup.");
+		//System.out.println("HAHAHAHAHAHAHAHAHA  Soup.");
 	}
 }
 
