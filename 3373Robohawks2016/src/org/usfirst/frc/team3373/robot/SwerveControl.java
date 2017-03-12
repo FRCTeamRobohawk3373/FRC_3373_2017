@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveControl {
 	// pushing
-
+	double currentAngle =0;
+	double angleError = 0;
 	double p = 10; // 100 is very close
 	double i = 0;
 	double d = 100;
@@ -104,10 +105,10 @@ public class SwerveControl {
 	}
 
 	public void calculateSwerveControl(double LY, double LX, double RX) {
-		SmartDashboard.putNumber("LY", LY);
+		/*SmartDashboard.putNumber("LY", LY);
 		SmartDashboard.putNumber("LX", LX);
 		SmartDashboard.putNumber("RX", RX);
-		SmartDashboard.putNumber("Encoder", LFWheel.rotateMotor.getAnalogInRaw());
+		SmartDashboard.putNumber("Encoder", LFWheel.rotateMotor.getAnalogInRaw()); */
 
 		double translationalXComponent = LX;
 		double translationalYComponent = LY;
@@ -402,21 +403,20 @@ public class SwerveControl {
 		}
 	}
 	public void driveStraight(double speedMod){
-		double currentAngle = ahrs.getAngle() % 360;
-		if(currentAngle < 0){
-			currentAngle += 360;
-		}
-		System.out.println(currentAngle);
-		if(currentAngle>1 && currentAngle < 180){
-			calculateSwerveControl(.8*speedMod,0,-.05);
-			System.out.println("Correcting 1");
-		}
-		else if(currentAngle < 359 && currentAngle > 180){
-			calculateSwerveControl(.8*speedMod,0,.05);
-			System.out.println("Correcting 2");
+		 currentAngle = ahrs.getAngle() +180;
+		/*double currentPitch = ahrs.getPitch() % 360;
+		if(currentPitch < 0){
+			currentPitch += 360;
+		}*/
+		 currentAngle = currentAngle % 360;
+		angleError = 180-currentAngle;
+		System.out.println("Current Angle:" + currentAngle);
+		if(Math.abs(angleError) > 2){
+			calculateSwerveControl(speedMod,0,0.05*angleError);
+			System.out.println("Correcting >");
 		}
 		else{
-			calculateSwerveControl(.8*speedMod,0,0);
+			calculateSwerveControl(speedMod,0,0);
 			System.out.println("Straight");
 		}
 	}
