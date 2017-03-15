@@ -657,7 +657,7 @@ public class Robot extends IterativeRobot {
 		if(shooter.isRStickHeld()){
 			climber.climb(shooter.getRawAxis(LY));
 		}else{
-		climber.climb(Math.abs(shooter.getRawAxis(LY)));
+		climber.climb(-Math.abs(shooter.getRawAxis(LY)));
 		}
 		climber.printCurrent();
 		climber.printVoltage();
