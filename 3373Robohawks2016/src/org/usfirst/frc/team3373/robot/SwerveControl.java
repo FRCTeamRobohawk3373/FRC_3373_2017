@@ -389,7 +389,7 @@ public class SwerveControl {
 	}
 
 	public void spinXdegrees() {
-		while (!isToSpinAngle) {
+		if (!isToSpinAngle) {
 			if (ahrs.getAngle() < spinAngle - 50) {
 				calculateSwerveControl(0, 0, .8);
 				isToSpinAngle = false;

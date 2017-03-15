@@ -142,6 +142,8 @@ public class Robot extends IterativeRobot {
 	
 	int gearAlignCounter = 1000;
 	int gearAlignCycleTime = 20;
+	
+	int RotateXTimer = 10000;
 
 	boolean pegAssaulting;
 
@@ -652,15 +654,31 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Shooter Voltage", ballDisposal.targetVoltage);
 		SmartDashboard.putBoolean("Compressed:", gearControl.isCompressed);
 		//shooter.clearBack();
-		climber.climb(shooter.getRawAxis(LY));
+		if(shooter.isRStickHeld()){
+			climber.climb(shooter.getRawAxis(LY));
+		}else{
+		climber.climb(Math.abs(shooter.getRawAxis(LY)));
+		}
 		climber.printCurrent();
 		climber.printVoltage();
+		
+		if(driver.isYHeld()){
+			RotateXTimer = 0;
+			swerve.setSpinAngle(180);
+		}
+		
+		if(RotateXTimer != 0 && RotateXTimer < 250){
+			swerve.spinXdegrees();
+		}
+		
+		/*
 		if (driver.isYPushed()) {
 			swerve.setSpinAngle(180);
 			swerve.spinXdegrees();
 			driver.clearY();
 		}
 		driver.clearY();
+		*/
 		/*
 		 * if (!swerve.aligned()) { swerve.swerveAlign(); System.out.println(
 		 * "Front Left: " + swerve.FLWheel.rotateMotor.getAnalogInRaw());
