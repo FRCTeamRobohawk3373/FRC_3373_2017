@@ -277,13 +277,13 @@ public class Robot extends IterativeRobot {
     		this.activateControl();
     		this.playbackInput("RedMoveAndShoot.txt");
         	break;
-    	case 3: //playback Move and Shoot (Blu) -- Actually is left side gear!!
+    	case 3: //Actually is left side gear!!
+    		this.activateControl();
+    		this.playbackInput("LeftSideGear.txt");
+        	break;
+    	case 4: //Actually is shoot blue!!
     		this.activateControl();
     		this.playbackInput("BluMoveAndShoot.txt");
-        	break;
-    	case 4: //playback Move and dump hopper (Red) -- Actually is shoot blue!!
-    		this.activateControl();
-    		this.playbackInput("RedMoveAndDumpHopper.txt");
         	break;
     	case 5: //playback Move and dump hopper (Blu)
     		this.activateControl();
@@ -382,11 +382,11 @@ public class Robot extends IterativeRobot {
     	case 6: //record Move and Shoot (Red)
     		this.recordInput("RedMoveAndShoot.txt");
         	break;
-    	case 7: //record Move and Shoot (Blu)
-    		this.recordInput("BluMoveAndShoot.txt");
+    	case 7: //Left Side Gear
+    		this.recordInput("LeftSideGear.txt");
         	break;
-    	case 8: //record Move and dump hopper (Red)
-    		this.recordInput("RedMoveAndDumpHopper.txt");
+    	case 8: //Blue Move and Shoot.
+    		this.recordInput("BluMoveAndShoot.txt");
         	break;
     	case 9: //record Move and dump hopper (Blu)
     		this.recordInput("BluMoveAndDumpHopper.txt");
@@ -394,11 +394,11 @@ public class Robot extends IterativeRobot {
     	case 10: //Regular Function
     		this.playbackInput("RedMoveAndShoot.txt");
         	break;
-    	case 11: //Regular Function
-    		this.playbackInput("BluMoveAndShoot.txt");
+    	case 11: //Playback Left Gear
+    		this.playbackInput("LeftSideGear.txt");
         	break;
-    	case 12: //Regular Function
-    		this.playbackInput("RedMoveAndDumpHopper.txt");
+    	case 12: //Playback Blue Move and Shoot
+    		this.playbackInput("BluMoveAndShoot.txt");
         	break;
     	case 13: //Regular Function
     		this.playbackInput("BluMoveAndDumpHopper.txt");
@@ -592,8 +592,10 @@ public class Robot extends IterativeRobot {
 		}
 	}
 	public void retreatFromGearPeg() {
+		
 		if (pegRetreating) {
 			if(!hasHitPeg){
+				swerve.normalSpeed();
 				retreatCounter++;
 				swerve.calculateSwerveControl(.35, 0, 0);
 				if(gearControl.isPegDetected()){
@@ -657,7 +659,7 @@ public class Robot extends IterativeRobot {
 		if(shooter.isRStickHeld()){
 			climber.climb(shooter.getRawAxis(LY));
 		}else{
-		climber.climb(Math.abs(shooter.getRawAxis(LY)));
+		climber.climb(-Math.abs(shooter.getRawAxis(LY)));
 		}
 		climber.printCurrent();
 		climber.printVoltage();
