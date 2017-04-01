@@ -103,6 +103,31 @@ public class Robot extends IterativeRobot {
 	// New Values (Shouter)
 	int LBdriveChannel = 1;
 	int LBrotateID = 2;
+	int LBencOffset = 433; //Zero values (value when wheel is turned to default zero- bolt hole facing front.)
+	int LBEncMin = 11;
+	int LBEncMax = 873;
+
+	int LFdriveChannel = 4;
+	int LFrotateID = 3;
+	int LFencOffset = 598;
+	int LFEncMin = 15;
+	int LFEncMax = 894;
+
+	int RBdriveChannel = 8;
+	int RBrotateID = 7;
+	int RBencOffset = 475;
+	int RBEncMin = 12;
+	int RBEncMax = 897;
+
+	int RFdriveChannel = 6;
+	int RFrotateID = 5;
+	int RFencOffset = 210;
+	int RFEncMin = 11;
+	int RFEncMax = 888;
+
+/*
+ * 	int LBdriveChannel = 1;
+	int LBrotateID = 2;
 	int LBencOffset = 423;
 	int LBEncMin = 11;
 	int LBEncMax = 873;
@@ -124,8 +149,7 @@ public class Robot extends IterativeRobot {
 	int RFencOffset = 210;
 	int RFEncMin = 11;
 	int RFEncMax = 888;
-
-
+ */
 	 
 	// SuperJoystick driver;
 	// SuperJoystick shooter;
@@ -185,7 +209,7 @@ public class Robot extends IterativeRobot {
 				LFrotateID, LFencOffset, LFEncMin, LFEncMax, RBdriveChannel, RBrotateID, RBencOffset, RBEncMin,
 				RBEncMax, RFdriveChannel, RFrotateID, RFencOffset, RFEncMin, RFEncMax, robotWidth, robotLength);
 
-		gearControl = new GearController(12, 360, 580, 615);
+		gearControl = new GearController(12, 422, 635, 685);
 
 		ballIntake = new BallIntake(13);
 
@@ -220,7 +244,7 @@ public class Robot extends IterativeRobot {
 		sRecord = false;
 		this.resetRecordingRun();
 		swerve.setRobotFront(3);
-		swerve.ahrs.reset();
+		//swerve.ahrs.reset();
 		pegRetreating = false;
 		pegAssaulting = false;
 		swerve.LFWheel.rotateMotor.changeControlMode(TalonControlMode.Position);
@@ -233,7 +257,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		int index = 1;//for testing purposes
+		int index = 1;//for testing purposes	
     	if(ones.get()){
     		index += 1;
     	}
@@ -249,7 +273,7 @@ public class Robot extends IterativeRobot {
     	if(index == 16){
     		index = 0;
     	}
-    	
+		System.out.println(index);
     	switch(index){
     	case 0: //Move forwards
     		swerve.driveStraight(.8);
@@ -434,7 +458,7 @@ public class Robot extends IterativeRobot {
 		switch (autoSelected) {
 		case gearCalibration:
 			gearControl.calibrate();
-			gearControl.rotateGearDoor.set(shooter.getRawAxis(1) * .1);
+			gearControl.rotateGearDoor.set(shooter.getRawAxis(1) * .3);
 			break;
 		case climberControl:
 
@@ -489,12 +513,19 @@ public class Robot extends IterativeRobot {
 			System.out.println("BR Encoder Min: " + BREncoderMin);
 			System.out.println("BR Encoder Max: " + BREncoderMax);
 
+			
+			
+			System.out.println("Current FL Encoder: " + swerve.LFWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Current FR Encoder: " + swerve.RFWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Current BL Encoder: " + swerve.LBWheel.rotateMotor.getAnalogInRaw());
+			System.out.println("Current BR Encoder: " + swerve.RBWheel.rotateMotor.getAnalogInRaw());
+
 			break;
 		case shooterCalibration:
 			ballDisposal.calibrate(shooter.getRawAxis(LX));
 			break;
-		case intakeCalibration:
-			
+		case intakeCalibration: // Actually resets NavX.
+			swerve.ahrs.reset();
 	    	
 	    	
 			break;
@@ -612,11 +643,11 @@ public class Robot extends IterativeRobot {
 			swerve.setRobotFront(1);
 			swerve.normalSpeed();
 			swerve.calculateSwerveControl(0.325, 0, 0); //was .25
-			if (retreatCounter > 13) { // 25 = time to wait before opening door
+			if (retreatCounter > 9) { // 25 = time to wait before opening door
 										// (1/2 seconds)
 				if(truePeg){
 				gearControl.openGearContainer();
-				gearControl.setGearDoorSpeed(.5);
+				gearControl.setGearDoorSpeed(.9);
 				}
 			}
 			if (retreatCounter > 100) { // (was) 60 = target number of cycles (1/20

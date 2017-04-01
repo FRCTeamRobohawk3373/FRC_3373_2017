@@ -425,7 +425,7 @@ public class SwerveControl {
 		 currentAngle = currentAngle % 360;
 		angleError = 180-currentAngle;
 		System.out.println("Current Angle:" + currentAngle);
-		if(Math.abs(angleError) > 2){
+		if(Math.abs(angleError) > .5){
 			calculateSwerveControl(speedMod,0,0.05*angleError);
 			System.out.println("Correcting >");
 		}
