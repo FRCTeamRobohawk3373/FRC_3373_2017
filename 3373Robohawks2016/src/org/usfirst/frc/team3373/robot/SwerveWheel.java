@@ -90,7 +90,7 @@ public class SwerveWheel {
 	public int angleToEncoderUnit(double angle) {
 
 		double deltaEncoder;
-		deltaEncoder = angle * (encoderUnitsPerRotation / 360.0) + rotationEncoderMin;
+		deltaEncoder = angle * (encoderUnitsPerRotation / 360.0);// + rotationEncoderMin;
 
 		return (int) deltaEncoder;
 	}
