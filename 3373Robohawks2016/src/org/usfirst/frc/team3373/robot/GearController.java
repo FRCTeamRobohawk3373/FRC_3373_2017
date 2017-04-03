@@ -101,6 +101,13 @@ public class GearController {
 		gearDoorSpeedModifier = speedMod;
 		current = rotateGearDoor.getAnalogInRaw();
 		gearDoorError=Math.abs(current-target);
+		if(current > 800 && target < 100){
+			gearDoorSpeed = 0.2 * gearDoorSpeedModifier;
+		}
+		else if(current < 100 && target > 600){
+			gearDoorSpeed = -0.2 * gearDoorSpeedModifier;
+		}
+		else{
 		//System.out.println("Target: " + target + "   Current: " + current + "  Error:" + gearDoorError);
 
 		// x/360*800 where x=degrees
@@ -122,6 +129,7 @@ public class GearController {
 		}
 		else {
 			rotateGearDoor.set(-gearDoorSpeed);
+		}
 		}
 	}
 
