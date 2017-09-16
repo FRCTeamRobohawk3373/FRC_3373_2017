@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveControl {
 	// pushing
+	double driveStraightAngle=0;
 	double currentAngle =0;
 	double angleError = 0;
 	double p = 10; // 100 is very close
@@ -402,6 +403,9 @@ public class SwerveControl {
 			}
 		}
 	}
+	public void setDriveStraightAngle(double angle){
+		driveStraightAngle = angle;
+	}
 	public void driveStraight(double speedMod){
 /*<<<<<<< HEAD
 		double currentAngle = ahrs.getAngle() % 360;
@@ -423,10 +427,16 @@ public class SwerveControl {
 			currentPitch += 360;
 		}*/
 		 currentAngle = currentAngle % 360;
-		angleError = 180-currentAngle;
+		angleError = (180+driveStraightAngle)-currentAngle;
+		if(angleError>5){
+			angleError = 5;
+		}
 		System.out.println("Current Angle:" + currentAngle);
 		if(Math.abs(angleError) > .5){
-			calculateSwerveControl(speedMod,0,0.05*angleError);
+			if(speedMod < 0){
+			//	angleError = angleError *-1;
+			}
+			calculateSwerveControl(speedMod,0,0.03*angleError);
 			System.out.println("Correcting >");
 		}
 		else{

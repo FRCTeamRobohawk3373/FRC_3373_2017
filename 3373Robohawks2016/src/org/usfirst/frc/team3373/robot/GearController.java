@@ -116,7 +116,7 @@ public class GearController {
 		//	System.out.print("stop");
 		}
 		else if (gearDoorError<80) {  // low speed deadband 
-			gearDoorSpeed=0.1 * gearDoorSpeedModifier;
+			gearDoorSpeed=0.15* gearDoorSpeedModifier;
 		//	System.out.print("slow");
 		}
 		else { // highs speed mode
