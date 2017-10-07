@@ -127,9 +127,9 @@ public class Robot extends IterativeRobot {
 
 	int RFdriveChannel = 6;
 	int RFrotateID = 5;
-	int RFencOffset = 210;
-	int RFEncMin = 11;
-	int RFEncMax = 888;
+	int RFencOffset = 207;
+	int RFEncMin = 12;
+	int RFEncMax = 895;
 
 	/*
 	 * int LBdriveChannel = 1; int LBrotateID = 2; int LBencOffset = 423; int
@@ -181,7 +181,7 @@ public class Robot extends IterativeRobot {
 
 	int shooterTimer = 0;
 
-	int gearOpenPos = 380;
+	int gearOpenPos = 400;
 	int gearUpPos = 600;
 	int gearCompressPos = 650;
 
